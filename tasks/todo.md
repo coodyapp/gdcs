@@ -79,25 +79,25 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - [x] Tests: unique slugs/URLs, description length, every sheet has a visual + prompt, and prerendered HTML contains the h1 and canonical.
 
 ### Phase 2 — Physics migration (21 sheets)
-- [ ] Copy `src/physics/*` + tests, and refactor the 18 lab scenes and 3 GR scenes into per-sheet `Visual` components on shared controls.
-- [ ] Write the sheet content from the existing `summary/principle/equations/method/expectedOutput`, adding formulas, mistakes, and a prompt.
-- [ ] Verify: the 29 existing physics tests pass; each scene was visually checked in the browser.
+- [x] Copy `src/physics/*` + tests, and refactor the 18 lab scenes and 3 GR scenes into per-sheet `Visual` components on shared controls.
+- [x] Write the sheet content from the existing `summary/principle/equations/method/expectedOutput`, adding formulas, mistakes, and a prompt.
+- [x] Verify: the 29 existing physics tests pass; each scene was visually checked in the browser.
 
 ### Phase 3 — Game-dev sheets (34)
-- [ ] Write original content + Three.js visual for each of the 34 topics, in batches by category (Three.js → Game Feel → Systems/AI → Performance → Math).
-- [ ] Unit-test the pure helpers behind the visuals (easing fns, A*, fixed-step accumulator, PRNG/noise, steering, grid partitioning).
-- [ ] Verify each batch in the browser (screenshot + console clean).
+- [x] Write original content + Three.js visual for each of the 34 topics, in batches by category (Three.js → Game Feel → Systems/AI → Performance → Math).
+- [x] Unit-test the pure helpers behind the visuals (easing fns, A*, fixed-step accumulator, PRNG/noise, steering, grid partitioning).
+- [x] Verify each batch in the browser (screenshot + console clean).
 
 ### Phase 4 — AI-ready
-- [ ] Copy-prompt button on every card + detail page; Copy as Markdown; `.md` link with `<link rel="alternate" type="text/markdown">`.
-- [ ] `llms.txt` (spec format: H1, summary, sections per category linking `.md` URLs) + `llms-full.txt`.
-- [ ] JSON-LD: `WebSite` + `Organization` (home), `CollectionPage` + `ItemList` (category/subcategory), `TechArticle` + `LearningResource` + `BreadcrumbList` (sheet).
-- [ ] robots.txt explicitly allows AI/search crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.).
+- [x] Copy-prompt button on every card + detail page; Copy as Markdown; `.md` link with `<link rel="alternate" type="text/markdown">`.
+- [x] `llms.txt` (spec format: H1, summary, sections per category linking `.md` URLs) + `llms-full.txt`.
+- [x] JSON-LD: `WebSite` + `Organization` (home), `CollectionPage` + `ItemList` (category/subcategory), `TechArticle` + `LearningResource` + `BreadcrumbList` (sheet).
+- [x] robots.txt explicitly allows AI/search crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.).
 
 ### Phase 5 — SEO & Core Web Vitals
-- [ ] Unique titles/descriptions, canonical, OG/Twitter (build-time OG image per category + default), semantic HTML (`main/article/nav/section`, one h1).
-- [ ] `_headers`: CSP (based on www's), immutable `/assets/*`, `text/markdown` for `*.md`, short cache + `stale-while-revalidate` for HTML.
-- [ ] Lighthouse (mobile) on home, one category, and two sheets: target Perf ≥ 90, SEO = 100, A11y ≥ 95, Best Practices = 100; LCP < 2.5 s, CLS < 0.1. Validate JSON-LD (schema validator).
+- [x] Unique titles/descriptions, canonical, OG/Twitter (build-time OG image per category + default), semantic HTML (`main/article/nav/section`, one h1).
+- [x] `_headers`: CSP (based on www's), immutable `/assets/*`, `text/markdown` for `*.md`, short cache + `stale-while-revalidate` for HTML.
+- [x] Lighthouse (mobile) on home, one category, and two sheets: target Perf ≥ 90, SEO = 100, A11y ≥ 95, Best Practices = 100; LCP < 2.5 s, CLS < 0.1. Validate JSON-LD (schema validator).
 
 ### Phase 6 — Get Updates (email)
 - [x] D1 `gdcs-prd` with `subscribers(id, email, status pending|active|unsubscribed, confirm_token, unsub_token, created_at, confirmed_at)` and `sends(id, sent_at, sheet_ids)`.
@@ -107,19 +107,19 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - [x] Tests for parsing, tokens, the digest builder, and idempotent sends.
 
 ### Phase 7 — Cloudflare deployment
-- [ ] GitHub repo `coodyapp/gdcs`, CI (`vp check`, `vp test`, `vp build`) + CD (`wrangler pages deploy`) copied from www.
-- [ ] Pages project `coody-gdcs-prd-01`, custom domain `gdcs.coody.app`, D1 binding, secrets (Turnstile).
+- [x] GitHub repo `coodyapp/gdcs`, CI (`vp check`, `vp test`, `vp build`) + CD (`wrangler pages deploy`) copied from www.
+- [x] Pages project `coody-gdcs-prd-01`, D1 + MAILER bindings. Custom domain added in Pages, **waiting on the CNAME** (see Review).
 - [ ] Verify: DNS resolves (proxied CNAME), HTTPS, cache headers (`cf-cache-status`), `.md` content type, Web Analytics enabled, sitemap submitted path reachable, `/api/subscribe` end-to-end with a real inbox.
 
 ### Phase 8 — Cleanup (each step needs your explicit confirmation)
-- [ ] Before anything: confirm the 21 physics sheets are live and match the old ones.
-- [ ] ⚠️ Delete GitHub repo `coodyapp/physics` (`gh repo delete`). Optionally archive instead.
-- [ ] ⚠️ Delete local folder `/Users/augustobrito/Downloads/coodyapp/physics`.
-- [ ] ⚠️ Remove the `physics.coody.app` DNS record / custom domain, and the Pages project `coody-physics-prd-01`.
+- [x] Before anything: confirm the 21 physics sheets are live and match the old ones.
+- [ ] ⚠️ Delete GitHub repo `coodyapp/physics`. Confirmed by you, but blocked: the gh token needs the `delete_repo` scope.
+- [x] ⚠️ Delete local folder `/Users/augustobrito/Downloads/coodyapp/physics`.
+- [x] ⚠️ Custom domain detached and Pages project `coody-physics-prd-01` deleted (2026-11-01). **The DNS record must be removed in the dashboard.**
 
 ### Phase 9 — Roadmap & wrap-up
 - [x] Draft `tasks/roadmap.md` from the topic table (done in planning; review together).
-- [ ] Final summary: what was built, what was verified (with outputs), what remains. Add a review section to this file.
+- [x] Final summary: what was built, what was verified (with outputs), what remains. Add a review section to this file.
 
 ## 6. Risks / notes
 - **Scope**: 55 hand-built interactive scenes is the bulk of the work. I'll ship in batches and deploy early (phases 0, 1, 2, 7 first) so the site is live while game-dev sheets fill in.
@@ -132,5 +132,35 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - Decision: the API lives in Pages Functions; email sending is in the mailer Worker via a service binding, because the `send_email` binding is a Worker binding. Spam protection is a honeypot, per-IP rate limit and double opt-in (Turnstile deferred).
 - Decision: physics URLs move from `/simulations/<cat>/<slug>` to `/physics/<sub>/<slug>`. No redirects, per the decision to remove physics.coody.app.
 
-## Review
-_(filled in at the end)_
+## Review (2026-11-01)
+
+### Built
+- 55 sheets (34 game-dev in 6 categories + 21 physics in 5 subcategories). Each has an interactive R3F visual, KaTeX formulas, code, mistakes, prompt, related and reading.
+- Prerendered SSR HTML for 86 routes, `.md` twins, `llms.txt`, `llms-full.txt`, `feed.json`, `sitemap.xml`, `robots.txt` (AI crawlers allowed), and JSON-LD on every page.
+- Main bundle is ~114 KB br. three.js loads lazily (~196 KB br). Sheet bodies are lazy chunks, cards mount through an idle queue, and CSS is inlined.
+- Get Updates: Pages Functions (subscribe/confirm/unsubscribe/event) + D1 `gdcs-prd` + `gdcs-mailer-prd-01` Worker (double opt-in, weekly digest cron, RFC 8058 one-click unsubscribe).
+- Physics bugs fixed during the migration: about 15 across mechanics, EM/thermo and relativity (see agent notes in git history).
+
+### Verified
+- `vp check` clean; `vp test` 740/740 (content contract, physics incl. Mercury, API, mailer, prerender); `pnpm build` OK.
+- Headless Chrome: every sheet page screenshotted with no console errors and no hydration errors.
+- Local API: subscribe 202/400/403/429, confirm → active, unsubscribe link + one-click, tampered token rejected, resend throttle and rolling daily cap, events only for real pages.
+- Production (pages.dev): content types, cache headers, canonical/JSON-LD/markdown alternate, live subscribe → remote D1 (test row removed).
+- Lighthouse mobile on the Cloudflare edge: A11y 100, Best Practices 100, SEO 100 on 5 pages; Performance 82–96; CLS ≤ 0.02; LCP 2.0–3.2 s.
+- JSON-LD parses on all 86 pages; exactly one `<title>` and `<h1>` per page.
+
+### Needs you
+1. DNS (coody.app zone): add `CNAME gdcs → coody-gdcs-prd-01.pages.dev` (proxied), and delete the `physics` record.
+2. Web Analytics: Pages project `coody-gdcs-prd-01` → Metrics → enable Web Analytics.
+3. CI deploy: the org secret `CLOUDFLARE_API_TOKEN` gets an auth error on `coody-gdcs-prd-01`. Grant it Pages:Edit on this project (+ D1:Edit / Workers Scripts:Edit to automate migrations/mailer), or deploy with `wrangler pages deploy` as done so far.
+4. `gh auth refresh -h github.com -s delete_repo`, then the physics repo can be deleted.
+
+### Remaining / follow-ups
+- End-to-end email: confirm with a real inbox once gdcs.coody.app resolves (the mailer only accepts links on that origin).
+- Turnstile on the signup form (currently honeypot + rate limits + double opt-in).
+- Performance on sheet pages is bounded by the three.js parse; a lighter static poster before first interaction could push it above 90.
+- Roadmap: `tasks/roadmap.md` (13 ✅ / 15 🟡 / 12 ⬜ in the Top-40).
+
+### Lessons
+- The shared org Cloudflare token is Pages-scoped and per-project. Check deploy permissions before wiring a new project into CD.
+- Mixing `?` and `?N` placeholders in one SQLite statement binds the wrong values. Use numbered placeholders only.
