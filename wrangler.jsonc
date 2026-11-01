@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "coody-gdcs-prd-01",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-15",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gdcs-prd",
+      "database_id": "992ce841-dd51-477c-8014-bf36fdb096fc",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "services": [{ "binding": "MAILER", "service": "gdcs-mailer-prd-01" }],
+}
