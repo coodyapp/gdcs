@@ -38,7 +38,14 @@ pnpm preview             # wrangler pages dev dist (Functions + local D1)
 
 ## Deploy
 
-Pushing to `main` runs `.github/workflows/cd.yaml`: check, test, build, D1 migrations, mailer deploy, then the Pages deploy to `coody-gdcs-prd-01`. Needs the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets.
+Pushing to `main` runs `.github/workflows/cd.yaml`: check, test, build, then the Pages deploy to `coody-gdcs-prd-01`. It uses the coodyapp org secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+
+That token is scoped to Pages, so these two steps are manual when they change:
+
+```bash
+pnpm db:migrate:remote                    # D1 schema (migrations/)
+(cd workers/mailer && wrangler deploy)    # email Worker + cron
+```
 
 ## Licenses
 

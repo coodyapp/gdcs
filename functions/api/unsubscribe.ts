@@ -1,13 +1,14 @@
 import type { PagesFunction } from "@cloudflare/workers-types"
 
-import { safely, type Env } from "../_lib/http"
+import { safely, token, type Env } from "../_lib/http"
 import { isToken } from "../_lib/subscribers"
 
+/** Also rotates the confirm token so an old confirmation link can't resubscribe. */
 async function unsubscribe(env: Env, value: string) {
   await env.DB.prepare(
-    "UPDATE subscribers SET status = 'unsubscribed', unsubscribed_at = ? WHERE unsub_token = ? AND status != 'unsubscribed'"
+    "UPDATE subscribers SET status = 'unsubscribed', unsubscribed_at = ?, confirm_token = ? WHERE unsub_token = ? AND status != 'unsubscribed'"
   )
-    .bind(new Date().toISOString(), value)
+    .bind(new Date().toISOString(), token(), value)
     .run()
 }
 

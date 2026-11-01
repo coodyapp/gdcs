@@ -2,6 +2,8 @@ import type { D1Database, Fetcher } from "@cloudflare/workers-types"
 
 export interface Env {
   DB: D1Database
+  /** Pages static assets. */
+  ASSETS: Fetcher
   /** Service binding to the gdcs-mailer Worker (send_email lives there). */
   MAILER?: Fetcher
   RATE_SALT?: string

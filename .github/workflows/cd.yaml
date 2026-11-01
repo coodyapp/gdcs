@@ -35,19 +35,9 @@ jobs:
         run: pnpm exec vp test --run
       - name: Build
         run: pnpm build
-      - name: Apply D1 migrations
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: d1 migrations apply gdcs-prd --remote
-      - name: Deploy mailer Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: workers/mailer
-          command: deploy
+      # D1 migrations and the mailer Worker are deployed manually
+      # (`pnpm db:migrate:remote`, `cd workers/mailer && wrangler deploy`):
+      # the shared org token is scoped to Pages only.
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

@@ -15,7 +15,7 @@ export const onRequestGet: PagesFunction<Env> = ({ request, env }) =>
     const value = new URL(request.url).searchParams.get("token")
     if (!isToken(value)) return back(request, "invalid")
     const row = await env.DB.prepare(
-      "UPDATE subscribers SET status = 'active', confirmed_at = ?, unsubscribed_at = NULL WHERE confirm_token = ? AND status != 'active' RETURNING id"
+      "UPDATE subscribers SET status = 'active', confirmed_at = ?, unsubscribed_at = NULL, confirm_sends = 0 WHERE confirm_token = ? AND status = 'pending' RETURNING id"
     )
       .bind(new Date().toISOString(), value)
       .first()

@@ -1,6 +1,12 @@
 import type { PagesFunction } from "@cloudflare/workers-types"
 
-import { HttpError, readJson, safely, type Env } from "../_lib/http"
+import {
+  HttpError,
+  limitWrites,
+  readJson,
+  safely,
+  type Env,
+} from "../_lib/http"
 
 const NAMES = new Set(["copy_prompt", "copy_prompt_card", "copy_markdown"])
 
@@ -10,8 +16,17 @@ export const onRequestPost: PagesFunction<Env> = ({ request, env }) =>
     const body = await readJson(request)
     const name = String(body.name ?? "")
     const path = String(body.path ?? "")
-    if (!NAMES.has(name) || !/^\/[a-z0-9/-]{0,160}$/.test(path))
+    if (
+      !NAMES.has(name) ||
+      !/^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+){0,2})?$/.test(path)
+    )
       throw new HttpError(400, "Unknown event.")
+    await limitWrites(request, env, 30)
+    // Count only real pages, so the table can't grow with arbitrary paths.
+    const page = await env.ASSETS.fetch(new URL(path, request.url).toString(), {
+      method: "HEAD",
+    })
+    if (!page.ok || page.redirected) throw new HttpError(400, "Unknown page.")
     await env.DB.prepare(
       "INSERT INTO site_events(day, name, path, count) VALUES (?, ?, ?, 1) ON CONFLICT(day, name, path) DO UPDATE SET count = count + 1"
     )

@@ -10,6 +10,9 @@ import {
 } from "../_lib/http"
 import { cleanSource, isBot, parseEmail } from "../_lib/subscribers"
 
+const COOLDOWN_MS = 15 * 60 * 1000
+const MAX_SENDS = 5
+
 /**
  * POST /api/subscribe {email, website (honeypot), source}
  * Creates or refreshes a pending subscriber and emails a confirmation link.
@@ -27,26 +30,36 @@ export const onRequestPost: PagesFunction<Env> = ({
     const email = parseEmail(body.email)
     await limitWrites(request, env)
 
-    const now = new Date().toISOString()
-    const confirm = token()
+    const now = new Date()
+    const cooldown = new Date(now.getTime() - COOLDOWN_MS).toISOString()
+    // New address: insert as pending. Known, non-active address: send again
+    // only after a cooldown and at most MAX_SENDS times; keep its token.
     const row = await env.DB.prepare(
-      `INSERT INTO subscribers (id, email, status, confirm_token, unsub_token, source, created_at)
-       VALUES (?, ?, 'pending', ?, ?, ?, ?)
-       ON CONFLICT(email) DO UPDATE SET confirm_token = excluded.confirm_token
-         WHERE subscribers.status != 'active'
-       RETURNING status, confirm_token`
+      `INSERT INTO subscribers (id, email, status, confirm_token, unsub_token, source, created_at, last_confirm_sent_at, confirm_sends)
+       VALUES (?, ?, 'pending', ?, ?, ?, ?, ?, 1)
+       ON CONFLICT(email) DO UPDATE SET
+         status = 'pending',
+         last_confirm_sent_at = excluded.last_confirm_sent_at,
+         confirm_sends = subscribers.confirm_sends + 1
+       WHERE subscribers.status != 'active'
+         AND (subscribers.last_confirm_sent_at IS NULL OR subscribers.last_confirm_sent_at < ?)
+         AND subscribers.confirm_sends < ?
+       RETURNING confirm_token`
     )
       .bind(
         crypto.randomUUID(),
         email,
-        confirm,
+        token(),
         token(),
         cleanSource(body.source),
-        now
+        now.toISOString(),
+        now.toISOString(),
+        cooldown,
+        MAX_SENDS
       )
-      .first<{ status: string; confirm_token: string }>()
+      .first<{ confirm_token: string }>()
 
-    // `row` is null when the address is already active: nothing to send.
+    // `row` is null when active, throttled or capped: nothing to send.
     if (row && env.MAILER) {
       const origin = new URL(request.url).origin
       waitUntil(
