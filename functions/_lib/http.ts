@@ -85,11 +85,17 @@ export function token() {
 }
 
 /** At most `max` writes per IP per minute. */
-export async function limitWrites(request: Request, env: Env, max = 5) {
+export async function limitWrites(
+  request: Request,
+  env: Env,
+  max = 5,
+  /** Separate buckets per endpoint so one can't exhaust another. */
+  scope = "subscribe"
+) {
   const now = Math.floor(Date.now() / 1000)
   const window = now - (now % 60)
   const ip = request.headers.get("CF-Connecting-IP") ?? "local"
-  const ipHash = await sha256(`${env.RATE_SALT ?? "gdcs"}:${ip}`)
+  const ipHash = await sha256(`${env.RATE_SALT ?? "gdcs"}:${scope}:${ip}`)
   const row = await env.DB.prepare(
     "INSERT INTO write_limits (ip_hash, window_start, attempts) VALUES (?, ?, 1) ON CONFLICT(ip_hash, window_start) DO UPDATE SET attempts = attempts + 1 WHERE attempts < ? RETURNING attempts"
   )

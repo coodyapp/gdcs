@@ -21,7 +21,7 @@ export const onRequestPost: PagesFunction<Env> = ({ request, env }) =>
       !/^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+){0,2})?$/.test(path)
     )
       throw new HttpError(400, "Unknown event.")
-    await limitWrites(request, env, 30)
+    await limitWrites(request, env, 30, "event")
     // Count only real pages, so the table can't grow with arbitrary paths.
     const page = await env.ASSETS.fetch(new URL(path, request.url).toString(), {
       method: "HEAD",
