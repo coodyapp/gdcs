@@ -10,6 +10,16 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.11] - 2026-11-02
+
+### Changed
+
+- The privacy policy covers embedded simulations and embed code copy counts.
+
+### Fixed
+
+- Copy buttons stay disabled until the page can respond, instead of silently ignoring early clicks.
+
 ## [1.12.10] - 2026-11-02
 
 ### Fixed

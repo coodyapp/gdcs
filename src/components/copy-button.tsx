@@ -2,6 +2,7 @@ import { Check, Copy } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
+import { useHydrated } from "@/hooks/use-hydrated"
 import { Button } from "@/components/ui/button"
 
 /**
@@ -26,11 +27,13 @@ export function CopyButton({
   size?: "sm" | "default" | "lg"
 }) {
   const { copied, copy } = useClipboard()
+  const hydrated = useHydrated()
   return (
     <Button
       variant="outline"
       size={size}
       className={className}
+      disabled={!hydrated}
       onClick={async (e) => {
         e.preventDefault()
         e.stopPropagation()

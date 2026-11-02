@@ -264,3 +264,9 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 
 ## License follow-up (v1.12.5)
 - [x] Open source declined: repo stays private, split license kept. Audit fixes applied, third-party notices completed, docs structure added.
+
+## Review: v1.12.5 to v1.12.11 (2026-11-02)
+- Shipped: changelog page, Vite+ 1.3.0, faint grid, poster mode fix, embed privacy text, copy buttons disabled until hydrated.
+- Lesson: check that `origin/main` is still the parent before tagging. Commits can land from elsewhere during a long task.
+- Lesson: a release gate must fail on every check it runs. v1.12.6 shipped a phone overflow because the gate only read accessibility results.
+- Lesson: measure speed with `--throttling-method=devtools`. Simulated scores vary by more than 10 points on the same page.

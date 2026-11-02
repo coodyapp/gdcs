@@ -7,6 +7,7 @@ import { highlightParts } from "@/lib/search"
 import { promptMarkdown } from "@/lib/prompt-markdown"
 import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
+import { useHydrated } from "@/hooks/use-hydrated"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -61,8 +62,10 @@ export function LevelPips({
 function CopyPrompt({ prompt, title }: { prompt: string; title: string }) {
   const { copied, copy } = useClipboard()
   const label = copied ? "Prompt copied" : "Copy prompt"
+  const hydrated = useHydrated()
   return (
     <Button
+      disabled={!hydrated}
       variant="ghost"
       size="sm"
       className="relative z-10 -mr-1.5 font-normal text-muted-foreground"

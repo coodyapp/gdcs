@@ -35,13 +35,23 @@ export function PrivacyPage() {
           storage, no persistent visitor identifier and no fingerprint.
         </p>
         <p>
-          Our own server counts clicks on the copy buttons (prompt and Markdown)
-          as daily totals per page, with no visitor identifier.
+          Our own server counts clicks on the copy buttons (prompt, Markdown and
+          embed code) as daily totals per page, with no visitor identifier.
         </p>
         <p>
           The “visited” ticks and “recently viewed” list are kept in your
           browser’s local storage only. They are never sent to us, and you can
           clear them by clearing this site’s data.
+        </p>
+      </section>
+
+      <section aria-labelledby="p-embeds">
+        <h2 id="p-embeds">Embedded simulations</h2>
+        <p>
+          A simulation embedded on another site loads from this site, so
+          Cloudflare receives the visitor&rsquo;s IP address to deliver it.
+          Embeds set no cookies, and they are counted in the same analytics
+          described above. The other site has its own privacy policy.
         </p>
       </section>
 
