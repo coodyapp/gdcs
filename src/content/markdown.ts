@@ -146,6 +146,7 @@ export function llmsTxt() {
     `- [Sitemap](${absoluteUrl("/sitemap.xml")})`,
     `- [About](${absoluteUrl("/about")})`,
     `- [License](${absoluteUrl("/license")})`,
+    `- [Changelog](${absoluteUrl("/changelog")})`,
     ""
   )
   return out.join("\n")

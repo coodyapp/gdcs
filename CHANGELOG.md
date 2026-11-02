@@ -10,6 +10,16 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.6] - 2026-11-02
+
+### Added
+
+- A changelog page at `/changelog`. The version number in the hero and footer now opens it, instead of a private GitHub page that returned 404.
+
+### Changed
+
+- The About page takes corrections by email instead of linking to a private GitHub page.
+
 ## [1.12.5] - 2026-11-02
 
 ### Changed

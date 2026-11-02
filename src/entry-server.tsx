@@ -17,6 +17,7 @@ export function render(url: string) {
   )
 }
 
+export { renderChangelogPage } from "@/pages/changelog"
 export { headFor, allPaths, embedPaths } from "@/lib/seo"
 export { sheetMarkdown, llmsTxt } from "@/content/markdown"
 export { sheets, sheetMarkdownPath, sheetPath } from "@/content"

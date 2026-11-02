@@ -1,6 +1,6 @@
 # Versioning and releases
 
-GDCS follows [Semantic Versioning](https://semver.org). The version lives in `package.json` and shows in the hero and footer. Each release is tagged `vX.Y.Z`.
+GDCS follows [Semantic Versioning](https://semver.org). The version lives in `package.json` and shows in the hero and footer. Each release is tagged `vX.Y.Z`, and `CHANGELOG.md` is published at `/changelog` on every build.
 
 - **MAJOR:** breaking changes to a public surface: sheet URLs, the `.md`, `llms.txt` or `feed.json` formats, embed URLs, or the API.
 - **MINOR:** new sheets, categories, learning paths or features.

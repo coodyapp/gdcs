@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import { applyHead, inlineHeroPoster, robots, sitemap } from "./prerender"
+import {
+  applyHead,
+  inlineHeroPoster,
+  robots,
+  sitemap,
+  withoutAppCode,
+} from "./prerender"
 
 const shell = `<html><head>
 <title>x</title>
@@ -40,6 +46,15 @@ describe("embed pages", () => {
   it("have noindex and no canonical", () => {
     expect(html).toContain('content="noindex,follow"')
     expect(html).not.toContain('rel="canonical"')
+  })
+})
+
+describe("withoutAppCode", () => {
+  it("drops the bundle and keeps the theme script and page", () => {
+    const html = withoutAppCode(
+      `<script>theme()</script>\n<script type="module" crossorigin src="/assets/index.js"></script>\n<link rel="modulepreload" crossorigin href="/assets/x.js"><p>page</p>`
+    )
+    expect(html).toBe("<script>theme()</script><p>page</p>")
   })
 })
 

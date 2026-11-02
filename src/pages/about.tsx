@@ -67,9 +67,9 @@ export function AboutPage() {
       <p>
         Visuals teach a technique. They are not complete engine implementations,
         and timings and sizes are starting points to tune. The physics models
-        are tested against their reference equations. Corrections are welcome on{" "}
-        <a href={siteConfig.repo} className="link-quiet" rel="noopener">
-          GitHub
+        are tested against their reference equations. Corrections are welcome at{" "}
+        <a href="mailto:hi@coody.app" className="link-quiet">
+          hi@coody.app
         </a>
         .
       </p>

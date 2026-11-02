@@ -40,6 +40,7 @@ interface ServerEntry {
   headFor(path: string): Head
   allPaths(): string[]
   embedPaths(): string[]
+  renderChangelogPage(markdown: string): string
   sheetMarkdown(sheet: SheetLike): string
   llmsTxt(): string
   llmsFullTxt(): string
@@ -153,6 +154,13 @@ export function applyHead(shell: string, head: Head) {
   )
 }
 
+/** For a page with no app code: keeps the theme script and analytics, drops the bundle. */
+export function withoutAppCode(html: string) {
+  return html
+    .replace(/\s*<script type="module"[^>]*><\/script>/g, "")
+    .replace(/\s*<link rel="modulepreload"[^>]*>/g, "")
+}
+
 export function sitemap(entries: { path: string; updated: string }[]) {
   const urls = entries
     .map(
@@ -252,6 +260,23 @@ async function main() {
     await write(`${p.slice(1)}.html`, html)
   }
 
+  // Built here rather than routed, so it adds nothing to the client bundle.
+  const changelogHead = {
+    title: "Changelog | GDCS",
+    description: "Every GDCS release: new sheets, features and fixes.",
+    path: "/changelog",
+    type: "website" as const,
+    jsonLd: [],
+    updated: entry.headFor("/").updated,
+  }
+  await write(
+    "changelog.html",
+    withoutAppCode(applyHead(shell, changelogHead)).replace(
+      '<div id="root"></div>',
+      `<div id="root">${entry.renderChangelogPage(await readFile(path.join(import.meta.dirname, "..", "CHANGELOG.md"), "utf8"))}</div>`
+    )
+  )
+
   // Unknown URLs: the bare shell, client-rendered, never indexed.
   await write("404.html", applyHead(shell, entry.headFor("/404")))
 
@@ -262,7 +287,10 @@ async function main() {
   await write("robots.txt", robots())
   await write(
     "sitemap.xml",
-    sitemap(paths.map((p) => ({ path: p, updated: entry.headFor(p).updated })))
+    sitemap([
+      ...paths.map((p) => ({ path: p, updated: entry.headFor(p).updated })),
+      { path: changelogHead.path, updated: changelogHead.updated },
+    ])
   )
 
   // JSON Feed 1.1: newest first. Also the source for the update emails.
