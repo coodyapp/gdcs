@@ -191,6 +191,22 @@
   }
 }
 
+/* Integer so the hero count animates through whole numbers. */
+@property --count {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes count-up {
+  from {
+    --count: 0;
+  }
+  to {
+    --count: var(--count-to);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -289,6 +305,17 @@
     margin-block: 0.4rem;
     line-height: 1.7;
     color: hsl(var(--foreground) / 0.88);
+  }
+
+  .count-up {
+    display: inline-block;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    animation: count-up 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    counter-reset: count var(--count);
+  }
+  .count-up::after {
+    content: counter(count);
   }
 
   /* Cards lift through light, not shadow: a hairline on the top edge. */

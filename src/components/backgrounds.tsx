@@ -6,7 +6,6 @@ import { budget } from "@/visuals/budget"
 // Decorative WebGL backgrounds. Each is its own chunk, loaded after first paint,
 // skipped on low-end or data-saving devices, and paused offscreen by the component.
 const GhostFibers = lazy(() => import("@/components/ghost-fibers"))
-const GradientASCII = lazy(() => import("@/components/gradient-ascii"))
 
 const whenIdle = (run: () => void) => {
   if ("requestIdleCallback" in window) {
@@ -82,14 +81,21 @@ export function HeroFibers({ className }: { className?: string }) {
 }
 
 /**
- * Footer: the hero's fibers, drawn larger so they leave every edge. Nothing
- * fades at the bottom, so the page reads as continuing past the screen.
+ * Before the footer: the hero's fibers, drawn larger so they leave every edge
+ * and run under the footer line, so the page reads as continuing.
  */
 export function FooterFibers({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const near = useNearViewport(ref)
   return (
-    <div ref={ref} aria-hidden className={cn("h-full w-full", className)}>
+    <div
+      ref={ref}
+      aria-hidden
+      className={cn(
+        "pointer-events-none h-56 w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_55%)] md:h-80",
+        className
+      )}
+    >
       {near && (
         <Suspense fallback={null}>
           <GhostFibers
@@ -103,37 +109,6 @@ export function FooterFibers({ className }: { className?: string }) {
             brightness={0.85}
             vignette={0}
             pulseOnClick={false}
-            dpr={1}
-          />
-        </Suspense>
-      )}
-    </div>
-  )
-}
-
-/** Quiet ASCII band that leads into the footer, in Coody neutrals. */
-export function FooterAscii({ className }: { className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const near = useNearViewport(ref)
-  return (
-    <div
-      ref={ref}
-      aria-hidden
-      className={cn(
-        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%)] md:h-56",
-        className
-      )}
-    >
-      {near && (
-        <Suspense fallback={null}>
-          <GradientASCII
-            shape="rise"
-            scale={0.55}
-            colors={["#0a0a0a", "#404040", "#a3a3a3", "#fafafa"]}
-            cellSize={isPhone() ? 16 : 14}
-            speed={0.5}
-            grain={0}
-            mouseInteraction={false}
             dpr={1}
           />
         </Suspense>

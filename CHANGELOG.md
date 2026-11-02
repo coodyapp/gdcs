@@ -8,6 +8,17 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.4.0] - 2026-11-02
+
+### Changed
+
+- Ghost Fibers now sits above the footer in place of the Gradient ASCII band, which is removed. The footer itself is plain.
+- Hero: tagline removed, version in small type after the title, and the sheet count is larger and counts up.
+- Footer: new column with the year, coody.app and Back to top.
+- Filter bar: two rows that wrap instead of scrolling, so nothing overlaps or hides. Clear filters is always visible and disabled until a filter is active.
+- Learning path cards use icons instead of images.
+- Sheet cards have a proper footer with the level and a labelled Copy prompt action.
+
 ## [1.3.1] - 2026-11-02
 
 ### Changed

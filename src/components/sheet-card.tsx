@@ -3,12 +3,12 @@ import { Check, Copy } from "lucide-react"
 
 import { getCategory, sheetPath, type SheetMeta } from "@/content"
 import { useHistory } from "@/lib/local"
+import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -19,12 +19,22 @@ import { VisualShell } from "@/visuals/shell"
 const LEVELS = { core: 1, common: 2, advanced: 3 } as const
 
 /** Difficulty as a badge: 1–3 filled pips plus the word (never colour alone). */
-export function LevelPips({ level }: { level: SheetMeta["level"] }) {
+export function LevelPips({
+  level,
+  plain = false,
+}: {
+  level: SheetMeta["level"]
+  /** Without the badge background, for footers. */
+  plain?: boolean
+}) {
   const n = LEVELS[level]
   return (
     <Badge
       variant="secondary"
-      className="gap-1.5 font-normal text-muted-foreground capitalize"
+      className={cn(
+        "gap-1.5 font-normal text-muted-foreground capitalize",
+        plain && "bg-transparent px-0 text-xs"
+      )}
       title={`Level: ${level}`}
     >
       <span className="flex gap-0.5" aria-hidden>
@@ -51,9 +61,8 @@ function CopyPrompt({ prompt, title }: { prompt: string; title: string }) {
   return (
     <Button
       variant="ghost"
-      size="icon-sm"
-      className="relative z-10 text-muted-foreground"
-      title={label}
+      size="sm"
+      className="relative z-10 -mr-1.5 font-normal text-muted-foreground"
       aria-label={`${label}: ${title}`}
       onClick={async (e) => {
         e.preventDefault()
@@ -65,6 +74,7 @@ function CopyPrompt({ prompt, title }: { prompt: string; title: string }) {
       }}
     >
       {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
+      {copied ? "Copied" : "Copy prompt"}
       <span className="sr-only" aria-live="polite">
         {copied ? "Prompt copied to clipboard" : ""}
       </span>
@@ -87,7 +97,7 @@ export function SheetCard({
   return (
     <Card
       render={<article />}
-      className="card-lift relative h-full gap-3 pt-0 pb-3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
+      className="card-lift relative h-full gap-3 pt-0 pb-0 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
     >
       <VisualShell
         slug={sheet.slug}
@@ -115,28 +125,22 @@ export function SheetCard({
           {sheet.hook}
         </CardDescription>
       </CardHeader>
-      <CardFooter className="mt-auto gap-1.5 border-0 bg-transparent py-0 pr-2">
-        <LevelPips level={sheet.level} />
+      <CardFooter className="mt-auto min-h-11 gap-3 bg-muted/30 px-4 py-1.5 text-xs text-muted-foreground">
+        <LevelPips level={sheet.level} plain />
         {showCategory && (
-          <Badge
-            variant="secondary"
-            className="truncate font-normal text-muted-foreground"
-          >
+          <span className="truncate">
             {getCategory(sheet.category)?.short ??
               getCategory(sheet.category)?.title}
-          </Badge>
+          </span>
         )}
         {seen && (
-          <Badge
-            variant="secondary"
-            className="font-normal text-muted-foreground"
-          >
-            <Check aria-hidden /> Visited
-          </Badge>
+          <span className="inline-flex shrink-0 items-center gap-1">
+            <Check className="size-3" aria-hidden /> Visited
+          </span>
         )}
-        <CardAction className="ml-auto">
+        <span className="ml-auto shrink-0">
           <CopyPrompt prompt={sheet.prompt} title={sheet.title} />
-        </CardAction>
+        </span>
       </CardFooter>
     </Card>
   )

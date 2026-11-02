@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { ArrowUp } from "lucide-react"
 
 import { PoweredByCoody } from "@/components/coody/powered-by"
-import { FooterAscii, FooterFibers } from "@/components/backgrounds"
+import { FooterFibers } from "@/components/backgrounds"
 import { SubscribeForm } from "@/components/subscribe-form"
 import { Tagline } from "@/components/tagline"
 import { categoryPath, liveCategories } from "@/content"
@@ -27,14 +27,8 @@ function Column({
 export function SiteFooter() {
   return (
     <>
-      <FooterAscii className="mt-8 md:mt-10" />
-      <footer className="relative isolate border-t">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <FooterFibers />
-          {/* Keeps the links readable. */}
-          <div className="absolute inset-0 bg-background/65" />
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
-        </div>
+      <FooterFibers className="mt-8 md:mt-10" />
+      <footer className="border-t">
         <div className="container grid gap-12 pt-12 pb-10 md:pt-16 md:pb-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <section aria-labelledby="updates-title" className="max-w-md">
             <Link
@@ -50,7 +44,7 @@ export function SiteFooter() {
             </h2>
             <SubscribeForm compact />
           </section>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             <Column title="Topics">
               {liveCategories().map((c) => (
                 <li key={c.slug}>
@@ -81,9 +75,6 @@ export function SiteFooter() {
                   Privacy policy
                 </Link>
               </li>
-              <li>
-                <BackToTop />
-              </li>
             </Column>
             <Column title="For AI agents">
               <li>
@@ -107,15 +98,24 @@ export function SiteFooter() {
                 </a>
               </li>
             </Column>
+            <ul className="space-y-2 text-sm">
+              <li className="text-muted-foreground" suppressHydrationWarning>
+                © {new Date().getFullYear()}{" "}
+                <a
+                  href="https://coody.app"
+                  rel="noopener"
+                  className="transition-colors hover:text-foreground"
+                >
+                  coody.app
+                </a>
+              </li>
+              <li>
+                <BackToTop />
+              </li>
+            </ul>
           </div>
         </div>
         <div className="container flex flex-col items-center gap-3 pb-20 text-center lg:pb-10">
-          <p
-            className="text-xs text-muted-foreground tabular-nums"
-            suppressHydrationWarning
-          >
-            © {new Date().getFullYear()}
-          </p>
           <PoweredByCoody
             source="gdcs"
             className="text-muted-foreground [--coody-pb-align:center]! [--coody-pb-muted:currentColor]!"

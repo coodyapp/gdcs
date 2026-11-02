@@ -1,5 +1,16 @@
 import { Link, useParams } from "react-router-dom"
-import { ArrowRight, Check } from "lucide-react"
+import {
+  ArrowRight,
+  Atom,
+  Axis3d,
+  Check,
+  Gamepad2,
+  Layers,
+  Mountain,
+  PersonStanding,
+  Route,
+  type LucideIcon,
+} from "lucide-react"
 
 import { getCategory, getSheet, sheetPath, type SheetMeta } from "@/content"
 import { getPath, pathUrl, paths, type LearningPath } from "@/content/paths"
@@ -46,6 +57,15 @@ function Poster({ slug, className }: { slug: string; className?: string }) {
   )
 }
 
+const PATH_ICONS: Record<string, LucideIcon> = {
+  "3d-math-foundations": Axis3d,
+  "platformer-feel": Gamepad2,
+  "collision-and-physics": Atom,
+  "character-animation": PersonStanding,
+  "rendering-pipeline": Layers,
+  "procedural-worlds": Mountain,
+}
+
 function PathProgress({ done, total }: { done: number; total: number }) {
   return (
     <Progress
@@ -64,17 +84,17 @@ export function PathCard({ path }: { path: LearningPath }) {
   const { visited } = useHistory()
   const steps = stepsOf(path)
   const done = steps.filter((s) => visited.has(s.slug)).length
+  const Icon = PATH_ICONS[path.slug] ?? Route
   return (
     <Card
       render={<article />}
-      className="card-lift relative h-full gap-3 pt-0 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
+      className="card-lift relative h-full gap-3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
     >
-      {/* The first steps of the route, in order: same artwork as sheet cards. */}
-      <div className="grid grid-cols-3 gap-px border-b bg-border" aria-hidden>
-        {steps.slice(0, 3).map((s) => (
-          <Poster key={s.slug} slug={s.slug} />
-        ))}
-      </div>
+      <CardContent>
+        <span className="grid size-10 place-items-center rounded-lg bg-muted text-foreground ring-1 ring-foreground/10">
+          <Icon className="size-5" aria-hidden />
+        </span>
+      </CardContent>
       <CardHeader>
         <CardTitle className="text-[1.0625rem] font-semibold">
           <h3>

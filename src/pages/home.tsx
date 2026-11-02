@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, type CSSProperties } from "react"
 import { Link } from "react-router-dom"
 import { ArrowRight, FileText, SearchX, X } from "lucide-react"
 
@@ -25,7 +25,6 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { HeroFibers } from "@/components/backgrounds"
 import { SearchTrigger } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
-import { Tagline } from "@/components/tagline"
 import { GetUpdatesButton } from "@/components/updates"
 import { PathCard } from "@/pages/paths"
 import { siteConfig } from "@/config/site"
@@ -36,7 +35,7 @@ const PRESSED =
   "aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
 /** Quiet segment inside the filter bar. */
 const SEGMENT =
-  "h-10 shrink-0 rounded-lg border-0 px-2.5 text-sm font-normal sm:px-3.5"
+  "h-9 shrink-0 rounded-lg border-0 px-2 text-[13px] font-normal sm:h-10 sm:px-3.5 sm:text-sm"
 
 /** Home shows a taste of each category: fundamentals first, the rest one click away. */
 const PREVIEW = 3
@@ -75,6 +74,31 @@ function useFilters() {
   return [filters, update] as const
 }
 
+const titleWords = siteConfig.longName.split(" ")
+const titleEnd = titleWords.pop()
+const titleStart = titleWords.join(" ")
+
+/**
+ * Counts up from zero in CSS (see .count-up), so it starts with the first paint
+ * and needs no JavaScript. The real number stays in the HTML for readers and
+ * crawlers; the box is sized up front so the sentence never reflows.
+ */
+function CountUp({ value }: { value: number }) {
+  return (
+    <span
+      className="count-up font-heading text-[1.75em] leading-none text-foreground"
+      style={
+        {
+          "--count-to": value,
+          width: `${String(value).length}ch`,
+        } as CSSProperties
+      }
+    >
+      <span className="sr-only">{value}</span>
+    </span>
+  )
+}
+
 export function HomePage() {
   const live = liveCategories()
   const [filters, setFilters] = useFilters()
@@ -103,13 +127,23 @@ export function HomePage() {
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </div>
         <h1 className="max-w-4xl font-heading text-display text-balance">
-          {siteConfig.longName}
+          {titleStart}{" "}
+          <span className="whitespace-nowrap">
+            {titleEnd}
+            <a
+              href={siteConfig.changelog}
+              rel="noopener"
+              title="Changelog"
+              className="ml-2.5 align-baseline font-sans text-sm font-normal tracking-normal text-muted-foreground tabular-nums transition-colors hover:text-foreground"
+            >
+              v{siteConfig.version}
+            </a>
+          </span>
         </h1>
-        <Tagline className="mt-4 text-base text-foreground/80" />
-        <p className="mt-4 max-w-xl text-lead text-muted-foreground">
-          {sheets.length} game development and physics concepts. Each one has a
-          simulation you can play with, the formulas, working code and a prompt
-          for your AI assistant.
+        <p className="mt-5 max-w-xl text-lead text-muted-foreground">
+          <CountUp value={sheets.length} /> game development and physics
+          concepts. Each one has a simulation you can play with, the formulas,
+          working code and a prompt for your AI assistant.
         </p>
         <div className="mt-7 flex max-w-xl flex-col gap-2.5 sm:flex-row">
           <SearchTrigger wide className="sm:flex-1" />
@@ -128,13 +162,14 @@ export function HomePage() {
 
       <section
         aria-label="Filters"
-        className="mb-12 flex flex-col gap-1 rounded-2xl bg-card p-2 ring-1 ring-foreground/10 md:mb-16 lg:flex-row lg:items-center"
+        className="mb-12 flex flex-col gap-2 rounded-2xl bg-card p-2 ring-1 ring-foreground/10 md:mb-16"
       >
+        {/* Rows wrap instead of scrolling: every filter stays visible at any width. */}
         <ToggleGroup
           multiple
           aria-label="Filter by category"
           spacing={1}
-          className="no-scrollbar w-full min-w-0 flex-nowrap overflow-x-auto lg:w-auto"
+          className="w-full flex-wrap"
           value={filters.categories}
           onValueChange={(categories) => setFilters({ ...filters, categories })}
         >
@@ -151,15 +186,12 @@ export function HomePage() {
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
-        <div className="flex w-full min-w-0 items-center gap-2 lg:ml-auto lg:w-auto lg:shrink-0">
-          <Separator
-            orientation="vertical"
-            className="hidden lg:block data-vertical:h-6 data-vertical:self-center"
-          />
+        <Separator />
+        <div className="flex items-center justify-between gap-2">
           <ToggleGroup
             aria-label="Filter by level"
             spacing={1}
-            className="no-scrollbar min-w-0 flex-nowrap overflow-x-auto lg:shrink-0"
+            className="min-w-0 flex-wrap"
             value={[filters.level]}
             onValueChange={(next) =>
               setFilters({
@@ -178,17 +210,17 @@ export function HomePage() {
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
-          {active && (
-            <Button
-              variant="ghost"
-              className="ml-auto h-10 shrink-0 px-2 font-normal text-muted-foreground sm:px-3 lg:ml-0"
-              aria-label="Clear filters"
-              onClick={() => setFilters(EMPTY)}
-            >
-              <X aria-hidden />
-              <span className="hidden sm:inline">Clear</span>
-            </Button>
-          )}
+          <Button
+            variant="outline"
+            className="h-9 shrink-0 px-2.5 font-normal sm:h-10 sm:px-3.5"
+            aria-label="Clear filters"
+            title="Clear filters"
+            disabled={!active}
+            onClick={() => setFilters(EMPTY)}
+          >
+            <X aria-hidden />
+            <span className="hidden sm:inline">Clear filters</span>
+          </Button>
         </div>
       </section>
 
