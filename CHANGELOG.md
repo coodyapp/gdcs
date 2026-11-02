@@ -8,6 +8,16 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.12.4] - 2026-11-02
+
+### Changed
+
+- Key formulas are a little larger, with full-size fractions and sums.
+
+### Fixed
+
+- Long inline code in sheet text wraps on phones instead of making the page scroll sideways.
+
 ## [1.12.3] - 2026-11-02
 
 ### Fixed

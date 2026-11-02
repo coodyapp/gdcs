@@ -10,6 +10,8 @@ export function renderTex(source: string) {
     throwOnError: true,
     output: "html",
     strict: "error",
+    // Every formula sits on its own line: full-size fractions and sums.
+    displayMode: true,
   })
 }
 

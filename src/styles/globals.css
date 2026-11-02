@@ -298,10 +298,7 @@
     padding: 0.1em 0.35em;
     font-family: var(--font-hud);
     font-size: 0.85em;
-  }
-
-  .formula .katex {
-    font-size: 1.15em;
+    overflow-wrap: anywhere;
   }
 
   .prose-sheet h2 {
@@ -371,5 +368,22 @@
   .cv-auto {
     content-visibility: auto;
     contain-intrinsic-size: auto 560px;
+  }
+}
+
+/* Outside any layer: KaTeX's stylesheet is unlayered, so layered rules lose to it. */
+.formula .katex {
+  font-size: 1.25em;
+}
+.formula .katex-display {
+  margin: 0.375rem 0 0.125rem;
+  text-align: left;
+}
+.formula .katex-display > .katex {
+  text-align: left;
+}
+@media (min-width: 640px) {
+  .formula .katex {
+    font-size: 1.45em;
   }
 }

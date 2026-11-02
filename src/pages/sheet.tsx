@@ -182,7 +182,7 @@ function SheetArticle({ slug }: { slug: string }) {
           {sheet.formulas?.length ? (
             <section aria-labelledby="formulas">
               <h2 id="formulas">Key formulas</h2>
-              <dl className="grid gap-2.5">
+              <dl className="grid grid-cols-1 gap-2.5">
                 {sheet.formulas.map((f) => (
                   <Card key={f.label} size="sm" className="card-lift dark px-4">
                     <dt className="eyebrow">{f.label}</dt>
