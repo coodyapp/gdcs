@@ -275,3 +275,7 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Multiplayer section of the roadmap complete. The owner confirmed COODY as copyright holder, Brazil as governing law, and a 3D-only grid.
 - Lesson: check spec claims at the source. `Math.sqrt` looked exact and never differed in a run, but the ECMAScript spec leaves it unspecified.
 - Known gap: feed dates are midnight, so a sheet dated the same day as a digest but released after it is never announced.
+
+## Digest follow-ups (next session)
+- [ ] Check Cloudflare's cron events for `gdcs-prd-01`. The 14:00 UTC run on 2026-11-02 left no row in `sends`, although the code records one even with no recipients. Triggering it for real would email every active subscriber.
+- [ ] Choose digest items better. Sheets share a date, so the 12-item cap falls back to feed order: the test send on 2026-11-02 listed only 1 of the 10 newest sheets, and its heading said "12 new" with 93 sheets dated in the window.
