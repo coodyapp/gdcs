@@ -18,6 +18,7 @@ import {
 import { recordVisit } from "@/lib/local"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LevelPips, SheetEndCard } from "@/components/sheet-card"
+import { promptMarkdown } from "@/lib/prompt-markdown"
 import { SheetCode } from "@/components/sheet-code"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -121,7 +122,7 @@ function SheetArticle({ slug }: { slug: string }) {
             <CopyButton
               label="Copy prompt"
               copiedLabel="Prompt copied"
-              text={sheet.prompt}
+              text={promptMarkdown(sheet.title, sheet.prompt)}
               event="copy_prompt"
             />
             <CopyButton
@@ -246,8 +247,8 @@ function SheetArticle({ slug }: { slug: string }) {
           <section aria-labelledby="prompt">
             <h2 id="prompt">Prompt</h2>
             <SheetCode
-              code={sheet.prompt}
-              lang="text"
+              code={promptMarkdown(sheet.title, sheet.prompt)}
+              lang="markdown"
               title="Prompt for your AI assistant"
               wrap
               onCopy={() =>

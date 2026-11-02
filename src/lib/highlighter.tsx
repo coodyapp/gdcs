@@ -69,6 +69,17 @@ const gdcsTheme = {
       scope: ["string", "string.quoted", "constant.other.symbol"],
       settings: { foreground: "#a3a3a3" },
     },
+    // Markdown (prompts): commands and code stand out from the running text.
+    {
+      scope: [
+        "markup.inline.raw",
+        "markup.fenced_code",
+        "markup.bold",
+        "markup.heading",
+        "entity.name.section.markdown",
+      ],
+      settings: { foreground: "#fafafa" },
+    },
     {
       scope: ["punctuation", "keyword.operator", "meta.brace"],
       settings: { foreground: "#a3a3a3" },

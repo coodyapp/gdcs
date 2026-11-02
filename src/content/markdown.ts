@@ -1,3 +1,4 @@
+import { promptMarkdown } from "@/lib/prompt-markdown"
 import { absoluteUrl, siteConfig } from "@/config/site"
 
 import {
@@ -75,7 +76,7 @@ export function sheetMarkdown(sheet: Sheet) {
     "",
     "## Prompt",
     "",
-    fence("text", sheet.prompt),
+    fence("markdown", promptMarkdown(sheet.title, sheet.prompt)),
     ""
   )
   const related = relatedSheets(sheet)

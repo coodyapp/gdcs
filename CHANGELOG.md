@@ -8,6 +8,16 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.10.0] - 2026-11-02
+
+### Added
+
+- Code blocks have line numbers, a file icon and a wrap button.
+
+### Changed
+
+- Prompts are real Markdown: the sheet title as a heading and each instruction as a bullet, with highlighting. Copy buttons and `.md` files use the same format. The wording is unchanged.
+
 ## [1.9.1] - 2026-11-02
 
 ### Fixed

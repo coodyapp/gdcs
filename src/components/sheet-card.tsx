@@ -4,6 +4,7 @@ import { Check, Copy } from "lucide-react"
 import { getCategory, sheetPath, type SheetMeta } from "@/content"
 import { useHistory } from "@/lib/local"
 import { highlightParts } from "@/lib/search"
+import { promptMarkdown } from "@/lib/prompt-markdown"
 import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
 import { Badge } from "@/components/ui/badge"
@@ -155,7 +156,10 @@ export function SheetCard({
           </span>
         )}
         <span className="ml-auto shrink-0">
-          <CopyPrompt prompt={sheet.prompt} title={sheet.title} />
+          <CopyPrompt
+            prompt={promptMarkdown(sheet.title, sheet.prompt)}
+            title={sheet.title}
+          />
         </span>
       </CardFooter>
     </Card>
