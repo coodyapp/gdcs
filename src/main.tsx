@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom"
 
 import { App } from "@/App"
 import { getSheet, loadSheet } from "@/content"
-import { trackClicks } from "@/lib/analytics"
+import { loadWebAnalytics, trackClicks } from "@/lib/analytics"
 
 const root = document.getElementById("root")
 if (!root) throw new Error("Root element not found")
@@ -36,3 +36,4 @@ void preload.then(() => {
 })
 
 trackClicks()
+loadWebAnalytics()

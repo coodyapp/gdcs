@@ -7,6 +7,7 @@ import {
   subcategoryPath,
   categoryPath,
 } from "@/content"
+import { catStyle } from "@/lib/accent"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { SheetGrid } from "@/components/sheet-card"
 import { NotFoundPage } from "@/pages/not-found"
@@ -19,7 +20,10 @@ export function CategoryPage() {
   return (
     <>
       <Breadcrumbs items={[{ label: c.title }]} />
-      <header className="mb-12 max-w-3xl">
+      <header className="mb-12 max-w-3xl" style={catStyle(c.slug)}>
+        <p className="eyebrow mb-3 flex items-center gap-2">
+          <span className="cat-dot" aria-hidden /> Category
+        </p>
         <h1 className="font-heading text-display">{c.title}</h1>
         <p className="mt-4 text-lead text-muted-foreground">{c.description}</p>
         <p className="eyebrow mt-4">
@@ -61,8 +65,10 @@ export function SubcategoryPage() {
           { label: s.title },
         ]}
       />
-      <header className="mb-12 max-w-3xl">
-        <p className="eyebrow mb-3">{c.title}</p>
+      <header className="mb-12 max-w-3xl" style={catStyle(c.slug)}>
+        <p className="eyebrow mb-3 flex items-center gap-2">
+          <span className="cat-dot" aria-hidden /> {c.title}
+        </p>
         <h1 className="font-heading text-display">{s.title}</h1>
         <p className="mt-4 text-lead text-muted-foreground">{s.description}</p>
       </header>

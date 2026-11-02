@@ -1,21 +1,39 @@
 import { createContext, useContext } from "react"
 import type { ComponentType } from "react"
 
-/** Shared colours for every scene: neutral stage, a few semantic accents. */
+import { sim, surfaces, text } from "@/styles/tokens"
+
+/**
+ * Shared colours for every scene (docs/design-system.md §2). Meaning:
+ * primary = subject/selection/ray (cyan) · secondary = moving thing/energy
+ * (orange) · tertiary = secondary object/rotation (violet) · positive =
+ * success/valid/normals (green) · warning = velocity/trajectory (yellow) ·
+ * accel = acceleration/torque (pink) · negative = force/error/contact (red).
+ * Never rely on hue alone: pair with dashes, shapes or labels.
+ */
 export const palette = {
-  stage: "#0a0a0a",
-  surface: "#27272a",
+  stage: surfaces.bg,
+  surface: surfaces.surface3,
   /** Default colour for solid props: light enough to read under the stage lights. */
   object: "#71717a",
-  grid: "#2a2a2e",
-  guide: "#71717a",
-  foreground: "#e4e4e7",
-  primary: "#38bdf8",
-  secondary: "#f97316",
-  tertiary: "#a78bfa",
-  positive: "#22c55e",
-  negative: "#fb7185",
-  warning: "#fbbf24",
+  grid: "#232327",
+  guide: "#8b8b94",
+  foreground: text.primary,
+  primary: sim.cyan,
+  secondary: sim.orange,
+  tertiary: sim.violet,
+  positive: sim.green,
+  warning: sim.yellow,
+  accel: sim.pink,
+  negative: sim.red,
+  // Semantic aliases (prefer these in new scenes).
+  subject: sim.cyan,
+  moving: sim.orange,
+  energy: sim.orange,
+  velocity: sim.yellow,
+  force: sim.red,
+  success: sim.green,
+  error: sim.red,
 } as const
 
 export type Vec3 = [number, number, number]

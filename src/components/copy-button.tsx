@@ -4,17 +4,20 @@ import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
 
 /**
- * Copies `text` (or the result of `getText`, for content that is expensive
- * to build) and announces the result to screen readers.
+ * Copies `text` (or the result of `getText`) and confirms in place. Both
+ * labels are stacked in one grid cell so the button never changes width.
  */
 export function CopyButton({
   label,
+  copiedLabel = "Copied",
   text,
   getText,
   className,
   event,
 }: {
   label: string
+  /** What was copied, e.g. "Prompt copied". */
+  copiedLabel?: string
   text?: string
   getText?: () => string | Promise<string>
   className?: string
@@ -25,7 +28,11 @@ export function CopyButton({
   return (
     <button
       type="button"
-      className={cn("chip", className)}
+      className={cn(
+        "chip",
+        copied && "!border-[var(--color-sim-green)]/50",
+        className
+      )}
       onClick={async (e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -35,13 +42,31 @@ export function CopyButton({
       }}
     >
       {copied ? (
-        <Check className="size-3.5" aria-hidden />
+        <Check className="size-3.5 text-[var(--color-sim-green)]" aria-hidden />
       ) : (
         <Copy className="size-3.5" aria-hidden />
       )}
-      <span>{copied ? "Copied" : label}</span>
+      <span className="grid">
+        <span
+          className={cn(
+            "col-start-1 row-start-1 transition-opacity duration-150",
+            copied && "opacity-0"
+          )}
+        >
+          {label}
+        </span>
+        <span
+          className={cn(
+            "col-start-1 row-start-1 transition-opacity duration-150",
+            !copied && "opacity-0"
+          )}
+          aria-hidden={!copied}
+        >
+          {copiedLabel}
+        </span>
+      </span>
       <span className="sr-only" aria-live="polite">
-        {copied ? `${label}: copied to clipboard` : ""}
+        {copied ? `${copiedLabel} to clipboard` : ""}
       </span>
     </button>
   )

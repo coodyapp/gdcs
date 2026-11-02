@@ -8,6 +8,7 @@ export const categories: Category[] = [
   {
     slug: "threejs",
     title: "Three.js & Rendering",
+    short: "Three.js",
     description:
       "How a 3D scene becomes pixels: rays, normals, culling, shaders and the standard ways to draw less.",
     subcategories: [
@@ -22,6 +23,7 @@ export const categories: Category[] = [
   {
     slug: "mathematics",
     title: "Mathematics",
+    short: "Math",
     description:
       "The math under game code: rotations, interpolation and deterministic randomness.",
     subcategories: [

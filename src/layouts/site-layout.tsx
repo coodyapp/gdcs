@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 
+import { CommandPaletteProvider } from "@/components/command-palette"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { Seo } from "@/components/seo"
@@ -11,7 +12,7 @@ export function SiteLayout() {
     if (!hash) window.scrollTo(0, 0)
   }, [pathname, hash])
   return (
-    <>
+    <CommandPaletteProvider>
       <a
         href="#main"
         className="chip sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50"
@@ -24,6 +25,6 @@ export function SiteLayout() {
         <Outlet />
       </main>
       <SiteFooter />
-    </>
+    </CommandPaletteProvider>
   )
 }

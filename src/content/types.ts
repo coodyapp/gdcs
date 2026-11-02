@@ -86,6 +86,8 @@ export interface Subcategory {
 export interface Category {
   slug: string
   title: string
+  /** Compact label for the top navigation (defaults to `title`). */
+  short?: string
   description: string
   subcategories: Subcategory[]
 }
