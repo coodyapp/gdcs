@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import { applyHead, robots, sitemap } from "./prerender"
+import { applyHead, inlineHeroPoster, robots, sitemap } from "./prerender"
 
 const shell = `<html><head>
 <title>x</title>
@@ -14,6 +14,17 @@ const shell = `<html><head>
 <meta name="twitter:title" content="x" />
 <meta name="twitter:description" content="x" />
 </head><body><div id="root"></div></body></html>`
+
+describe("inlineHeroPoster", () => {
+  it("moves only the phone hero poster into the page", () => {
+    const html = inlineHeroPoster(
+      `<source media="(max-width: 639px)" srcSet="/posters/fibers-hero-phone.webp"/><img src="/posters/fibers-hero.webp"/>`,
+      Buffer.from("x")
+    )
+    expect(html).toContain('srcSet="data:image/webp;base64,eA=="')
+    expect(html).toContain('src="/posters/fibers-hero.webp"')
+  })
+})
 
 describe("applyHead", () => {
   const html = applyHead(shell, {

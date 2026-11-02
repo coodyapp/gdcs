@@ -231,6 +231,6 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - [x] Verify: screenshots at 1280 and 390, Lighthouse before and after, tests.
 
 ## Then
-- [ ] v1.7.1: sheet LCP (Camera projection, Probability at 3.7 s), Yellow box slider while moving.
+- [x] v1.7.1: home phone LCP (inline poster), Yellow box slider while moving. Sheet pages: real paint is about 0.2 s, simulated scores vary run to run, main bundle has no leak to cut.
 - [ ] Email check: signup needs the user (Turnstile), then D1 and digest dry run.
 - [ ] Batch 2 (about 14 sheets) in groups of 4 or 5.

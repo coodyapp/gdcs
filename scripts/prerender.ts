@@ -75,6 +75,17 @@ const meta = (html: string, attr: string, key: string, value: string) =>
     `${attr}=${key}`
   )
 
+/**
+ * Puts the phone hero poster in the page itself, so the largest paint on a phone
+ * needs no second request. React leaves the attribute alone when it hydrates.
+ */
+export function inlineHeroPoster(html: string, poster: Buffer) {
+  return html.replace(
+    /(<source[^>]*srcSet=")\/posters\/fibers-hero-phone\.webp"/i,
+    `$1data:image/webp;base64,${poster.toString("base64")}"`
+  )
+}
+
 export function applyHead(shell: string, head: Head) {
   const url = abs(head.path)
   let html = setTag(
@@ -109,8 +120,8 @@ export function applyHead(shell: string, head: Head) {
   const extra: string[] = []
   if (head.path === "/") {
     // The hero's first frame arrives with the page instead of after the CSS.
+    // Phones get theirs inside the HTML (see inlineHeroPoster).
     extra.push(
-      `<link rel="preload" as="image" type="image/webp" href="/posters/fibers-hero-phone.webp" media="(max-width: 639px)" fetchpriority="high" />`,
       `<link rel="preload" as="image" type="image/webp" href="/posters/fibers-hero.webp" media="(min-width: 640px)" fetchpriority="high" />`
     )
   }
@@ -204,6 +215,9 @@ async function main() {
   // Its url()s are root-absolute (/assets/...), so they resolve the same.
   const rawShell = await readFile(path.join(dist, "index.html"), "utf8")
   const shell = await inlineCss(rawShell)
+  const heroPoster = await readFile(
+    path.join(dist, "posters", "fibers-hero-phone.webp")
+  )
   const paths = entry.allPaths()
   const seen = new Set<string>()
 
@@ -217,7 +231,10 @@ async function main() {
       '<div id="root"></div>',
       `<div id="root">${body}</div>`
     )
-    await write(p === "/" ? "index.html" : `${p.slice(1)}.html`, html)
+    await write(
+      p === "/" ? "index.html" : `${p.slice(1)}.html`,
+      p === "/" ? inlineHeroPoster(html, heroPoster) : html
+    )
   }
 
   // Unknown URLs: the bare shell, client-rendered, never indexed.

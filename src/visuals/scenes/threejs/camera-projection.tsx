@@ -200,16 +200,20 @@ function readoutText(v: V) {
   return `Ringed corner NDC x ${sign(x)} y ${sign(y)} z ${sign(z)} · box fills ${share}% of screen height`
 }
 
-const DIST_MID = 4.5
+const DIST_MIN = 3.4
+const DIST_MAX = 5.6
 const DIST_SWING = 1.1
 
-/** Glides the yellow box through the frustum unless the slider is in charge. */
+/** Glides the yellow box around the slider's distance, so the slider works while it moves. */
 function Scene({ v: params }: { v: V }) {
   const time = useAnimationTime()
   const v = params.auto
     ? {
         ...params,
-        dist: DIST_MID + DIST_SWING * Math.sin(time * 0.7),
+        dist: Math.min(
+          DIST_MAX,
+          Math.max(DIST_MIN, params.dist + DIST_SWING * Math.sin(time * 0.7))
+        ),
       }
     : params
   useLiveReadout(() => (params.auto ? readoutText(v) : null))
@@ -334,8 +338,8 @@ export default defineVisual<V>({
     {
       key: "dist",
       label: "Yellow box distance",
-      min: 3.4,
-      max: 5.6,
+      min: DIST_MIN,
+      max: DIST_MAX,
       step: 0.1,
       value: 4.4,
       unit: "u",

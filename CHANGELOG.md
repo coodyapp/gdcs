@@ -8,6 +8,13 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.7.1] - 2026-11-02
+
+### Fixed
+
+- Home page on phones: the hero poster ships inside the HTML, so the largest paint needs no second request.
+- Camera projection: "Yellow box distance" now works while "Move the box" is on. The box moves around the chosen distance.
+
 ## [1.7.0] - 2026-11-02
 
 ### Added

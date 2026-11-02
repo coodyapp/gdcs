@@ -40,7 +40,9 @@ for (const { suffix, width, height } of SIZES) {
     const png = path.join(out, `fibers-${name}${suffix}.png`)
     await el.screenshot({ path: png })
     const webp = png.replace(/\.png$/, ".webp")
-    execFileSync("cwebp", ["-quiet", "-q", "62", png, "-o", webp])
+    // The phone hero poster is inlined in the home page, so it gets extra squeeze.
+    const quality = suffix ? "46" : "62"
+    execFileSync("cwebp", ["-quiet", "-q", quality, png, "-o", webp])
     await rm(png)
     console.log("poster", path.basename(webp))
   }
