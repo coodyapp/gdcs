@@ -19,6 +19,14 @@ pnpm build               # client build → SSR build → prerender (dist/)
 pnpm preview             # wrangler dev: Worker + assets + local D1
 ```
 
+## Measure performance
+
+Lighthouse's default mode estimates its numbers, and scores for the same page can swing by more than 10 points. To judge a change, compare runs with real throttling on an idle machine:
+
+```bash
+npx lighthouse https://gdcs.coody.app/ --only-categories=performance --throttling-method=devtools
+```
+
 ## How the build works
 
 1. `vp build` builds the client bundle. Three.js is lazy-loaded per visual.

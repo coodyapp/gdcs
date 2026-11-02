@@ -10,6 +10,12 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.10] - 2026-11-02
+
+### Fixed
+
+- No more console error on pages opened with `?poster=1`, the mode used to capture posters.
+
 ## [1.12.9] - 2026-11-02
 
 ### Changed

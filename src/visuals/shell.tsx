@@ -211,7 +211,9 @@ function Visual({ slug, title, compact = false, className }: VisualShellProps) {
   const granted = useCardBudget(ref, compact && warm)
   const [active, setActive] = useState(false)
   const [posterOk, setPosterOk] = useState(true)
-  const poster = posterMode()
+  // Set after hydration: the server cannot see the query string.
+  const [poster, setPoster] = useState(false)
+  useEffect(() => setPoster(posterMode()), [])
   useEffect(() => {
     if (!inView) {
       setActive(false)
