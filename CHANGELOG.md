@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.6.1] - 2026-11-02
+
+### Fixed
+
+- Footer links meet the 24 px minimum touch target.
+
 ## [1.6.0] - 2026-11-02
 
 ### Added

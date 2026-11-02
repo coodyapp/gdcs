@@ -6,7 +6,7 @@
 .coody-credits {
   --coody-credits-hover: #fafafa;
   --coody-credits-focus: currentColor;
-  --coody-credits-gap: 0.5rem;
+  --coody-credits-gap: 0.25rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -38,6 +38,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+}
+
+/* Meets the 24 px minimum touch target. */
+.coody-credits__top {
+  min-height: 1.5rem;
 }
 
 .coody-credits__flag {

@@ -7,7 +7,8 @@ import { SubscribeForm } from "@/components/subscribe-form"
 import { Tagline } from "@/components/tagline"
 import { categoryPath, liveCategories } from "@/content"
 
-const quiet = "text-muted-foreground transition-colors hover:text-foreground"
+const quiet =
+  "inline-flex min-h-6 items-center text-muted-foreground transition-colors hover:text-foreground"
 
 function Column({
   title,
@@ -19,7 +20,7 @@ function Column({
   return (
     <nav aria-label={title}>
       <h2 className="mb-3 text-sm font-medium">{title}</h2>
-      <ul className="space-y-2 text-sm">{children}</ul>
+      <ul className="space-y-1 text-sm">{children}</ul>
     </nav>
   )
 }
