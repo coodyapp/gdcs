@@ -223,3 +223,14 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 ## Review: v1.6.0 (2026-11-02)
 - Top-40 complete: 40 of 40. Roadmap section statuses corrected where a sheet demonstrably covers the term.
 - Lesson: readouts need a live channel. Four scenes hit the same wall independently before `useLiveReadout` existed.
+
+## Home loading and search (v1.7.0, 2026-11-02)
+- [x] Fibers: poster of the exact first frame on first paint (hero and footer), cross-fade to live with no intro, start sooner, chunk fetched ahead. Poster stays for reduced motion, data saver and no WebGL.
+- [x] Big search merged with category and level filters, inline results, `?q=`; typing and ⌘K focus it on home, palette elsewhere.
+- [x] Hero: email form like the footer in place of search and button. Turnstile loads on first focus, not on view.
+- [x] Verify: screenshots at 1280 and 390, Lighthouse before and after, tests.
+
+## Then
+- [ ] v1.7.1: sheet LCP (Camera projection, Probability at 3.7 s), Yellow box slider while moving.
+- [ ] Email check: signup needs the user (Turnstile), then D1 and digest dry run.
+- [ ] Batch 2 (about 14 sheets) in groups of 4 or 5.

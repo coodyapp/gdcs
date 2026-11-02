@@ -107,6 +107,13 @@ export function applyHead(shell: string, head: Head) {
     html = meta(html, "name", "twitter:image", abs(head.image))
   }
   const extra: string[] = []
+  if (head.path === "/") {
+    // The hero's first frame arrives with the page instead of after the CSS.
+    extra.push(
+      `<link rel="preload" as="image" type="image/webp" href="/posters/fibers-hero-phone.webp" media="(max-width: 639px)" fetchpriority="high" />`,
+      `<link rel="preload" as="image" type="image/webp" href="/posters/fibers-hero.webp" media="(min-width: 640px)" fetchpriority="high" />`
+    )
+  }
   if (head.markdown) {
     extra.push(
       `<link rel="alternate" type="text/markdown" title="Markdown" href="${head.markdown}" />`

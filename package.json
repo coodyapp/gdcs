@@ -1,6 +1,6 @@
 {
   "name": "gdcs",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "private": true,
   "type": "module",
   "homepage": "https://gdcs.coody.app",
@@ -15,7 +15,8 @@
     "db:migrate:remote": "wrangler d1 migrations apply gdcs-prd --remote",
     "deploy": "pnpm build && wrangler deploy",
     "posters": "node scripts/posters.ts",
-    "og": "node scripts/og.ts"
+    "og": "node scripts/og.ts",
+    "posters:fibers": "node scripts/fiber-posters.ts"
   },
   "packageManager": "pnpm@10.15.0",
   "dependencies": {

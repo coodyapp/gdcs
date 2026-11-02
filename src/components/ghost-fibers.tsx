@@ -48,6 +48,8 @@ export interface GhostFibersProps extends HTMLAttributes<HTMLDivElement> {
   lightMode?: boolean
   paused?: boolean
   dpr?: number
+  /** Fires after the first frame is drawn; never fires without WebGL2. */
+  onReady?: () => void
 }
 
 type Settings = {
@@ -716,11 +718,14 @@ const GhostFibers = ({
   lightMode = false,
   paused = false,
   dpr,
+  onReady,
   ...rest
 }: GhostFibersProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const wakeRef = useRef<(() => void) | null>(null)
+  const onReadyRef = useRef(onReady)
+  onReadyRef.current = onReady
   const settings: Settings = {
     glowColor: String(glowColor),
     lineColor: lineColor ? String(lineColor) : "",
@@ -1318,6 +1323,7 @@ const GhostFibers = ({
     document.addEventListener("visibilitychange", onVisibility)
     resize()
     wake()
+    onReadyRef.current?.()
 
     wakeRef.current = () => {
       if (!raf) render()

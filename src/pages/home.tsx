@@ -1,15 +1,24 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react"
-import { Link } from "react-router-dom"
-import { ArrowRight, FileText, SearchX, X } from "lucide-react"
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { ArrowRight, FileText, Search, SearchX, X } from "lucide-react"
 
 import {
   categoryPath,
   liveCategories,
   sheets,
   sheetsIn,
+  sheetPath,
   type SheetMeta,
 } from "@/content"
 import { paths } from "@/content/paths"
+import { searchFiltered, type SheetFilters } from "@/lib/search"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,12 +29,18 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 import { Separator } from "@/components/ui/separator"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { HeroFibers } from "@/components/backgrounds"
-import { SearchTrigger } from "@/components/command-palette"
+import { SearchKbd, useSearchTarget } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
-import { GetUpdatesButton } from "@/components/updates"
+import { SubscribeForm } from "@/components/subscribe-form"
 import { PathCard } from "@/pages/paths"
 import { siteConfig } from "@/config/site"
 
@@ -44,13 +59,10 @@ const preview = (category: string) =>
     .sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level))
     .slice(0, PREVIEW)
 
-interface Filters {
-  categories: string[]
-  level: Level | "all"
-}
-const EMPTY: Filters = { categories: [], level: "all" }
+type Filters = SheetFilters<Level>
+const EMPTY: Filters = { query: "", categories: [], level: "all" }
 
-/** Filters mirrored in the URL (?cat=a,b&level=core), read after hydration. */
+/** Search and filters mirrored in the URL (?q=lerp&cat=a,b&level=core), read after hydration. */
 function useFilters() {
   const [filters, setFilters] = useState<Filters>(EMPTY)
   useEffect(() => {
@@ -58,6 +70,7 @@ function useFilters() {
     const list = (k: string) => (q.get(k) ?? "").split(",").filter(Boolean)
     const level = q.get("level") as Level | null
     setFilters({
+      query: q.get("q") ?? "",
       categories: list("cat"),
       level: level && LEVELS.includes(level) ? level : "all",
     })
@@ -67,6 +80,7 @@ function useFilters() {
     const url = new URL(window.location.href)
     const set = (k: string, v: string) =>
       v ? url.searchParams.set(k, v) : url.searchParams.delete(k)
+    set("q", next.query)
     set("cat", next.categories.join(","))
     set("level", next.level === "all" ? "" : next.level)
     window.history.replaceState(window.history.state, "", url)
@@ -102,17 +116,35 @@ function CountUp({ value }: { value: number }) {
 export function HomePage() {
   const live = liveCategories()
   const [filters, setFilters] = useFilters()
-  const active = filters.categories.length > 0 || filters.level !== "all"
+  const navigate = useNavigate()
+  const searchInput = useRef<HTMLInputElement>(null)
+  const query = useDeferredValue(filters.query)
+  const active =
+    filters.query.trim() !== "" ||
+    filters.categories.length > 0 ||
+    filters.level !== "all"
   const results = useMemo(
-    () =>
-      sheets.filter(
-        (s) =>
-          (!filters.categories.length ||
-            filters.categories.includes(s.category)) &&
-          (filters.level === "all" || s.level === filters.level)
-      ),
-    [filters]
+    () => searchFiltered(sheets, { ...filters, query }),
+    [query, filters]
   )
+
+  // Results replace what is below the card: bring them into view when they appear.
+  const searchCard = useRef<HTMLElement>(null)
+  useEffect(() => {
+    if (!active) return
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+    searchCard.current?.scrollIntoView?.({
+      block: "start",
+      behavior: smooth ? "smooth" : "auto",
+    })
+  }, [active])
+
+  // Start typing anywhere on this page and it lands in the search field.
+  useSearchTarget((typed) => {
+    if (typed) setFilters({ ...filters, query: filters.query + typed })
+    searchInput.current?.focus()
+  })
 
   return (
     <>
@@ -145,9 +177,8 @@ export function HomePage() {
           concepts. Each one has a simulation you can play with, the formulas,
           working code and a prompt for your AI assistant.
         </p>
-        <div className="mt-7 flex max-w-xl flex-col gap-2.5 sm:flex-row">
-          <SearchTrigger wide className="sm:flex-1" />
-          <GetUpdatesButton className="shrink-0" />
+        <div className="mt-7 max-w-xl">
+          <SubscribeForm compact />
         </div>
         <Button
           variant="link"
@@ -161,9 +192,55 @@ export function HomePage() {
       </section>
 
       <section
-        aria-label="Filters"
-        className="mb-12 flex flex-col gap-2 rounded-2xl bg-card p-2 ring-1 ring-foreground/10 md:mb-16"
+        ref={searchCard}
+        role="search"
+        aria-label="Search and filter sheets"
+        className="mb-12 flex scroll-mt-4 flex-col gap-2 rounded-2xl bg-card p-2 ring-1 ring-foreground/10 md:mb-16"
       >
+        <InputGroup className="h-14 rounded-xl border-0 bg-transparent! has-[[data-slot=input-group-control]:focus-visible]:ring-2 md:h-16">
+          <InputGroupAddon className="pl-3 md:pl-4">
+            <Search className="size-5" aria-hidden />
+          </InputGroupAddon>
+          <InputGroupInput
+            ref={searchInput}
+            type="text"
+            inputMode="search"
+            enterKeyHint="search"
+            autoComplete="off"
+            spellCheck={false}
+            aria-label="Search sheets"
+            aria-keyshortcuts="Meta+K Control+K /"
+            placeholder={`Search ${sheets.length} sheets: lerp, tunneling`}
+            className="h-full text-base md:text-lg md:placeholder:text-lg"
+            value={filters.query}
+            onChange={(e) => setFilters({ ...filters, query: e.target.value })}
+            onKeyDown={(e) => {
+              // Not `results`: it is deferred and can lag behind the last keystroke.
+              const first = filters.query.trim()
+                ? searchFiltered(sheets, filters)[0]
+                : undefined
+              if (e.key === "Enter" && first) navigate(sheetPath(first))
+              if (e.key === "Escape") setFilters({ ...filters, query: "" })
+            }}
+          />
+          <InputGroupAddon align="inline-end" className="pr-2 md:pr-3">
+            {filters.query ? (
+              <InputGroupButton
+                size="icon-sm"
+                aria-label="Clear search"
+                onClick={() => {
+                  setFilters({ ...filters, query: "" })
+                  searchInput.current?.focus()
+                }}
+              >
+                <X aria-hidden />
+              </InputGroupButton>
+            ) : (
+              <SearchKbd />
+            )}
+          </InputGroupAddon>
+        </InputGroup>
+        <Separator />
         {/* Rows wrap instead of scrolling: every filter stays visible at any width. */}
         <ToggleGroup
           multiple
@@ -241,9 +318,9 @@ export function HomePage() {
                 <EmptyMedia variant="icon">
                   <SearchX aria-hidden />
                 </EmptyMedia>
-                <EmptyTitle>No sheets match these filters</EmptyTitle>
+                <EmptyTitle>No sheets match</EmptyTitle>
                 <EmptyDescription>
-                  Choose another category or level.
+                  Try another word, category or level.
                 </EmptyDescription>
               </EmptyHeader>
               <EmptyContent>

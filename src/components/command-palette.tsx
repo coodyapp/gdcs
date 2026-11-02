@@ -22,6 +22,30 @@ const PaletteContext = createContext<() => void>(() => {})
 /** Opens the search palette (hero field, phone menu). */
 export const useOpenPalette = () => useContext(PaletteContext)
 
+/** Set while a page has its own search field: keyboard shortcuts go there instead. */
+const searchTarget: { current: ((typed: string) => void) | null } = {
+  current: null,
+}
+export function useSearchTarget(focus: (typed: string) => void) {
+  useEffect(() => {
+    searchTarget.current = focus
+    return () => {
+      searchTarget.current = null
+    }
+  })
+}
+
+/** The shortcut hint, matching the visitor's keyboard. */
+export function SearchKbd({ className }: { className?: string }) {
+  const [mac, setMac] = useState(true)
+  useEffect(() => setMac(/Mac|iPhone|iPad/.test(navigator.platform)), [])
+  return (
+    <Kbd className={cn("hidden sm:inline-flex", className)}>
+      {mac ? "⌘K" : "Ctrl K"}
+    </Kbd>
+  )
+}
+
 const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
   (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
@@ -40,13 +64,15 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
+    const route = (typed = "") =>
+      searchTarget.current ? searchTarget.current(typed) : show(typed)
     const onKey = (e: KeyboardEvent) => {
       if (
         (e.key === "k" && (e.metaKey || e.ctrlKey)) ||
         (e.key === "/" && !isTyping(e.target))
       ) {
         e.preventDefault()
-        show()
+        route()
         return
       }
       // Type to search: a letter or digit typed anywhere opens search with it.
@@ -59,7 +85,7 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
         !isTyping(e.target)
       ) {
         e.preventDefault()
-        show(e.key)
+        route(e.key)
       }
     }
     window.addEventListener("keydown", onKey)
@@ -79,16 +105,8 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
 }
 
 /** Trigger that looks like a search field. */
-export function SearchTrigger({
-  className,
-  wide = false,
-}: {
-  className?: string
-  wide?: boolean
-}) {
+export function SearchTrigger({ className }: { className?: string }) {
   const open = useOpenPalette()
-  const [mac, setMac] = useState(true)
-  useEffect(() => setMac(/Mac|iPhone|iPad/.test(navigator.platform)), [])
   return (
     <Button
       variant="outline"
@@ -97,15 +115,12 @@ export function SearchTrigger({
       aria-keyshortcuts="Meta+K Control+K /"
       className={cn(
         "h-9 justify-start gap-2 font-normal text-muted-foreground",
-        wide && "h-11 w-full max-w-xl px-3",
         className
       )}
     >
       <Search className="size-4" aria-hidden />
-      <span className={cn("truncate text-left", wide ? "flex-1" : "")}>
-        {wide ? "Search: quaternions, coyote time, tunneling" : "Search"}
-      </span>
-      <Kbd className="hidden sm:inline-flex">{mac ? "⌘K" : "Ctrl K"}</Kbd>
+      <span className="truncate text-left">Search</span>
+      <SearchKbd />
     </Button>
   )
 }

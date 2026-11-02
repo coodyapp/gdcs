@@ -1,36 +1,8 @@
-import { lazy, Suspense, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Mail, X } from "lucide-react"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-
-const UpdatesDialog = lazy(() => import("@/components/updates-dialog"))
-
-/** Hero button: opens the signup dialog (loaded on first click). */
-export function GetUpdatesButton({ className = "" }: { className?: string }) {
-  const [open, setOpen] = useState(false)
-  const [loaded, setLoaded] = useState(false)
-  return (
-    <>
-      <Button
-        size="lg"
-        aria-haspopup="dialog"
-        className={`h-11 px-5 ${className}`}
-        onClick={() => {
-          setLoaded(true)
-          setOpen(true)
-        }}
-      >
-        <Mail aria-hidden /> Get updates
-      </Button>
-      {loaded && (
-        <Suspense fallback={null}>
-          <UpdatesDialog open={open} onOpenChange={setOpen} />
-        </Suspense>
-      )}
-    </>
-  )
-}
 
 const NOTICES: Record<string, string> = {
   confirmed: "You're subscribed. The next update will land in your inbox.",

@@ -38,8 +38,8 @@ function loadScript() {
 }
 
 /**
- * Invisible Turnstile for a form. The script loads only when the form is
- * near the viewport; `getToken()` resolves once Turnstile has a token.
+ * Invisible Turnstile for a form. The script loads when someone starts using
+ * the form; `getToken()` resolves once Turnstile has a token.
  */
 export function useTurnstile() {
   const container = useRef<HTMLDivElement>(null)
@@ -69,19 +69,19 @@ export function useTurnstile() {
           })
         })
         .catch(() => waiters.current.splice(0).forEach((w) => w(undefined)))
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          io.disconnect()
-          void start()
-        }
-      },
-      { rootMargin: "300px" }
-    )
-    io.observe(el)
+    // First focus, or submit without focus (autofill): most visitors never pay for it.
+    const form = el.closest("form")
+    const begin = () => {
+      form?.removeEventListener("focusin", begin)
+      form?.removeEventListener("submit", begin)
+      void start()
+    }
+    form?.addEventListener("focusin", begin)
+    form?.addEventListener("submit", begin)
     return () => {
       cancelled = true
-      io.disconnect()
+      form?.removeEventListener("focusin", begin)
+      form?.removeEventListener("submit", begin)
       if (widget.current) window.turnstile?.remove(widget.current)
       widget.current = undefined
     }

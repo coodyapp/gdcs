@@ -8,6 +8,22 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.7.0] - 2026-11-02
+
+### Added
+
+- Big search on the home page, merged with the category and level filters. Results show inline, `?q=` links to a search, Enter opens the top result, and typing anywhere on the page goes to it.
+- Email signup in the hero, the same form as the footer.
+
+### Changed
+
+- Hero and footer fibers appear with the first paint: a poster of the first frame hands over to the live canvas, with no fade from empty. The poster stays for reduced motion, data saver and no WebGL.
+- Turnstile loads when someone starts using a signup form, not when the form comes into view.
+
+### Removed
+
+- The hero search button and the signup dialog.
+
 ## [1.6.1] - 2026-11-02
 
 ### Fixed

@@ -53,6 +53,24 @@ export function searchSheets(list: SheetMeta[], query: string, limit = 12) {
     .map((s) => s.sheet)
 }
 
+export interface SheetFilters<L extends string = SheetMeta["level"]> {
+  query: string
+  categories: string[]
+  level: L | "all"
+}
+
+/** Every sheet passing the category and level filters; ranked when there is a query. */
+export function searchFiltered(list: SheetMeta[], filters: SheetFilters) {
+  const matching = list.filter(
+    (s) =>
+      (!filters.categories.length || filters.categories.includes(s.category)) &&
+      (filters.level === "all" || s.level === filters.level)
+  )
+  return filters.query.trim()
+    ? searchSheets(matching, filters.query, matching.length)
+    : matching
+}
+
 function subsequence(text: string, needle: string) {
   let i = 0
   for (const ch of text) if (ch === needle[i]) i++
