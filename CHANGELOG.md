@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.10.3] - 2026-11-02
+
+### Changed
+
+- The theme follows the device automatically, including live changes. Auto, Light and Dark are chosen in one place: the last column of the footer.
+
 ## [1.10.2] - 2026-11-02
 
 ### Changed
@@ -45,7 +51,7 @@ Tagged but never deployed: a type error in the asset script failed the build.
 
 ### Added
 
-- Light mode. It follows the system setting until you choose, with a switch in the hero, footer and phone menu, and no flash on load. Simulations, code and formulas stay on dark panels in both themes.
+- Light mode. It follows the system setting until you choose, with no flash on load. Simulations, code and formulas stay on dark panels in both themes.
 - Search filters show live counts for the current search, and choices with no results are disabled. A single topic opens its subtopics.
 - Sort results by best match, easiest first, A to Z or recently updated. Matching words are underlined in titles, and the down arrow moves into the results.
 - When filters hide every result, the page says how many and offers to search everything.

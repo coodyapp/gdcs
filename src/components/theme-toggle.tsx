@@ -1,23 +1,38 @@
-import { Moon, Sun } from "lucide-react"
+import { Monitor, Moon, Sun } from "lucide-react"
 
-import { useTheme } from "@/hooks/use-theme"
-import { Button } from "@/components/ui/button"
+import { useTheme, type ThemeMode } from "@/hooks/use-theme"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
-/** Switches between light and dark; both icons render so hydration always matches. */
-export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme()
-  const next = theme === "dark" ? "light" : "dark"
+const MODES: { value: ThemeMode; label: string; Icon: typeof Sun }[] = [
+  { value: "system", label: "Auto", Icon: Monitor },
+  { value: "light", label: "Light", Icon: Sun },
+  { value: "dark", label: "Dark", Icon: Moon },
+]
+
+/** Auto follows the device. Clicking the active option keeps it selected. */
+export function ThemeSelector({ className }: { className?: string }) {
+  const { mode, setMode } = useTheme()
   return (
-    <Button
-      variant="outline"
-      size="icon-lg"
+    <ToggleGroup
+      aria-label="Theme"
+      spacing={1}
       className={className}
-      aria-label={`Switch to ${next} mode`}
-      title={`Switch to ${next} mode`}
-      onClick={() => setTheme(next)}
+      value={[mode]}
+      onValueChange={(next) => {
+        if (next[0]) setMode(next[0] as ThemeMode)
+      }}
     >
-      <Sun className="hidden dark:block" aria-hidden />
-      <Moon className="dark:hidden" aria-hidden />
-    </Button>
+      {MODES.map(({ value, label, Icon }) => (
+        <ToggleGroupItem
+          key={value}
+          value={value}
+          aria-label={`${label} theme`}
+          title={value === "system" ? "Auto: follow this device" : label}
+          className="size-8 rounded-lg border-0 p-0 text-muted-foreground aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
+        >
+          <Icon className="size-4" aria-hidden />
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   )
 }

@@ -27,7 +27,6 @@ import { SheetGrid } from "@/components/sheet-card"
 import { SheetSearch } from "@/components/sheet-search"
 import { SEARCH_SUGGESTIONS } from "@/components/sheet-search-data"
 import { SubscribeForm } from "@/components/subscribe-form"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { PathCard } from "@/pages/paths"
 import { siteConfig } from "@/config/site"
 import {
@@ -101,7 +100,6 @@ export function HomePage() {
           <div className="absolute inset-0 bg-background/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-background lg:from-15% lg:via-background/70 lg:via-50% lg:to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </div>
-        <ThemeToggle className="absolute top-0 right-0" />
         <h1 className="max-w-4xl font-heading text-display text-balance">
           {titleStart}{" "}
           <span className="whitespace-nowrap">
