@@ -36,7 +36,7 @@ export default function PhoneMenuSheet({
         <ScrollArea className="min-h-0 flex-1">
           <nav aria-label="Site" className="p-2">
             <Link to="/" className={row} onClick={close}>
-              All sheets
+              Home
             </Link>
             <Link to="/paths" className={row} onClick={close}>
               Learning paths

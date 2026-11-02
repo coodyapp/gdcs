@@ -54,7 +54,7 @@ export function SiteFooter() {
           <Column title="Learn">
             <li>
               <Link to="/" className={quiet}>
-                All sheets
+                Home
               </Link>
             </li>
             <li>
@@ -111,7 +111,10 @@ export function SiteFooter() {
           </a>
         </p>
         <div className="flex flex-wrap items-center gap-4">
-          <PoweredByCoody source="gdcs" />
+          <PoweredByCoody
+            source="gdcs"
+            className="[--coody-pb-muted:currentColor]"
+          />
           <BackToTop />
         </div>
       </div>

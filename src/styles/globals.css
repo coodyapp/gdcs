@@ -349,9 +349,9 @@
     }
   }
 
-  /* Skip layout/paint for off-screen sections (home has 70 cards). */
+  /* Skip layout/paint for off-screen home sections. */
   .cv-auto {
     content-visibility: auto;
-    contain-intrinsic-size: auto 1200px;
+    contain-intrinsic-size: auto 560px;
   }
 }

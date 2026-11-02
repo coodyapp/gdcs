@@ -9,7 +9,6 @@ import {
   sheetPath,
   sheets,
   sheetsIn,
-  subcategoryPath,
   type SheetMeta,
 } from "@/content"
 import { paths } from "@/content/paths"
@@ -52,6 +51,13 @@ const WALL = [
   "em-wave-propagation",
   "pbr-materials",
 ]
+
+/** Home shows a taste of each category: fundamentals first, the rest one click away. */
+const PREVIEW = 3
+const preview = (category: string) =>
+  [...sheetsIn(category)]
+    .sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level))
+    .slice(0, PREVIEW)
 
 /** Most used tags first, so the collapsed row always shows the useful ones. */
 function tagCloud(limit = 40) {
@@ -384,30 +390,16 @@ export function HomePage() {
               key={c.slug}
               id={`cat-${c.slug}`}
               aria-labelledby={`cat-title-${c.slug}`}
-              className="cv-auto scroll-mt-20 space-y-7"
+              className="cv-auto scroll-mt-20 space-y-5"
             >
               <SectionHeader
                 id={`cat-title-${c.slug}`}
                 title={c.title}
                 description={c.description}
                 to={categoryPath(c.slug)}
-                linkLabel={`All ${sheetsIn(c.slug).length}`}
+                linkLabel={`All ${sheetsIn(c.slug).length} sheets`}
               />
-              {c.subcategories
-                .filter((s) => sheetsIn(c.slug, s.slug).length)
-                .map((s) => (
-                  <div key={s.slug} className="space-y-3">
-                    <h3 className="text-sm font-medium">
-                      <Link
-                        to={subcategoryPath(c.slug, s.slug)}
-                        className="text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        {s.title}
-                      </Link>
-                    </h3>
-                    <SheetGrid list={sheetsIn(c.slug, s.slug)} />
-                  </div>
-                ))}
+              <SheetGrid list={preview(c.slug)} />
             </section>
           ))}
         </div>
