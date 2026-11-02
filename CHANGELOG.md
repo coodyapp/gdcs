@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.0.1] - 2026-11-02
+
+### Fixed
+
+- Pageviews were double-counted: Cloudflare already injects the Web Analytics beacon at the edge, so the site no longer loads its own copy.
+
 ## [1.0.0] - 2026-11-02
 
 ### Added
@@ -55,4 +61,5 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 - Initial launch: 55 visual cheat sheets (game dev + physics), prerendered pages, Markdown twins, llms.txt, JSON-LD, sitemap, feed and email updates.
 
+[1.0.1]: https://github.com/coodyapp/gdcs/releases/tag/v1.0.1
 [1.0.0]: https://github.com/coodyapp/gdcs/releases/tag/v1.0.0
