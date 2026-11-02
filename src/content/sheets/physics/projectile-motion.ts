@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Launch angle, speed and gravity fully determine a ballistic arc: x moves at constant speed while y accelerates downward.",
   level: "core",
   tags: ["kinematics", "gravity", "ballistics", "trajectory"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a projectile trajectory preview in TypeScript with Three.js. Given launch speed v0 (m/s), angle θ (radians) and gravity g, compute x(t)=v0·cosθ·t and y(t)=v0·sinθ·t−½gt², sample 64 points until it returns to launch height (T=2v0·sinθ/g), and draw them with THREE.Line. Also return range R=v0²·sin2θ/g and peak height H=(v0·sinθ)²/(2g). Keep angles in radians, make the sampler a pure function, and add a unit test checking that 30° and 60° give the same range.",
   related: ["fixed-timestep", "projectile-data-lab", "keplers-laws"],
@@ -25,10 +25,13 @@ const sheet: Sheet = {
     "In games this is how grenades, arrows, jump arcs and aim-assist trajectory previews are computed. It is also the reference you check a [fixed timestep](/systems/simulation/fixed-timestep) integrator against.",
   ],
   formulas: [
-    { label: "Horizontal position", math: tex`x(t) = v_0 \cos\theta \, t` },
+    {
+      label: "Horizontal position",
+      math: tex`\textcolor{#fafafa}{x(t)} = \textcolor{#f5d547}{v_0} \cos\theta \, t`,
+    },
     {
       label: "Vertical position",
-      math: tex`y(t) = v_0 \sin\theta \, t - \tfrac{1}{2} g t^2`,
+      math: tex`\textcolor{#fafafa}{y(t)} = \textcolor{#f5d547}{v_0} \sin\theta \, t - \tfrac{1}{2} g t^2`,
     },
     {
       label: "Flight time (flat ground)",
@@ -78,7 +81,7 @@ export function trajectory(v0: number, angle: number, g = 9.81, samples = 64) {
     },
   ],
   visual:
-    "The orange ball follows the cyan arc and the yellow line is its instantaneous velocity. Change the angle, launch speed and gravity to reshape the arc; the readout shows flight time and range.",
+    "The yellow ball follows the solid white arc (its path x(t), y(t)) and the dashed yellow line is its instantaneous velocity v. Change the angle, launch speed and gravity to reshape the arc; the readout shows flight time and range.",
 }
 
 export default sheet

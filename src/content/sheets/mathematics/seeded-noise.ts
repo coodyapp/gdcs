@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A seeded PRNG plus gradient noise and fBm turns one integer into an endless, smooth, repeatable world: same seed, same terrain on every machine.",
   level: "common",
   tags: ["procedural", "noise", "perlin", "fbm", "prng", "seed"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write `src/lib/noise.ts` in TypeScript: `mulberry32(seed)` returning floats in [0, 1); `hashSeed(text)` using FNV-1a; `createNoise2D(seed)` implementing 2D gradient noise with a 256-entry permutation table shuffled by mulberry32 (Fisher–Yates), 16 unit gradients and a quintic fade, scaled to roughly [-1, 1]; and `fbm2D(noise, x, y, { octaves, lacunarity, gain })` normalized by the sum of amplitudes. Then build a Three.js heightfield (PlaneGeometry 128×128) from fBm sampled in world coordinates, coloured by height. Vitest: the same seed yields identical sequences and noise values, different seeds differ, noise and fBm stay within [-1, 1], and noise is 0 at integer lattice points.",
   related: ["chunk-streaming", "easing", "normals"],
@@ -95,7 +95,7 @@ terrain.geometry.computeVertexNormals()`,
     },
   ],
   visual:
-    "A heightfield built from fBm gradient noise: cyan is water, green lowland, grey rock and white peaks. Move the seed and the land changes; move it back and the exact same terrain returns. Octaves add finer detail on top of the same large shapes, and the readout shows the first PRNG values for the current seed.",
+    "A heightfield built from fBm gradient noise F(p): colour follows height, so it never carries meaning on its own. White is the flat water clamped at sea level, green the low slopes, grey the rock and white the highest peaks. Move the seed and the land changes; move it back and the exact same terrain returns. Octaves add finer detail on top of the same large shapes, and the readout shows the first PRNG values for the current seed.",
 }
 
 export default sheet

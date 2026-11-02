@@ -38,8 +38,9 @@ function Scene({ v }: { v: V }) {
   const state = useRef({ frame: 0, acc: 0, bucket: 0 })
   const b = useMemo(() => new THREE.Vector3(), [])
   const m = useMemo(() => new THREE.Matrix4(), [])
-  const thinking = useMemo(() => new THREE.Color(palette.secondary), [])
-  const idle = useMemo(() => new THREE.Color(palette.primary), [])
+  // Thinking bucket = active (orange, drawn larger); others = cyan agents.
+  const thinking = useMemo(() => new THREE.Color(palette.moving), [])
+  const idle = useMemo(() => new THREE.Color(palette.subject), [])
   const lines = useMemo(() => {
     const g = new THREE.BufferGeometry()
     g.setAttribute(
@@ -49,9 +50,9 @@ function Scene({ v }: { v: V }) {
     return new THREE.LineSegments(
       g,
       new THREE.LineBasicMaterial({
-        color: palette.foreground,
+        color: palette.velocity,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.7,
       })
     )
   }, [])
@@ -124,8 +125,8 @@ function Scene({ v }: { v: V }) {
       <mesh ref={beacon}>
         <octahedronGeometry args={[0.28]} />
         <meshStandardMaterial
-          color={palette.warning}
-          emissive={palette.warning}
+          color={palette.success}
+          emissive={palette.success}
           emissiveIntensity={0.5}
         />
       </mesh>

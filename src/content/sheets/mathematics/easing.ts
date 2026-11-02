@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "An easing function remaps progress t from 0..1 so motion accelerates, decelerates, overshoots or bounces instead of moving at a robotic constant speed.",
   level: "core",
   tags: ["easing", "tween", "interpolation", "animation", "lerp"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Create `src/lib/easing.ts` in TypeScript with pure functions `(t: number) => number` for linear, in/out/inOut quad and cubic, inOutSine, outExpo, outBack (s = 1.70158), outElastic, outBounce and smoothstep, plus `reverse(f)` returning 1 - f(1 - t) and `ease(f, a, b, t)` that clamps t to [0, 1]. Then write a `Tween` class for Three.js that interpolates a Vector3 over a duration with a chosen easing, supports interruption by restarting from the current value, and never allocates in update(dt). Write Vitest tests: every easing has f(0) = 0 and f(1) = 1; in-out curves pass through 0.5 at t = 0.5; quad curves are monotonic; outBack exceeds 1 somewhere.",
   related: ["quaternions", "squash-and-stretch", "acceleration-and-friction"],
@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Eased lerp",
-      math: tex`x(t) = a + (b - a)\,f\!\left(\tfrac{t_{now} - t_0}{T}\right)`,
+      math: tex`\textcolor{#f5d547}{x(t)} = a + (b - a)\,\textcolor{#fafafa}{f}\!\left(\tfrac{t_{now} - t_0}{T}\right)`,
     },
     {
       label: "Common curves",
@@ -92,7 +92,7 @@ const step = tween(card.position.clone(), new THREE.Vector3(0, 2, 0), 0.25, outB
     },
   ],
   visual:
-    "The cyan curve is the chosen easing plotted as progress (left to right) against value (up), with linear as the grey diagonal. The orange dot rides the curve, and the orange ball on the track below moves by that value while the grey ball moves linearly. Switch curves to compare how they start, stop and overshoot.",
+    "The thick white curve is the chosen easing f plotted as progress (left to right) against value (up), with linear as the thin grey diagonal and the dashed grey line marking value 1. The small yellow dot rides the curve, and the big yellow ball on the front track moves by that value x(t) toward the green end post, while the smaller grey ball on the back track moves linearly. Switch curves to compare how they start, stop and overshoot.",
 }
 
 export default sheet

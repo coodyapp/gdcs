@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A normal is a unit vector perpendicular to a surface. Lighting, slope checks, bounces and decals all start from it, so it must be right.",
   level: "core",
   tags: ["normal", "lighting", "slope", "cross product", "shading"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "In TypeScript with Three.js, write a `surfaceInfo(hit: THREE.Intersection, maxSlopeDeg = 45)` helper that returns the world-space unit normal (use the normal matrix of hit.object.matrixWorld, not matrixWorld itself), the slope angle in degrees, and `walkable = dot(n, up) >= cos(maxSlopeDeg)`. Handle hits with no face by returning null. Also write `faceNormal(a, b, c, out)` using the CCW cross product without allocating. Add a Vitest test: a triangle in the XZ plane wound CCW from above gives (0, 1, 0); a mesh scaled (1, 4, 1) still returns a unit normal perpendicular to the transformed surface; a 30° ramp is walkable and a 60° ramp is not.",
   related: ["raycasting", "fragment-shader", "z-fighting"],
@@ -28,12 +28,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Face normal",
-      math: tex`\hat{n} = \frac{(b - a)\times(c - a)}{\lVert (b - a)\times(c - a)\rVert}`,
+      math: tex`\textcolor{#3ee09a}{\hat{n}} = \frac{(b - a)\times(c - a)}{\lVert (b - a)\times(c - a)\rVert}`,
       note: "Swapping b and c flips the normal. That is what back-face culling reads.",
     },
     {
       label: "Slope angle",
-      math: tex`\theta = \arccos(\hat{n}\cdot\hat{u}), \quad \text{walkable if } \hat{n}\cdot\hat{u} \ge \cos\theta_{max}`,
+      math: tex`\theta = \arccos(\textcolor{#3ee09a}{\hat{n}}\cdot\hat{u}), \quad \text{walkable if } \textcolor{#3ee09a}{\hat{n}}\cdot\hat{u} \ge \cos\theta_{max}`,
     },
     {
       label: "Normal matrix",
@@ -105,7 +105,7 @@ void main() {
     },
   ],
   visual:
-    "A rolling heightfield with normal arrows sampled across it. Triangles are tinted green where dot(n, up) passes the walkable limit and red where they are too steep; yellow arrows are the per-face normals and cyan arrows the smoothed vertex normals. Lower the max slope to see more ground turn red.",
+    "A rolling heightfield with normal arrows sampled across it. Triangles stay grey where dot(n, up) passes the walkable limit and turn red where they are too steep; solid green arrows are the per-face normals and dashed grey arrows the smoothed vertex normals. Lower the max slope to see more ground turn red.",
 }
 
 export default sheet

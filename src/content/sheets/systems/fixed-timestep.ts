@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Run physics in constant dt slices from an accumulator, clamp long frames, and interpolate between the last two states for smooth, repeatable motion.",
   level: "core",
   tags: ["timestep", "accumulator", "interpolation", "determinism", "physics"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a fixed-timestep game loop in TypeScript for a Three.js app. A `FixedStepper` class takes a step (default 1/60) and a max frame time (0.25 s); `advance(frameTime, step)` accumulates the clamped time, calls step(dt) as many times as fits and returns the count; an `alpha` getter returns accumulator/dt. Each physics body stores prev and curr position + quaternion; before stepping copy curr→prev; render with lerpVectors/slerpQuaternions using alpha; provide `teleport()` that sets both. Write Vitest tests with power-of-two steps: 30 fps rendering at 60 Hz physics gives 2 steps per frame, step totals over 1 s don't depend on frame pattern, a 5 s frame is clamped, and alpha equals the leftover fraction.",
   related: ["tunneling", "particle-system", "steering-behaviors"],
@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Render interpolation",
-      math: tex`\alpha = \frac{A}{h}, \qquad x_{\text{draw}} = x_{\text{prev}} + \alpha\,(x_{\text{curr}} - x_{\text{prev}})`,
+      math: tex`\alpha = \frac{A}{h}, \qquad \textcolor{#fafafa}{x_{\text{draw}}} = x_{\text{prev}} + \alpha\,(x_{\text{curr}} - x_{\text{prev}})`,
       note: "For rotations, slerp quaternions with the same α.",
     },
   ],
@@ -85,7 +85,7 @@ function frame(nowMs: number) {
     },
   ],
   visual:
-    "Two balls bounce from the same height. The orange one integrates with jittery frame times, so its bounces drift off the dashed line. The cyan one runs fixed physics steps and keeps hitting the line. The faint ball behind the cyan one is the raw physics state: turn interpolation off to see the cyan ball snap between ticks, and lower physics Hz to exaggerate it.",
+    "Two balls bounce from the same height. The yellow faceted ball integrates with jittery frame times, so its bounces drift off the gray dashed line. The smooth white sphere runs fixed physics steps and keeps hitting the line. The small faint gray ball beside it is the raw physics state: turn interpolation off to see the white ball snap between ticks, and lower physics Hz to exaggerate it.",
 }
 
 export default sheet

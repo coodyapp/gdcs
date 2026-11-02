@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Z-fighting is the shimmering stripes you get when two surfaces are closer than the depth buffer can resolve. Fix the geometry, the near plane or the bias.",
   level: "core",
   tags: ["depth buffer", "precision", "polygon offset", "near plane", "decals"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "In a TypeScript Three.js project, add a `DecalLayer` helper that creates a decal mesh over a surface without z-fighting. Use a material with polygonOffset (factor -1, units -4), depthWrite false and transparent true, and also lift the mesh along the surface normal by an amount that grows with camera distance (e.g. 0.0005 × distance, clamped to 0.02) updated each frame without allocations. Expose a `depthStep(z, near, bits = 24)` utility returning z² / (near × 2^bits) and log a warning on startup if the camera's near is below 0.05. Write a Vitest test for depthStep (doubling near halves it; doubling z quadruples it).",
   related: ["normals", "frustum-culling", "fragment-shader"],
@@ -86,7 +86,7 @@ const renderer = new THREE.WebGLRenderer({ logarithmicDepthBuffer: true })`,
     },
   ],
   visual:
-    "A cyan floor and an orange panel share the same plane as they turn. With no fix the depth test flips between them, producing stripes. Choose polygon offset or a small lift to settle it, or open a tiny gap and slide the near plane: a very small near brings the fighting back even with a gap.",
+    "A large white floor and a smaller yellow square panel, turned 30°, share the same plane as they turn; on the right a grey box and a grey copy rotated 90° occupy the same space. With no fix the depth test flips between each pair, producing stripes and speckles. Choose polygon offset or a small lift to settle it, or open a tiny gap and slide the near plane: a very small near brings the fighting back even with a gap.",
 }
 
 export default sheet

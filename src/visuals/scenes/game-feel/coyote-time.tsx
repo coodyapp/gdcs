@@ -97,19 +97,21 @@ function Scene({ v }: { v: V }) {
     if (bodyMat.current) {
       color.set(
         s.outcome === "jumped"
-          ? palette.positive
+          ? palette.success
           : s.outcome === "failed"
-            ? palette.negative
-            : palette.primary
+            ? palette.error
+            : palette.subject
       )
       bodyMat.current.color.copy(color)
       bodyMat.current.emissive.copy(color)
+      // A failed run also turns to an outline, so success/failure isn't hue-only.
+      bodyMat.current.wireframe = s.outcome === "failed"
     }
     if (zone.current && zoneMat.current) {
       const width = Math.max(0.02, (RUN * v.window) / 1000)
       zone.current.scale.x = width
       zone.current.position.x = width / 2
-      zoneMat.current.color.set(on ? palette.positive : palette.guide)
+      zoneMat.current.color.set(on ? palette.success : palette.guide)
       zoneMat.current.opacity = on ? 0.35 : 0.08
     }
   })
@@ -129,7 +131,7 @@ function Scene({ v }: { v: V }) {
       <mesh position={[PIT_END / 2, PIT_FLOOR - 0.5, 0]}>
         <boxGeometry args={[PIT_END, 1, 1]} />
         <meshStandardMaterial
-          color={palette.negative}
+          color={palette.error}
           transparent
           opacity={0.35}
         />
@@ -139,7 +141,7 @@ function Scene({ v }: { v: V }) {
         <boxGeometry args={[1, 1.8, 0.02]} />
         <meshBasicMaterial
           ref={zoneMat}
-          color={palette.positive}
+          color={palette.success}
           transparent
           opacity={0.35}
           depthWrite={false}
@@ -147,8 +149,8 @@ function Scene({ v }: { v: V }) {
       </mesh>
       {/* Where the jump button gets pressed. */}
       <mesh position={[pressX, 1, 0.6]}>
-        <boxGeometry args={[0.06, 2, 0.02]} />
-        <meshBasicMaterial color={palette.warning} />
+        <boxGeometry args={[0.08, 2, 0.02]} />
+        <meshBasicMaterial color={palette.moving} />
       </mesh>
       <mesh position={[0, 0.9, 0.56]}>
         <boxGeometry args={[0.03, 1.8, 0.02]} />
@@ -158,7 +160,7 @@ function Scene({ v }: { v: V }) {
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <meshStandardMaterial
           ref={bodyMat}
-          color={palette.primary}
+          color={palette.subject}
           emissiveIntensity={0.35}
         />
       </mesh>

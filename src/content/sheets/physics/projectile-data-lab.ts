@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Repeat a launch with a little speed error and the landings form a distribution. Mean, spread and why R ∝ v² shifts the average: the maths of weapon spread.",
   level: "common",
   tags: ["statistics", "ballistics", "uncertainty", "spread", "sampling"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript helper for a Three.js artillery game that estimates landing spread. Inputs: launch angle (degrees), mean speed, speed error ±p%, trial count N, gravity g, and an optional seeded PRNG (otherwise use stratified quantiles (i+0.5)/N). Return ranges[], mean, standard deviation, min, max and a histogram(bins) over [min, max] with the last bin closed. Draw the trajectories with THREE.Line and the histogram as instanced boxes. Unit tests: zero error gives σ = 0; results are identical across runs; the mean range is greater than v̄²·sin2θ/g for any p > 0.",
   related: [
@@ -32,11 +32,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Range per trial",
-      math: tex`R_i = \dfrac{v_i^2 \sin 2\theta}{g}`,
+      math: tex`\textcolor{#f5d547}{R_i} = \dfrac{v_i^2 \sin 2\theta}{g}`,
     },
     {
       label: "Sample mean",
-      math: tex`\bar R = \dfrac{1}{N}\sum_{i=1}^{N} R_i`,
+      math: tex`\textcolor{#f5d547}{\bar R} = \dfrac{1}{N}\sum_{i=1}^{N} \textcolor{#f5d547}{R_i}`,
     },
     {
       label: "Standard deviation",
@@ -94,7 +94,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "The cyan arc is the mean-speed launch and the grey arcs are the slowest and fastest; orange dots mark every landing and the purple bars are their histogram. The yellow line is the mean landing distance and the green dashed line the ideal range at mean speed: the yellow sits slightly beyond the green. Raise the speed error to widen the cluster.",
+    "The thick white arc is the mean-speed launch and the thin grey arcs are the slowest and fastest; small yellow dots mark every landing Rᵢ and the grey bars are their histogram. The thick solid yellow line is the mean landing distance R̄ and the dashed green line the ideal range at mean speed: the yellow line sits slightly beyond the green one. Raise the speed error to widen the cluster.",
 }
 
 export default sheet

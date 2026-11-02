@@ -10,7 +10,7 @@ export const meta: SheetMeta = {
     "Attacks own hitboxes that exist only during active frames; characters own hurtboxes. An overlap is a hit, registered once per swing per target.",
   level: "core",
   tags: ["combat", "frame data", "collision", "melee", "overlap"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement melee hit detection for a Three.js action game in TypeScript. Each attack has frame data {startup, active, recovery} counted in fixed 60 Hz ticks and a hitbox (THREE.Box3) attached to a weapon bone offset; each fighter has a hurtbox Box3 updated each tick from its root. During active frames only, test the attacker's hitbox against hurtboxes on the opposing layer; keep a per-swing Set of already-hit fighter ids cleared at frame 0; queue hits and resolve them after all overlaps are gathered. Add a debug renderer (Box3Helper: hurtbox green, inactive hitbox gray, active red). Write Vitest tests: phase boundaries at the exact frames, a hitbox overlapping for 3 active frames yields one hit, a different target can still be hit in the same swing.",
   related: ["tunneling", "fixed-timestep", "finite-state-machine"],
@@ -76,7 +76,7 @@ function tickAttack(atk: AttackState, targets: Fighter[]) {
     },
   ],
   visual:
-    "The cyan attacker swings on a loop. Its hitbox is a gray outline during wind-up and recovery and turns solid red only on active frames. The target's green hurtbox flashes orange on a hit, and the orange dots count hits from the current swing. The bar underneath is the frame data (gray startup, red active, purple recovery, white playhead). Turn off one hit per swing and a single swing lands several hits.",
+    "The white attacker swings on a loop. Its hitbox is a gray outline during wind-up and recovery and becomes a solid red box only on active frames. The target's green outline hurtbox turns red and fills in on a hit, and the red diamonds count hits from the current swing. The bar underneath is the frame data: short gray startup, tall red active, medium grey recovery, white playhead. Turn off one hit per swing and a single swing lands several hits.",
 }
 
 export default sheet

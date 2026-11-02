@@ -35,22 +35,25 @@ function Scene({ v }: { v: V }) {
         <boxGeometry args={[10.5, 0.08, 2.4]} />
         <meshStandardMaterial color={palette.surface} />
       </mesh>
-      <Line points={path} color={palette.primary} lineWidth={3} />
+      <Line points={path} color={palette.subject} lineWidth={3} />
       <mesh position={[px, py, 0]}>
         <sphereGeometry args={[0.18, 24, 24]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.4}
         />
       </mesh>
       <Line
         points={[
           [px, py, 0],
-          [px + vx * 0.12, py + (vy - v.gravity * t) * 0.12, 0],
+          [px + vx * 0.2, py + (vy - v.gravity * t) * 0.2, 0],
         ]}
-        color={palette.warning}
-        lineWidth={2}
+        color={palette.velocity}
+        lineWidth={2.5}
+        dashed
+        dashSize={0.1}
+        gapSize={0.07}
       />
     </group>
   )

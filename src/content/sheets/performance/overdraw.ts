@@ -17,9 +17,9 @@ export const meta: SheetMeta = {
     "fragment shader",
     "blending",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
-    "Add an overdraw debug mode to my TypeScript + Three.js game. On a key toggle, render the scene into a WebGLRenderTarget with scene.overrideMaterial set to an additive ShaderMaterial that writes 1/32 per fragment (depthTest off), then draw a full-screen quad that maps layer count to a heat ramp (0 black, 1 blue, 2 green, 3–4 yellow, 5–7 orange, 8+ red). Read the target back with readRenderTargetPixels at a 64×64 downsample to report average and max overdraw in the HUD. Restore the original materials when toggled off. Write a test that renders two full-screen quads and checks the average is 2.",
+    "Add an overdraw debug mode to my TypeScript + Three.js game. On a key toggle, render the scene into a WebGLRenderTarget with scene.overrideMaterial set to an additive ShaderMaterial that writes 1/32 per fragment (depthTest off), then draw a full-screen quad that maps layer count to a heat ramp (0 black, 1 grey, 2 green, 3–4 yellow, 5–7 hatched yellow, 8+ red). Read the target back with readRenderTargetPixels at a 64×64 downsample to report average and max overdraw in the HUD. Restore the original materials when toggled off. Write a test that renders two full-screen quads and checks the average is 2.",
   related: ["draw-calls", "texture-atlas", "frame-budget"],
 }
 
@@ -93,7 +93,7 @@ scene.overrideMaterial = showOverdraw ? overdrawMaterial : null
     },
   ],
   visual:
-    "A heat map of a smoke column: each pixel's colour is how many particle quads were shaded there (blue 1, green 2, yellow 3–4, orange 5–7, red 8+). Add particles or make them bigger to watch it turn red, and trim the corners to see the cost drop.",
+    "A heat map of a smoke column: each pixel's colour is how many particle quads were shaded there (white 1, green 2, yellow 3–4, yellow with diagonal hatching 5–7, red with cross-hatching 8+). Add particles or make them bigger to watch it turn red, and trim the corners to see the cost drop.",
 }
 
 export default sheet

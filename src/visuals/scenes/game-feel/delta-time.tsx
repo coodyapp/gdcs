@@ -111,16 +111,16 @@ function Scene({ v }: { v: V }) {
       <mesh ref={dtRunner} position={[START, 0.3, LANES.dt]}>
         <boxGeometry args={[0.5, 0.6, 0.5]} />
         <meshStandardMaterial
-          color={palette.primary}
-          emissive={palette.primary}
+          color={palette.subject}
+          emissive={palette.subject}
           emissiveIntensity={0.3}
         />
       </mesh>
       <mesh ref={frameRunner} position={[START, 0.3, LANES.frame]}>
         <boxGeometry args={[0.5, 0.6, 0.5]} />
         <meshStandardMaterial
-          color={palette.negative}
-          emissive={palette.negative}
+          color={palette.error}
+          emissive={palette.error}
           emissiveIntensity={0.3}
         />
       </mesh>
@@ -130,7 +130,7 @@ function Scene({ v }: { v: V }) {
         count={0}
       >
         <boxGeometry args={[0.05, 0.03, 0.5]} />
-        <meshBasicMaterial color={palette.primary} />
+        <meshBasicMaterial color={palette.subject} />
       </instancedMesh>
       <instancedMesh
         ref={frameDots}
@@ -138,7 +138,7 @@ function Scene({ v }: { v: V }) {
         count={0}
       >
         <boxGeometry args={[0.05, 0.03, 0.5]} />
-        <meshBasicMaterial color={palette.negative} />
+        <meshBasicMaterial color={palette.error} />
       </instancedMesh>
     </group>
   )

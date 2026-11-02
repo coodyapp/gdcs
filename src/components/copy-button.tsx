@@ -30,7 +30,7 @@ export function CopyButton({
       type="button"
       className={cn(
         "chip",
-        copied && "!border-[var(--color-sim-green)]/50",
+        copied && "!border-[var(--color-ui-strong)]/50",
         className
       )}
       onClick={async (e) => {
@@ -42,7 +42,7 @@ export function CopyButton({
       }}
     >
       {copied ? (
-        <Check className="size-3.5 text-[var(--color-sim-green)]" aria-hidden />
+        <Check className="size-3.5 text-[var(--color-ui-strong)]" aria-hidden />
       ) : (
         <Copy className="size-3.5" aria-hidden />
       )}

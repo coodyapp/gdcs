@@ -10,7 +10,7 @@ export const meta: SheetMeta = {
     "An FSM keeps an AI or character in exactly one state, such as Idle, Patrol, Chase or Attack. A table of events decides every legal transition.",
   level: "core",
   tags: ["fsm", "state machine", "ai", "behavior", "transitions"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a table-driven finite state machine in TypeScript for enemy AI in a Three.js game. Generic `StateMachine<S, E>` takes a transition table Record<S, Partial<Record<E, S>>>, an initial state and optional enter/exit/transition hooks; `send(e)` returns whether it transitioned and resets time-in-state; illegal events are ignored. Build a guard with Idle, Patrol, Chase and Attack states: sensors run at 10 Hz and emit events, with see radius 6 and lose radius 8 (hysteresis), attack range 1.2, and a 0.6 s attack commitment. Log transitions in dev. Write Vitest tests: legal transitions follow the table, illegal events leave the state unchanged, hooks run in order exit → transition → enter, and time in state resets.",
   related: ["steering-behaviors", "a-star-pathfinding", "hitbox-hurtbox"],
@@ -81,7 +81,7 @@ if state == attack and timeInState > 0.6:  send(done)`,
     },
   ],
   visual:
-    "The guard on the left changes color with its state: gray Idle, green Patrol, yellow Chase, red Attack. The diagram on the right shows the same four states as nodes. The lit node is the current state and the bright edge is the transition just taken. The orange player wanders in, holds still to get attacked, then dashes away so the guard loses track and goes idle.",
+    "The white guard on the left wears a badge for its current state, coloured and shaped like the matching node in the diagram on the right: gray circle Idle, green square Patrol, yellow triangle Chase, red star Attack. The enlarged node with a white ring is the current state and the bright edge is the transition just taken. The yellow player ball wanders in, holds still to get attacked, then dashes away so the guard loses track and goes idle.",
 }
 
 export default sheet

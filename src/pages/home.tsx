@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils"
 import { SearchTrigger } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
 import { siteConfig } from "@/config/site"
+import { paths } from "@/content/paths"
+import { PathCard } from "@/pages/paths"
 
 type Level = SheetMeta["level"] | "all"
 const LEVELS: { value: Level; label: string }[] = [
@@ -141,6 +143,25 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
+      <section aria-labelledby="paths-title" className="mb-20">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow mb-2">Not sure where to start?</p>
+            <h2 id="paths-title" className="font-heading text-title">
+              Learning paths
+            </h2>
+          </div>
+          <Link to="/paths" className="link-quiet text-sm">
+            All {paths.length} paths →
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {paths.slice(0, 3).map((p) => (
+            <PathCard key={p.slug} path={p} />
+          ))}
+        </div>
+      </section>
 
       <div className="space-y-20">
         {live.map((c) => (

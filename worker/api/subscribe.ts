@@ -3,6 +3,7 @@ import type { ExecutionContext } from "@cloudflare/workers-types"
 import { json, limitWrites, readJson, safely, token, type Env } from "../http"
 import { sendConfirmation } from "../mailer"
 import { cleanSource, isBot, parseEmail } from "../subscribers"
+import { requireHuman } from "../turnstile"
 
 const COOLDOWN_MS = 15 * 60 * 1000
 /** At most MAX_SENDS confirmation emails per address per rolling day. */
@@ -20,6 +21,7 @@ export const subscribe = (request: Request, env: Env, ctx: ExecutionContext) =>
     const body = await readJson(request)
     if (isBot(body)) return json({ ok: true }, 202)
     const email = parseEmail(body.email)
+    await requireHuman(body.turnstile, request, env)
     await limitWrites(request, env)
 
     const now = new Date()

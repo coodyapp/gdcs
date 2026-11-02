@@ -80,8 +80,8 @@ function HitRow({ y, stop, v }: { y: number; stop: boolean; v: V }) {
     if (target.current) target.current.rotation.z = -knock * 0.25
     const sinceHit = r.game - IMPACT
     const flash = frozen || (r.triggered && sinceHit < 0.08)
-    targetMat.current?.color.set(flash ? palette.secondary : palette.object)
-    targetMat.current?.emissive.set(flash ? palette.secondary : "#000000")
+    targetMat.current?.color.set(flash ? palette.error : palette.object)
+    targetMat.current?.emissive.set(flash ? palette.error : "#000000")
     if (bar.current) {
       const w = Math.max(0.001, (r.game / CYCLE) * BAR_W)
       bar.current.scale.x = w
@@ -106,17 +106,17 @@ function HitRow({ y, stop, v }: { y: number; stop: boolean; v: V }) {
       {/* Game-time progress: the frozen row falls behind. */}
       <mesh ref={bar} position={[BAR_X, y - 0.62, 0]}>
         <boxGeometry args={[1, 0.1, 0.1]} />
-        <meshBasicMaterial color={stop ? palette.positive : palette.guide} />
+        <meshBasicMaterial color={stop ? palette.success : palette.guide} />
       </mesh>
       <mesh position={[-4.6, y, 0]}>
         <boxGeometry args={[0.12, 0.8, 0.12]} />
-        <meshBasicMaterial color={stop ? palette.positive : palette.guide} />
+        <meshBasicMaterial color={stop ? palette.success : palette.guide} />
       </mesh>
       <mesh ref={attacker} position={[REST_X, y, 0]}>
         <boxGeometry args={[0.5, 0.7, 0.5]} />
         <meshStandardMaterial
-          color={palette.primary}
-          emissive={palette.primary}
+          color={palette.subject}
+          emissive={palette.subject}
           emissiveIntensity={0.25}
         />
       </mesh>
@@ -130,7 +130,7 @@ function HitRow({ y, stop, v }: { y: number; stop: boolean; v: V }) {
       </mesh>
       <mesh ref={spark} visible={false}>
         <octahedronGeometry args={[0.6, 0]} />
-        <meshBasicMaterial color={palette.warning} transparent opacity={0.85} />
+        <meshBasicMaterial color={palette.energy} transparent opacity={0.85} />
       </mesh>
     </group>
   )

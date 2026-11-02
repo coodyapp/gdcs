@@ -11,9 +11,9 @@ export const meta: SheetMeta = {
     "An emitter spawns particles at a rate, each lives for a set time under simple forces, and all of them render in a single instanced draw call.",
   level: "core",
   tags: ["particles", "emitter", "instancing", "vfx", "pooling"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
-    "Build a CPU particle system for Three.js in TypeScript. Use a fixed-capacity struct-of-arrays buffer (Float32Array for position, velocity, age, life) with swap-remove of dead particles. Emitter: rate per second with a fractional carry, spawn in a cone (half-angle param) with speed and life randomized ±20 %. Update with gravity and linear drag, dt clamped to 1/20 s. Render with one InstancedMesh: mesh.count = live count, size shrinks and color lerps from yellow to orange with normalized age. No allocation in the frame loop. Write Vitest tests: population settles near rate × lifetime, capacity is never exceeded, and removing dead particles keeps survivors' data intact.",
+    "Build a CPU particle system for Three.js in TypeScript. Use a fixed-capacity struct-of-arrays buffer (Float32Array for position, velocity, age, life) with swap-remove of dead particles. Emitter: rate per second with a fractional carry, spawn in a cone (half-angle param) with speed and life randomized ±20 %. Update with gravity and linear drag, dt clamped to 1/20 s. Render with one InstancedMesh: mesh.count = live count, size shrinks and color fades from yellow to grey with normalized age. No allocation in the frame loop. Write Vitest tests: population settles near rate × lifetime, capacity is never exceeded, and removing dead particles keeps survivors' data intact.",
   related: ["object-pooling", "fixed-timestep", "steering-behaviors"],
 }
 
@@ -99,7 +99,7 @@ mesh.instanceColor!.needsUpdate = true`,
     },
   ],
   visual:
-    "One InstancedMesh draws every particle: they are born yellow at the emitter, fade to orange and shrink as they age, and fall under gravity. The ring of cyan dots marks the spawn cone. Change rate and lifetime to see the live count follow rate × lifetime, and set gravity to 0 for a fountain that drifts.",
+    "One InstancedMesh draws every particle: each is born large and yellow at the solid white emitter, turns yellow and shrinks to a small gray speck as it ages, and falls under gravity. The white wireframe cone is the spawn cone. Change rate and lifetime to see the live count follow rate × lifetime, and set gravity to 0 for a fountain that drifts.",
 }
 
 export default sheet

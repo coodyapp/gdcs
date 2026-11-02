@@ -10,6 +10,7 @@ import {
   sheets,
   sheetsIn,
 } from "./index"
+import { pathUrl, paths } from "./paths"
 import type { Sheet } from "./types"
 
 /** Rewrites site-relative links to absolute ones so Markdown works anywhere. */
@@ -124,6 +125,13 @@ export function llmsTxt() {
     }
     out.push("")
   }
+  out.push("## Learning paths", "")
+  for (const p of paths) {
+    out.push(
+      `- [${p.title}](${absoluteUrl(pathUrl(p.slug))}): ${p.summary} Steps: ${p.steps.map((s) => s.slug).join(" → ")}`
+    )
+  }
+  out.push("")
   out.push(
     "## Optional",
     "",

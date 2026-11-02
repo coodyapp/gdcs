@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "quadtree",
     "collision",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a uniform-grid broad phase in TypeScript for circles in a 2D (x/z) Three.js game. Constructor takes world bounds, cell size and capacity and preallocates Int32Arrays for counts, cell starts and sorted items. build(circles) bins by centre with a counting sort, clamps out-of-bounds points to edge cells, and throws if any diameter exceeds the cell size. candidates(visit) reports each unordered pair from the same cell and the 4 forward neighbours exactly once and returns the number of checks. Add queryRadius(x, y, r, out) for AI. Write tests: on random data the grid's overlapping pairs equal brute force exactly, with no duplicates, and use far fewer checks.",
   related: ["chunk-streaming", "time-slicing", "raycasting"],
@@ -43,7 +43,7 @@ const sheet: Sheet = {
     },
     {
       label: "Cell size rule",
-      math: tex`c \ge 2\,r_{\max}`,
+      math: tex`\textcolor{#fafafa}{c} \ge 2\,r_{\max}`,
     },
   ],
   rules: [
@@ -106,7 +106,7 @@ function broadPhase(xs: Float32Array, ys: Float32Array, n: number, cell: number,
     },
   ],
   visual:
-    "Moving circles on a uniform grid seen from above: lit cells are occupied (brighter with 2+ circles), faint white lines join each candidate pair the grid actually tests (same or neighbouring cell), and circles turn from green to red when they really overlap. Compare the readout's brute-force count with the grid's, then change the cell size or circle count.",
+    "Moving circles on a uniform grid seen from above: lit white cells are occupied (brighter with 2+ circles), faint white lines join each candidate pair the grid actually tests (same or neighbouring cell), and circles are green until they really overlap, then turn red with a red halo ring. Compare the readout's brute-force count with the grid's, then change the cell size or circle count.",
 }
 
 export default sheet

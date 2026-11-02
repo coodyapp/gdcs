@@ -34,7 +34,7 @@ function Scene({ v }: { v: V }) {
     )
     return new THREE.Line(
       g,
-      new THREE.LineBasicMaterial({ color: palette.primary })
+      new THREE.LineBasicMaterial({ color: palette.subject })
     )
   }, [])
   const trace = useMemo(() => {
@@ -45,7 +45,7 @@ function Scene({ v }: { v: V }) {
     )
     return new THREE.Line(
       g,
-      new THREE.LineBasicMaterial({ color: palette.secondary })
+      new THREE.LineBasicMaterial({ color: palette.moving })
     )
   }, [])
 
@@ -97,8 +97,8 @@ function Scene({ v }: { v: V }) {
       <mesh ref={mass} position={[REST_X, Y, 0]}>
         <boxGeometry args={[1.2, 1.2, 1.2]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.25}
         />
       </mesh>

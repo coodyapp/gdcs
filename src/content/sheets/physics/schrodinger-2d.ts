@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A Gaussian wave packet in 2D drifts, spreads and splits at a potential bump; brightness shows |ψ|² and colour shows the quantum phase.",
   level: "advanced",
   tags: ["quantum", "schrodinger", "wave-packet", "scattering", "pde"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Build a 2D time-dependent Schrödinger solver in TypeScript using the split-step Fourier method on an N×N periodic grid (N a power of two, ħ = m = 1). Inputs: grid size, domain length, Δt, a potential V(x,y) (Float32Array), and an initial Gaussian packet (x0, y0, σ0, k0). Each step: half-step potential phase e^{−iVΔt/2}, FFT, kinetic phase e^{−ik²Δt/2}, inverse FFT, half-step potential. Use preallocated Float32Array real/imag buffers. Render |ψ|² as heights of a Three.js PlaneGeometry (≤ 64² vertices) and phase as colour. Add an absorbing edge layer. Tests: norm stays 1 ± 1e-6 over 500 steps with V = 0, and a free packet's width follows σ(t) = σ0√(1 + (t/(2σ0²))²) within 2 %.",
   related: ["quantum-tunneling", "particle-in-box", "heat-diffusion"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Time-dependent Schrödinger equation (2D)",
-      math: tex`i\hbar\,\partial_t \psi = -\frac{\hbar^2}{2m}\left(\partial_x^2 + \partial_y^2\right)\psi + V(x,y)\,\psi`,
+      math: tex`i\hbar\,\partial_t \psi = -\frac{\hbar^2}{2m}\left(\partial_x^2 + \partial_y^2\right)\psi + \textcolor{#f5d547}{V(x,y)}\,\psi`,
     },
     {
       label: "Initial Gaussian packet",
@@ -39,7 +39,7 @@ const sheet: Sheet = {
     },
     {
       label: "Normalization and momentum",
-      math: tex`\iint |\psi|^2\,dx\,dy = 1,\qquad p = \hbar k_0,\quad \lambda = \frac{2\pi}{k_0}`,
+      math: tex`\iint \textcolor{#fafafa}{|\psi|^2}\,dx\,dy = 1,\qquad p = \hbar k_0,\quad \lambda = \frac{2\pi}{k_0}`,
     },
   ],
   rules: [
@@ -85,7 +85,7 @@ export function paintPacket(
     },
   ],
   visual:
-    "Surface height and brightness are |ψ|², and the cyan-to-violet stripes are the phase fronts. The red ring is the circular potential. Raise the potential strength to reflect more of the packet, and widen the initial spread to slow its spreading. The split is illustrative, not a PDE solve.",
+    "Surface height and brightness are the density |ψ|² (dark where it is near zero), and the white-to-grey stripes are the phase fronts. The yellow ring around a translucent yellow cylinder is the circular potential V. Raise the potential strength to reflect more of the packet, and widen the initial spread to slow its spreading. The split is illustrative, not a PDE solve.",
 }
 
 export default sheet

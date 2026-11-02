@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A* searches a graph by always expanding the node with the lowest cost so far plus estimated cost to go. With an admissible heuristic, the path is optimal.",
   level: "core",
   tags: ["pathfinding", "graph search", "heuristic", "grid", "navmesh"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement grid A* in TypeScript for a Three.js game. Input: width, height, a Uint8Array of walls, start and goal cell indices, options {diagonal: boolean, heuristic: 'manhattan' | 'octile' | 'zero', weight: number}. Use a binary min-heap with lazy deletion, tie-break toward larger g, diagonal cost √2 with no corner cutting, and typed arrays for g/parent/closed. Return {path: number[] | null, cost, expanded: number[]} so the search can be visualized. Write Vitest tests: on a hand-made map, A* cost equals Dijkstra (heuristic 'zero') cost and A* expands no more nodes; an 8-way path around a pillar costs 4, not 2√2; a goal walled off returns null.",
   related: ["steering-behaviors", "finite-state-machine", "raycasting"],
@@ -84,7 +84,7 @@ return null                            // unreachable`,
     },
   ],
   visual:
-    "The search animates from the green start to the red goal. Yellow tiles are the open set (frontier), blue tiles are closed (already expanded), and the orange line is the final path. Switch the heuristic to Dijkstra to watch it flood the map, or raise the weight to see it rush toward the goal, expand fewer tiles and sometimes pick a longer path.",
+    "The search animates from the white sphere (start) to the green ring (goal). Raised yellow tiles are the open set (frontier), flat grey tiles are closed (already expanded), and the solid yellow line over yellow tiles is the final path. Switch the heuristic to Dijkstra to watch it flood the map, or raise the weight to see it rush toward the goal, expand fewer tiles and sometimes pick a longer path.",
 }
 
 export default sheet

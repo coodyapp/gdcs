@@ -10,6 +10,7 @@ import { llmsTxt, sheetMarkdown } from "./markdown"
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const RESERVED = new Set([
   "about",
+  "paths",
   "updates",
   "api",
   "assets",
@@ -143,4 +144,29 @@ describe("site", () => {
     expect(headFor("/physics/nope").noindex).toBe(true)
     expect(headFor("/physics/mechanics/nope").noindex).toBe(true)
   })
+})
+
+describe("brand colours", () => {
+  const allowed = new Set([
+    "#fafafa",
+    "#a1a1aa",
+    "#d4d4d8",
+    "#f5d547",
+    "#3ee09a",
+    "#f65a5a",
+  ])
+  it.each(fullSheets.map((s) => [s.slug, s] as const))(
+    "%s formulas use only brand simulation colours",
+    (_, sheet) => {
+      for (const f of sheet.formulas ?? []) {
+        for (const [, hex] of f.math.tex.matchAll(
+          /\\textcolor\{(#[0-9a-fA-F]{6})\}/g
+        )) {
+          expect(allowed.has(hex.toLowerCase()), `${f.label}: ${hex}`).toBe(
+            true
+          )
+        }
+      }
+    }
+  )
 })

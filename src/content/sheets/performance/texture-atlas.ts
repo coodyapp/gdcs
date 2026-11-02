@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Pack many sprites into one texture and address each by its UV rectangle, so objects share a material and batch into few draw calls. Pad to stop bleeding.",
   level: "common",
   tags: ["sprites", "uv", "packing", "batching", "mipmaps"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a texture-atlas builder in TypeScript for Three.js. Input: an array of HTMLImageElement or ImageBitmap with ids. Pack them with a shelf packer (sort by height, rows left to right) into the smallest power-of-two square up to 4096, with configurable padding filled by extruding each sprite's edge pixels on an OffscreenCanvas. Output a CanvasTexture (flipY true, sRGB colour space) and a map from id to UV rect {u0, v0, u1, v1}. Provide a helper that remaps a PlaneGeometry's uv attribute into a given rect. Return null if the sprites can't fit. Write tests: padded rects never overlap, all lie inside the atlas, and UVs stay inside 0–1.",
   related: ["draw-calls", "overdraw", "frame-budget"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
     },
     {
       label: "Remap a mesh's 0–1 UVs into the rect",
-      math: tex`uv' = uv_0 + uv \odot (uv_1 - uv_0)`,
+      math: tex`uv' = \textcolor{#fafafa}{uv_0} + uv \odot (\textcolor{#fafafa}{uv_1} - \textcolor{#fafafa}{uv_0})`,
     },
   ],
   rules: [
@@ -86,7 +86,7 @@ const uv = (r: { x: number; y: number; w: number; h: number }, S: number) => ({
     },
   ],
   visual:
-    "Left: sprites in the game world, drawn as one mesh that samples the atlas on the right. The highlighted sprite and its UV rectangle are outlined in white, and the faint border around each tile is its padding. Change the padding and sprite count to see the packer refill the shelves.",
+    "Left: sprites in the game world, drawn as one mesh that samples the atlas on the right; each sprite has its own colour and glyph (circle, diamond or square). The highlighted sprite and its UV rectangle are outlined in white and joined by a dashed white line, and the faint border around each tile is its padding. Change the padding and sprite count to see the packer refill the shelves.",
 }
 
 export default sheet

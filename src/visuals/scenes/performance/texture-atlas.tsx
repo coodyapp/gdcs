@@ -10,13 +10,15 @@ type V = { count: number; padding: number }
 
 const MAX = 24
 const SIZES = [16, 24, 32, 40, 48, 64]
+// Categorical series in assignment order, minus cyan (reserved for the
+// selection outline) and red (errors). Glyphs (circle / diamond / square)
+// tell sprites apart without hue.
 const COLORS = [
-  palette.primary,
   palette.secondary,
   palette.tertiary,
   palette.positive,
   palette.warning,
-  palette.negative,
+  palette.accel,
 ]
 
 // Deterministic sprite sizes (LCG), so the atlas looks the same every visit.
@@ -146,12 +148,12 @@ function Highlight({ atlas, count }: { atlas: Atlas; count: number }) {
           q.x + q.w / 2 + pad,
           q.y + q.h / 2 + pad
         )}
-        color={palette.foreground}
+        color={palette.subject}
         lineWidth={2.5}
       />
       <Line
         points={outline(ax0, ay0, ax1, ay1)}
-        color={palette.foreground}
+        color={palette.subject}
         lineWidth={2.5}
       />
       <Line
@@ -159,7 +161,7 @@ function Highlight({ atlas, count }: { atlas: Atlas; count: number }) {
           [q.x + q.w / 2 + pad, q.y, 0.02],
           [ax0, (ay0 + ay1) / 2, 0.02],
         ]}
-        color={palette.foreground}
+        color={palette.subject}
         lineWidth={1}
         dashed
         dashSize={0.12}

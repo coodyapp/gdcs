@@ -89,6 +89,12 @@ function Scene({ v }: { v: V }) {
       "position",
       new THREE.BufferAttribute(new Float32Array(MAX * 6), 3)
     )
+    // Per-vertex dash distance (0 at the agent, |segment| at the tip) so the
+    // velocity lines can be dashed without reallocating every frame.
+    g.setAttribute(
+      "lineDistance",
+      new THREE.BufferAttribute(new Float32Array(MAX * 2), 1)
+    )
     return g
   }, [])
   const ring = useMemo(() => ringPoints(v.slow), [v.slow])
@@ -98,6 +104,7 @@ function Scene({ v }: { v: V }) {
     const m = cones.current
     if (!m) return
     const pos = velGeo.attributes.position as THREE.BufferAttribute
+    const dist = velGeo.attributes.lineDistance as THREE.BufferAttribute
     for (let i = 0; i < agents.length; i++) {
       const a = agents[i]
       const sp = Math.hypot(a.vel.x, a.vel.y)
@@ -115,11 +122,14 @@ function Scene({ v }: { v: V }) {
         0.25,
         a.pos.y + a.vel.y * 0.35
       )
+      dist.setX(i * 2, 0)
+      dist.setX(i * 2 + 1, sp * 0.35)
     }
     m.count = agents.length
     m.instanceMatrix.needsUpdate = true
     velGeo.setDrawRange(0, agents.length * 2)
     pos.needsUpdate = true
+    dist.needsUpdate = true
   })
 
   return (
@@ -128,8 +138,8 @@ function Scene({ v }: { v: V }) {
         <mesh position={[0, 0.25, 0]}>
           <sphereGeometry args={[0.2, 20, 14]} />
           <meshStandardMaterial
-            color={palette.secondary}
-            emissive={palette.secondary}
+            color={palette.success}
+            emissive={palette.success}
             emissiveIntensity={0.4}
           />
         </mesh>
@@ -143,10 +153,14 @@ function Scene({ v }: { v: V }) {
         frustumCulled={false}
       >
         <coneGeometry args={[0.14, 0.42, 12]} />
-        <meshStandardMaterial color={palette.primary} />
+        <meshStandardMaterial color={palette.subject} />
       </instancedMesh>
       <lineSegments geometry={velGeo} frustumCulled={false}>
-        <lineBasicMaterial color={palette.warning} />
+        <lineDashedMaterial
+          color={palette.velocity}
+          dashSize={0.09}
+          gapSize={0.06}
+        />
       </lineSegments>
     </>
   )

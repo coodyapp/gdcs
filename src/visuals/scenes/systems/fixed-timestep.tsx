@@ -98,19 +98,22 @@ function Scene({ v }: { v: V }) {
         dashSize={0.18}
         gapSize={0.12}
       />
+      {/* Variable-dt ball: orange and faceted, so it differs by shape too. */}
       <mesh ref={left}>
-        <sphereGeometry args={[R, 24, 16]} />
+        <icosahedronGeometry args={[R * 1.1, 0]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.3}
+          flatShading
         />
       </mesh>
+      {/* Fixed-step ball: the subject, smooth cyan sphere. */}
       <mesh ref={right}>
         <sphereGeometry args={[R, 24, 16]} />
         <meshStandardMaterial
-          color={palette.primary}
-          emissive={palette.primary}
+          color={palette.subject}
+          emissive={palette.subject}
           emissiveIntensity={0.3}
         />
       </mesh>
@@ -137,7 +140,7 @@ export default defineVisual<V>({
     { key: "interp", label: "Interpolate render", type: "toggle", value: true },
     {
       key: "jitter",
-      label: "Jittery frames (orange)",
+      label: "Jittery frames (yellow)",
       type: "toggle",
       value: true,
     },

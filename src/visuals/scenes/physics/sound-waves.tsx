@@ -23,8 +23,8 @@ function Scene({ v }: { v: V }) {
   const particles = useRef<THREE.InstancedMesh>(null)
   const cone = useRef<THREE.Mesh>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  const low = useMemo(() => new THREE.Color(palette.primary), [])
-  const high = useMemo(() => new THREE.Color(palette.secondary), [])
+  const low = useMemo(() => new THREE.Color(palette.subject), [])
+  const high = useMemo(() => new THREE.Color(palette.energy), [])
   const mix = useMemo(() => new THREE.Color(), [])
   const colors = useMemo(() => new Float32Array(COUNT * 3), [])
   const curve = useMemo(() => {
@@ -35,7 +35,8 @@ function Scene({ v }: { v: V }) {
     )
     return new THREE.Line(
       g,
-      new THREE.LineBasicMaterial({ color: palette.warning })
+      // Pressure is force per area, so it uses the force colour.
+      new THREE.LineBasicMaterial({ color: palette.force })
     )
   }, [])
 

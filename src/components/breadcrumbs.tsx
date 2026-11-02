@@ -14,8 +14,8 @@ export function Breadcrumbs({
             Home
           </Link>
         </li>
-        {items.map((item) => (
-          <Fragment key={item.label}>
+        {items.map((item, i) => (
+          <Fragment key={`${i}-${item.label}`}>
             <li aria-hidden>/</li>
             <li>
               {item.to ? (

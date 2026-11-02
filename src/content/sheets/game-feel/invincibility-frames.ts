@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "dodge roll",
     "mercy invincibility",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement invincibility frames for a TypeScript Three.js action game. Create a Health component with hp and an invulnerable timer in seconds. damage(amount, source) returns false and does nothing while invulnerable (unless source.bypassIFrames is true); otherwise it subtracts hp and starts a 1.0 s window. Add a dodge that sets invulnerable for 0.3 s starting 0.05 s into a 0.6 s roll. Blink the character mesh at 10 Hz while invulnerable (toggle material opacity, not visibility, so shadows stay). Write Vitest tests: hits every frame for 1 s at 60 fps with a 0.25 s window deal exactly 4 damage, and results match at 144 fps.",
   related: ["hitbox-hurtbox", "hit-stop", "screen-shake", "delta-time"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Damage accepted when",
-      math: tex`t - t_{\text{last hit}} \ge T_{iframes}`,
+      math: tex`t - t_{\text{last hit}} \ge \textcolor{#a1a1aa}{T_{iframes}}`,
     },
     {
       label: "Blink visibility",
@@ -91,7 +91,7 @@ class Health {
     },
   ],
   visual:
-    "Orange shots hit the cyan player on a steady rhythm. A hit flashes red, removes a green health pip and starts the yellow i-frame bar; while it drains the player blinks and shots pass through grey. Set the window to 0 to watch health melt, or shorten the gap between shots.",
+    "Solid yellow balls are shots hitting the white player on a steady rhythm. A hit flashes the player red, empties one of the green health pips above it and fills the grey i-frame bar; while the bar drains the player turns grey and blinks, and shots pass through as grey wireframe outlines. Set the window to 0 to watch health melt, or shorten the gap between shots.",
 }
 
 export default sheet

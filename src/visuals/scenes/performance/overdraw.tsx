@@ -32,6 +32,12 @@ const heatFragment = /* glsl */ `
   void main() {
     float n = floor(texture2D(map, vUv).r * 255.0 / ${STEP}.0 + 0.5);
     vec3 col = n < 0.5 ? c0 : n < 1.5 ? c1 : n < 2.5 ? c2 : n < 4.5 ? c3 : n < 7.5 ? c4 : c5;
+    // Not hue alone: 5-7 layers get diagonal hatching, 8+ cross-hatching.
+    vec2 f = gl_FragCoord.xy;
+    float d1 = step(mod(f.x + f.y, 9.0), 1.5);
+    float d2 = step(mod(f.x - f.y, 9.0), 1.5);
+    float hatch = n < 4.5 ? 0.0 : n < 7.5 ? d1 : max(d1, d2);
+    col *= 1.0 - 0.6 * hatch;
     gl_FragColor = vec4(col, 1.0);
     #include <colorspace_fragment>
   }`
@@ -84,10 +90,10 @@ function Scene({ v }: { v: V }) {
           map: { value: target.texture },
           c0: { value: new THREE.Color("#101014") },
           c1: { value: new THREE.Color(palette.primary) },
-          c2: { value: new THREE.Color(palette.positive) },
-          c3: { value: new THREE.Color(palette.warning) },
-          c4: { value: new THREE.Color(palette.secondary) },
-          c5: { value: new THREE.Color(palette.negative) },
+          c2: { value: new THREE.Color(palette.success) },
+          c3: { value: new THREE.Color(palette.velocity) },
+          c4: { value: new THREE.Color(palette.energy) },
+          c5: { value: new THREE.Color(palette.error) },
         },
       }),
     [target]

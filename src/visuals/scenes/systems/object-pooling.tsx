@@ -40,8 +40,10 @@ function Scene({ v }: { v: V }) {
   const barrel = useRef<THREE.Group>(null)
   const flash = useRef<THREE.MeshStandardMaterial>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  const cActive = useMemo(() => new THREE.Color(palette.primary), [])
-  const cFree = useMemo(() => new THREE.Color(palette.object), [])
+  // In use = orange full cube (matches its live projectile); free = green
+  // flat tile. Height is the non-hue cue.
+  const cActive = useMemo(() => new THREE.Color(palette.moving), [])
+  const cFree = useMemo(() => new THREE.Color(palette.success), [])
 
   useFixedStep((dt) => {
     const s = state.current
@@ -98,8 +100,10 @@ function Scene({ v }: { v: V }) {
       m.setMatrixAt(i, dummy.matrix)
 
       const x = (i - (pool.capacity - 1) / 2) * SLOT_GAP
-      dummy.position.set(x, 0.15, SLOT_Z)
-      dummy.scale.setScalar(i < pool.capacity ? 1 : 0)
+      const h = live ? 1 : 0.25
+      dummy.position.set(x, 0.01 + 0.14 * h, SLOT_Z)
+      if (i < pool.capacity) dummy.scale.set(1, h, 1)
+      else dummy.scale.setScalar(0)
       dummy.updateMatrix()
       sl.setMatrixAt(i, dummy.matrix)
       sl.setColorAt(i, live ? cActive : cFree)
@@ -118,7 +122,7 @@ function Scene({ v }: { v: V }) {
           <meshStandardMaterial
             ref={flash}
             color={palette.object}
-            emissive={palette.negative}
+            emissive={palette.error}
             emissiveIntensity={0}
           />
         </mesh>
@@ -132,8 +136,8 @@ function Scene({ v }: { v: V }) {
       <instancedMesh ref={shots} args={[undefined, undefined, MAX]}>
         <sphereGeometry args={[0.13, 12, 8]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.5}
         />
       </instancedMesh>

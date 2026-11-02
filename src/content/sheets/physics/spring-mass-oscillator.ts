@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Hooke's law, damping and a periodic push: the forced oscillator behind springy cameras, wobbly UI and suspension, and why driving at ω₀ explodes.",
   level: "core",
   tags: ["oscillation", "hookes-law", "damping", "resonance", "springs"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript Spring class for a Three.js game that smooths a number (or THREE.Vector3) toward a target. Constructor takes frequency in Hz and damping ratio ζ; derive k = (2πf)² and c = 2ζ(2πf) with unit mass. Provide step(target, dt) using semi-implicit Euler and a reset(value). It must be called from a fixed 120 Hz loop. Edge cases: ζ = 0 (pure oscillation), ζ ≥ 1 (no overshoot), dt larger than 1/30 should be subdivided. Add unit tests: with ζ = 1 a step response never overshoots the target, and with ζ = 0 total energy ½kx² + ½v² stays within 1% over 10 s.",
   related: [
@@ -32,7 +32,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Equation of motion",
-      math: tex`m\ddot{x} + c\dot{x} + kx = F_0 \sin(\omega t)`,
+      math: tex`m\ddot{x} + c\dot{x} + \textcolor{#fafafa}{k}\textcolor{#f5d547}{x} = F_0 \sin(\omega t)`,
     },
     { label: "Natural frequency", math: tex`\omega_0 = \sqrt{k/m}` },
     {
@@ -94,7 +94,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "The orange block rides a cyan spring around the dashed rest line, and the orange trace above records its displacement over time. The default drive sits near resonance (ω ≈ ω₀); move the drive frequency away, or raise damping, and the steady amplitude in the readout drops.",
+    "The solid yellow block rides a white zig-zag spring (stiffness k) around the dashed grey rest line, and the thin yellow trace above records its displacement x over time. The default drive sits near resonance (ω ≈ ω₀); move the drive frequency away, or raise damping, and the steady amplitude in the readout drops.",
 }
 
 export default sheet

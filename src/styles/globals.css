@@ -8,28 +8,26 @@
 /* Always emitted (also used via var() in inline styles, which Tailwind can't see).
    Mirrors src/styles/tokens.ts. */
 @theme static {
-  /* GDCS design system (docs/design-system.md). Contrast vs #0a0a0a / #141416. */
+  /* GDCS design system (docs/design-system.md). Coody brand: the UI is
+     black, white and greys only. Mirrors src/styles/tokens.ts. */
   --color-surface-2: #1c1c1f;
   --color-surface-3: #27272a;
   --color-text-3: #8b8b94; /* meta, 5.86:1 */
-  /* Semantic accents: simulations, data, states. All ≥ 5.7:1 on card. */
-  --color-sim-cyan: #2dd4ef; /* subject, selection, ray, focus */
-  --color-sim-orange: #ff9f43; /* energy, heat, impulse, moving thing */
-  --color-sim-violet: #b98cff; /* secondary object, rotation */
-  --color-sim-green: #3ee09a; /* success, valid, grounded, goal */
-  --color-sim-yellow: #f5d547; /* velocity, trajectory, highlight */
-  --color-sim-pink: #f383c4; /* acceleration, torque */
-  --color-sim-red: #f65a5a; /* force, error, contact */
-  --color-sim-blue: #5b9dff; /* UI only (Systems), never in sims */
-  /* Category accents: small doses (dot, top border, icon, underline). */
-  --color-cat-threejs: var(--color-sim-cyan);
-  --color-cat-mathematics: var(--color-sim-violet);
-  --color-cat-game-feel: var(--color-sim-pink);
-  --color-cat-systems: var(--color-sim-blue);
-  --color-cat-ai: var(--color-sim-green);
-  --color-cat-performance: var(--color-sim-yellow);
-  --color-cat-physics: var(--color-sim-orange);
-  --color-cat-animation: #e08cf0;
+  --color-ui-strong: #fafafa; /* focus ring, active marks, progress */
+  --color-ui-mark: #a1a1aa; /* category dots, card accents */
+  /* Simulation hues (formulas/visuals only, never UI chrome). */
+  --color-sim-green: #3ee09a;
+  --color-sim-yellow: #f5d547;
+  --color-sim-red: #f65a5a;
+  /* Categories share one neutral mark; identity comes from labels, not hue. */
+  --color-cat-threejs: var(--color-ui-mark);
+  --color-cat-mathematics: var(--color-ui-mark);
+  --color-cat-game-feel: var(--color-ui-mark);
+  --color-cat-systems: var(--color-ui-mark);
+  --color-cat-ai: var(--color-ui-mark);
+  --color-cat-performance: var(--color-ui-mark);
+  --color-cat-physics: var(--color-ui-mark);
+  --color-cat-animation: var(--color-ui-mark);
 }
 
 @font-face {
@@ -182,7 +180,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 12.5%; /* ≈ white 8% on bg */
     --input: 240 5% 26%; /* #3f3f46 */
-    --ring: 188 86% 56%; /* cyan focus ring #2dd4ef */
+    --ring: 0 0% 98%; /* white focus ring */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -199,14 +197,14 @@
   ::selection {
     background-color: color-mix(
       in oklch,
-      var(--color-sim-cyan) 30%,
+      var(--color-ui-strong) 30%,
       transparent
     );
     color: hsl(0 0% 100%);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-sim-cyan);
+    outline: 2px solid var(--color-ui-strong);
     outline-offset: 2px;
   }
 
@@ -296,7 +294,7 @@
 
   .chip:focus-visible,
   .link-quiet:focus-visible {
-    outline: 2px solid var(--color-sim-cyan);
+    outline: 2px solid var(--color-ui-strong);
     outline-offset: 2px;
   }
 
@@ -385,7 +383,7 @@
     z-index: 50;
     height: 2px;
     transform-origin: 0 50%;
-    background: var(--cat, var(--color-sim-cyan));
+    background: var(--color-ui-strong);
   }
 
   @media (prefers-reduced-motion: reduce) {

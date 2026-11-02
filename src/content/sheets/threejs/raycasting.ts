@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A ray is an origin plus a direction. Raycasting returns the nearest surface it crosses, with hit point, distance and surface normal.",
   level: "core",
   tags: ["ray", "intersection", "picking", "line of sight", "hitscan"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add raycast-based interaction to my Three.js scene in TypeScript. On pointerdown, convert the pointer to NDC (flip Y), call raycaster.setFromCamera, limit raycaster.far to 100, and intersect only an explicit `pickables` array (non-recursive). For the closest hit, log object name, world-space hit point, distance, and the world-space normal (transform face.normal by the object's normal matrix). Also write a reusable `groundCheck(origin, maxDistance)` that casts straight down and treats the hit as walkable if dot(normal, up) > 0.7. No per-frame allocations.",
   related: ["normals", "tunneling", "hitbox-hurtbox"],
@@ -25,10 +25,13 @@ const sheet: Sheet = {
     "Raycasts are cheap individually but add up. Limit the distance, filter by layer or mask, and test against simple proxy shapes, or an acceleration structure such as a BVH, rather than every triangle of a detailed mesh.",
   ],
   formulas: [
-    { label: "Ray", math: tex`P(t) = O + t\,\hat{D}, \quad t \ge 0` },
+    {
+      label: "Ray",
+      math: tex`P(t) = O + t\,\textcolor{#fafafa}{\hat{D}}, \quad t \ge 0`,
+    },
     {
       label: "Ray–plane hit",
-      math: tex`t = \frac{(P_0 - O)\cdot \hat{n}}{\hat{D}\cdot \hat{n}}`,
+      math: tex`t = \frac{(P_0 - O)\cdot \textcolor{#3ee09a}{\hat{n}}}{\textcolor{#fafafa}{\hat{D}}\cdot \textcolor{#3ee09a}{\hat{n}}}`,
       note: "No hit when the denominator is ~0 (parallel ray) or t < 0 (plane behind the origin).",
     },
     {
@@ -87,7 +90,7 @@ grounded  = hit != null and dot(hit.normal, up) > 0.7   // walkable slope`,
     },
   ],
   visual:
-    "A ray sweeps from the white origin. The cyan segment ends at the first surface it hits; the orange dot is the hit point and the green arrow is that surface's normal. Turn off auto sweep to aim it yourself, and shorten max distance to see misses.",
+    "A ray sweeps from the white origin ball. The solid white line is the ray up to the first surface it hits (it turns grey when nothing is hit within max distance); the red dot is the hit point and the green arrow with a cone head is that surface's normal. Turn off auto sweep to aim it yourself, and shorten max distance to see misses.",
 }
 
 export default sheet

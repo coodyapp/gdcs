@@ -47,7 +47,7 @@ export function SheetSidebar({ current }: { current: SheetMeta }) {
                           cn(
                             "flex items-center gap-2 rounded-md px-2 py-1 transition-colors",
                             isActive
-                              ? "bg-[color-mix(in_oklch,var(--cat)_14%,transparent)] text-foreground"
+                              ? "bg-white/[0.08] text-foreground"
                               : "text-muted-foreground hover:text-foreground"
                           )
                         }
@@ -120,7 +120,7 @@ export function TableOfContents({
               className={cn(
                 "-ml-px block border-l px-3 py-1 transition-colors",
                 active === s.id
-                  ? "border-[var(--cat)] text-foreground"
+                  ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               )}
             >

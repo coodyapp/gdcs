@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Two gravitating bodies circle their shared barycentre: radii split by mass, period set by total mass. Plus a stable n-body integrator for games.",
   level: "common",
   tags: ["gravity", "n-body", "barycentre", "orbits", "integration"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a TypeScript n-body gravity simulator for a Three.js scene. Inputs: an array of bodies {mass, position: THREE.Vector3, velocity: THREE.Vector3}, gravitational constant G, softening ε and a fixed timestep dt. Use velocity Verlet (half-kick, drift, recompute accelerations, half-kick), compute each pair once and apply equal and opposite forces, and never allocate inside step(). Provide totalEnergy() and barycentre(). Edge cases: zero or one body, coincident bodies (softening). Tests: a two-body circular orbit with v = √(G(m₁+m₂)/d) keeps its separation within 0.5% over 100 orbits, and the barycentre stays fixed to 1e-9.",
   related: ["keplers-laws", "fixed-timestep", "projectile-motion"],
@@ -35,7 +35,7 @@ const sheet: Sheet = {
     },
     {
       label: "Radii around the barycentre",
-      math: tex`r_1 = \dfrac{m_2}{m_1+m_2}\,d,\quad r_2 = \dfrac{m_1}{m_1+m_2}\,d`,
+      math: tex`r_1 = \dfrac{\textcolor{#f5d547}{m_2}}{\textcolor{#fafafa}{m_1}+\textcolor{#f5d547}{m_2}}\,d,\quad r_2 = \dfrac{\textcolor{#fafafa}{m_1}}{\textcolor{#fafafa}{m_1}+\textcolor{#f5d547}{m_2}}\,d`,
     },
     {
       label: "Angular rate of a circular pair",
@@ -103,7 +103,7 @@ export function step(bodies: Body[], dt: number) {
     },
   ],
   visual:
-    "The cyan and orange bodies circle the yellow barycentre ring along their faint orbits; sphere size grows with mass at equal density. Raise the mass ratio and the orange body moves inward while the cyan one swings wide, and the whole pair speeds up.",
+    "The white body (m₁) and the yellow body (m₂, drawn larger as its mass grows) circle the small white barycentre ring along their faint matching orbits, joined by a dashed grey separation line. Raise the mass ratio and the yellow body moves inward while the white one swings wide, and the whole pair speeds up.",
 }
 
 export default sheet

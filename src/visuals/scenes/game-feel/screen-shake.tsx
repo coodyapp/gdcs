@@ -84,7 +84,7 @@ function Scene({ v }: { v: V }) {
       world.current.rotation.z = MAX_ROLL * shake * n(x, 3)
     }
     const flash = s.sinceHit < 0.1
-    playerMat.current?.color.set(flash ? palette.secondary : palette.primary)
+    playerMat.current?.color.set(flash ? palette.error : palette.subject)
     if (ring.current) {
       ring.current.visible = s.sinceHit < 0.25
       ring.current.scale.setScalar(0.4 + s.sinceHit * 6)
@@ -118,14 +118,14 @@ function Scene({ v }: { v: V }) {
           <boxGeometry args={[0.7, 0.9, 0.7]} />
           <meshStandardMaterial
             ref={playerMat}
-            color={palette.primary}
-            emissive={palette.primary}
+            color={palette.subject}
+            emissive={palette.subject}
             emissiveIntensity={0.25}
           />
         </mesh>
         <mesh ref={ring} position={[-0.6, 0.45, 0.4]} visible={false}>
           <torusGeometry args={[0.5, 0.05, 8, 32]} />
-          <meshBasicMaterial color={palette.secondary} />
+          <meshBasicMaterial color={palette.energy} />
         </mesh>
       </group>
       {/* Static screen frame and trauma meter: these do not shake. */}
@@ -147,11 +147,11 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh ref={traumaBar} position={[METER_X, -0.5, 1.62]}>
         <boxGeometry args={[0.3, 1, 0.02]} />
-        <meshBasicMaterial color={palette.warning} />
+        <meshBasicMaterial color={palette.tertiary} />
       </mesh>
       <mesh ref={shakeBar} position={[METER_X + 0.4, -0.5, 1.62]}>
         <boxGeometry args={[0.3, 1, 0.02]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <meshBasicMaterial color={palette.energy} />
       </mesh>
     </>
   )

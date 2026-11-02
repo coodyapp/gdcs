@@ -1,7 +1,10 @@
 /**
  * Design tokens (docs/design-system.md). Single source for TypeScript (the
- * Three.js palette, tests). `globals.css` mirrors these values as
- * `--color-sim-*` / `--color-cat-*`; keep both in sync.
+ * Three.js palette, tests). `globals.css` mirrors these values; keep both in
+ * sync.
+ *
+ * Rule (Coody brand): the UI is black, white and greys only. Colour (green,
+ * yellow, red) is reserved for simulations, where it carries meaning.
  */
 export const surfaces = {
   bg: "#0a0a0a",
@@ -16,27 +19,18 @@ export const text = {
   meta: "#8b8b94",
 } as const
 
-/** Semantic accents for simulations and data. */
-export const sim = {
-  cyan: "#2dd4ef", // subject, selection, ray, focus
-  orange: "#ff9f43", // energy, heat, impulse, moving thing
-  violet: "#b98cff", // secondary object, rotation
-  green: "#3ee09a", // success, valid, grounded, goal, normals
-  yellow: "#f5d547", // velocity, trajectory, highlight
-  pink: "#f383c4", // acceleration, torque
-  red: "#f65a5a", // force, error, contact
+/** Neutral steps usable in UI and inside simulations. */
+export const neutral = {
+  white: "#fafafa",
+  light: "#d4d4d8",
+  mid: "#a1a1aa",
+  dim: "#71717a",
+  dark: "#3f3f46",
 } as const
 
-/** UI-only blue (Systems); never used in simulations. */
-export const uiBlue = "#5b9dff"
-
-export const categoryAccent: Record<string, string> = {
-  threejs: sim.cyan,
-  mathematics: sim.violet,
-  "game-feel": sim.pink,
-  systems: uiBlue,
-  ai: sim.green,
-  performance: sim.yellow,
-  physics: sim.orange,
-  animation: "#e08cf0",
-}
+/** The only hues, simulations only (tuned for #0a0a0a; all ≥ 5.7:1 on cards). */
+export const sim = {
+  green: "#3ee09a", // success, valid, grounded, goal, normals
+  yellow: "#f5d547", // moving thing, energy, velocity (dashed), highlight
+  red: "#f65a5a", // force, error, contact, danger
+} as const

@@ -28,7 +28,7 @@ function Scene({ v }: { v: V }) {
         new THREE.Vector3(0, 1, 0),
         new THREE.Vector3(),
         0.8,
-        palette.positive,
+        palette.success,
         0.2,
         0.12
       ),
@@ -47,7 +47,7 @@ function Scene({ v }: { v: V }) {
     () =>
       new THREE.Line(
         beamGeometry,
-        new THREE.LineBasicMaterial({ color: palette.primary })
+        new THREE.LineBasicMaterial({ color: palette.subject })
       ),
     [beamGeometry]
   )
@@ -74,7 +74,7 @@ function Scene({ v }: { v: V }) {
     const pos = beamGeometry.attributes.position as THREE.BufferAttribute
     pos.setXYZ(1, end.x, end.y, end.z)
     pos.needsUpdate = true
-    beam.material.color.set(hit ? palette.primary : palette.guide)
+    beam.material.color.set(hit ? palette.subject : palette.guide)
   })
 
   return (
@@ -97,8 +97,8 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <primitive object={beam} />
       <mesh ref={dot}>
-        <sphereGeometry args={[0.08, 16, 16]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <sphereGeometry args={[0.11, 16, 16]} />
+        <meshBasicMaterial color={palette.error} />
       </mesh>
       <primitive object={arrow} />
     </>

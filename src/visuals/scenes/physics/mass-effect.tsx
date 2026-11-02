@@ -60,7 +60,7 @@ function Scene({ v }: { v: V }) {
     <group scale={SCALE}>
       <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
-          color={palette.primary}
+          color={palette.subject}
           wireframe
           transparent
           opacity={0.6}
@@ -69,16 +69,16 @@ function Scene({ v }: { v: V }) {
       <mesh ref={star} position={[0, depthAt(0) + radius, 0]}>
         <sphereGeometry args={[radius, 32, 32]} />
         <meshStandardMaterial
-          color={palette.warning}
-          emissive={palette.warning}
+          color={palette.foreground}
+          emissive={palette.foreground}
           emissiveIntensity={0.6}
         />
       </mesh>
       <mesh ref={probe}>
         <sphereGeometry args={[0.25, 20, 20]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.4}
         />
       </mesh>

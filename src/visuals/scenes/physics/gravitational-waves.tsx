@@ -33,8 +33,9 @@ function Scene({ v }: { v: V }) {
   useEffect(() => () => geometry.dispose(), [geometry])
   const ramp = useMemo(
     () => ({
-      trough: new THREE.Color(palette.primary),
-      crest: new THREE.Color(palette.tertiary),
+      // Sequential ramp: dim grey troughs → bright cyan crests (lightness carries the sign).
+      trough: new THREE.Color(palette.surface),
+      crest: new THREE.Color(palette.subject),
     }),
     []
   )
@@ -98,16 +99,16 @@ function Scene({ v }: { v: V }) {
       <mesh ref={body1}>
         <sphereGeometry args={[size1, 24, 24]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.5}
         />
       </mesh>
       <mesh ref={body2}>
         <sphereGeometry args={[size2, 24, 24]} />
         <meshStandardMaterial
-          color={palette.warning}
-          emissive={palette.warning}
+          color={palette.tertiary}
+          emissive={palette.tertiary}
           emissiveIntensity={0.5}
         />
       </mesh>

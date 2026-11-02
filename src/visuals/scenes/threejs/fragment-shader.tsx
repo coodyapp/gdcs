@@ -63,8 +63,8 @@ function Scene({ v }: { v: V }) {
     () => ({
       uTime: { value: 0 },
       uScale: { value: 1 },
-      uA: { value: new THREE.Color(palette.primary) },
-      uB: { value: new THREE.Color(palette.secondary) },
+      uA: { value: new THREE.Color(palette.subject) },
+      uB: { value: new THREE.Color(palette.energy) },
     }),
     []
   )

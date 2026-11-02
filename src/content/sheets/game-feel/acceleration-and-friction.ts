@@ -18,7 +18,7 @@ export const meta: SheetMeta = {
     "character controller",
     "velocity",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript movement controller for a Three.js character with separate ground acceleration (40 u/s²), deceleration (70 u/s²), max speed (6 u/s) and an air control factor (0.6). Each update: compute target = input * maxSpeed; use deceleration when input is zero or opposes current velocity, acceleration otherwise; approach the target with moveTowards(v, target, rate * dt). Also provide an exponential option v = target + (v - target) * Math.exp(-k * dt). Write Vitest tests: time to top speed equals maxSpeed / accel within one step, and positions after a 1.2 s input sequence match at 30 and 144 fps within 0.15 units.",
   related: [
@@ -39,11 +39,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Linear approach",
-      math: tex`v \leftarrow v + \operatorname{clamp}(v_{target} - v,\; -a\,\Delta t,\; a\,\Delta t)`,
+      math: tex`\textcolor{#f5d547}{v} \leftarrow \textcolor{#f5d547}{v} + \operatorname{clamp}(v_{target} - \textcolor{#f5d547}{v},\; -a\,\Delta t,\; a\,\Delta t)`,
     },
     {
       label: "Exponential damping",
-      math: tex`v \leftarrow v_{target} + (v - v_{target})\,e^{-k\,\Delta t}`,
+      math: tex`\textcolor{#f5d547}{v} \leftarrow v_{target} + (\textcolor{#f5d547}{v} - v_{target})\,e^{-k\,\Delta t}`,
       note: "Choose k = a / v_max to match the linear version's initial slope.",
     },
     {
@@ -97,7 +97,7 @@ function updateMovement(dt: number, input: number /* -1..1 */) {
     },
   ],
   visual:
-    "The cyan box is driven by a repeating input: right, release, left, release. The plot scrolls with time: grey is the target velocity the input asks for, yellow is the actual velocity (also the arrow on the box). Raise acceleration for a snappier ramp, lower deceleration for a longer slide, or switch the model to compare linear, exponential and instant.",
+    "The white box is driven by a repeating input: right, release, left, release. The plot scrolls with time: the thin grey trace is the target velocity the input asks for, the thicker yellow dotted trace is the actual velocity v, also shown as the dashed yellow arrow on the box. Raise acceleration for a snappier ramp, lower deceleration for a longer slide, or switch the model to compare linear, exponential and instant.",
 }
 
 export default sheet

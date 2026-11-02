@@ -16,6 +16,8 @@ const PLOT_X0 = -5
 const PLOT_W = 10
 const TRACK_Y = 1.7
 const SCALE = 0.6
+/** Dashes in the velocity arrow (velocity is drawn dashed). */
+const DASHES = 5
 
 const inputAt = (t: number) => {
   const p = t % PERIOD
@@ -28,7 +30,7 @@ const inputAt = (t: number) => {
 function Scene({ v }: { v: V }) {
   const { resetKey } = useVisual()
   const box = useRef<THREE.Mesh>(null)
-  const arrow = useRef<THREE.Mesh>(null)
+  const arrow = useRef<THREE.Group>(null)
   const velDots = useRef<THREE.InstancedMesh>(null)
   const inDots = useRef<THREE.InstancedMesh>(null)
   const sim = useRef({ t: 0, x: 0, v: 0, sampleAcc: 0 })
@@ -112,15 +114,19 @@ function Scene({ v }: { v: V }) {
       <mesh ref={box} position={[-2.4, TRACK_Y + 0.3, 0]}>
         <boxGeometry args={[0.6, 0.6, 0.6]} />
         <meshStandardMaterial
-          color={palette.primary}
-          emissive={palette.primary}
+          color={palette.subject}
+          emissive={palette.subject}
           emissiveIntensity={0.25}
         />
       </mesh>
-      <mesh ref={arrow}>
-        <boxGeometry args={[1, 0.1, 0.1]} />
-        <meshBasicMaterial color={palette.warning} />
-      </mesh>
+      <group ref={arrow}>
+        {Array.from({ length: DASHES }, (_, i) => (
+          <mesh key={i} position={[(i + 0.5) / DASHES - 0.5, 0, 0]}>
+            <boxGeometry args={[0.6 / DASHES, 0.1, 0.1]} />
+            <meshBasicMaterial color={palette.velocity} />
+          </mesh>
+        ))}
+      </group>
       {/* Plot: zero line and ±max frame. */}
       <mesh position={[0, PLOT_Y, -0.02]}>
         <boxGeometry args={[PLOT_W, 0.02, 0.01]} />
@@ -144,7 +150,7 @@ function Scene({ v }: { v: V }) {
         count={0}
       >
         <boxGeometry args={[0.07, 0.07, 0.01]} />
-        <meshBasicMaterial color={palette.warning} />
+        <meshBasicMaterial color={palette.velocity} />
       </instancedMesh>
     </group>
   )

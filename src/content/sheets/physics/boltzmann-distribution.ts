@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "monte-carlo",
     "sampling",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a Metropolis sampler for the Boltzmann energy distribution in TypeScript. Inputs: a Float32Array of walker energies, temperature kT, density-of-states exponent p (g ∝ E^p) and a seeded PRNG. Each sweep proposes E' = |E + δ| with δ uniform in ±max(0.3, kT) and accepts with min(1, (E'/E)^p·e^(−(E'−E)/kT)), handling E = 0 and p = 0 safely; return the acceptance ratio. Also implement the normalised density E^p·e^(−E/kT)/(Γ(p+1)·kT^(p+1)) with a Lanczos gamma. Render a 48-bin exponentially averaged histogram as an InstancedMesh with the theory curve overlaid in Three.js. Tests: density integrates to 1; acceptance matches the reference 3D rule for p = ½; mean energy after burn-in is (p+1)kT within 5% for p = 0, ½ and 1.5.",
   related: ["ideal-gas", "heat-diffusion", "finite-state-machine"],
@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Energy distribution",
-      math: tex`P(E) = \frac{g(E)\, e^{-E/k_B T}}{Z}, \qquad Z = \int_0^\infty g(E)\, e^{-E/k_B T}\, dE`,
+      math: tex`\textcolor{#fafafa}{P(E)} = \frac{g(E)\, e^{-E/k_B T}}{Z}, \qquad Z = \int_0^\infty g(E)\, e^{-E/k_B T}\, dE`,
     },
     {
       label: "Power-law density of states",
@@ -43,7 +43,7 @@ const sheet: Sheet = {
     },
     {
       label: "Mean and most likely energy",
-      math: tex`\langle E \rangle = (p+1)\,k_B T, \qquad E_{\text{peak}} = p\,k_B T`,
+      math: tex`\textcolor{#f5d547}{\langle E \rangle} = (p+1)\,k_B T, \qquad E_{\text{peak}} = p\,k_B T`,
     },
     {
       label: "Metropolis acceptance",
@@ -92,7 +92,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Cyan bars are the histogram of 1,500 Metropolis walkers (orange dots below the axis), the white curve is the exact distribution, and the dashed yellow line is the theoretical mean with a yellow dot tracking the walkers' mean. Every walker starts at the same low energy; raise T to broaden the curve or change p to switch between 1D, 2D and 3D-like systems.",
+    "Solid white bars are the histogram P(E) of 1,500 Metropolis walkers (small white dots below the axis), the solid white curve is the exact distribution, and the dashed yellow line marks the theoretical mean energy ⟨E⟩ while the yellow ball tracks the walkers' mean. Every walker starts at the same low energy; raise T to broaden the curve or change p to switch between 1D, 2D and 3D-like systems.",
 }
 
 export default sheet

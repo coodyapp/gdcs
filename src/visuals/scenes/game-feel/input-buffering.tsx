@@ -97,13 +97,15 @@ function Scene({ v }: { v: V }) {
     if (bodyMat.current) {
       color.set(
         s.outcome === "chained"
-          ? palette.positive
+          ? palette.success
           : s.outcome === "dropped"
-            ? palette.negative
-            : palette.primary
+            ? palette.error
+            : palette.subject
       )
       bodyMat.current.color.copy(color)
       bodyMat.current.emissive.copy(color)
+      // A failed run also turns to an outline, so success/failure isn't hue-only.
+      bodyMat.current.wireframe = s.outcome === "dropped"
     }
     if (bufferBar.current) {
       const w = Math.max(0.001, TIME_SCALE * (v.buffer / 1000))
@@ -132,11 +134,11 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh ref={bufferBar} position={[pressT, STRIP_Y, 0.52]}>
         <boxGeometry args={[1, 0.4, 0.02]} />
-        <meshBasicMaterial color={palette.primary} transparent opacity={0.6} />
+        <meshBasicMaterial color={palette.success} transparent opacity={0.6} />
       </mesh>
       <mesh position={[pressT, STRIP_Y, 0.53]}>
-        <boxGeometry args={[0.08, 0.7, 0.02]} />
-        <meshBasicMaterial color={palette.warning} />
+        <boxGeometry args={[0.1, 0.7, 0.02]} />
+        <meshBasicMaterial color={palette.moving} />
       </mesh>
       <mesh position={[0, STRIP_Y, 0.54]}>
         <boxGeometry args={[0.08, 0.7, 0.02]} />
@@ -149,13 +151,13 @@ function Scene({ v }: { v: V }) {
       {/* Where the character was when jump was pressed. */}
       <mesh position={[pressX, 0.9, 0]}>
         <boxGeometry args={[0.05, 1.8, 0.05]} />
-        <meshBasicMaterial ref={pressMat} color={palette.warning} transparent />
+        <meshBasicMaterial ref={pressMat} color={palette.moving} transparent />
       </mesh>
       <mesh ref={body} position={[START_X, HALF, 0]}>
         <boxGeometry args={[0.5, 0.5, 0.5]} />
         <meshStandardMaterial
           ref={bodyMat}
-          color={palette.primary}
+          color={palette.subject}
           emissiveIntensity={0.35}
         />
       </mesh>

@@ -140,7 +140,7 @@ function Scene({ v }: { v: V }) {
       >
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial
-          color={palette.primary}
+          color={palette.subject}
           transparent
           opacity={0.85}
         />
@@ -151,7 +151,7 @@ function Scene({ v }: { v: V }) {
           [theoryMean, 0, 0.35],
           [theoryMean, PEAK_HEIGHT + 0.3, 0.35],
         ]}
-        color={palette.warning}
+        color={palette.energy}
         lineWidth={2}
         dashed
         dashSize={0.15}
@@ -159,7 +159,7 @@ function Scene({ v }: { v: V }) {
       />
       <mesh ref={mean} position={[theoryMean, PEAK_HEIGHT + 0.3, 0.35]}>
         <sphereGeometry args={[0.1, 16, 16]} />
-        <meshBasicMaterial color={palette.warning} />
+        <meshBasicMaterial color={palette.energy} />
       </mesh>
       <instancedMesh
         ref={dots}
@@ -167,7 +167,7 @@ function Scene({ v }: { v: V }) {
         frustumCulled={false}
       >
         <sphereGeometry args={[0.035, 8, 8]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <meshBasicMaterial color={palette.subject} />
       </instancedMesh>
     </group>
   )

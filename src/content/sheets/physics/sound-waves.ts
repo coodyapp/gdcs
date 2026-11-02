@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Sound is a longitudinal pressure wave: frequency sets pitch and wavelength, amplitude sets loudness. The physics behind 3D audio, delay and Doppler.",
   level: "core",
   tags: ["waves", "acoustics", "audio", "longitudinal", "doppler"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript Three.js helper for physically-flavoured positional audio. Inputs: a THREE.PositionalAudio, the source Object3D, the AudioListener's Object3D, dt and speed of sound (default 343 m/s). Each frame: compute distance, apply inverse-distance rolloff with refDistance 2 m, compute the source's radial velocity toward the listener and set playbackRate = c/(c − v_s) clamped to [0.5, 2], and expose delayFor(distance) for one-shots. Ignore velocity on frames where the source moved more than 10 m (teleport). Unit tests: a stationary source gives rate 1; approaching at 34.3 m/s gives rate ≈ 1.111; delay for 343 m is 1 s.",
   related: ["spring-mass-oscillator", "em-wave-propagation", "delta-time"],
@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Pressure (90° ahead of displacement)",
-      math: tex`p(x,t) = p_0 - B\,\dfrac{\partial \xi}{\partial x} = p_0 - B k A\cos(kx - \omega t)`,
+      math: tex`\textcolor{#f65a5a}{p(x,t)} = p_0 - B\,\dfrac{\partial \xi}{\partial x} = p_0 - B k A\cos(kx - \omega t)`,
     },
     { label: "Wave speed", math: tex`v = f\lambda` },
     {
@@ -92,7 +92,7 @@ export function updateSound(sound: THREE.PositionalAudio, source: THREE.Object3D
     },
   ],
   visual:
-    "Rows of air parcels shuffle left and right as the grey speaker pushes them (200× slow motion). Orange parcels are compressed, cyan ones rarefied, and the yellow curve above is the pressure. Raise the frequency to pack compressions closer (shorter λ); raise the amplitude to make the parcels swing further.",
+    "Rows of air parcels shuffle left and right as the grey speaker pushes them (200× slow motion). Yellow parcels are compressed and bunched together, white ones rarefied and spread apart, and the solid red curve above is the pressure p. Raise the frequency to pack compressions closer (shorter λ); raise the amplitude to make the parcels swing further.",
 }
 
 export default sheet

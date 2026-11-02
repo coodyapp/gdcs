@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "At 60 Hz a frame has 16.67 ms for input, gameplay, physics, AI and rendering combined. Measure each system and keep the total under budget with headroom.",
   level: "core",
   tags: ["frame time", "fps", "profiling", "vsync", "milliseconds"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Build a frame-budget profiler for my TypeScript + Three.js game. Provide `beginSystem(name)` / `endSystem(name)` using performance.now(), store an exponential moving average and a rolling 120-frame window per system, and compute total, average and 99th-percentile frame time. Accept a target refresh rate (default 60 Hz → 16.67 ms) and flag frames above 90% of budget. Draw a small overlay with one coloured bar per system scaled to the budget and the overrun in red. No allocations per frame (preallocate ring buffers). Write unit tests for the percentile function and for the vsync rounding rule ceil(frame/budget)·budget.",
   related: ["time-slicing", "draw-calls", "spatial-partitioning"],
@@ -98,7 +98,7 @@ function frame(dt: number) {
     },
   ],
   visual:
-    "The bottom bar is one frame: each coloured slice is a system (orange physics, purple AI, yellow gameplay, cyan rendering, grey other) and the white line is the budget, with any overrun in red. The bars above are recent frames (green on time, red late). Raise the load or the target rate to see frames miss.",
+    "The bottom bar is one frame: each slice is a system, alternating tall and short so neighbours stand apart (light-grey gameplay, yellow physics, grey AI, white rendering, gray other); the white line is the budget and any overrun is a red overlay. The bars above are recent frames: thin green bars are on time, wide red bars are late and cross the white line. Raise the load or the target rate to see frames miss.",
 }
 
 export default sheet

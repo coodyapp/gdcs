@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Hit stop pauses the attacker and target for a few frames on impact. The brief freeze sells weight and gives the eye time to read the hit.",
   level: "common",
   tags: ["hit stop", "hit lag", "freeze frame", "impact", "combat feel"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add hit stop to my TypeScript Three.js brawler. Each fighter has hitStop seconds; on a hit, both attacker and target get hitStop = max(current, 0.06 + 0.004 * damage), capped at 0.2 s. In update(realDt), consume hitStop from real time and pass the remaining game dt (0 while frozen, the leftover on the last frozen frame) to animation and physics. While frozen, jitter the target's mesh ±0.05 units on x without moving its physics body, and keep particles and UI on unscaled time. Write a Vitest test that at 30 and 144 fps a 0.12 s hit stop removes exactly 0.12 s of game time.",
   related: [
@@ -32,7 +32,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Game time during hit stop",
-      math: tex`\Delta t_{game} = \begin{cases} 0 & t_{stop} > 0 \\ \Delta t \cdot s_{time} & \text{otherwise} \end{cases}`,
+      math: tex`\textcolor{#3ee09a}{\Delta t_{game}} = \begin{cases} 0 & t_{stop} > 0 \\ \Delta t \cdot s_{time} & \text{otherwise} \end{cases}`,
     },
     {
       label: "Duration from damage",
@@ -87,7 +87,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Both rows play the same attack on the same clock. The top row (green marker) freezes cyan attacker and target for the hit-stop duration, with the target flashing orange and jittering; the bottom row has no hit stop and the blow slides past. The thin bar under each row is game time, so the top one visibly lags. Lower the playback speed to count the frozen frames.",
+    "Both rows play the same attack on the same clock. The top row (green post) freezes the white attacker and the grey target for the hit-stop duration, with the target flashing red on contact, an yellow diamond spark at the impact and a jitter; the bottom row (grey post) has no hit stop and the blow slides past. The thin bar under each row is game time (green on top, grey below), so the top one visibly lags. Lower the playback speed to count the frozen frames.",
 }
 
 export default sheet

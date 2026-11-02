@@ -101,18 +101,19 @@ function Scene({ v }: { v: V }) {
       if (!m) return
       m.visible = shot.active
       m.position.set(shot.x, shot.y, 0)
-      ;(m.material as THREE.MeshBasicMaterial).color.set(
-        shot.ignored ? palette.guide : palette.secondary
-      )
+      const mat = m.material as THREE.MeshBasicMaterial
+      mat.color.set(shot.ignored ? palette.guide : palette.moving)
+      // Ignored shots also become outlines: they pass through.
+      mat.wireframe = shot.ignored
     })
     if (playerMat.current) {
       const visible = !v.blink || blinkVisible(s.inv, 8)
       color.set(
         s.flash > 0
-          ? palette.negative
+          ? palette.error
           : s.inv > 0
-            ? palette.warning
-            : palette.primary
+            ? palette.tertiary
+            : palette.subject
       )
       playerMat.current.color.copy(color)
       playerMat.current.emissive.copy(color)
@@ -125,7 +126,7 @@ function Scene({ v }: { v: V }) {
       timerBar.current.position.x = PLAYER_X - 0.8 + w / 2
     }
     pipMats.current.forEach((m, i) =>
-      m?.color.set(i < s.hp ? palette.positive : palette.surface)
+      m?.color.set(i < s.hp ? palette.success : palette.surface)
     )
     player.current?.position.set(PLAYER_X, 0, 0)
   })
@@ -140,7 +141,7 @@ function Scene({ v }: { v: V }) {
         <boxGeometry args={[0.7, 1.2, 0.7]} />
         <meshStandardMaterial
           ref={playerMat}
-          color={palette.primary}
+          color={palette.subject}
           emissiveIntensity={0.3}
           transparent
         />
@@ -152,14 +153,14 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh ref={timerBar} position={[PLAYER_X, 1.05, 0.03]}>
         <boxGeometry args={[1, 0.14, 0.05]} />
-        <meshBasicMaterial color={palette.warning} />
+        <meshBasicMaterial color={palette.tertiary} />
       </mesh>
       {Array.from({ length: MAX_HP }, (_, i) => (
         <mesh key={i} position={[PLAYER_X - 0.72 + i * 0.36, 1.45, 0]}>
           <boxGeometry args={[0.26, 0.2, 0.05]} />
           <meshBasicMaterial
             ref={(m) => void (pipMats.current[i] = m)}
-            color={palette.positive}
+            color={palette.success}
           />
         </mesh>
       ))}
@@ -170,7 +171,7 @@ function Scene({ v }: { v: V }) {
           visible={false}
         >
           <sphereGeometry args={[0.16, 16, 12]} />
-          <meshBasicMaterial color={palette.secondary} />
+          <meshBasicMaterial color={palette.moving} />
         </mesh>
       ))}
     </group>

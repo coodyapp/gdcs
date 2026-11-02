@@ -11,7 +11,8 @@ type V = { hysteresis: number; near: number; speed: number }
 
 const DETAIL = [5, 2, 0] // icosahedron subdivisions per level
 const TRIS = DETAIL.map((d) => 20 * (d + 1) ** 2)
-const COLORS = [palette.primary, palette.tertiary, palette.object]
+// Full detail = subject (cyan), medium = secondary (violet), low = neutral.
+const COLORS = [palette.subject, palette.tertiary, palette.object]
 const SPACING = 1.9
 const SPHERES: [number, number, number][] = []
 for (let ix = -2; ix <= 2; ix++)
@@ -95,13 +96,13 @@ function Scene({ v }: { v: V }) {
       <group ref={viewer}>
         <mesh position={[0, 0.25, 0]} rotation={[Math.PI, 0, 0]}>
           <coneGeometry args={[0.2, 0.5, 16]} />
-          <meshBasicMaterial color={palette.secondary} />
+          <meshBasicMaterial color={palette.moving} />
         </mesh>
         {rings.solid.map((pts, i) => (
           <Line
             key={`s${i}`}
             points={pts}
-            color={palette.guide}
+            color={palette.foreground}
             lineWidth={1.5}
           />
         ))}
@@ -110,8 +111,8 @@ function Scene({ v }: { v: V }) {
             <Line
               key={`b${i}`}
               points={pts}
-              color={palette.warning}
-              lineWidth={1}
+              color={palette.guide}
+              lineWidth={1.2}
               dashed
               dashSize={0.15}
               gapSize={0.12}
@@ -121,7 +122,7 @@ function Scene({ v }: { v: V }) {
       <group position={[5.9, 0, -2.4]}>
         <mesh ref={bar}>
           <boxGeometry args={[0.4, 1, 0.4]} />
-          <meshBasicMaterial color={palette.primary} />
+          <meshBasicMaterial color={palette.subject} />
         </mesh>
         <mesh position={[0, BAR_MAX / 2, 0]}>
           <boxGeometry args={[0.44, BAR_MAX, 0.44]} />

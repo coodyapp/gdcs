@@ -39,12 +39,12 @@ function Scene({ v }: { v: V }) {
     <group ref={group}>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[8, 8, 3, 3]} />
-        <meshStandardMaterial color={palette.primary} roughness={0.8} />
+        <meshStandardMaterial color={palette.subject} roughness={0.8} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, Math.PI / 6]} position={[0, lift, 0]}>
         <planeGeometry args={[4.6, 4.6, 5, 5]} />
         <meshStandardMaterial
-          color={palette.secondary}
+          color={palette.moving}
           roughness={0.8}
           polygonOffset={offset}
           polygonOffsetFactor={offset ? -1 : 0}
@@ -62,7 +62,7 @@ function Scene({ v }: { v: V }) {
       >
         <boxGeometry args={[1.2, 1.2, 1.2, 2, 2, 2]} />
         <meshStandardMaterial
-          color={palette.positive}
+          color={palette.tertiary}
           polygonOffset={offset}
           polygonOffsetFactor={offset ? -1 : 0}
           polygonOffsetUnits={offset ? -4 : 0}

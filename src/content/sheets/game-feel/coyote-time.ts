@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "grace period",
     "input forgiveness",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add coyote time to my TypeScript Three.js platformer controller. Keep a coyoteTimer in seconds: refill it to 0.1 s every update the character is grounded, and count it down by dt while airborne. Allow a jump when grounded or coyoteTimer > 0; when the jump fires, set the timer to 0 and set vertical velocity to JUMP_SPEED. Do not refill on wall or ceiling contact. Expose COYOTE as a tunable constant. Write unit tests that step the controller at 30 and 144 fps: a press 0.05 s after walking off a ledge jumps, a press 0.15 s after does not, and pressing twice never yields two jumps.",
   related: ["input-buffering", "delta-time", "finite-state-machine"],
@@ -33,11 +33,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Jump allowed",
-      math: tex`\text{canJump} = \text{grounded} \;\lor\; (t - t_{\text{left ground}}) < T_{\text{coyote}}`,
+      math: tex`\text{canJump} = \text{grounded} \;\lor\; (t - t_{\text{left ground}}) < \textcolor{#3ee09a}{T_{\text{coyote}}}`,
     },
     {
       label: "Extra ledge distance",
-      math: tex`d = v_{run}\,T_{\text{coyote}}`,
+      math: tex`d = v_{run}\,\textcolor{#3ee09a}{T_{\text{coyote}}}`,
       note: "At 6 u/s and 0.1 s the character can be 0.6 units past the edge and still jump.",
     },
   ],
@@ -85,7 +85,7 @@ function update(dt: number, jumpPressed: boolean) {
     },
   ],
   visual:
-    "The cube runs off the ledge and the player presses jump at the yellow line, a little late. The green strip is the grace window. Runs alternate between coyote time on (green, the jump works) and off (grey, it falls into the red pit). Slide the press later than the window to see it fail even with coyote time.",
+    "The white cube runs off the ledge (white line) and the player presses jump at the thick yellow line, a little late. The translucent strip is the grace window T: bright green when coyote time is on, faint grey when off. Runs alternate between on (the cube turns solid green and the jump works) and off (it turns into a red outline and falls into the red pit). Slide the press later than the window to see it fail even with coyote time.",
 }
 
 export default sheet

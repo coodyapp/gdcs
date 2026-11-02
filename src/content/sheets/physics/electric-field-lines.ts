@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "streamlines",
     "superposition",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript module for Three.js that draws 2D electric field lines for a list of point charges {x, y, q} (k = 1). Implement fieldAt(charges, x, y, out) with a softened r² (min 0.12) that writes into a reusable object, and traceLines(charges, linesPerUnitCharge = 12) that seeds round(12·|q|) lines on a 0.36-unit circle around each positive charge (or every charge if none is positive), steps 0.11 units along the normalised field (backwards for negative seeds), and stops near another charge (< 0.42), outside radius 6, after 110 steps or when |E| < 1e-4. Return flat Float32Arrays for THREE.Line. Add tests: the field at a dipole's midpoint points from + to −, falls as 1/r² from a single charge, and a line from + ends on −.",
   related: [
@@ -37,10 +37,13 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Field of point charges (superposition)",
-      math: tex`\mathbf{E}(\mathbf{r}) = k \sum_i q_i \frac{\mathbf{r} - \mathbf{r}_i}{\lVert \mathbf{r} - \mathbf{r}_i \rVert^{3}}`,
+      math: tex`\textcolor{#fafafa}{\mathbf{E}}(\mathbf{r}) = k \sum_i q_i \frac{\mathbf{r} - \mathbf{r}_i}{\lVert \mathbf{r} - \mathbf{r}_i \rVert^{3}}`,
       note: "k = 1/(4πε₀) ≈ 8.99 × 10⁹ N·m²/C². Scenes usually set k = 1.",
     },
-    { label: "Force on a test charge", math: tex`\mathbf{F} = q\,\mathbf{E}` },
+    {
+      label: "Force on a test charge",
+      math: tex`\mathbf{F} = q\,\textcolor{#fafafa}{\mathbf{E}}`,
+    },
     {
       label: "Streamline step",
       math: tex`\mathbf{p}_{n+1} = \mathbf{p}_n \pm h\,\frac{\mathbf{E}(\mathbf{p}_n)}{\lVert \mathbf{E}(\mathbf{p}_n) \rVert}`,
@@ -106,7 +109,7 @@ export function trace(cs: Charge[], seed: Charge, angle: number, h = 0.1) {
     },
   ],
   visual:
-    "Cyan spheres are positive charges, rose spheres negative and grey neutral; yellow lines are traced field lines with orange markers flowing along E. Slide the right charge through zero to flip a dipole into two like charges, and change spacing and line density.",
+    "Solid yellow spheres are positive charges, grey wireframe spheres negative and grey neutral; the solid white lines are traced field lines of E, with small yellow dots flowing along the field direction. Slide the right charge through zero to flip a dipole into two like charges, and change spacing and line density.",
 }
 
 export default sheet

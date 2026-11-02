@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A fast object can be on one side of a thin wall at one tick and past it at the next. Swept tests (CCD) check the whole path between positions.",
   level: "core",
   tags: ["ccd", "swept", "collision", "bullets", "physics"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add continuous collision for fast projectiles in a TypeScript Three.js game. Write `sweptSphereAabb(p0, p1, r, min, max): number | null` (slab method, box expanded by r, returns entry t in [0,1], 0 if starting inside) and `sweptSphereSphere(p0, p1, r, c, R)` (quadratic, earliest root, null if moving away). In the fixed-step bullet update, compute next = pos + vel*dt, find the earliest t across nearby colliders, place the bullet at the contact point minus a 0.005 skin and fire onHit. Write Vitest tests: a 0.05-radius bullet at 60 u/s with 1/60 s ticks against a 0.1-thick wall is missed by a discrete overlap test but caught by the swept test at the correct x; parallel segments outside the slab return null.",
   related: ["raycasting", "hitbox-hurtbox", "fixed-timestep"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Tunneling risk",
-      math: tex`v\,\Delta t > w + 2r`,
+      math: tex`\textcolor{#f5d547}{v\,\Delta t} > w + 2r`,
       note: "Distance per tick exceeds wall thickness w plus the object's diameter. 60 u/s at 60 Hz moves 1 u per tick.",
     },
     {
@@ -37,7 +37,7 @@ const sheet: Sheet = {
     },
     {
       label: "Substeps needed",
-      math: tex`n = \left\lceil \frac{v\,\Delta t}{\tfrac12 (w + 2r)} \right\rceil`,
+      math: tex`n = \left\lceil \frac{\textcolor{#f5d547}{v\,\Delta t}}{\tfrac12 (w + 2r)} \right\rceil`,
     },
   ],
   rules: [
@@ -95,7 +95,7 @@ else:         pos = next`,
     },
   ],
   visual:
-    "Two bullets fire at the same speed at a thin wall. The dots behind each one are the positions it was actually tested at, one per physics tick. The top lane tests only those dots, so it lands on both sides of the wall and passes through (red). The bottom lane sweeps the path between them and stops at the wall (orange spark). Lower the speed or raise the tick rate until both lanes hit.",
+    "Two yellow bullets fire at the same speed at a thin wall. The gray dots behind each one are the positions it was actually tested at, one per physics tick. The top lane tests only those dots, so it lands on both sides of the wall and passes through, turning red with no spark. The bottom lane also tests the solid yellow line between them and stops at the wall, turning green with a wireframe spark. Lower the speed or raise the tick rate until both lanes hit.",
 }
 
 export default sheet

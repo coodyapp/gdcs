@@ -6,13 +6,16 @@ import { defineVisual, palette, useClock, useVisual } from "../../kit"
 
 type V = { load: number; hz: string; spikes: boolean }
 
-/** Per-system cost in ms at load 1. `scales` systems grow with the load. */
+/**
+ * Per-system cost in ms at load 1. `scales` systems grow with the load.
+ * Slices alternate tall/short (`h`) so neighbours never differ by hue alone.
+ */
 const SYSTEMS = [
-  { name: "gameplay", ms: 2.8, scales: true, color: palette.warning },
-  { name: "physics", ms: 3.2, scales: true, color: palette.secondary },
-  { name: "ai", ms: 2.4, scales: true, color: palette.tertiary },
-  { name: "render", ms: 4.0, scales: true, color: palette.primary },
-  { name: "other", ms: 2.0, scales: false, color: palette.object },
+  { name: "gameplay", ms: 2.8, scales: true, color: palette.accel, h: 0.7 },
+  { name: "physics", ms: 3.2, scales: true, color: palette.moving, h: 0.48 },
+  { name: "ai", ms: 2.4, scales: true, color: palette.tertiary, h: 0.7 },
+  { name: "render", ms: 4.0, scales: true, color: palette.subject, h: 0.48 },
+  { name: "other", ms: 2.0, scales: false, color: palette.object, h: 0.7 },
 ] as const
 
 const typicalMs = (load: number) =>
@@ -38,8 +41,8 @@ function Scene({ v }: { v: V }) {
   const history = useMemo(() => new Float32Array(HISTORY), [])
   const sampleAcc = useRef(0)
   const ms = useMemo(() => new Float32Array(SYSTEMS.length), [])
-  const ok = useMemo(() => new THREE.Color(palette.positive), [])
-  const bad = useMemo(() => new THREE.Color(palette.negative), [])
+  const ok = useMemo(() => new THREE.Color(palette.success), [])
+  const bad = useMemo(() => new THREE.Color(palette.error), [])
 
   useEffect(() => {
     history.fill(0)
@@ -87,6 +90,8 @@ function Scene({ v }: { v: V }) {
       const h = Math.min(history[i] / budget, 1.5) * HIST_H
       b.visible = h > 0
       b.scale.y = Math.max(1e-3, h)
+      // Late frames are also drawn wider, not just red.
+      b.scale.x = history[i] > budget ? 1.3 : 0.7
       b.position.y = HIST_Y + h / 2
       ;(b.material as THREE.MeshBasicMaterial).color.copy(
         history[i] > budget ? bad : ok
@@ -107,7 +112,7 @@ function Scene({ v }: { v: V }) {
           position={[X0 + (i + 0.5) * histStep, HIST_Y, 0]}
         >
           <boxGeometry args={[histStep * 0.7, 1, 0.05]} />
-          <meshBasicMaterial color={palette.positive} />
+          <meshBasicMaterial color={palette.success} />
         </mesh>
       ))}
       <mesh position={[X0 + MAX_W / 2, HIST_Y + HIST_H, 0.05]}>
@@ -132,17 +137,13 @@ function Scene({ v }: { v: V }) {
           }}
           position={[X0, BAR_Y, 0]}
         >
-          <boxGeometry args={[1, 0.7, 0.05]} />
+          <boxGeometry args={[1, s.h, 0.05]} />
           <meshBasicMaterial color={s.color} />
         </mesh>
       ))}
       <mesh ref={over} position={[X0, BAR_Y, 0.06]}>
         <boxGeometry args={[1, 0.86, 0.02]} />
-        <meshBasicMaterial
-          color={palette.negative}
-          transparent
-          opacity={0.55}
-        />
+        <meshBasicMaterial color={palette.error} transparent opacity={0.55} />
       </mesh>
       <mesh position={[X0 + BUDGET_W, BAR_Y, 0.1]}>
         <boxGeometry args={[0.05, 1.2, 0.02]} />

@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Orbits are ellipses with the star at one focus, sweep equal areas in equal times, and have T² ∝ a³. Place planets on rails exactly with Kepler's equation.",
   level: "common",
   tags: ["orbits", "gravity", "kepler", "astronomy", "on-rails"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript module for a Three.js space game that places bodies on Kepler orbits. Inputs: semi-major axis a, eccentricity e in [0, 0.99), period T, argument of periapsis ω, and time t. Solve Kepler's equation M = E − e·sin E with Newton (start at π when e > 0.8, wrap M to [−π, π], stop when |Δ| < 1e-12 or 15 iterations), return position relative to the focus rotated by ω, and the velocity vector. Provide orbitLine(samples) for drawing with THREE.Line. Unit tests: residual |E − e sin E − M| < 1e-9 for e up to 0.95, and the area swept from the focus over four equal time slices is equal.",
   related: ["solar-system", "projectile-motion", "fixed-timestep"],
@@ -41,7 +41,7 @@ const sheet: Sheet = {
     { label: "Third law", math: tex`T^2 = \dfrac{4\pi^2 a^3}{G M}` },
     {
       label: "Speed ratio",
-      math: tex`\dfrac{v_{\text{peri}}}{v_{\text{apo}}} = \dfrac{1+e}{1-e}`,
+      math: tex`\dfrac{\textcolor{#f5d547}{v_{\text{peri}}}}{\textcolor{#f5d547}{v_{\text{apo}}}} = \dfrac{1+e}{1-e}`,
     },
   ],
   rules: [
@@ -86,7 +86,7 @@ export function orbitPosition(a: number, e: number, period: number, t: number, o
     },
   ],
   visual:
-    "The yellow star sits at one focus and the orange planet moves along the grey ellipse; the yellow line is its velocity. The cyan and purple wedges each take one eighth of the period, and they all have the same area. Raise the eccentricity to see short, wide wedges swept quickly near the star and long, narrow ones swept slowly far away.",
+    "The white star sits at one focus and the yellow planet moves along the solid grey ellipse; the white line is its radius and the dashed yellow line is its velocity v. The translucent white and grey wedges alternate, each takes one eighth of the period, and they all have the same area (the current one is brighter). Raise the eccentricity to see short, wide wedges swept quickly near the star and long, narrow ones swept slowly far away.",
 }
 
 export default sheet

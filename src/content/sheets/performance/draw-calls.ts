@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "BatchedMesh",
     "cpu overhead",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Refactor my TypeScript + Three.js scene to cut draw calls. Find meshes that share geometry and material and replace each group with a THREE.InstancedMesh (copy world matrices with setMatrixAt, per-instance colour with setColorAt). Group meshes that share a material but differ in geometry into a THREE.BatchedMesh. Keep a map from the old object ids to instance ids so gameplay code can still move or hide one item (hide by scaling its matrix to zero). Recompute bounding spheres after edits. Log renderer.info.render.calls before and after, and write a test that builds 500 identical meshes and asserts the converted scene renders them with one call.",
   related: ["texture-atlas", "overdraw", "frame-budget"],
@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "CPU submission cost",
-      math: tex`T_{\text{cpu}} \approx n_{\text{calls}} \cdot c_{\text{call}} + n_{\text{switches}} \cdot c_{\text{state}}`,
+      math: tex`\textcolor{#f5d547}{T_{\text{cpu}}} \approx n_{\text{calls}} \cdot c_{\text{call}} + n_{\text{switches}} \cdot c_{\text{state}}`,
       note: "With c_call around 5–20 µs in WebGL, 1,000 separate meshes can cost several ms.",
     },
     {
@@ -95,7 +95,7 @@ console.log(renderer.info.render.calls) // 1 for the cubes, not 1000`,
     },
   ],
   visual:
-    "A slow-motion view of the CPU submitting one frame. As separate meshes, each cube turns orange when its own draw call is sent; as one InstancedMesh, the whole block turns cyan in a single call. The yellow bar is CPU time spent submitting. The default alternates between the two; raise the cube count to widen the gap.",
+    "A slow-motion view of the CPU submitting one frame. As separate meshes, each cube turns yellow when its own draw call is sent; as one InstancedMesh, the whole block turns white at once inside a single white outline (one call). The yellow bar is CPU time spent submitting. The default alternates between the two; raise the cube count to widen the gap.",
 }
 
 export default sheet

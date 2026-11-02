@@ -37,10 +37,12 @@ function arrowLines(
       i * 6
     )
   }
-  return new THREE.BufferGeometry().setAttribute(
-    "position",
-    new THREE.BufferAttribute(out, 3)
-  )
+  // Per-segment distances so LineDashedMaterial can dash each arrow.
+  const dist = new Float32Array(points.count * 2)
+  for (let i = 0; i < points.count; i++) dist[i * 2 + 1] = ARROW
+  return new THREE.BufferGeometry()
+    .setAttribute("position", new THREE.BufferAttribute(out, 3))
+    .setAttribute("lineDistance", new THREE.BufferAttribute(dist, 1))
 }
 
 function Scene({ v }: { v: V }) {
@@ -93,8 +95,9 @@ function Scene({ v }: { v: V }) {
   // Recolour triangles whenever the slope limit changes.
   useEffect(() => {
     const limit = Math.cos(rad(v.maxSlope))
-    const ok = new THREE.Color(palette.positive)
-    const bad = new THREE.Color(palette.negative)
+    // Walkable = neutral grey, too steep = red (error); lightness differs too.
+    const ok = new THREE.Color(palette.object)
+    const bad = new THREE.Color(palette.error)
     const n = flat.attributes.normal as THREE.BufferAttribute
     const c = flat.attributes.color as THREE.BufferAttribute
     for (let i = 0; i < n.count; i++) {
@@ -132,12 +135,16 @@ function Scene({ v }: { v: V }) {
       </mesh>
       {showFace && (
         <lineSegments geometry={faceArrows}>
-          <lineBasicMaterial color={palette.warning} />
+          <lineBasicMaterial color={palette.success} />
         </lineSegments>
       )}
       {showVertex && (
         <lineSegments geometry={vertexArrows}>
-          <lineBasicMaterial color={palette.primary} />
+          <lineDashedMaterial
+            color={palette.tertiary}
+            dashSize={0.09}
+            gapSize={0.07}
+          />
         </lineSegments>
       )}
     </group>

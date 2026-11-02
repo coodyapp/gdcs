@@ -99,7 +99,7 @@ function Scene({ v }: { v: V }) {
       <Line
         ref={densityRef}
         points={initial}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={3}
         frustumCulled={false}
       />
@@ -107,7 +107,7 @@ function Scene({ v }: { v: V }) {
         <Line
           ref={realRef}
           points={initial}
-          color={palette.secondary}
+          color={palette.moving}
           lineWidth={1.5}
           frustumCulled={false}
         />
@@ -115,8 +115,8 @@ function Scene({ v }: { v: V }) {
       <mesh ref={marker} position={[0, -0.12, 0]}>
         <coneGeometry args={[0.14, 0.28, 16]} />
         <meshStandardMaterial
-          color={palette.warning}
-          emissive={palette.warning}
+          color={palette.tertiary}
+          emissive={palette.tertiary}
           emissiveIntensity={0.4}
         />
       </mesh>

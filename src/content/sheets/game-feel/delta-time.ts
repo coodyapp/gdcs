@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "frame-rate independence",
     "requestAnimationFrame",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript game loop for a Three.js scene using requestAnimationFrame. Compute dt in seconds from the rAF timestamp, clamp it to 0.1 s, and support a timeScale (0 = paused) while also passing an unscaled dt to UI code. Move a player at a speed in units/s, apply friction as v *= Math.pow(f, dt * 60), and smooth a camera with x += (target - x) * (1 - Math.exp(-k * dt)). Put the pure update in a function and write a Vitest test that runs it at 30 and 144 fps for 2 s and asserts positions match within 1%.",
   related: [
@@ -36,7 +36,10 @@ const sheet: Sheet = {
     "Linear changes (`x += v·dt`) scale exactly. Anything that compounds per frame does not: `v *= 0.9` each frame is friction that is stronger at high fps. Use `Math.pow(0.9, dt·60)` or the exponential form `1 − e^(−k·dt)` instead. For physics or anything that must be deterministic, accumulate `dt` and step a [fixed timestep](/systems/simulation/fixed-timestep).",
   ],
   formulas: [
-    { label: "Position update", math: tex`x_{t+\Delta t} = x_t + v\,\Delta t` },
+    {
+      label: "Position update",
+      math: tex`x_{t+\Delta t} = x_t + v\,\textcolor{#fafafa}{\Delta t}`,
+    },
     {
       label: "Frame-rate independent decay",
       math: tex`v \leftarrow v \cdot f^{\,\Delta t \cdot 60} = v\,e^{-k\,\Delta t}`,
@@ -96,7 +99,7 @@ requestAnimationFrame(frame)`,
     },
   ],
   visual:
-    "Two runners race under a simulated frame rate. Cyan multiplies its speed by delta time; red moves a fixed amount per frame tuned for 60 fps. The tick marks are individual frames. Drop the FPS slider and red falls behind; raise it above 60 and red wins. Turn on uneven frames and cyan still arrives on time.",
+    "Two runners race in separate lanes under a simulated frame rate toward the white finish wall. The white box in the back lane multiplies its speed by delta time; the red box in the front lane (the bug) moves a fixed amount per frame tuned for 60 fps. The thin tick marks in each lane are individual frames. Drop the FPS slider and red falls behind; raise it above 60 and red wins. Turn on uneven frames and white still arrives on time.",
 }
 
 export default sheet

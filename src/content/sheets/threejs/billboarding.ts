@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A billboard is a flat quad rotated every frame to face the camera, so a 2D image reads as 3D. Use full facing for sprites, Y-axis only for trees.",
   level: "common",
   tags: ["billboard", "sprite", "impostor", "particles", "quaternion"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript Three.js `BillboardSystem` that keeps a set of quads facing the camera. Support two modes per quad: 'spherical' (copy the camera's world quaternion, converted into the quad parent's local space with the parent's inverse world quaternion) and 'cylindrical' (yaw only around world +Y using atan2 of the eye-to-quad vector on XZ, also converted for rotated parents). Update in one loop per frame with no allocations. Then add an alternative GPU path: an InstancedMesh with a vertex shader that builds the quad from the view matrix right/up vectors, with a uniform to switch to cylindrical (up = +Y). Include a test: with the camera directly above a cylindrical billboard it stays vertical, while a spherical one becomes horizontal.",
   related: ["level-of-detail", "particle-system", "quaternions"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
     },
     {
       label: "Cylindrical yaw",
-      math: tex`\psi = \operatorname{atan2}(e_x - c_x,\; e_z - c_z)`,
+      math: tex`\textcolor{#fafafa}{\psi} = \operatorname{atan2}(e_x - c_x,\; e_z - c_z)`,
       note: "Rotate only around +Y by ψ; e is the eye position.",
     },
   ],
@@ -96,7 +96,7 @@ void main() {
     },
   ],
   visual:
-    "Tree cards stand on a turning platform. Green is a card's front, red its back; the yellow tick shows which way each card faces. With 'off' you see cards edge-on and from behind, 'Y-axis' keeps them upright and facing you, 'full' also tilts them toward the elevated camera. Raise the camera angle to exaggerate the difference.",
+    "Tree cards stand on a turning platform. A solid green tree is a card's front, a faded see-through red one its back; the thin white stick shows which way each card faces (its yaw ψ). With 'off' you see cards edge-on and from behind, 'Y-axis' keeps them upright and facing you, 'full' also tilts them toward the elevated camera. Raise the camera angle to exaggerate the difference.",
 }
 
 export default sheet

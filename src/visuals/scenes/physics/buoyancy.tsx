@@ -91,7 +91,7 @@ function Scene({ v }: { v: V }) {
       <mesh position={[0, TANK_H / 2, 0]}>
         <boxGeometry args={[7, TANK_H, 3]} />
         <meshStandardMaterial
-          color={palette.primary}
+          color={palette.subject}
           transparent
           opacity={0.18}
           depthWrite={false}
@@ -101,7 +101,7 @@ function Scene({ v }: { v: V }) {
       <mesh position={[0, SURFACE, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[7, 3]} />
         <meshStandardMaterial
-          color={palette.primary}
+          color={palette.subject}
           transparent
           opacity={0.22}
           depthWrite={false}
@@ -112,15 +112,15 @@ function Scene({ v }: { v: V }) {
         <mesh>
           <boxGeometry args={[SIZE, SIZE, SIZE]} />
           <meshStandardMaterial
-            color={palette.secondary}
-            emissive={palette.secondary}
+            color={palette.moving}
+            emissive={palette.moving}
             emissiveIntensity={0.15}
           />
         </mesh>
-        <Arrow arrow={buoy} color={palette.primary} x={-0.4} up />
-        <Arrow arrow={weight} color={palette.warning} x={0.4} up={false} />
+        <Arrow arrow={buoy} color={palette.force} x={-0.4} up />
+        <Arrow arrow={weight} color={palette.force} x={0.4} up={false} />
         <group position={[0, -SIZE / 2, 0]}>
-          <Arrow arrow={normal} color={palette.positive} x={0} up />
+          <Arrow arrow={normal} color={palette.success} x={0} up />
         </group>
       </group>
     </>

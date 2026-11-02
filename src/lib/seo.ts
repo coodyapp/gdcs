@@ -1,4 +1,5 @@
 import { absoluteUrl, formatTitle, siteConfig } from "@/config/site"
+import { getPath, pathUrl, paths } from "@/content/paths"
 import {
   categoryPath,
   getCategory,
@@ -172,6 +173,73 @@ export function headFor(pathname: string): Head {
       ],
     }
   }
+  if (path === "/paths") {
+    return {
+      title: formatTitle("Learning paths"),
+      description:
+        "Curated, ordered routes through the cheat sheets: 3D math, platformer feel, collision, animation, rendering and procedural worlds.",
+      path,
+      type: "website",
+      updated: latest(),
+      jsonLd: [
+        {
+          "@type": "CollectionPage",
+          name: "Learning paths",
+          url: absoluteUrl(path),
+        },
+        {
+          "@type": "ItemList",
+          itemListElement: paths.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: absoluteUrl(pathUrl(p.slug)),
+            name: p.title,
+          })),
+        },
+        breadcrumbs([{ name: "Learning paths", path }]),
+      ],
+    }
+  }
+  if (path.startsWith("/paths/")) {
+    const lp = getPath(path.slice("/paths/".length))
+    if (!lp) return notFound
+    const steps = lp.steps
+      .map((s) => getSheet(s.slug))
+      .filter((s): s is SheetMeta => Boolean(s))
+    return {
+      title: formatTitle(`${lp.title} — learning path`),
+      description: lp.summary,
+      path,
+      type: "website",
+      updated: latest(),
+      jsonLd: [
+        {
+          "@type": "Course",
+          name: lp.title,
+          description: lp.summary,
+          url: absoluteUrl(path),
+          provider: { "@id": organization["@id"] },
+          isAccessibleForFree: true,
+          inLanguage: siteConfig.locale,
+          hasCourseInstance: {
+            "@type": "CourseInstance",
+            courseMode: "online",
+            courseWorkload: `PT${steps.length * 10}M`,
+          },
+          hasPart: steps.map((s, i) => ({
+            "@type": "LearningResource",
+            position: i + 1,
+            name: s.title,
+            url: absoluteUrl(sheetPath(s)),
+          })),
+        },
+        breadcrumbs([
+          { name: "Learning paths", path: "/paths" },
+          { name: lp.title, path },
+        ]),
+      ],
+    }
+  }
   const page = staticPages[path]
   if (page)
     return { ...page, updated: latest(), jsonLd: [organization, website] }
@@ -240,6 +308,8 @@ export function allPaths(): string[] {
   return [
     "/",
     ...Object.keys(staticPages),
+    "/paths",
+    ...paths.map((p) => pathUrl(p.slug)),
     ...live.flatMap((c) => [
       categoryPath(c.slug),
       ...c.subcategories.map((s) => subcategoryPath(c.slug, s.slug)),

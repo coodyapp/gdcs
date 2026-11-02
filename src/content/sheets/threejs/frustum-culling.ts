@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Frustum culling skips objects whose bounding volume lies fully outside the camera's six view planes, before any draw call is made.",
   level: "core",
   tags: ["culling", "frustum", "bounding sphere", "visibility", "optimization"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript Three.js module that culls a list of game entities each frame. Build a THREE.Frustum from camera.projectionMatrix × camera.matrixWorldInverse after calling camera.updateMatrixWorld(). For each entity, transform its geometry's bounding sphere (computed once and padded by an optional `padding` value) into world space and test it; set `entity.mesh.visible` and an `entity.onScreen` flag that game code can use to throttle updates. No allocations per frame. Edge cases: objects straddling a plane count as visible; the camera inside an object's sphere counts as visible. Include a Vitest test with a camera at the origin looking down -Z: a sphere at (0,0,-5) is visible, one at (0,0,5) is culled, one at (100,0,-5) is culled.",
   related: ["level-of-detail", "draw-calls", "spatial-partitioning"],
@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Plane distance",
-      math: tex`d_i = \hat{n}_i \cdot \mathbf{c} + w_i`,
+      math: tex`d_i = \textcolor{#f5d547}{\hat{n}_i} \cdot \mathbf{c} + w_i`,
       note: "Plane i stored as (n, w) with n pointing into the frustum.",
     },
     {
@@ -93,7 +93,7 @@ waterMesh.geometry.boundingSphere!.radius += maxWaveHeight`,
     },
   ],
   visual:
-    "A top-down view of a game camera (orange) and its frustum wedge. Objects whose bounding sphere touches the wedge are drawn in cyan; the faded grey ones are culled and would cost no draw call. Narrow the field of view or shorten the far plane to cull more; turn off sweep to read the exact count.",
+    "A top-down view of a game camera (yellow box) and its frustum wedge drawn as thin yellow lines; the wedge's sides are the planes n. Objects whose bounding sphere touches the wedge are solid white (drawn); the faded, see-through grey ones are culled and would cost no draw call. Narrow the field of view or shorten the far plane to cull more; turn off sweep to read the exact count.",
 }
 
 export default sheet

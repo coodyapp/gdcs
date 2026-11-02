@@ -11,9 +11,9 @@ export const meta: SheetMeta = {
     "A fragment shader computes the colour of each pixel a triangle covers. Feed it UVs, normals and a time uniform and it paints anything.",
   level: "common",
   tags: ["shader", "glsl", "shadermaterial", "uniforms", "gpu"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
-    "Create a reusable Three.js ShaderMaterial in TypeScript called `makeEffectMaterial(effect: 'ripples' | 'plasma' | 'dissolve')`. Uniforms: uTime (seconds), uSpeed, uScale and uColor (THREE.Color). Write a minimal vertex shader that passes vUv, and one fragment shader with a `#define EFFECT` switch chosen at creation time (no runtime branching). Ripples: concentric sin rings from the centre; plasma: sum of three sin waves over uv and time; dissolve: hashed cell noise with discard and an orange edge band using smoothstep. Wrap time with mod to keep precision. Provide an `update(material, elapsed)` function that only writes uTime. Add a test that the generated shader source contains the chosen define and that update does not create new objects.",
+    "Create a reusable Three.js ShaderMaterial in TypeScript called `makeEffectMaterial(effect: 'ripples' | 'plasma' | 'dissolve')`. Uniforms: uTime (seconds), uSpeed, uScale and uColor (THREE.Color). Write a minimal vertex shader that passes vUv, and one fragment shader with a `#define EFFECT` switch chosen at creation time (no runtime branching). Ripples: concentric sin rings from the centre; plasma: sum of three sin waves over uv and time; dissolve: hashed cell noise with discard and a yellow edge band using smoothstep. Wrap time with mod to keep precision. Provide an `update(material, elapsed)` function that only writes uTime. Add a test that the generated shader source contains the chosen define and that update does not create new objects.",
   related: ["normals", "overdraw", "billboarding"],
 }
 
@@ -32,7 +32,7 @@ const sheet: Sheet = {
     },
     {
       label: "Ripples",
-      math: tex`c = \tfrac12 + \tfrac12\sin\!\big(k\,\lVert uv - \tfrac12\rVert - \omega t\big)`,
+      math: tex`\textcolor{#fafafa}{c} = \tfrac12 + \tfrac12\sin\!\big(k\,\lVert uv - \tfrac12\rVert - \omega t\big)`,
       note: "k sets ring density, ω the speed. Subtracting ωt moves rings outward.",
     },
     {
@@ -112,7 +112,7 @@ void main() {
     },
   ],
   visual:
-    "One plane, one ShaderMaterial, three fragment programs: every pixel you see is computed from its UV and the uTime uniform. Switch the effect, change the speed (it only scales the uniform), and raise the scale to see how cheap repetition is with fract and sin.",
+    "One plane, one ShaderMaterial, three fragment programs: every pixel you see is computed from its UV and the uTime uniform. Ripples are bright white rings (the value c) fading to dark; plasma blends white into yellow as smooth bands; dissolve punches see-through holes in a white sheet and gives each hole a thin glowing yellow rim. Switch the effect, change the speed (it only scales the uniform), and raise the scale to see how cheap repetition is with fract and sin.",
 }
 
 export default sheet

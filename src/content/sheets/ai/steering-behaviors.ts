@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Seek, arrive and separation each compute a desired velocity; steering is desired minus current velocity, capped and summed. Simple rules, lifelike motion.",
   level: "core",
   tags: ["steering", "seek", "arrive", "separation", "flocking", "movement"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement Reynolds steering behaviors in TypeScript for a Three.js crowd on the XZ plane. Agents have pos/vel (THREE.Vector2), maxSpeed, maxForce. Write seek, arrive (linear slow-down inside slowRadius), flee and separation (1/d weighting within a radius), each writing into an output vector with no allocation; steering = (desired − vel) / reactionTime, truncated to maxForce; combine with weights. Integrate at a fixed 60 Hz, orient each instanced cone along its velocity, and guard zero-length vectors. Write Vitest tests: arrive ends within 0.05 u of a static target with near-zero speed; seek passes the target at near max speed; separation between two agents 0.5 u apart points away from the neighbor with magnitude 2.",
   related: ["a-star-pathfinding", "finite-state-machine", "fixed-timestep"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Steering",
-      math: tex`\vec F = \operatorname{trunc}\!\left(\frac{\vec v_{\text{desired}} - \vec v}{\tau},\ F_{\max}\right)`,
+      math: tex`\vec F = \operatorname{trunc}\!\left(\frac{\vec v_{\text{desired}} - \textcolor{#f5d547}{\vec v}}{\tau},\ F_{\max}\right)`,
       note: "τ = reaction time (e.g. 0.25 s); smaller values react faster.",
     },
     {
@@ -89,7 +89,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Cyan agents chase the orange target as it hops between spots. Yellow lines are their velocities, and the gray ring is the arrive slowing radius. Switch to seek to see them overshoot and buzz around the target, and set separation to 0 to watch them pile into one spot.",
+    "White cones are agents chasing the green target ball as it hops between spots. Yellow dashed lines are their velocities, and the gray ring is the arrive slowing radius. Switch to seek to see them overshoot and buzz around the target, and set separation to 0 to watch them pile into one spot.",
 }
 
 export default sheet

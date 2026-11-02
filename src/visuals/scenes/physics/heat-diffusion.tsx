@@ -22,15 +22,15 @@ const HEATER_RADIUS = 0.42
 const SIM_SPEED = 2
 const HEIGHT = 1.4
 
-// Colour ramp from cold to hot, built from the shared palette.
+// Cold → hot ramp from the shared palette with rising lightness (inferno-like:
+// dark → violet → orange → yellow), so it reads without hue. Height repeats it.
 const RAMP = [
   palette.surface,
-  palette.primary,
-  palette.positive,
+  palette.tertiary,
+  palette.energy,
   palette.warning,
-  palette.secondary,
 ].map((c) => new THREE.Color(c))
-const COLD_NEGATIVE = new THREE.Color(palette.negative)
+const COLD_NEGATIVE = new THREE.Color(palette.error)
 
 function Scene({ v }: { v: V }) {
   const { resetKey } = useVisual()
@@ -146,8 +146,8 @@ function Scene({ v }: { v: V }) {
       <mesh position={[0, -0.25, 0]}>
         <cylinderGeometry args={[HEATER_RADIUS, HEATER_RADIUS, 0.2, 32]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.energy}
+          emissive={palette.energy}
           emissiveIntensity={0.5}
         />
       </mesh>

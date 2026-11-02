@@ -97,7 +97,11 @@ function Scene({ v }: { v: V }) {
     }
     target.current?.position.set(p.x, 0.25, p.z)
     rig.current?.position.set(s.cx, 0.03, s.cz)
-    zoneMat.current?.color.set(s.pushing ? palette.warning : palette.positive)
+    if (zoneMat.current) {
+      // Pushing also brightens the fill, so the state is not hue-only.
+      zoneMat.current.color.set(s.pushing ? palette.velocity : palette.success)
+      zoneMat.current.opacity = s.pushing ? 0.45 : 0.18
+    }
     if (camDots.current) camDots.current.visible = v.trails
     if (tgtDots.current) tgtDots.current.visible = v.trails
   })
@@ -106,11 +110,11 @@ function Scene({ v }: { v: V }) {
     <group>
       <group ref={rig}>
         {/* What the camera sees (16:10). */}
-        <Line points={view} color={palette.primary} lineWidth={3} />
+        <Line points={view} color={palette.subject} lineWidth={3} />
         <mesh rotation-x={-Math.PI / 2}>
           <planeGeometry args={[VIEW_W, VIEW_D]} />
           <meshBasicMaterial
-            color={palette.primary}
+            color={palette.subject}
             transparent
             opacity={0.06}
             depthWrite={false}
@@ -131,22 +135,22 @@ function Scene({ v }: { v: V }) {
           />
           <meshBasicMaterial
             ref={zoneMat}
-            color={palette.positive}
+            color={palette.success}
             transparent
-            opacity={0.22}
+            opacity={0.18}
             depthWrite={false}
           />
         </mesh>
         <mesh position={[0, 0.02, 0]}>
           <boxGeometry args={[0.12, 0.02, 0.12]} />
-          <meshBasicMaterial color={palette.primary} />
+          <meshBasicMaterial color={palette.subject} />
         </mesh>
       </group>
       <mesh ref={target}>
         <sphereGeometry args={[0.25, 24, 16]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.35}
         />
       </mesh>
@@ -156,7 +160,7 @@ function Scene({ v }: { v: V }) {
         count={0}
       >
         <boxGeometry args={[0.07, 0.01, 0.07]} />
-        <meshBasicMaterial color={palette.primary} />
+        <meshBasicMaterial color={palette.subject} />
       </instancedMesh>
       <instancedMesh
         ref={tgtDots}
@@ -164,11 +168,7 @@ function Scene({ v }: { v: V }) {
         count={0}
       >
         <boxGeometry args={[0.05, 0.01, 0.05]} />
-        <meshBasicMaterial
-          color={palette.secondary}
-          transparent
-          opacity={0.6}
-        />
+        <meshBasicMaterial color={palette.moving} transparent opacity={0.6} />
       </instancedMesh>
     </group>
   )

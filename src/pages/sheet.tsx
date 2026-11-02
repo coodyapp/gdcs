@@ -27,6 +27,7 @@ import {
 import { CopyButton } from "@/components/copy-button"
 import { Rich } from "@/components/rich"
 import { NotFoundPage } from "@/pages/not-found"
+import { SheetPaths } from "@/pages/paths"
 import { VisualShell } from "@/visuals/shell"
 
 const copyMarkdown = (slug: string) => async () => {
@@ -242,6 +243,8 @@ function SheetArticle({ slug }: { slug: string }) {
               />
             </div>
           </section>
+
+          <SheetPaths slug={sheet.slug} />
 
           {related.length > 0 && (
             <section aria-labelledby="related">

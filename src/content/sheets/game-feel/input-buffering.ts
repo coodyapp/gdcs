@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "responsiveness",
     "input forgiveness",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a jump input buffer for a TypeScript Three.js platformer. When jump is pressed, set bufferTimer = 0.12 s; count it down by dt each update. On any update where the character can jump (grounded or coyote time left) and bufferTimer > 0, jump and clear both timers. Clear the buffer on death or pause. Read raw key presses into a per-frame `pressed` flag so the controller never acts inside event handlers. Write Vitest tests at 30, 60 and 144 fps: a press 0.08 s before landing jumps on the landing frame, a press 0.2 s before does not, and one press never gives two jumps.",
   related: ["coyote-time", "finite-state-machine", "delta-time"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Buffered action fires when",
-      math: tex`\text{legal}(t) \;\land\; t - t_{press} \le T_{buffer}`,
+      math: tex`\text{legal}(t) \;\land\; t - \textcolor{#f5d547}{t_{press}} \le \textcolor{#3ee09a}{T_{buffer}}`,
     },
   ],
   rules: [
@@ -88,7 +88,7 @@ every frame:
     },
   ],
   visual:
-    "The cube presses jump in mid-air at the yellow line. The strip below is a zoomed timeline: yellow is the press, white is touchdown, the cyan bar is the buffer window and the grey playhead is now. Runs alternate between buffer on (the press survives until touchdown, the cube turns green and hops again) and off (the press is dropped, it lands red and stops). Push the press earlier than the window to see it expire.",
+    "The white cube presses jump in mid-air at the yellow line. The strip below is a zoomed timeline: the thick yellow tick is the press, the white tick is touchdown, the translucent green bar is the buffer window and the thin grey playhead is now. Runs alternate between buffer on (the press survives until touchdown, the cube turns solid green and hops again) and off (the press is dropped, it lands as a red outline and stops). Push the press earlier than the window to see it expire.",
 }
 
 export default sheet

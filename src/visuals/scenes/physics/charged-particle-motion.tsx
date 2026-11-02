@@ -36,6 +36,24 @@ function writeLine(line: LineRef | null, xyz: Float32Array) {
     for (let c = 0; c < 6; c++) seg[i * 6 + c] = xyz[i * 3 + c]
   }
   attr.data.needsUpdate = true
+  // Dashed lines also need their per-segment distances refreshed.
+  const dist = line.geometry.attributes.instanceDistanceStart as
+    | THREE.InterleavedBufferAttribute
+    | undefined
+  if (!dist) return
+  const d = dist.data.array as Float32Array
+  let total = 0
+  for (let i = 0; i < xyz.length / 3 - 1; i++) {
+    const j = i * 3
+    d[i * 2] = total
+    total += Math.hypot(
+      xyz[j + 3] - xyz[j],
+      xyz[j + 4] - xyz[j + 1],
+      xyz[j + 5] - xyz[j + 2]
+    )
+    d[i * 2 + 1] = total
+  }
+  dist.data.needsUpdate = true
 }
 
 function Scene({ v }: { v: V }) {
@@ -116,12 +134,13 @@ function Scene({ v }: { v: V }) {
     writeLine(trailRef.current, trail)
     velPts[0] = p.x
     velPts[1] = p.y
-    velPts[3] = p.x + p.vx * 0.6
-    velPts[4] = p.y + p.vy * 0.6
+    // Long enough that the dashes clear the charge sphere.
+    velPts[3] = p.x + p.vx * 1.2
+    velPts[4] = p.y + p.vy * 1.2
     writeLine(velRef.current, velPts)
   })
 
-  // Field glyphs: yellow E arrows along y, grey dots for B coming out of the screen.
+  // Field glyphs: violet E arrows along y, grey dots for B coming out of the screen.
   const arrows = useMemo(() => {
     const out: { x: number; y: number }[] = []
     for (let i = -4; i <= 4; i += 2)
@@ -141,10 +160,10 @@ function Scene({ v }: { v: V }) {
                   [0, -len / 2, 0],
                   [0, len / 2, 0],
                 ]}
-                color={palette.warning}
+                color={palette.tertiary}
                 lineWidth={1.5}
                 transparent
-                opacity={0.55}
+                opacity={0.8}
               />
               <mesh
                 position={[0, len / 2, 0]}
@@ -152,9 +171,9 @@ function Scene({ v }: { v: V }) {
               >
                 <coneGeometry args={[0.08, 0.2, 12]} />
                 <meshBasicMaterial
-                  color={palette.warning}
+                  color={palette.tertiary}
                   transparent
-                  opacity={0.55}
+                  opacity={0.8}
                 />
               </mesh>
             </>
@@ -168,7 +187,7 @@ function Scene({ v }: { v: V }) {
       <Line
         ref={trailRef}
         points={initial}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={2.5}
         frustumCulled={false}
       />
@@ -178,15 +197,18 @@ function Scene({ v }: { v: V }) {
           [START_X, 0, 0],
           [START_X, 0, 0],
         ]}
-        color={palette.warning}
+        color={palette.velocity}
         lineWidth={2.5}
+        dashed
+        dashSize={0.1}
+        gapSize={0.07}
         frustumCulled={false}
       />
       <mesh ref={particle} position={[START_X, 0, 0]}>
         <sphereGeometry args={[0.17, 24, 24]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.5}
         />
       </mesh>

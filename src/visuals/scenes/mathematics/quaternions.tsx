@@ -66,9 +66,11 @@ function Rig({
   color,
   path,
   progress,
+  dashed = false,
 }: {
   x: number
   color: string
+  dashed?: boolean
   path: (t: number) => Quat
   progress: RefObject<number>
 }) {
@@ -88,14 +90,21 @@ function Rig({
           opacity={0.09}
         />
       </mesh>
-      <Line points={pts} color={color} lineWidth={2.5} />
+      <Line
+        points={pts}
+        color={color}
+        lineWidth={2.5}
+        dashed={dashed}
+        dashSize={0.12}
+        gapSize={0.08}
+      />
       <mesh position={pts[0]}>
         <sphereGeometry args={[0.1, 12, 12]} />
         <meshBasicMaterial color={palette.foreground} />
       </mesh>
       <mesh position={pts[pts.length - 1]}>
         <sphereGeometry args={[0.1, 12, 12]} />
-        <meshBasicMaterial color={palette.positive} />
+        <meshBasicMaterial color={palette.success} />
       </mesh>
       <group ref={body}>
         <Arrow color={color} />
@@ -132,11 +141,12 @@ function Scene({ v }: { v: V }) {
     <>
       <Rig
         x={-2.3}
-        color={palette.secondary}
+        color={palette.moving}
         path={euler}
         progress={progress}
+        dashed
       />
-      <Rig x={2.3} color={palette.primary} path={sl} progress={progress} />
+      <Rig x={2.3} color={palette.subject} path={sl} progress={progress} />
     </>
   )
 }

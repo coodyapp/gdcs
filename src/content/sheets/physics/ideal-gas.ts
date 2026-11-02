@@ -17,9 +17,9 @@ export const meta: SheetMeta = {
     "particles",
     "maxwell-boltzmann",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
-    "Build an ideal-gas box in TypeScript with Three.js. Create N ≤ 300 particles with uniform positions and Gaussian unit-temperature velocities from a seeded mulberry32 + Box–Muller generator. Each 1/120 s fixed step, advance positions by v·√T·dt, reflect specularly off the walls of a box whose width is adjustable, and return the summed wall impulse 2|v⊥|. Render with one InstancedMesh, colouring each instance from slow (cyan) to fast (orange), with no per-frame allocation. Tests: over 40,000 steps the measured pressure impulse/(area·time) matches N·T_kin/V within 3%, and 2,000 seeded particles have kinetic temperature ≈ 1.",
+    "Build an ideal-gas box in TypeScript with Three.js. Create N ≤ 300 particles with uniform positions and Gaussian unit-temperature velocities from a seeded mulberry32 + Box–Muller generator. Each 1/120 s fixed step, advance positions by v·√T·dt, reflect specularly off the walls of a box whose width is adjustable, and return the summed wall impulse 2|v⊥|. Render with one InstancedMesh, colouring each instance from slow (grey) to fast (yellow), with no per-frame allocation. Tests: over 40,000 steps the measured pressure impulse/(area·time) matches N·T_kin/V within 3%, and 2,000 seeded particles have kinetic temperature ≈ 1.",
   related: ["boltzmann-distribution", "heat-diffusion", "particle-system"],
 }
 
@@ -39,11 +39,11 @@ const sheet: Sheet = {
     },
     {
       label: "RMS speed",
-      math: tex`v_{\text{rms}} = \sqrt{\frac{3 k_B T}{m}}`,
+      math: tex`\textcolor{#f5d547}{v_{\text{rms}}} = \sqrt{\frac{3 k_B T}{m}}`,
     },
     {
       label: "Pressure from wall impulses",
-      math: tex`P = \frac{1}{A\,\Delta t}\sum_{\text{hits}} 2 m |v_\perp|`,
+      math: tex`\textcolor{#f65a5a}{P} = \frac{1}{A\,\Delta t}\sum_{\text{hits}} 2 m |\textcolor{#f5d547}{v_\perp}|`,
     },
     {
       label: "Maxwell–Boltzmann velocity component",
@@ -95,7 +95,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Particles are coloured by speed from cyan (slow) to orange (fast) inside a translucent box; the right wall is a piston that glows yellow with the measured pressure. Raise temperature or particle count, or narrow the box, and watch the glow and the P = NkT/V readout rise together.",
+    "Particles are coloured by speed, from grey (slow) through yellow to bright yellow (fast), inside a translucent box with a grey outline; the solid right wall is a piston that glows red with the measured pressure P (force on the wall). Raise temperature or particle count, or narrow the box, and watch the glow and the P = NkT/V readout rise together.",
 }
 
 export default sheet

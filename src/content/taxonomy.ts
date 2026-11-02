@@ -18,6 +18,11 @@ export const categories: Category[] = [
         description:
           "Core real-time rendering ideas every Three.js scene relies on.",
       },
+      {
+        slug: "materials",
+        title: "Materials & Light",
+        description: "How surfaces reflect, refract and scatter light.",
+      },
     ],
   },
   {
@@ -28,6 +33,21 @@ export const categories: Category[] = [
       "The math under game code: rotations, interpolation and deterministic randomness.",
     subcategories: [
       {
+        slug: "vectors",
+        title: "Vectors",
+        description: "Directions, lengths and the products that compare them.",
+      },
+      {
+        slug: "trigonometry",
+        title: "Trigonometry",
+        description: "Angles, circles and turning between them.",
+      },
+      {
+        slug: "transforms",
+        title: "Transforms",
+        description: "Moving, rotating and scaling between coordinate spaces.",
+      },
+      {
         slug: "rotations",
         title: "Rotations",
         description: "Representing and blending orientation in 3D.",
@@ -35,7 +55,7 @@ export const categories: Category[] = [
       {
         slug: "interpolation",
         title: "Interpolation",
-        description: "Turning linear progress into motion that feels right.",
+        description: "Blending values and drawing smooth curves between them.",
       },
       {
         slug: "procedural",
@@ -133,6 +153,20 @@ export const categories: Category[] = [
         slug: "world",
         title: "World",
         description: "Organising large worlds in space and memory.",
+      },
+    ],
+  },
+  {
+    slug: "animation",
+    title: "Animation",
+    short: "Animation",
+    description: "Skeletons, kinematics and procedural motion for characters.",
+    subcategories: [
+      {
+        slug: "kinematics",
+        title: "Kinematics",
+        description:
+          "Solving joint chains so hands and feet reach their targets.",
       },
     ],
   },

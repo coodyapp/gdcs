@@ -5,6 +5,7 @@ import { AboutPage } from "@/pages/about"
 import { CategoryPage, SubcategoryPage } from "@/pages/category"
 import { HomePage } from "@/pages/home"
 import { NotFoundPage } from "@/pages/not-found"
+import { PathPage, PathsIndexPage } from "@/pages/paths"
 import { SheetPage } from "@/pages/sheet"
 import { UpdatesPage } from "@/pages/updates"
 
@@ -15,6 +16,8 @@ export function App() {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="updates" element={<UpdatesPage />} />
+        <Route path="paths" element={<PathsIndexPage />} />
+        <Route path="paths/:path" element={<PathPage />} />
         <Route path=":category" element={<CategoryPage />} />
         <Route path=":category/:subcategory" element={<SubcategoryPage />} />
         <Route path=":category/:subcategory/:slug" element={<SheetPage />} />

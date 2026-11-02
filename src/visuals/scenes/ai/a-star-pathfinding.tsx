@@ -74,11 +74,12 @@ function Scene({ v }: { v: V }) {
   const colors = useMemo(
     () => ({
       floor: new THREE.Color(palette.surface),
-      open: new THREE.Color(palette.warning),
-      closed: new THREE.Color(palette.primary).multiplyScalar(0.55),
-      path: new THREE.Color(palette.secondary),
-      start: new THREE.Color(palette.positive),
-      goal: new THREE.Color(palette.negative),
+      // Frontier = active work (orange, raised); closed = done (violet, flat).
+      open: new THREE.Color(palette.moving),
+      closed: new THREE.Color(palette.tertiary).multiplyScalar(0.6),
+      path: new THREE.Color(palette.velocity),
+      start: new THREE.Color(palette.subject).multiplyScalar(0.45),
+      goal: new THREE.Color(palette.success).multiplyScalar(0.45),
     }),
     []
   )
@@ -87,6 +88,7 @@ function Scene({ v }: { v: V }) {
     const t = tiles.current
     const w = walls.current
     if (!t || !w) return
+    dummy.scale.set(1, 1, 1)
     for (let c = 0; c < W * H; c++) {
       const [x, , z] = cellPos(c)
       dummy.position.set(x, 0, z)
@@ -118,15 +120,25 @@ function Scene({ v }: { v: V }) {
     lastStep.current = step
     for (let c = 0; c < W * H; c++) {
       let col = colors.floor
+      // Shape cue: frontier tiles stand taller than closed/floor tiles.
+      let lift = 1
       if (closedAt[c] >= 0 && closedAt[c] < step) col = colors.closed
-      else if (result.openedAt[c] >= 0 && result.openedAt[c] <= step)
+      else if (result.openedAt[c] >= 0 && result.openedAt[c] <= step) {
         col = colors.open
+        lift = 2
+      }
       if (done && onPath.has(c)) col = colors.path
       if (c === start) col = colors.start
       if (c === goal) col = colors.goal
       t.setColorAt(c, col)
+      const [x, , z] = cellPos(c)
+      dummy.position.set(x, 0.04 * (lift - 1), z)
+      dummy.scale.set(1, lift, 1)
+      dummy.updateMatrix()
+      t.setMatrixAt(c, dummy.matrix)
     }
     if (t.instanceColor) t.instanceColor.needsUpdate = true
+    t.instanceMatrix.needsUpdate = true
   })
 
   return (
@@ -140,8 +152,20 @@ function Scene({ v }: { v: V }) {
         <meshStandardMaterial color={palette.object} />
       </instancedMesh>
       <group ref={pathLine} visible={false}>
-        <Line points={pathPoints} color={palette.secondary} lineWidth={4} />
+        <Line points={pathPoints} color={palette.velocity} lineWidth={4} />
       </group>
+      {/* Start = cyan agent token (sphere); goal = green flag ring. */}
+      <mesh position={[cellPos(start)[0], 0.3, cellPos(start)[2]]}>
+        <sphereGeometry args={[CELL * 0.3, 20, 14]} />
+        <meshStandardMaterial color={palette.subject} />
+      </mesh>
+      <mesh
+        position={[cellPos(goal)[0], 0.2, cellPos(goal)[2]]}
+        rotation={[-Math.PI / 2, 0, 0]}
+      >
+        <torusGeometry args={[CELL * 0.32, CELL * 0.08, 10, 28]} />
+        <meshBasicMaterial color={palette.success} />
+      </mesh>
     </>
   )
 }

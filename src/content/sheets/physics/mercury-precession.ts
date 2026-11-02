@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "General relativity adds a small 1/r⁴ pull that makes an orbit's closest point creep forward each lap: about 43 arcseconds per century for Mercury.",
   level: "advanced",
   tags: ["relativity", "orbits", "precession", "rk4", "mercury"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a Mercury-style perihelion precession demo in TypeScript + Three.js. Use sim units (G = 1, M in solar masses, a = 8, c = 8). Write an allocation-free RK4 step on a Float64Array state [x, y, z, vx, vy, vz] with acceleration −GM r̂/r²·(1 + 3L²/(c²r²)) when GR is on. Launch at perihelion r0 = a(1−e) with vis-viva speed, and run fixed 1/120 s substeps (time scale = substeps per fixed tick) with a clamped accumulator. Draw a 720-point ring-buffered trail spanning ~4 orbits, a dashed Newtonian reference ellipse, and a line to the latest perihelion. Unit tests: real Mercury precession ≈ 42.98″/century, energy drift < 1e-8 over 30k classical steps, a classical orbit's perihelion stays put, and the measured GR advance over 3 orbits is within 5 % of 6πGM/(c²a(1−e²)).",
   related: ["keplers-laws", "mass-effect", "fixed-timestep"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Precession per orbit",
-      math: tex`\Delta\omega = \frac{6\pi G M}{c^2 a (1 - e^2)}\ \text{rad/orbit}`,
+      math: tex`\textcolor{#a1a1aa}{\Delta\omega} = \frac{6\pi G M}{c^2 a (1 - e^2)}\ \text{rad/orbit}`,
     },
     {
       label: "Weak-field (1PN) radial acceleration",
@@ -93,7 +93,7 @@ export function accel(s: Float64Array, gr: boolean, out: Float64Array) {
     },
   ],
   visual:
-    "The cyan trail is the planet's (orange) last few orbits around the yellow star, the dashed grey ellipse is the closed Newtonian orbit, and the yellow line points at the latest perihelion. Toggle general relativity to watch the rosette appear or vanish, and raise the star mass or eccentricity for faster precession.",
+    "The solid white trail is the yellow planet's last few orbits around the white star, the dashed grey ellipse is the closed Newtonian orbit, and the thick grey line points at the latest perihelion, so its slow rotation is the precession Δω. Toggle general relativity to watch the rosette appear or vanish, and raise the star mass or eccentricity for faster precession.",
 }
 
 export default sheet

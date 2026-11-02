@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "stability",
     "grid",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a 2D explicit finite-difference heat solver in TypeScript for a Three.js heightfield. Inputs: grid size n, cell size dx, diffusivity alpha, a Float32Array of fixed temperatures (−1 for free cells) and the seconds to advance. Use two preallocated Float32Array buffers (ping-pong), cold Dirichlet edges, and choose Δt = 0.8·dx²/(4α) with as many substeps as needed. Write heights and vertex colours into an existing PlaneGeometry each frame without allocating, and recompute normals. Tests: maxStableDt(0.2, 0.1) = 0.0125; with r = 0.25 a single hot cell never exceeds its start value or goes negative over 300 steps; with r = 0.3 it oscillates to |T| > 10 and negative values within 80 steps.",
   related: ["ideal-gas", "fixed-timestep", "time-slicing"],
@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Heat equation",
-      math: tex`\frac{\partial T}{\partial t} = \alpha \nabla^2 T = \alpha\left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right)`,
+      math: tex`\frac{\partial \textcolor{#f5d547}{T}}{\partial t} = \alpha \nabla^2 \textcolor{#f5d547}{T} = \alpha\left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right)`,
     },
     {
       label: "Explicit (FTCS) update",
@@ -93,7 +93,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Height and colour show temperature (dark cold, through cyan and green, to orange hot) on a plate with cold edges and an orange heater in the middle; red cells mean negative, impossible temperatures. Change the diffusivity and heater temperature, and push Δt/Δt_max past 1 to break the stability limit.",
+    "Height and colour both show temperature T: low and dark grey when cold, rising through grey and yellow to tall, bright yellow when hot, on a plate with cold edges and an yellow heater disc in the middle. Red cells dipping below the plate mean negative, impossible temperatures. Change the diffusivity and heater temperature, and push Δt/Δt_max past 1 to break the stability limit.",
 }
 
 export default sheet

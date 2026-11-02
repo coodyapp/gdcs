@@ -93,7 +93,7 @@ function Scene({ v }: { v: V }) {
       <mesh position={[BARRIER_X, v.height / 2, 0]}>
         <boxGeometry args={[v.width, v.height, 1.4]} />
         <meshStandardMaterial
-          color={palette.negative}
+          color={palette.tertiary}
           transparent
           opacity={0.4}
         />
@@ -111,7 +111,7 @@ function Scene({ v }: { v: V }) {
           [face - 0.5, v.energy, 0.75],
           [face + v.width + 0.5, v.energy, 0.75],
         ]}
-        color={palette.warning}
+        color={palette.energy}
         lineWidth={1.5}
         dashed
         dashSize={0.18}
@@ -120,7 +120,7 @@ function Scene({ v }: { v: V }) {
       <Line
         ref={lineRef}
         points={initial}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={3}
         frustumCulled={false}
       />

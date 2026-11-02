@@ -97,19 +97,23 @@ function Scene({ v }: { v: V }) {
           >
             <mesh geometry={geometry} position={[0, -0.85, 0]}>
               <meshBasicMaterial
-                color={palette.positive}
+                color={palette.success}
                 side={THREE.FrontSide}
               />
             </mesh>
             <mesh geometry={geometry} position={[0, -0.85, 0]}>
+              {/* Back faces: red and see-through, so front/back differ by more than hue. */}
               <meshBasicMaterial
-                color={palette.negative}
+                color={palette.error}
                 side={THREE.BackSide}
+                transparent
+                opacity={0.4}
+                depthWrite={false}
               />
             </mesh>
             <mesh position={[0, 0, 0.3]} rotation={[Math.PI / 2, 0, 0]}>
-              <cylinderGeometry args={[0.025, 0.025, 0.6, 6]} />
-              <meshBasicMaterial color={palette.warning} />
+              <cylinderGeometry args={[0.03, 0.03, 0.6, 6]} />
+              <meshBasicMaterial color={palette.subject} />
             </mesh>
           </group>
         </group>

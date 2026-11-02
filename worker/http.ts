@@ -10,6 +10,8 @@ export interface Env {
   FROM_EMAIL: string
   FROM_NAME: string
   RATE_SALT?: string
+  /** Turnstile secret (wrangler secret). Unset locally: verification skipped. */
+  TURNSTILE_SECRET?: string
 }
 
 export class HttpError extends Error {

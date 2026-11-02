@@ -54,7 +54,7 @@ function Scene({ v }: { v: V }) {
   const time = useClock()
   const gizmo = useRef<THREE.Group>(null)
   const mats = useRef<(THREE.MeshStandardMaterial | null)[]>([])
-  const on = useMemo(() => new THREE.Color(palette.primary), [])
+  const on = useMemo(() => new THREE.Color(palette.subject), [])
   const off = useMemo(() => new THREE.Color(palette.object), [])
 
   // Frustum outline in camera space: near and far rectangles plus 4 edges.
@@ -113,10 +113,10 @@ function Scene({ v }: { v: V }) {
       <group ref={gizmo} position={EYE}>
         <mesh>
           <boxGeometry args={[0.35, 0.3, 0.45]} />
-          <meshBasicMaterial color={palette.secondary} />
+          <meshBasicMaterial color={palette.moving} />
         </mesh>
         <lineSegments geometry={edges}>
-          <lineBasicMaterial color={palette.secondary} />
+          <lineBasicMaterial color={palette.moving} />
         </lineSegments>
       </group>
     </>
@@ -162,7 +162,7 @@ export default defineVisual<V>({
   ],
   readout: (v) => {
     if (v.sweep)
-      return `${OBJECTS.length} objects · cyan = drawn, grey = culled · turn off sweep to count`
+      return `${OBJECTS.length} objects · solid white = drawn, faded grey = culled · turn off sweep to count`
     const n = countVisible(v)
     return `Drawn ${n} / ${OBJECTS.length} · culled ${OBJECTS.length - n}`
   },

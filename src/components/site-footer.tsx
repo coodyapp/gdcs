@@ -17,6 +17,9 @@ export function SiteFooter() {
             <Link to="/about" className="link-quiet">
               About
             </Link>
+            <Link to="/paths" className="link-quiet">
+              Learning paths
+            </Link>
             <Link to="/updates" className="link-quiet">
               Get updates
             </Link>

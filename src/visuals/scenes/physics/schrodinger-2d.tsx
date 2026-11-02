@@ -56,7 +56,7 @@ function Scene({ v }: { v: V }) {
   // Phase colour ramp endpoints (linear RGB), pre-allocated.
   const ramp = useMemo(
     () => ({
-      a: new THREE.Color(palette.primary),
+      a: new THREE.Color(palette.subject),
       b: new THREE.Color(palette.tertiary),
       low: new THREE.Color(palette.surface),
     }),
@@ -144,12 +144,12 @@ function Scene({ v }: { v: V }) {
           args={[BARRIER_R, BARRIER_R, 0.12 + v.potential * 0.12, 48]}
         />
         <meshStandardMaterial
-          color={palette.negative}
+          color={palette.energy}
           transparent
           opacity={0.3}
         />
       </mesh>
-      <Line points={ring} color={palette.negative} lineWidth={1.8} />
+      <Line points={ring} color={palette.energy} lineWidth={1.8} />
     </group>
   )
 }

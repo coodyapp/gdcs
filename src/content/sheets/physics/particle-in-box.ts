@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "superposition",
     "standing-waves",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript module plus a Three.js visual for a particle in an infinite square well. Use natural units (ħ = m = L = 1, E_n = n²). Export boxDensity(out: Float32Array, t, n, mix) that fills |Ψ(x,t)|² for Ψ = √(1−mix)·ψ1·e^{−it} + √mix·ψn·e^{−in²t} with ψk = √2·sin(kπx), allocation-free. Render the density as a line between two wall meshes and move a marker to ⟨x⟩ each frame by updating buffers in place. Clamp n to integers 2–6 and mix to 0–0.95. Write unit tests: the density integrates to 1 (trapezoid rule, 1e-3 tolerance) at several times, and with mix = 0 it is time-independent.",
   related: ["quantum-tunneling", "schrodinger-2d", "spring-mass-oscillator"],
@@ -41,7 +41,7 @@ const sheet: Sheet = {
     },
     {
       label: "Two-state superposition",
-      math: tex`\Psi(x,t) = a_1 \psi_1 e^{-iE_1 t/\hbar} + a_n \psi_n e^{-iE_n t/\hbar},\quad |a_1|^2 + |a_n|^2 = 1`,
+      math: tex`\textcolor{#f5d547}{\Psi(x,t)} = a_1 \psi_1 e^{-iE_1 t/\hbar} + a_n \psi_n e^{-iE_n t/\hbar},\quad |a_1|^2 + |a_n|^2 = 1`,
     },
     {
       label: "Beat period of the density",
@@ -97,7 +97,7 @@ export function boxDensity(
     },
   ],
   visual:
-    "The cyan curve is the probability density |Ψ|², the orange curve above it is Re Ψ, and the yellow cone marks the mean position ⟨x⟩. Raise the excited-state mix or pick an even level n to make the density slosh between the grey walls; the readout gives the beat period.",
+    "The thick white curve is the probability density |Ψ|², the thin yellow curve above it is Re Ψ, and the grey cone marks the mean position ⟨x⟩. Raise the excited-state mix or pick an even level n to make the density slosh between the grey walls; the readout gives the beat period.",
 }
 
 export default sheet

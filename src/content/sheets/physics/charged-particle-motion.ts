@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "The Lorentz force curls a charge around magnetic field lines and crossed E and B make it drift sideways. Integrate it with Boris, not Euler.",
   level: "advanced",
   tags: ["lorentz-force", "magnetism", "integration", "boris", "rk4"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement charged-particle motion in TypeScript for a Three.js scene. Write three allocation-free steppers that mutate {x,y,z,vx,vy,vz}: explicit Euler, classic RK4 (module-level scratch Float64Array) and the Boris push, each taking uniform E and B tuples, q/m and dt. Drive them from a 120 Hz fixed-step accumulator, keep a 240-point trail in a Float32Array ring written into an existing line geometry, and restart the particle when it leaves a ±5 × ±3.4 box. Expose larmorRadius(v, B, qm) and exbDrift(E, B). Tests: Boris keeps speed within 1e-12 over 20,000 steps in pure B; RK4 orbit radius matches v/(qm·B) to 1e-3; Euler speed grows; the mean x-velocity over 20 whole periods with E = 0.3ŷ, B = 1.5ẑ equals 0.2.",
   related: ["electric-field-lines", "fixed-timestep", "mercury-precession"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Lorentz force",
-      math: tex`m\frac{d\mathbf{v}}{dt} = q\left(\mathbf{E} + \mathbf{v} \times \mathbf{B}\right)`,
+      math: tex`m\frac{d\textcolor{#f5d547}{\mathbf{v}}}{dt} = q\left(\textcolor{#a1a1aa}{\mathbf{E}} + \textcolor{#f5d547}{\mathbf{v}} \times \mathbf{B}\right)`,
     },
     {
       label: "Larmor radius and cyclotron frequency",
@@ -35,7 +35,7 @@ const sheet: Sheet = {
     },
     {
       label: "E × B drift",
-      math: tex`\mathbf{v}_d = \frac{\mathbf{E} \times \mathbf{B}}{B^2}`,
+      math: tex`\mathbf{v}_d = \frac{\textcolor{#a1a1aa}{\mathbf{E}} \times \mathbf{B}}{B^2}`,
       note: "Independent of charge sign and mass.",
     },
     {
@@ -93,7 +93,7 @@ export function boris(p: P, E: V3, B: V3, qm: number, dt: number) {
     },
   ],
   visual:
-    "The orange charge leaves a cyan trail and the yellow stub is its velocity; faint yellow arrows show E (up) and grey dots show B coming out of the screen. Change E, B and speed, and switch the integrator to explicit Euler to watch the orbit spiral outward.",
+    "The yellow charge leaves a solid white trail and the dashed yellow stub is its velocity v; faint grey arrows show the electric field E (pointing up) and grey dots show B coming out of the screen. Change E, B and speed, and switch the integrator to explicit Euler to watch the orbit spiral outward.",
 }
 
 export default sheet

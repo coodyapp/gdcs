@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "LOD swaps a mesh for cheaper versions as it shrinks on screen, so far objects cost a fraction of near ones. Hysteresis stops the swaps flickering.",
   level: "common",
   tags: ["lod", "triangles", "optimization", "hysteresis", "impostor"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Build a TypeScript LOD manager for Three.js. Input: a list of { object, levels: Mesh[], switchAtPx: number[] } plus camera and renderer size. Every 4th frame, compute each object's projected bounding-sphere height in pixels (r / (d * tan(fov/2)) * H/2, using the camera's current fov so zoom is respected) and choose a level with 10% hysteresis so a level is only left once the size crosses the threshold by that margin. Toggle `visible` on level meshes only when the choice changes, never allocate per frame, and cull objects under 8 px. Write a Vitest test that a size oscillating ±5% around a threshold never changes level.",
   related: ["frustum-culling", "draw-calls", "billboarding"],
@@ -28,12 +28,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Projected size",
-      math: tex`s_{px} = \frac{r}{d\,\tan(\tfrac{fov_y}{2})}\cdot \frac{H}{2}`,
+      math: tex`s_{px} = \frac{r}{\textcolor{#f5d547}{d}\,\tan(\tfrac{fov_y}{2})}\cdot \frac{H}{2}`,
       note: "Radius r at distance d, viewport height H. Halving it every level matches halving the triangle budget roughly every doubling of distance.",
     },
     {
       label: "Hysteresis band",
-      math: tex`\text{enter } i \text{ at } d \ge D_i, \quad \text{leave } i \text{ at } d < D_i(1 - h)`,
+      math: tex`\text{enter } i \text{ at } \textcolor{#f5d547}{d} \ge D_i, \quad \text{leave } i \text{ at } \textcolor{#f5d547}{d} < D_i(1 - h)`,
     },
   ],
   rules: [
@@ -91,7 +91,7 @@ current = level`,
     },
   ],
   visual:
-    "The orange viewer slides back and forth past a field of spheres. Each sphere picks a mesh from its distance: cyan is full detail, violet is medium, grey is the low version. Solid rings mark the switch distances and dashed yellow rings the hysteresis band; the cyan bar on the right is the total triangle count. Set hysteresis to 0 and slow the viewer to watch the boundary pop.",
+    "The yellow cone is the viewer sliding back and forth past a field of spheres; its distance d picks each sphere's mesh: white and smooth is full detail, grey and faceted is medium, grey and blocky is the low version. Solid white rings mark the switch distances and dashed grey rings the hysteresis band; the solid white bar inside the grey wire box on the right is the total triangle count. Set hysteresis to 0 and slow the viewer to watch the boundary pop.",
 }
 
 export default sheet

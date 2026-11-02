@@ -1,16 +1,20 @@
 import { useState, type FormEvent } from "react"
 
+import { useTurnstile } from "@/hooks/use-turnstile"
+
 type Status = "idle" | "sending" | "sent" | "error"
 
 /** Email signup; the API sends a confirmation link (double opt-in). */
 export function SubscribeForm({ compact = false }: { compact?: boolean }) {
   const [status, setStatus] = useState<Status>("idle")
   const [message, setMessage] = useState("")
+  const human = useTurnstile()
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
     setStatus("sending")
+    const turnstile = await human.getToken()
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
@@ -19,6 +23,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           email: String(form.get("email") ?? ""),
           website: String(form.get("website") ?? ""),
           source: window.location.pathname,
+          turnstile,
         }),
       })
       const data = (await res.json().catch(() => ({}))) as { error?: string }
@@ -27,6 +32,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       setStatus("sent")
       setMessage("Check your inbox and confirm your subscription.")
     } catch (error) {
+      human.reset()
       setStatus("error")
       setMessage(
         error instanceof Error
@@ -70,6 +76,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           {status === "sending" ? "Sending…" : "Get updates"}
         </button>
       </div>
+      <div ref={human.container} aria-hidden="true" />
       <p
         role="status"
         className={

@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Light is E and B regenerating each other. A 1D Yee grid (FDTD) leapfrogs them in time, slows them in glass and blows up past the Courant limit.",
   level: "advanced",
   tags: ["maxwell", "fdtd", "yee-grid", "courant", "waves"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a 1D FDTD (Yee) electromagnetic solver in TypeScript for a Three.js visual. Use normalised units (c = 1, Δx = 1) with Float64Array Ey on n nodes, Hz on n−1 half nodes and a per-node relative permittivity array. stepFdtd(grid, S, sourceIndex, source(t)) updates H then E, adds a soft source, applies first-order Mur boundaries at both ends and allocates nothing. Render Ey along y and Hz along z by writing into existing line geometries each frame, clamping non-finite values. Tests: at S = 1 a matched Gaussian pulse moves exactly one cell per step; at S = 0.5 the energy after the pulse exits is < 2% of the start (Mur absorbs); at S = 1.1 energy exceeds 1e6 within 400 steps.",
   related: ["electric-field-lines", "sound-waves", "fixed-timestep"],
@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Maxwell's curl equations (1D, Ey and Hz)",
-      math: tex`\varepsilon\frac{\partial E_y}{\partial t} = -\frac{\partial H_z}{\partial x}, \qquad \mu\frac{\partial H_z}{\partial t} = -\frac{\partial E_y}{\partial x}`,
+      math: tex`\varepsilon\frac{\partial \textcolor{#fafafa}{E_y}}{\partial t} = -\frac{\partial \textcolor{#a1a1aa}{H_z}}{\partial x}, \qquad \mu\frac{\partial \textcolor{#a1a1aa}{H_z}}{\partial t} = -\frac{\partial \textcolor{#fafafa}{E_y}}{\partial x}`,
     },
     {
       label: "Yee update (normalised: c = 1, Δx = 1)",
@@ -90,7 +90,7 @@ const sheet: Sheet = {
     },
   ],
   visual:
-    "Cyan is the electric field Ey (vertical), violet the magnetic field Hz (horizontal), launched from the orange source and absorbed at both ends; the translucent block is a dielectric slab. Raise εr to slow and shorten the wave inside the slab, and push the Courant number past 1 to watch the explicit scheme blow up.",
+    "The thick white curve standing up (vertical plane) is the electric field Ey and the thick grey curve lying flat (horizontal plane) is the magnetic field Hz; thin translucent stems tie each curve to the grey axis. Both are launched from the yellow source sphere and absorbed at the ends; the translucent grey block is a dielectric slab. Raise εr to slow and shorten the wave inside the slab, and push the Courant number past 1 to watch the explicit scheme blow up.",
 }
 
 export default sheet

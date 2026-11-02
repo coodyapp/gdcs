@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "platformer camera",
     "smoothing",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a 2D-style follow camera for a TypeScript Three.js side-scroller. Keep a focus point; each frame clamp it per axis so the player stays inside a deadzone of 2.4 × 1.4 world units, then ease the camera toward that clamped point with a = 1 - Math.exp(-6 * dt). Add optional look-ahead (15% of view width in the velocity direction, itself smoothed) and a platform-snap mode that only updates the vertical target when the player is grounded. Apply shake as a separate offset after the follow. Write Vitest tests: the camera does not move while the target stays inside the zone, and the follow result after 1 s matches at 30 and 144 fps within 1%.",
   related: ["screen-shake", "acceleration-and-friction", "delta-time"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Deadzone clamp (per axis)",
-      math: tex`c' = \operatorname{clamp}\!\left(c,\; p - \tfrac{w}{2},\; p + \tfrac{w}{2}\right)`,
+      math: tex`\textcolor{#fafafa}{c'} = \operatorname{clamp}\!\left(\textcolor{#fafafa}{c},\; \textcolor{#f5d547}{p} - \tfrac{w}{2},\; \textcolor{#f5d547}{p} + \tfrac{w}{2}\right)`,
     },
     {
       label: "Smoothed follow",
@@ -86,7 +86,7 @@ function updateCamera(dt: number) {
     },
   ],
   visual:
-    "Top-down view. The orange target wanders with small jitters; the cyan rectangle is what the camera sees and the inner box is the deadzone. The box is green while the target moves inside it (camera still) and turns yellow when the target pushes the camera. The trails compare the target's path (orange) with the much calmer camera path (cyan). Set the deadzone to 0 to see a hard-locked camera copy every wiggle.",
+    "Top-down view. The yellow ball is the target p wandering with small jitters; the thick white rectangle is what the camera c sees and the dashed white box is the deadzone. Its fill is faint green while the target moves inside it (camera still) and turns brighter yellow when the target pushes the camera. The trails compare the target's path (small faded yellow dots) with the much calmer camera path (larger white squares). Set the deadzone to 0 to see a hard-locked camera copy every wiggle.",
 }
 
 export default sheet

@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A swinging weight pulled by sin θ: its period is only 2π√(L/g) for small swings, and damping decays the arc. Grapples, lamps and ropes in games.",
   level: "common",
   tags: ["pendulum", "oscillation", "damping", "nonlinear", "integration"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement a damped pendulum for a Three.js scene in TypeScript. State: angle θ (radians) and angular velocity ω. Each fixed 1/240 s step apply semi-implicit Euler to θ'' = −(g/L)·sin θ − b·θ'. Expose step(dt), reset(θ0), applyImpulse(j) and bobPosition(out: THREE.Vector3) relative to a pivot. Handle θ0 up to 179° and L > 0 validation. Write unit tests: for θ0 = 0.01 rad and b = 0 the measured period matches 2π√(L/g) within 0.5%, and for θ0 = 60° it is about 7% longer.",
   related: [
@@ -32,11 +32,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Equation of motion",
-      math: tex`\ddot{\theta} = -\dfrac{g}{L}\sin\theta - b\,\dot{\theta}`,
+      math: tex`\ddot{\theta} = -\dfrac{g}{L}\sin\textcolor{#f5d547}{\theta} - b\,\dot{\theta}`,
     },
     {
       label: "Small-angle period",
-      math: tex`T_0 = 2\pi\sqrt{L/g}`,
+      math: tex`\textcolor{#fafafa}{T_0} = 2\pi\sqrt{L/g}`,
     },
     {
       label: "Large-angle correction",
@@ -98,7 +98,7 @@ export function makePendulum(pivot: THREE.Vector3, length: number, theta0: numbe
     },
   ],
   visual:
-    "The orange bob is the full nonlinear pendulum; the faint cyan ghost follows the small-angle (harmonic) model from the same release angle. At 60° the ghost pulls ahead each swing; drop the release angle below 15° and they move together. Damping shrinks both arcs inside the grey release arc.",
+    "The solid yellow bob on the white rod is the full nonlinear pendulum (angle θ); the faint, translucent white ghost on a thin rod follows the small-angle model (period T₀) from the same release angle. At 60° the ghost pulls ahead each swing; drop the release angle below 15° and they move together. Damping shrinks both arcs inside the thin grey release arc.",
 }
 
 export default sheet

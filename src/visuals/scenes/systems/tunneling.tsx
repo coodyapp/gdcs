@@ -90,9 +90,12 @@ function Scene({ v }: { v: V }) {
     useRef<THREE.InstancedMesh>(null),
   ]
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  const cFly = useMemo(() => new THREE.Color(palette.primary), [])
-  const cMiss = useMemo(() => new THREE.Color(palette.negative), [])
-  const cHit = useMemo(() => new THREE.Color(palette.secondary), [])
+  // Bullet in flight = orange; tunnelled through = red (error, no spark);
+  // caught by the wall = green with a wireframe spark burst.
+  const cFly = useMemo(() => new THREE.Color(palette.moving), [])
+  const cMiss = useMemo(() => new THREE.Color(palette.error), [])
+  const cHit = useMemo(() => new THREE.Color(palette.success), [])
+  const swept = useRef<THREE.Mesh>(null)
 
   useFrame(({ clock }) => {
     lanes.forEach((l, i) => {
@@ -106,6 +109,12 @@ function Scene({ v }: { v: V }) {
         spark.visible = l.hit
         spark.position.set(l.x, Y, z)
         spark.scale.setScalar(1 + 0.25 * Math.sin(clock.elapsedTime * 20))
+      }
+      // Swept lane: a solid yellow bar covers the whole path that was tested.
+      if (i === 1 && swept.current) {
+        const w = Math.max(1e-3, l.x - START_X)
+        swept.current.scale.x = w
+        swept.current.position.set(START_X + w / 2, 0.012, z)
       }
       const m = dots[i].current
       if (!m) return
@@ -142,9 +151,9 @@ function Scene({ v }: { v: V }) {
           >
             <sphereGeometry args={[0.05, 8, 6]} />
             <meshBasicMaterial
-              color={i === 0 ? palette.guide : palette.primary}
+              color={palette.guide}
               transparent
-              opacity={0.6}
+              opacity={0.8}
             />
           </instancedMesh>
           <mesh ref={bullets[i]}>
@@ -153,10 +162,14 @@ function Scene({ v }: { v: V }) {
           </mesh>
           <mesh ref={sparks[i]} visible={false}>
             <icosahedronGeometry args={[0.28, 0]} />
-            <meshBasicMaterial color={palette.secondary} wireframe />
+            <meshBasicMaterial color={palette.success} wireframe />
           </mesh>
         </group>
       ))}
+      <mesh ref={swept} position={[START_X, 0.012, LANES[1]]}>
+        <boxGeometry args={[1, 0.01, 0.1]} />
+        <meshBasicMaterial color={palette.velocity} />
+      </mesh>
     </>
   )
 }

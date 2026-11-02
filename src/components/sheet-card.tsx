@@ -23,7 +23,7 @@ export function LevelPips({ level }: { level: SheetMeta["level"] }) {
             key={i}
             className={
               i <= n
-                ? "h-2 w-1 rounded-full bg-[var(--cat)]"
+                ? "h-2 w-1 rounded-full bg-foreground"
                 : "h-2 w-1 rounded-full bg-white/15"
             }
           />
@@ -92,7 +92,7 @@ export function SheetCard({
       </div>
       {/* Keyboard focus on the stretched link outlines the whole card. */}
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 ring-2 ring-[var(--color-sim-cyan)] ring-offset-2 ring-offset-background group-has-[a:focus-visible]:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 ring-2 ring-[var(--color-ui-strong)] ring-offset-2 ring-offset-background group-has-[a:focus-visible]:opacity-100"
         aria-hidden
       />
     </article>

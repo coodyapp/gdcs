@@ -16,7 +16,7 @@ const FLOW_SPEED = 0.9
 
 function chargeColor(q: number) {
   if (Math.abs(q) < 1e-6) return palette.object
-  return q > 0 ? palette.primary : palette.negative
+  return q > 0 ? palette.moving : palette.tertiary
 }
 
 function Scene({ v }: { v: V }) {
@@ -101,7 +101,7 @@ function Scene({ v }: { v: V }) {
         <Line
           key={i}
           points={line.tuples}
-          color={palette.warning}
+          color={palette.subject}
           lineWidth={1.4}
           transparent
           opacity={0.75}
@@ -113,17 +113,23 @@ function Scene({ v }: { v: V }) {
         frustumCulled={false}
       >
         <sphereGeometry args={[0.065, 10, 10]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <meshBasicMaterial color={palette.velocity} />
       </instancedMesh>
       {charges.map((c, i) => (
         <mesh key={i} position={[c.x, c.y, 0]}>
+          {/* Positive = solid, negative = wireframe: sign is never hue-only. */}
           <sphereGeometry
-            args={[0.18 + 0.1 * Math.min(2, Math.abs(c.q)), 32, 32]}
+            args={[
+              0.18 + 0.1 * Math.min(2, Math.abs(c.q)),
+              c.q < 0 ? 12 : 32,
+              c.q < 0 ? 8 : 32,
+            ]}
           />
           <meshStandardMaterial
             color={chargeColor(c.q)}
             emissive={chargeColor(c.q)}
             emissiveIntensity={0.35}
+            wireframe={c.q < 0}
           />
         </mesh>
       ))}

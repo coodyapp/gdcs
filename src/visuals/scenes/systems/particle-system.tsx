@@ -24,8 +24,9 @@ function Scene({ v }: { v: V }) {
 
   const mesh = useRef<THREE.InstancedMesh>(null)
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  const young = useMemo(() => new THREE.Color(palette.warning), [])
-  const mid = useMemo(() => new THREE.Color(palette.secondary), [])
+  // Age reads by size as well as hue: yellow (new, big) → orange → gray (small).
+  const young = useMemo(() => new THREE.Color(palette.velocity), [])
+  const mid = useMemo(() => new THREE.Color(palette.energy), [])
   const old = useMemo(() => new THREE.Color(palette.surface), [])
   const tmp = useMemo(() => new THREE.Color(), [])
 
@@ -92,7 +93,7 @@ function Scene({ v }: { v: V }) {
       <mesh position={[0, EMITTER_Y + coneH / 2, 0]} rotation={[Math.PI, 0, 0]}>
         <coneGeometry args={[Math.max(coneR, 0.02), coneH, 24, 1, true]} />
         <meshBasicMaterial
-          color={palette.primary}
+          color={palette.subject}
           wireframe
           transparent
           opacity={0.35}
@@ -100,7 +101,7 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh position={[0, 0.1, 0]}>
         <cylinderGeometry args={[0.3, 0.38, 0.2, 24]} />
-        <meshStandardMaterial color={palette.primary} />
+        <meshStandardMaterial color={palette.subject} />
       </mesh>
     </>
   )

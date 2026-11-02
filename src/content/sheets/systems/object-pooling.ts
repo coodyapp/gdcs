@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Pre-allocate bullets, effects and enemies once, then hand out and return them. No allocation or GC spikes mid-fight, and a hard cap on live objects.",
   level: "core",
   tags: ["pool", "memory", "garbage collection", "projectiles", "performance"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a generic `Pool<T>` in TypeScript for a Three.js game. Constructor takes a factory, a capacity and a reset callback; all objects are created up front. `acquire()` returns a slot index or -1 using a free-list stack (O(1), no allocation); `release(i)` resets the object, ignores double releases and pushes the index back. Add an optional overflow policy: 'drop' | 'recycleOldest' | 'grow' (track spawn order for recycleOldest), and counters for allocations and peak active. Use it for bullets as pre-added hidden meshes. Write Vitest tests: 1000 acquire/release cycles keep allocations at capacity, exhaustion returns -1, double release is ignored, recycleOldest returns the earliest-acquired slot.",
   related: ["particle-system", "tunneling", "fixed-timestep"],
@@ -104,7 +104,7 @@ function fire(origin: THREE.Vector3) {
     },
   ],
   visual:
-    "The turret fires orange projectiles from a fixed pool. Each cube in the row behind it is one pool slot: cyan = in use, gray = free. The allocation counter never moves; when every slot is busy the turret flashes red and the shot is dropped, or the oldest projectile is recycled. Raise the fire rate or shrink the pool to hit the limit.",
+    "The turret fires yellow projectiles from a fixed pool. Each slot in the row behind it is one pre-made object: a full yellow cube is in use, a flat green tile is free. The allocation counter never moves; when every slot is busy the turret flashes red and the shot is dropped, or the oldest projectile is recycled. Raise the fire rate or shrink the pool to hit the limit.",
 }
 
 export default sheet

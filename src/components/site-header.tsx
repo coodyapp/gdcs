@@ -50,6 +50,9 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <Link to="/paths" className="nav-link hidden shrink-0 lg:block">
+            Paths
+          </Link>
           <SearchTrigger className="hidden sm:flex" />
           <MobileSearchButton />
           <Link to="/updates" className="chip hidden lg:inline-flex">
@@ -128,6 +131,9 @@ export function SiteHeader() {
             </details>
           ))}
           <div className="mt-4 grid gap-2 border-t border-white/10 pt-4">
+            <Link to="/paths" className="chip justify-start">
+              Learning paths
+            </Link>
             <Link to="/updates" className="chip justify-start">
               Get updates
             </Link>

@@ -1,35 +1,35 @@
 import { createContext, useContext } from "react"
 import type { ComponentType } from "react"
 
-import { sim, surfaces, text } from "@/styles/tokens"
+import { neutral, sim, surfaces, text } from "@/styles/tokens"
 
 /**
- * Shared colours for every scene (docs/design-system.md §2). Meaning:
- * primary = subject/selection/ray (cyan) · secondary = moving thing/energy
- * (orange) · tertiary = secondary object/rotation (violet) · positive =
- * success/valid/normals (green) · warning = velocity/trajectory (yellow) ·
- * accel = acceleration/torque (pink) · negative = force/error/contact (red).
+ * Shared colours for every scene (docs/design-system.md §2). Coody brand:
+ * whites/greys for structure, plus three meaningful hues:
+ * subject/primary = white · moving/energy/secondary = yellow · secondary
+ * object/tertiary = grey · velocity/warning = yellow (dashed) · acceleration
+ * = light grey · success/positive = green · force/error/negative = red.
  * Never rely on hue alone: pair with dashes, shapes or labels.
  */
 export const palette = {
   stage: surfaces.bg,
   surface: surfaces.surface3,
   /** Default colour for solid props: light enough to read under the stage lights. */
-  object: "#71717a",
+  object: neutral.dim,
   grid: "#232327",
-  guide: "#8b8b94",
-  foreground: text.primary,
-  primary: sim.cyan,
-  secondary: sim.orange,
-  tertiary: sim.violet,
+  guide: text.meta,
+  foreground: neutral.white,
+  primary: neutral.white,
+  secondary: sim.yellow,
+  tertiary: neutral.mid,
   positive: sim.green,
   warning: sim.yellow,
-  accel: sim.pink,
+  accel: neutral.light,
   negative: sim.red,
   // Semantic aliases (prefer these in new scenes).
-  subject: sim.cyan,
-  moving: sim.orange,
-  energy: sim.orange,
+  subject: neutral.white,
+  moving: sim.yellow,
+  energy: sim.yellow,
   velocity: sim.yellow,
   force: sim.red,
   success: sim.green,

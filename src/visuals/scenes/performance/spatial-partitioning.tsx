@@ -43,15 +43,22 @@ function Scene({ v }: { v: V }) {
   const dots = useRef<THREE.InstancedMesh>(null)
   const cells = useRef<THREE.InstancedMesh>(null)
   const m = useMemo(() => new THREE.Matrix4(), [])
-  const ok = useMemo(() => new THREE.Color(palette.positive), [])
-  const bad = useMemo(() => new THREE.Color(palette.negative), [])
+  const ok = useMemo(() => new THREE.Color(palette.success), [])
+  const bad = useMemo(() => new THREE.Color(palette.error), [])
+  // Overlapping circles also get a red halo ring (not hue alone).
+  const halos = useRef<THREE.InstancedMesh>(null)
+  const haloGeo = useMemo(
+    () => new THREE.RingGeometry(R * 1.25, R * 1.5, 24).rotateX(-Math.PI / 2),
+    []
+  )
+  useEffect(() => () => haloGeo.dispose(), [haloGeo])
   const cellColor = useMemo(() => new THREE.Color(), [])
   const dim = useMemo(
-    () => new THREE.Color(palette.primary).multiplyScalar(0.1),
+    () => new THREE.Color(palette.subject).multiplyScalar(0.1),
     []
   )
   const lit = useMemo(
-    () => new THREE.Color(palette.primary).multiplyScalar(0.24),
+    () => new THREE.Color(palette.subject).multiplyScalar(0.24),
     []
   )
 
@@ -151,10 +158,17 @@ function Scene({ v }: { v: V }) {
     pairLines.geometry.setDrawRange(0, visit.state.n * 2)
     visit.attr.needsUpdate = true
 
+    const hl = halos.current
+    let nh = 0
     for (let i = 0; i < v.count; i++) {
       m.makeTranslation(circles[i].x, 0.03, circles[i].y)
       d.setMatrixAt(i, m)
       d.setColorAt(i, hit[i] ? bad : ok)
+      if (hit[i] && hl) hl.setMatrixAt(nh++, m)
+    }
+    if (hl) {
+      hl.count = nh
+      hl.instanceMatrix.needsUpdate = true
     }
     d.count = v.count
     d.instanceMatrix.needsUpdate = true
@@ -191,6 +205,13 @@ function Scene({ v }: { v: V }) {
       <instancedMesh ref={dots} args={[undefined, undefined, MAX]}>
         <cylinderGeometry args={[R, R, 0.06, 20]} />
         <meshBasicMaterial toneMapped={false} />
+      </instancedMesh>
+      <instancedMesh
+        ref={halos}
+        args={[haloGeo, undefined, MAX]}
+        frustumCulled={false}
+      >
+        <meshBasicMaterial color={palette.error} toneMapped={false} />
       </instancedMesh>
     </>
   )

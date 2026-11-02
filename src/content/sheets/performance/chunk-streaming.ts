@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Split a big world into chunks, load those within a radius of the player and unload them past a larger radius, so the boundary never thrashes.",
   level: "advanced",
   tags: ["open world", "streaming", "hysteresis", "chunks", "memory"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Build a chunk streaming system in TypeScript for a Three.js open world on the x/z plane. Inputs: chunk size, loadRadius, unloadRadius (assert unload ≥ load), and maxLoadsPerFrame. Each frame: unload resident chunks whose centre is farther than unloadRadius (return them to a pool and dispose GPU resources only when the pool is full), then collect missing chunks within loadRadius, sort nearest first, and start at most maxLoadsPerFrame async loads, ignoring duplicates already in flight and cancelling loads that leave the unload radius before finishing. Expose events for loaded/unloaded. Write tests: wiggling across a chunk boundary produces zero load/unload events with a margin, and many without one.",
   related: ["spatial-partitioning", "time-slicing", "frame-budget"],
@@ -32,7 +32,7 @@ const sheet: Sheet = {
     },
     {
       label: "Hysteresis",
-      math: tex`\text{load if } d \le R_{\text{load}}, \quad \text{unload if } d > R_{\text{unload}}, \quad R_{\text{unload}} > R_{\text{load}}`,
+      math: tex`\text{load if } d \le \textcolor{#3ee09a}{R_{\text{load}}}, \quad \text{unload if } d > \textcolor{#f65a5a}{R_{\text{unload}}}, \quad R_{\text{unload}} > R_{\text{load}}`,
     },
     {
       label: "Resident chunks (approx.)",
@@ -98,7 +98,7 @@ function stream(player: THREE.Vector3) {
     },
   ],
   visual:
-    "A top-down world of chunks around the orange player: green chunks are resident, yellow ones are waiting for the load budget, and red ones were just unloaded. The green ring is the load radius and the red ring the unload radius. Set the margin to 0 to see edge chunks thrash, and lower the budget to see loading lag behind.",
+    "A top-down world of chunks around the white player ball: tall green chunks are resident, short yellow ones are waiting for the load budget, and flat tiles flashing red were just unloaded. The solid green ring is the load radius and the dashed red ring the unload radius. Set the margin to 0 to see edge chunks thrash, and lower the budget to see loading lag behind.",
 }
 
 export default sheet

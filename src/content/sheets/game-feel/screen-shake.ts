@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Trauma-based screen shake: hits add trauma (0–1) that decays over time, and the camera is offset by trauma² × smooth noise for impact.",
   level: "common",
   tags: ["screen shake", "camera shake", "trauma", "juice", "noise", "impact"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement trauma-based camera shake in TypeScript for a Three.js game. Keep trauma in [0, 1]; addTrauma(amount) adds and clamps; each frame subtract decay * dt (default 1/s). Compute shake = trauma ** 2 times a user intensity setting, and offset the camera from its follow position by maxOffset * shake * noise(t * freq, seed) on x and y, plus roll maxRoll * shake * noise(t * freq, 3), using a smooth 1D value noise with a seed per channel. Restore the base transform before applying the offset each frame. Write Vitest tests: trauma from 0.6 reaches 0 after 0.6 s at 30 and 144 fps, it never exceeds 1, and the noise is continuous.",
   related: [
@@ -32,11 +32,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Trauma update",
-      math: tex`\tau \leftarrow \operatorname{clamp}(\tau + \Delta\tau_{hit} - r\,\Delta t,\; 0,\; 1)`,
+      math: tex`\textcolor{#a1a1aa}{\tau} \leftarrow \operatorname{clamp}(\textcolor{#a1a1aa}{\tau} + \Delta\tau_{hit} - r\,\Delta t,\; 0,\; 1)`,
     },
     {
       label: "Offset per axis",
-      math: tex`o_x = O_{max}\,\tau^{2}\,N_1(f\,t), \quad \theta = \Theta_{max}\,\tau^{2}\,N_3(f\,t)`,
+      math: tex`o_x = O_{max}\,\textcolor{#f5d547}{\tau^{2}}\,N_1(f\,t), \quad \theta = \Theta_{max}\,\textcolor{#f5d547}{\tau^{2}}\,N_3(f\,t)`,
       note: "N is smooth noise in −1..1 with an independent seed per axis; f is the shake frequency (10–25 Hz).",
     },
   ],
@@ -88,7 +88,7 @@ function updateShake(dt: number, base: THREE.Vector3, settings = 1) {
     },
   ],
   visual:
-    "The cyan player takes a quick double hit, then a single one, on a loop. The dashed frame stays still while the world shakes inside it. The meter on the right shows trauma (yellow) and the resulting shake (orange, trauma²). Turn off squaring to see small trauma wobble too much, or switch to random noise to see the jitter it causes.",
+    "The white player takes a quick double hit, then a single one, on a loop; each hit flashes it red and sends out an yellow impact ring. The dashed grey frame stays still while the world shakes inside it. The meter on the right shows trauma τ as the left grey bar and the resulting shake τ² as the right yellow bar. Turn off squaring to see small trauma wobble too much, or switch to random noise to see the jitter it causes.",
 }
 
 export default sheet

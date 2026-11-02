@@ -61,10 +61,10 @@ function Scene({ v }: { v: V }) {
   const colors = useMemo(
     () => ({
       empty: new THREE.Color(palette.surface),
-      resident: new THREE.Color(palette.positive),
+      resident: new THREE.Color(palette.success),
       fresh: new THREE.Color(palette.foreground),
-      pending: new THREE.Color(palette.warning),
-      gone: new THREE.Color(palette.negative),
+      pending: new THREE.Color(palette.velocity),
+      gone: new THREE.Color(palette.error),
     }),
     []
   )
@@ -134,12 +134,12 @@ function Scene({ v }: { v: V }) {
       </instancedMesh>
       <group ref={rings}>
         <group ref={loadRing}>
-          <Line points={CIRCLE} color={palette.positive} lineWidth={2} />
+          <Line points={CIRCLE} color={palette.success} lineWidth={2} />
         </group>
         <group ref={unloadRing}>
           <Line
             points={CIRCLE}
-            color={palette.negative}
+            color={palette.error}
             lineWidth={2}
             dashed
             dashSize={0.06}
@@ -150,8 +150,8 @@ function Scene({ v }: { v: V }) {
       <mesh ref={player}>
         <sphereGeometry args={[0.2, 20, 14]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.subject}
+          emissive={palette.subject}
           emissiveIntensity={0.5}
         />
       </mesh>

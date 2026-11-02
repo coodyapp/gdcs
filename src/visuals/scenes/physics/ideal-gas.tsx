@@ -16,8 +16,11 @@ type V = { count: number; temperature: number; width: number }
 const MAX = 300
 const HALF_Y = 1.6
 const HALF_Z = 2
-const SLOW = new THREE.Color(palette.primary)
-const FAST = new THREE.Color(palette.secondary)
+// Speed ramp with rising lightness (inferno-like): violet (slow) → orange → bright
+// yellow (fast, velocity). Lerped in RGB so it never detours through green.
+const SLOW = new THREE.Color(palette.tertiary)
+const MID = new THREE.Color(palette.energy)
+const FAST = new THREE.Color(palette.velocity)
 
 function Scene({ v }: { v: V }) {
   const { resetKey } = useVisual()
@@ -62,7 +65,9 @@ function Scene({ v }: { v: V }) {
       m.setMatrixAt(i, matrix)
       const speed =
         Math.hypot(g.vel[i * 3], g.vel[i * 3 + 1], g.vel[i * 3 + 2]) * vScale
-      color.copy(SLOW).lerpHSL(FAST, Math.min(1, speed / 3.5))
+      const s = Math.min(1, speed / 3.5) * 2
+      if (s < 1) color.copy(SLOW).lerp(MID, s)
+      else color.copy(MID).lerp(FAST, s - 1)
       m.setColorAt(i, color)
     }
     m.count = count
@@ -104,7 +109,7 @@ function Scene({ v }: { v: V }) {
         <meshStandardMaterial
           ref={piston}
           color={palette.object}
-          emissive={palette.warning}
+          emissive={palette.force}
           emissiveIntensity={0.2}
           transparent
           opacity={0.6}

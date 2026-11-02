@@ -1,6 +1,6 @@
 # GDCS design system
 
-Coody brand kept: near-black neutral base, Inter (body), Cal Sans (headings), uppercase monospace HUD eyebrows, pill chips. Colour is added for **meaning** (simulations, data, categories), never for decoration.
+**Coody brand rule:** the UI is **black, white and greys only**: near-black base, Inter (body), Cal Sans (headings), uppercase monospace HUD eyebrows, pill chips. **Green, yellow and red** appear only inside simulations and formulas, where they carry meaning. Whites and greys may also be used inside simulations.
 
 Contrast ratios are WCAG 2.x relative luminance, measured against `bg #0a0a0a` / `card #141416`. Colour-vision checks use Machado 2009 simulation in OKLab.
 
@@ -21,52 +21,39 @@ Contrast ratios are WCAG 2.x relative luminance, measured against `bg #0a0a0a` /
 
 Rules: never use pure `#fff` on `#000`. Show elevation by lightening the surface, not with shadows. zinc-500 (`#71717a`) is **not** allowed for text. Body text weight ≥ 400. Antialiased font smoothing.
 
-## 2. Semantic accents (simulations, data, states)
+## 2. Simulation colours (Three.js visuals and formulas only)
 
-All pass 4.5:1 as text on bg and card, so they also pass the 3:1 graphics threshold.
-
-| Token            | Hex       | OKLCH           | bg / card     | Meaning                                                                           |
-| ---------------- | --------- | --------------- | ------------- | --------------------------------------------------------------------------------- |
-| `cyan`           | `#2DD4EF` | 80.1% 0.132 212 | 11.10 / 10.32 | primary subject, selection, ray, cursor, **focus ring**                           |
-| `orange`         | `#FF9F43` | 78.5% 0.154 61  | 9.70 / 9.02   | energy, heat, impulse, moving thing, warnings                                     |
-| `violet`         | `#B98CFF` | 73.0% 0.166 300 | 7.79 / 7.24   | secondary object, rotation, alternate axis                                        |
-| `green`          | `#3EE09A` | 80.8% 0.166 160 | 11.63 / 10.81 | success, valid, grounded, goal, normals                                           |
-| `yellow`         | `#F5D547` | 87.6% 0.157 96  | 13.66 / 12.70 | velocity, trajectory, highlighted path                                            |
-| `pink`           | `#F383C4` | 75.3% 0.156 346 | 8.35 / 7.76   | acceleration, torque, tertiary object                                             |
-| `red`            | `#F65A5A` | 67.4% 0.192 24  | 6.16 / 5.72   | force, error, penetration, contact                                                |
-| `blue` (UI only) | `#5B9DFF` | 69.7% 0.160 258 | 7.27 / 6.76   | Systems category, links. **Not in sims** (collapses with violet under protanopia) |
+| Token (`palette.*`)               | Hex                             | bg / card     | Meaning                              |
+| --------------------------------- | ------------------------------- | ------------- | ------------------------------------ |
+| `subject` / `primary`             | `#fafafa` white                 | 18.97 / 17.6  | the main subject, selection, ray     |
+| `secondary` / `moving` / `energy` | `#f5d547` yellow                | 13.66 / 12.70 | the moving thing, energy, highlight  |
+| `velocity` / `warning`            | `#f5d547` yellow, **dashed**    | 13.66 / 12.70 | velocity, trajectory                 |
+| `tertiary`                        | `#a1a1aa` grey                  | 7.72 / 7.18   | secondary object (outline/wireframe) |
+| `accel`                           | `#d4d4d8` light grey            | 13.9 / 12.9   | acceleration, torque                 |
+| `success` / `positive`            | `#3ee09a` green                 | 11.63 / 10.81 | valid, goal, grounded, normals       |
+| `force` / `error` / `negative`    | `#f65a5a` red                   | 6.16 / 5.72   | force, error, contact, danger        |
+| `object`, `guide`, `surface`      | `#71717a`, `#8b8b94`, `#27272a` |               | props, helpers, floors               |
 
 Rules:
 
-1. **Assignment order** for series: cyan → orange → violet → green → yellow → pink. Red is reserved for force, error and contact.
-2. **Never use hue alone (WCAG 1.4.1).** Force = solid arrow, velocity = dashed, acceleration = double head. Primary = solid, secondary = outline/hatched. Use labels in readouts.
-3. Don't separate **cyan/pink** or **orange/yellow** by colour alone in one view. Add a dash, shape or label.
-4. **Formulas match visuals.** A variable gets the same colour in KaTeX (`\textcolor{...}`) as its vector in the scene.
-5. Helpers/lines use unlit materials (`MeshBasicMaterial`/`LineBasicMaterial`), so the colours stay true. Lit meshes use the same hue.
-6. Red/green min ΔE: deuteranopia 12.7, protanopia 27.4. Never pair them as the only signal anyway.
+1. Only three hues exist: green, yellow, red. Everything else is a white or grey step.
+2. **Never use hue alone (WCAG 1.4.1).** Velocity = dashed yellow, force = solid red, a moving body = solid yellow. A secondary object is a grey outline or wireframe. Use labels in readouts. Red vs green also differ strongly in lightness (6.2 vs 11.6:1), so they stay distinguishable for colour-blind users.
+3. **Formulas match visuals.** A variable gets the same colour in KaTeX (`\textcolor{...}`) as its element in the scene, using only `#fafafa`, `#a1a1aa`, `#d4d4d8`, `#f5d547`, `#3ee09a` or `#f65a5a`.
+4. Ramps (heat, speed, height) run dark grey → yellow → white, or green → yellow → red for "good → bad". Never rainbow.
+5. Helpers and lines use unlit materials, so the colours stay true.
 
-## 3. Category accents
+## 3. UI colour (Coody neutrals)
 
-Small doses only: eyebrow dot, 2px card top border, icon, active nav underline. Always next to the category name.
-
-| Category             | Accent                                                     |
-| -------------------- | ---------------------------------------------------------- |
-| Three.js & Rendering | cyan                                                       |
-| Mathematics          | violet                                                     |
-| Game Feel            | pink                                                       |
-| Systems              | blue                                                       |
-| AI                   | green                                                      |
-| Performance          | yellow                                                     |
-| Physics              | orange                                                     |
-| Animation (new)      | red-free choice: violet-pink mix `#E08CF0` (verify on add) |
-
-Tints: chip fill `color-mix(in oklch, var(--cat) 12%, transparent)`, border 30%, text 100%.
+- Category identity comes from **labels and icons, not hue**. Every category uses the same neutral mark (`--color-ui-mark` `#a1a1aa`).
+- Active and selected states use white (`--color-ui-strong`) or white tints (`white/8%` fill, `white/16%` border).
+- The focus ring is 2px white, offset 2px (18.97:1).
+- Copy confirmations, progress bars and checkmarks are white.
 
 ## 4. Components
 
-- **Card**: `surface-1`, white-8% border, 2px top border in the category colour at 60%. On hover: `surface-2`, border 16%, accent 100%, arrow moves 2px. One link per card (stretched link). Copy button above the overlay. No long description in grids: title, hook, level pips, poster.
-- **Focus**: `outline: 2px solid var(--cyan); outline-offset: 2px` via `:focus-visible` (9.2:1). Never remove without a replacement. `scroll-padding-top` = header height (WCAG 2.4.11).
-- **Buttons/chips**: primary = `#FAFAFA` fill with `#0a0a0a` text. Secondary = transparent with a 16% border. Active filter = category tint + ✓ icon. Min height 32px, target ≥ 24×24.
+- **Card**: `surface-1`, white-8% border, 2px top border in neutral grey (white on hover). On hover: `surface-2`, border 16%, accent 100%, arrow moves 2px. One link per card (stretched link). Copy button above the overlay. No long description in grids: title, hook, level pips, poster.
+- **Focus**: `outline: 2px solid #fafafa; outline-offset: 2px` via `:focus-visible`. Never remove without a replacement. `scroll-padding-top` = header height (WCAG 2.4.11).
+- **Buttons/chips**: primary = `#FAFAFA` fill with `#0a0a0a` text. Secondary = transparent with a 16% border. Active filter = white fill. Min height 32px, target ≥ 24×24.
 - **Links in prose**: underline at white 40%, 100% on hover.
 - **Copy feedback**: label → "Copied ✓" for 1.5s with a fixed width, plus `aria-live="polite"`, and say what was copied.
 

@@ -32,6 +32,14 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 - `visual`: 1–2 sentences telling the reader what each colour means and what to tweak.
 - `updated: "2026-11-01"`.
 
+## Design rules (docs/design-system.md §2)
+
+- The UI is black/white/grey. **Inside visuals, the only hues are green, yellow and red**, plus whites and greys. Use `palette.*` names, never raw hex: `subject` (white) main subject · `moving`/`energy` (yellow) moving thing · `velocity` (yellow, **dashed**) · `tertiary` (grey outline) secondary object · `accel` (light grey) · `success` (green) valid/goal/normals · `force`/`error` (red) force/error/contact.
+- **Never rely on hue alone**: dashes, shapes, outline vs fill, labels.
+- **Formulas match the visual**: `` tex`\textcolor{#f5d547}{v}` ``. Allowed hex: `#fafafa`, `#a1a1aa`, `#d4d4d8`, `#f5d547`, `#3ee09a`, `#f65a5a`. Colour only the 1–3 variables shown in the visual.
+- Ramps: dark grey → yellow → white, or green → yellow → red. Never a rainbow.
+- The `visual` caption names each colour **and** its shape cue.
+
 ## Visual rules
 
 - `defineVisual<V>({ params, camera, readout, Scene, grid?, orbit? })`. At most 4 params (range/toggle/select). Defaults must already show the concept clearly.
@@ -57,13 +65,15 @@ Then look at the screenshot. There must be no console errors and the concept mus
 ## Master sheet list (slug → category/subcategory)
 
 threejs/rendering: raycasting, normals, level-of-detail, frustum-culling, fragment-shader, billboarding, z-fighting
-mathematics/rotations: quaternions · mathematics/interpolation: easing · mathematics/procedural: seeded-noise
+mathematics/vectors: vectors, dot-and-cross-product · mathematics/trigonometry: trigonometry · mathematics/transforms: transforms-and-matrices, local-vs-world-space, euler-angles
+mathematics/rotations: quaternions · mathematics/interpolation: easing, lerp-and-smoothstep, bezier-curves · mathematics/procedural: seeded-noise
+threejs/materials: reflection-and-refraction, pbr-materials · animation/kinematics: inverse-kinematics
 game-feel/timing: delta-time, coyote-time, input-buffering, hit-stop, invincibility-frames
 game-feel/motion: acceleration-and-friction, squash-and-stretch · game-feel/camera: camera-deadzone, screen-shake
 systems/patterns: object-pooling, particle-system · systems/simulation: fixed-timestep · systems/collision: hitbox-hurtbox, tunneling
 ai/navigation: a-star-pathfinding · ai/steering: steering-behaviors · ai/decision: finite-state-machine
 performance/cpu: frame-budget, time-slicing · performance/gpu: draw-calls, overdraw, texture-atlas · performance/world: spatial-partitioning, chunk-streaming
-physics/mechanics: projectile-motion, spring-mass-oscillator, damped-pendulum, keplers-laws, solar-system, balancing-torque, projectile-data-lab, sound-waves, buoyancy
+physics/mechanics: rigid-body-dynamics, projectile-motion, spring-mass-oscillator, damped-pendulum, keplers-laws, solar-system, balancing-torque, projectile-data-lab, sound-waves, buoyancy
 physics/electromagnetism: electric-field-lines, charged-particle-motion, em-wave-propagation
 physics/thermodynamics: heat-diffusion, ideal-gas, boltzmann-distribution
 physics/quantum-mechanics: particle-in-box, quantum-tunneling, schrodinger-2d

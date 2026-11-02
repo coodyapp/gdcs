@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Archimedes: a body is pushed up by the weight of fluid it displaces, so it floats with ρ_object/ρ_fluid of its volume under. Boats and crates in games.",
   level: "core",
   tags: ["fluids", "archimedes", "density", "floating", "water"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Implement buoyancy for floating crates in a TypeScript Three.js game with a fixed 1/120 s step. Inputs: crate size, density, fluid density, a waterHeight(x, z) function, gravity and water drag. Compute the submerged fraction of the box, apply F = ρ_fluid·g·V·f upward and drag proportional to f·velocity, integrate with semi-implicit Euler, and stop on the tank floor. Then extend it to 4 corner probes so the crate tilts on waves. Unit tests: a 650 kg/m³ crate in water settles with 65% of its height submerged; a 1500 kg/m³ crate ends on the floor; equal densities produce no net force when fully submerged.",
   related: ["balancing-torque", "spring-mass-oscillator", "fixed-timestep"],
@@ -27,9 +27,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Buoyant force",
-      math: tex`F_b = \rho_{\text{fluid}}\, g\, V_{\text{sub}}`,
+      math: tex`\textcolor{#f65a5a}{F_b} = \rho_{\text{fluid}}\, g\, V_{\text{sub}}`,
     },
-    { label: "Weight", math: tex`F_g = \rho_{\text{obj}}\, g\, V` },
+    {
+      label: "Weight",
+      math: tex`\textcolor{#f65a5a}{F_g} = \rho_{\text{obj}}\, g\, V`,
+    },
     {
       label: "Floating fraction",
       math: tex`\dfrac{V_{\text{sub}}}{V} = \dfrac{\rho_{\text{obj}}}{\rho_{\text{fluid}}}`,
@@ -88,7 +91,7 @@ export function applyBuoyancy(
     },
   ],
   visual:
-    "The orange block drops into the cyan tank and settles. The cyan arrow is the buoyant force (it grows with how much is under water), the yellow arrow is the weight, and a green arrow appears when the floor has to hold up a block that sinks. Raise the object density above the fluid density to sink it.",
+    "The yellow block drops into the translucent white water and settles. Both solid red arrows are forces: the one pointing up (left) is buoyancy, which grows with how much is under water, and the one pointing down (right) is the weight. A solid green up-arrow under the block is the floor's normal force when it sinks. Raise the object density above the fluid density to sink it.",
 }
 
 export default sheet

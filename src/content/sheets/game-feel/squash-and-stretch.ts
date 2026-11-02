@@ -17,7 +17,7 @@ export const meta: SheetMeta = {
     "procedural animation",
     "scale",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add procedural squash and stretch to a bouncing Three.js object in TypeScript. Keep physics on the root and deform only a child mesh. Each frame: if speed > 0.001, rotate the child so local +Y points along the velocity and scale it (1/sqrt(s), s, 1/sqrt(s)) with s = min(1.6, 1 + 0.05 * speed). On a ground impact, squash along the contact normal to s = 1 - 0.35 * impactSpeed / maxImpactSpeed (min 0.6) and recover to 1 over 0.12 s with an exponential ease, keeping the bottom on the floor. Write a Vitest test that the product of the three scale factors is always 1 within 1e-9.",
   related: ["acceleration-and-friction", "easing", "screen-shake", "hit-stop"],
@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Stretch along velocity",
-      math: tex`s_{\parallel} = \min\!\left(s_{max},\; 1 + k\,\lVert \mathbf{v} \rVert\right)`,
+      math: tex`s_{\parallel} = \min\!\left(s_{max},\; 1 + k\,\lVert \textcolor{#f5d547}{\mathbf{v}} \rVert\right)`,
     },
     {
       label: "Volume preservation (3D)",
@@ -87,7 +87,7 @@ function applyStretch(visual: THREE.Object3D, velocity: THREE.Vector3) {
     },
   ],
   visual:
-    "The orange ball stretches along its velocity as it falls and rises, and squashes flat for a moment after each bounce. The cyan wireframe is the undeformed ball for comparison. Turn off volume preservation to see it bloat, or set the amount to 0 for a rigid ball.",
+    "The solid yellow ball stretches along its velocity (the dashed yellow arrow, longer when faster) as it falls and rises, and squashes flat for a moment after each bounce. The white wireframe is the undeformed ball for comparison. Turn off volume preservation to see it bloat, or set the amount to 0 for a rigid ball.",
 }
 
 export default sheet

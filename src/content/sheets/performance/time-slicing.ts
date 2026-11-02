@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Split expensive per-entity work into buckets and run one bucket per frame. Cost per frame drops by the bucket count; each entity reacts a little later.",
   level: "common",
   tags: ["amortization", "round robin", "ai", "scheduling", "budget"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Add time slicing to my TypeScript + Three.js game's AI. Write a `Scheduler` that holds entities with a stable `bucket` assigned at registration (round robin), a configurable bucket count B, and per-entity `lastUpdate` time. Each frame it calls `think(entity, elapsedSinceLastThink)` only for the active bucket and `move(entity, dt)` for all. Also provide a budgeted mode that processes at most K entities per frame with a wrapping cursor that survives removals. Handle B changing at runtime by reassigning buckets evenly. Write tests: every entity thinks exactly once per B frames, elapsed time ≈ B·dt, and removal mid-cycle never skips anyone.",
   related: ["frame-budget", "spatial-partitioning", "chunk-streaming"],
@@ -89,7 +89,7 @@ repeat min(budget, count) times:
     },
   ],
   visual:
-    "Each dot is an agent chasing the yellow beacon. Only the orange bucket thinks this frame and re-aims at the beacon; cyan agents keep moving toward the goal they picked earlier (white line), so they trail behind. Raise the bucket count and watch the swarm react later and spread out; slow the tick to see the rotation.",
+    "Each dot is an agent chasing the green octahedron beacon. Only the thinking bucket, drawn as larger yellow dots, re-aims at the beacon this frame; the smaller white agents keep moving toward the goal they picked earlier (yellow line), so they trail behind. Raise the bucket count and watch the swarm react later and spread out; slow the tick to see the rotation.",
 }
 
 export default sheet

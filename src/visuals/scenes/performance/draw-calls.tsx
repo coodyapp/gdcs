@@ -12,8 +12,10 @@ const HOLD = 0.9
 const EXTENT = 7 // width of the cube block in scene units
 const CPU_BAR_PER_CALL = 0.0075 // scene units of "CPU time" per call
 
-const lit = new THREE.Color(palette.secondary)
-const litBatch = new THREE.Color(palette.primary)
+// Orange = a cube whose own draw call was just sent; cyan = the instanced batch,
+// which also gets one outline around the whole block (one call = one shape).
+const lit = new THREE.Color(palette.moving)
+const litBatch = new THREE.Color(palette.subject)
 const base = new THREE.Color(palette.object)
 
 function layout(count: number) {
@@ -87,6 +89,15 @@ function Scene({ v }: { v: V }) {
   useEffect(() => () => geometry.dispose(), [geometry])
 
   const cpuBar = useRef<THREE.Mesh>(null)
+  const batchOutline = useRef<THREE.LineSegments>(null)
+  const outlineGeo = useMemo(
+    () =>
+      new THREE.EdgesGeometry(
+        new THREE.BoxGeometry(EXTENT + 0.15, size + 0.1, EXTENT + 0.15)
+      ),
+    [size]
+  )
+  useEffect(() => () => outlineGeo.dispose(), [outlineGeo])
   const last = useRef({ mode: "", shown: -1, resetKey })
 
   useFrame(() => {
@@ -108,6 +119,8 @@ function Scene({ v }: { v: V }) {
 
     separate.visible = mode === "meshes"
     instanced.visible = mode === "instanced"
+    if (batchOutline.current)
+      batchOutline.current.visible = mode === "instanced" && sent >= 1
     const prev = last.current
     if (
       prev.mode !== mode ||
@@ -148,6 +161,14 @@ function Scene({ v }: { v: V }) {
     <>
       <primitive object={separate} />
       <primitive object={instanced} />
+      <lineSegments
+        ref={batchOutline}
+        geometry={outlineGeo}
+        position={[0, size / 2, 0]}
+        visible={false}
+      >
+        <lineBasicMaterial color={palette.subject} />
+      </lineSegments>
       {/* CPU time spent submitting this frame grows with the call count. */}
       <mesh position={[0, 0.06, EXTENT / 2 + 0.7]}>
         <boxGeometry args={[EXTENT, 0.04, 0.3]} />
@@ -155,7 +176,7 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh ref={cpuBar} position={[-EXTENT / 2, 0.1, EXTENT / 2 + 0.7]}>
         <boxGeometry args={[1, 0.08, 0.3]} />
-        <meshBasicMaterial color={palette.warning} />
+        <meshBasicMaterial color={palette.velocity} />
       </mesh>
     </>
   )

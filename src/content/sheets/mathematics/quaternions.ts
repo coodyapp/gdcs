@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A unit quaternion stores a 3D rotation as an axis and half-angle. It composes cheaply, never gimbal-locks and slerps along the shortest arc.",
   level: "core",
   tags: ["quaternion", "slerp", "rotation", "euler angles", "gimbal lock"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript module of quaternion helpers on plain [x, y, z, w] tuples (no Three.js dependency): fromAxisAngle, fromEuler (XYZ order, matching Three.js), multiply, conjugate, rotateVector, normalize, angleBetween (2·acos|a·b|), slerp(a, b, t, shortest = true) that flips b when a·b < 0 and falls back to normalized lerp when a·b > 0.9995, and rotateTowards(a, b, maxAngle). Add Vitest tests: fromEuler equals THREE.Quaternion.setFromEuler for random angles; slerp returns unit quaternions and hits both endpoints; slerp at t = 0.5 is half the angle; slerping yaw 170° → -170° sweeps 20° while lerping the Euler angles sweeps 340°.",
   related: ["easing", "billboarding", "steering-behaviors"],
@@ -36,7 +36,7 @@ const sheet: Sheet = {
     },
     {
       label: "Slerp",
-      math: tex`\operatorname{slerp}(a, b, t) = \frac{\sin((1-t)\Omega)}{\sin\Omega}a + \frac{\sin(t\Omega)}{\sin\Omega}b,\quad \cos\Omega = a\cdot b`,
+      math: tex`\textcolor{#fafafa}{\operatorname{slerp}(a, b, t)} = \frac{\sin((1-t)\Omega)}{\sin\Omega}a + \frac{\sin(t\Omega)}{\sin\Omega}\textcolor{#3ee09a}{b},\quad \cos\Omega = a\cdot b`,
       note: "If a·b < 0, negate b first. If Ω ≈ 0, normalized lerp is accurate and cheaper.",
     },
     {
@@ -92,7 +92,7 @@ const v = new THREE.Vector3(1, 0, 0).applyQuaternion(q) // ≈ (0, 0, -1)`,
     },
   ],
   visual:
-    "Two arrows turn from the same start (grey dot) to the same end (green dot). The orange one lerps Euler angles, the cyan one slerps quaternions; each leaves a trail of where its nose went. The default crosses the ±180° yaw seam, so Euler takes the long way. Untick shortest arc to make slerp do the same.",
+    "Two arrows turn from the same start (white dot) to the same end b (green dot). The left yellow arrow lerps Euler angles and leaves a dashed trail; the right white arrow slerps quaternions and leaves a solid trail of where its nose went. The default crosses the ±180° yaw seam, so Euler takes the long way. Untick shortest arc to make slerp do the same.",
 }
 
 export default sheet

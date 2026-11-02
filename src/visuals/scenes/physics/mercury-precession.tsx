@@ -179,7 +179,7 @@ function Scene({ v }: { v: V }) {
       <Line
         ref={trailRef}
         points={initial}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={2}
         transparent
         opacity={0.85}
@@ -191,23 +191,23 @@ function Scene({ v }: { v: V }) {
           [0, 0.02, 0],
           [wx(A), 0.02, 0],
         ]}
-        color={palette.warning}
+        color={palette.tertiary}
         lineWidth={2.5}
         frustumCulled={false}
       />
       <mesh>
         <sphereGeometry args={[0.32, 32, 32]} />
         <meshStandardMaterial
-          color={palette.warning}
-          emissive={palette.warning}
-          emissiveIntensity={1.2}
+          color={palette.foreground}
+          emissive={palette.foreground}
+          emissiveIntensity={0.6}
         />
       </mesh>
       <mesh ref={planet}>
         <sphereGeometry args={[0.14, 20, 20]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.moving}
+          emissive={palette.moving}
           emissiveIntensity={0.5}
         />
       </mesh>

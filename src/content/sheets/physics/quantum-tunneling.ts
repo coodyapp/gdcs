@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A quantum packet hitting a barrier higher than its energy still partly gets through: transmission falls off exponentially with barrier width.",
   level: "advanced",
   tags: ["quantum", "tunneling", "barrier", "transmission", "wave-packet"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "In TypeScript, implement transmission(E, V, a) for a 1D rectangular potential barrier in natural units (ħ = m = 1), covering E < V (sinh form), E > V (sin form) and the E = V limit, returning 0 for E ≤ 0. Then build a Three.js visual: a translucent barrier box of height V and width a, a dashed line at height E, and a Gaussian |ψ|² curve drawn on that line that travels at speed √(2E) and splits into a transmitted part (scaled by T) and a reflected mirror image (scaled by 1−T) at the barrier's left face, updating a preallocated buffer each frame. Unit-test that T + R = 1, that T decreases monotonically with a when E < V, that T = 1 at ka = π for E > V, and continuity across E = V within 1e-4.",
   related: ["particle-in-box", "schrodinger-2d", "tunneling"],
@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Decay constant inside the barrier",
-      math: tex`\kappa = \frac{\sqrt{2m(V - E)}}{\hbar}`,
+      math: tex`\kappa = \frac{\sqrt{2m(\textcolor{#a1a1aa}{V} - \textcolor{#f5d547}{E})}}{\hbar}`,
     },
     {
       label: "Exact transmission, E < V",
@@ -89,7 +89,7 @@ export const reflection = (E: number, V: number, a: number) =>
     },
   ],
   visual:
-    "The cyan curve is the packet's probability density riding on the dashed yellow energy line, and the red block is the barrier (height V, width a). Lower the energy below the barrier top or widen the barrier and the transmitted bump shrinks; the readout shows the exact T and R.",
+    "The thick solid white curve is the packet's probability density riding on the dashed yellow energy line E, and the translucent grey block is the barrier (height V, width a). Lower the energy below the barrier top or widen the barrier and the transmitted bump shrinks; the readout shows the exact T and R.",
 }
 
 export default sheet

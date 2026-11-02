@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A compact binary radiates gravitational waves at twice its orbital frequency; chirp mass and distance set a strain of around 10⁻²¹ or smaller.",
   level: "advanced",
   tags: ["relativity", "gravitational-waves", "binary", "chirp-mass", "strain"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write TypeScript utilities chirpMass(m1, m2) and strain(m1, m2, distance, fGW) for the leading-order gravitational-wave amplitude h = (4/r)(GM_c/c²)^{5/3}(πf/c)^{2/3}, computed in log space, plus keplerSeparation(m1, m2, fOrb). Then build a Three.js visual: a ≤ 64² PlaneGeometry updated in place each frame whose height combines two clamped −m/r wells at the barycentric positions of the binary and an exaggerated strain h ∝ cos(2Φ − 2φ − kr)/r, coloured by h; cap the displayed orbit rate at 0.6 Hz. Unit-test that the chirp mass of two 1.4 M☉ stars ≈ 1.219 M☉, that h ∝ 1/r and ∝ f^{2/3}, and that strain returns 0 at f = 0.",
   related: ["mass-effect", "mercury-precession", "em-wave-propagation"],
@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Chirp mass",
-      math: tex`\mathcal{M}_c = \frac{(m_1 m_2)^{3/5}}{(m_1 + m_2)^{1/5}}`,
+      math: tex`\mathcal{M}_c = \frac{(\textcolor{#f5d547}{m_1} \textcolor{#a1a1aa}{m_2})^{3/5}}{(\textcolor{#f5d547}{m_1} + \textcolor{#a1a1aa}{m_2})^{1/5}}`,
     },
     {
       label: "Strain amplitude (circular, leading order)",
@@ -43,7 +43,7 @@ const sheet: Sheet = {
     },
     {
       label: "Wave pattern used in the visual",
-      math: tex`h(r,\varphi,t) \propto \frac{1}{r}\cos\!\big(2\Phi(t) - 2\varphi - kr\big)`,
+      math: tex`\textcolor{#fafafa}{h}(r,\varphi,t) \propto \frac{1}{r}\cos\!\big(2\Phi(t) - 2\varphi - kr\big)`,
       note: "Φ is the orbital phase: the two-armed spiral rotates with the binary.",
     },
   ],
@@ -95,7 +95,7 @@ export function strain(m1: number, m2: number, distance: number, f: number) {
     },
   ],
   visual:
-    "The orange and yellow bodies orbit inside their potential wells, and the cyan-to-violet ripples are the exaggerated strain spiralling outward at twice the orbital rate. Change the two masses to shift the barycentre and deepen the wells, and the visual strain scale to exaggerate the ripples; the readout gives the real strain at 100 Mpc.",
+    "The yellow body (m₁) and the grey body (m₂, sized by its mass) orbit inside their potential wells; the wireframe sheet is the exaggerated strain h, bright white at crests and dark grey in troughs, spiralling outward at twice the orbital rate. Change the two masses to shift the barycentre and deepen the wells, and the visual strain scale to exaggerate the ripples; the readout gives the real strain at 100 Mpc.",
 }
 
 export default sheet

@@ -90,10 +90,10 @@ function Scene({ v }: { v: V }) {
         transparent
         opacity={0.6}
       />
-      <Line points={curve} color={palette.primary} lineWidth={3} />
+      <Line points={curve} color={palette.subject} lineWidth={3} />
       <mesh ref={dot}>
         <sphereGeometry args={[0.11, 16, 16]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <meshBasicMaterial color={palette.moving} />
       </mesh>
 
       {/* Tracks: eased ball in front, linear reference behind. */}
@@ -107,12 +107,12 @@ function Scene({ v }: { v: V }) {
       {[X0, X1].map((x, i) => (
         <mesh key={x} position={[x, TRACK_Y, 0.45]}>
           <boxGeometry args={[0.04, 0.5, 0.32]} />
-          <meshBasicMaterial color={i ? palette.positive : palette.guide} />
+          <meshBasicMaterial color={i ? palette.success : palette.guide} />
         </mesh>
       ))}
       <mesh ref={ball}>
         <sphereGeometry args={[0.2, 24, 16]} />
-        <meshStandardMaterial color={palette.secondary} />
+        <meshStandardMaterial color={palette.moving} />
       </mesh>
       <mesh ref={linBall}>
         <sphereGeometry args={[0.16, 24, 16]} />

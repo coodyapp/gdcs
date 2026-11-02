@@ -77,7 +77,7 @@ function Scene({ v }: { v: V }) {
         <Line
           key={i}
           points={pts}
-          color={i === 1 ? palette.primary : palette.guide}
+          color={i === 1 ? palette.subject : palette.guide}
           lineWidth={i === 1 ? 2.5 : 1}
         />
       ))}
@@ -95,8 +95,8 @@ function Scene({ v }: { v: V }) {
         <mesh key={i} position={[toX(r), 0.08, ((i % 5) - 2) * 0.14]}>
           <sphereGeometry args={[0.07, 12, 12]} />
           <meshStandardMaterial
-            color={palette.secondary}
-            emissive={palette.secondary}
+            color={palette.moving}
+            emissive={palette.moving}
             emissiveIntensity={0.4}
           />
         </mesh>
@@ -115,7 +115,7 @@ function Scene({ v }: { v: V }) {
           [toX(stats.mean), 0, 0.5],
           [toX(stats.mean), 2.3, 0.5],
         ]}
-        color={palette.warning}
+        color={palette.moving}
         lineWidth={3}
       />
       <Line
@@ -123,7 +123,7 @@ function Scene({ v }: { v: V }) {
           [toX(ideal), 0, 0.55],
           [toX(ideal), 1.9, 0.55],
         ]}
-        color={palette.positive}
+        color={palette.success}
         lineWidth={2}
         dashed
         dashSize={0.1}

@@ -55,13 +55,13 @@ function Scene({ v }: { v: V }) {
     <>
       <Line
         points={blueOrbit}
-        color={palette.primary}
+        color={palette.subject}
         transparent
         opacity={0.45}
       />
       <Line
         points={orangeOrbit}
-        color={palette.secondary}
+        color={palette.moving}
         transparent
         opacity={0.45}
       />
@@ -80,23 +80,23 @@ function Scene({ v }: { v: V }) {
         <mesh position={[-rBlue, 0, 0]}>
           <sphereGeometry args={[0.42, 32, 32]} />
           <meshStandardMaterial
-            color={palette.primary}
-            emissive={palette.primary}
+            color={palette.subject}
+            emissive={palette.subject}
             emissiveIntensity={0.35}
           />
         </mesh>
         <mesh position={[rOrange, 0, 0]}>
           <sphereGeometry args={[0.42 * Math.cbrt(v.ratio), 32, 32]} />
           <meshStandardMaterial
-            color={palette.secondary}
-            emissive={palette.secondary}
+            color={palette.moving}
+            emissive={palette.moving}
             emissiveIntensity={0.35}
           />
         </mesh>
       </group>
       <mesh rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[0.08, 0.16, 32]} />
-        <meshBasicMaterial color={palette.warning} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={palette.foreground} side={THREE.DoubleSide} />
       </mesh>
     </>
   )
@@ -108,7 +108,7 @@ export default defineVisual<V>({
   params: [
     {
       key: "ratio",
-      label: "Mass ratio (orange / cyan)",
+      label: "Mass ratio (yellow / white)",
       min: 0.3,
       max: 4,
       step: 0.1,
@@ -126,7 +126,7 @@ export default defineVisual<V>({
   readout: (v) => {
     const { body1, body2 } = calculateBarycentricRadii(1, v.ratio, SEPARATION)
     const w = angularRate(v.ratio, v.rate)
-    return `Radii cyan ${body1.toFixed(2)} / orange ${body2.toFixed(2)} u · m₁r₁ = m₂r₂ · period ${(TAU / w).toFixed(2)} s`
+    return `Radii white ${body1.toFixed(2)} / yellow ${body2.toFixed(2)} u · m₁r₁ = m₂r₂ · period ${(TAU / w).toFixed(2)} s`
   },
   Scene,
 })

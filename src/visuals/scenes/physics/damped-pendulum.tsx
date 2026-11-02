@@ -76,7 +76,7 @@ function Scene({ v }: { v: V }) {
             [0, 0, -0.05],
             [0, -L, -0.05],
           ]}
-          color={palette.primary}
+          color={palette.subject}
           lineWidth={1}
           transparent
           opacity={0.5}
@@ -84,7 +84,7 @@ function Scene({ v }: { v: V }) {
         <mesh position={[0, -L, -0.05]}>
           <sphereGeometry args={[0.3, 24, 24]} />
           <meshStandardMaterial
-            color={palette.primary}
+            color={palette.subject}
             transparent
             opacity={0.55}
           />
@@ -102,8 +102,8 @@ function Scene({ v }: { v: V }) {
         <mesh position={[0, -L, 0]}>
           <sphereGeometry args={[0.32, 32, 32]} />
           <meshStandardMaterial
-            color={palette.secondary}
-            emissive={palette.secondary}
+            color={palette.moving}
+            emissive={palette.moving}
             emissiveIntensity={0.25}
           />
         </mesh>

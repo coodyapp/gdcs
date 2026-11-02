@@ -21,9 +21,9 @@ const TABLE: TransitionTable<S, E> = {
 
 const COLOR: Record<S, string> = {
   idle: palette.guide,
-  patrol: palette.positive,
-  chase: palette.warning,
-  attack: palette.negative,
+  patrol: palette.success,
+  chase: palette.velocity,
+  attack: palette.error,
 }
 
 // State diagram on the right; arena on the left.
@@ -34,6 +34,37 @@ const NODE: Record<S, [number, number]> = {
   attack: [2.3, 1.3],
 }
 const NODE_R = 0.42
+
+// Each state also has its own silhouette, so it never relies on hue alone:
+// idle = circle, patrol = square, chase = triangle, attack = star.
+function starGeometry(r: number, depth: number) {
+  const shape = new THREE.Shape()
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2 + Math.PI / 2
+    const k = i % 2 === 0 ? r : r * 0.48
+    if (i === 0) shape.moveTo(Math.cos(a) * k, Math.sin(a) * k)
+    else shape.lineTo(Math.cos(a) * k, Math.sin(a) * k)
+  }
+  shape.closePath()
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false })
+  g.rotateX(-Math.PI / 2)
+  g.translate(0, -depth / 2, 0)
+  return g
+}
+const SHAPE: Record<S, THREE.BufferGeometry> = {
+  idle: new THREE.CylinderGeometry(NODE_R, NODE_R, 0.1, 32),
+  patrol: new THREE.CylinderGeometry(
+    NODE_R * 1.2,
+    NODE_R * 1.2,
+    0.1,
+    4,
+    1,
+    false,
+    Math.PI / 4
+  ),
+  chase: new THREE.CylinderGeometry(NODE_R * 1.3, NODE_R * 1.3, 0.1, 3),
+  attack: starGeometry(NODE_R * 1.3, 0.1),
+}
 const EDGES: { from: S; to: S; bend: number }[] = [
   { from: "idle", to: "patrol", bend: 0 },
   { from: "patrol", to: "chase", bend: 0 },
@@ -236,10 +267,14 @@ function Scene({ v }: { v: V }) {
         <mesh position={[0, 0.55, 0]}>
           <capsuleGeometry args={[0.28, 0.5, 6, 16]} />
           <meshStandardMaterial
-            color={COLOR[state]}
-            emissive={COLOR[state]}
+            color={palette.subject}
+            emissive={palette.subject}
             emissiveIntensity={0.25}
           />
+        </mesh>
+        {/* State badge: same colour + silhouette as the diagram node. */}
+        <mesh position={[0, 1.35, 0]} scale={0.55} geometry={SHAPE[state]}>
+          <meshBasicMaterial color={COLOR[state]} />
         </mesh>
         <mesh position={[0, 0.75, 0.3]} rotation={[Math.PI / 2, 0, 0]}>
           <coneGeometry args={[0.1, 0.22, 10]} />
@@ -282,8 +317,11 @@ function Scene({ v }: { v: V }) {
         const on = s === state
         return (
           <group key={s} position={[x, 0, z]}>
-            <mesh position={[0, 0.06, 0]} scale={on ? 1.15 : 1}>
-              <cylinderGeometry args={[NODE_R, NODE_R, 0.1, 32]} />
+            <mesh
+              position={[0, 0.06, 0]}
+              scale={on ? 1.15 : 1}
+              geometry={SHAPE[s]}
+            >
               <meshStandardMaterial
                 color={COLOR[s]}
                 emissive={COLOR[s]}

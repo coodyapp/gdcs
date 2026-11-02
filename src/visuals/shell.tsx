@@ -98,6 +98,45 @@ function useVisualDef(slug: string, enabled: boolean) {
  * placeholder (no layout shift); the client loads the scene module and
  * mounts a canvas only while the visual is near the viewport.
  */
+/** `?poster=1`: mount at once and hide overlays (used by scripts/posters.ts). */
+const posterMode = () =>
+  typeof window !== "undefined" &&
+  new URLSearchParams(window.location.search).has("poster")
+
+/** True once the visitor interacts (or the page has been idle a while). */
+function useWarm(enabled: boolean) {
+  const [warm, setWarm] = useState(false)
+  useEffect(() => {
+    if (!enabled || warm) return
+    if (posterMode()) return setWarm(true)
+    const go = () => setWarm(true)
+    const events = [
+      "pointerdown",
+      "pointermove",
+      "keydown",
+      "wheel",
+      "touchstart",
+      "scroll",
+    ] as const
+    events.forEach((e) =>
+      window.addEventListener(e, go, { once: true, passive: true })
+    )
+    // Reduced motion: only on interaction. Otherwise also after a quiet moment.
+    const timer = reducedMotion() ? undefined : setTimeout(() => idle(go), 3500)
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, go))
+      clearTimeout(timer)
+    }
+  }, [enabled, warm])
+  return warm
+}
+
+/**
+ * Interactive Three.js visual for a sheet. A static poster (built by
+ * `pnpm posters`) paints first, so LCP and layout never wait for WebGL.
+ * The page's main visual goes live on the first interaction or when idle;
+ * cards go live on hover (fine pointers) through the idle mount queue.
+ */
 export function VisualShell({
   slug,
   title,
@@ -110,19 +149,22 @@ export function VisualShell({
   className?: string
 }) {
   const [ref, inView] = useInView<HTMLDivElement>(compact ? "100px" : "400px")
-  // Cards mount through the idle queue; the main visual of a page at once.
+  const warm = useWarm(!compact)
+  const [hovered, setHovered] = useState(false)
   const [active, setActive] = useState(false)
+  const [posterOk, setPosterOk] = useState(true)
+  const poster = posterMode()
   useEffect(() => {
     if (!inView) {
       setActive(false)
       return
     }
-    if (!compact) {
+    if (poster || (!compact && warm)) {
       setActive(true)
       return
     }
-    return scheduleMount(() => setActive(true))
-  }, [inView, compact])
+    if (compact && hovered) return scheduleMount(() => setActive(true))
+  }, [inView, compact, warm, hovered, poster])
   const loaded = useVisualDef(slug, active)
   const def = loaded?.def
   const [values, setValues] = useState<Values | null>(null)
@@ -137,6 +179,7 @@ export function VisualShell({
   }, [def, values])
 
   const ready = def && values
+  const live = Boolean(ready && loaded && active)
   return (
     <figure
       className={cn("visual", className)}
@@ -144,12 +187,32 @@ export function VisualShell({
     >
       <div
         ref={ref}
+        onPointerEnter={(e) => {
+          if (compact && e.pointerType === "mouse") setHovered(true)
+        }}
         className={cn(
           "visual-stage relative overflow-hidden rounded-lg border bg-[#0a0a0a]",
           compact ? "aspect-[16/10]" : "aspect-[16/10] sm:aspect-[16/9]"
         )}
       >
-        {ready && loaded && active ? (
+        {posterOk && !poster && (
+          <img
+            src={`/posters/${slug}.webp`}
+            alt=""
+            aria-hidden="true"
+            width={960}
+            height={600}
+            loading={compact ? "lazy" : "eager"}
+            fetchPriority={compact ? "auto" : "high"}
+            decoding="async"
+            onError={() => setPosterOk(false)}
+            className={cn(
+              "absolute inset-0 size-full object-cover transition-opacity duration-300",
+              live && "opacity-0"
+            )}
+          />
+        )}
+        {live && def && values && loaded ? (
           <VisualContext.Provider value={{ playing, resetKey, compact }}>
             <loaded.Stage
               def={def}
@@ -159,11 +222,13 @@ export function VisualShell({
             />
           </VisualContext.Provider>
         ) : (
-          <div className="absolute inset-0 grid place-items-center">
-            <span className="eyebrow">Interactive visual</span>
-          </div>
+          !posterOk && (
+            <div className="absolute inset-0 grid place-items-center">
+              <span className="eyebrow">Interactive visual</span>
+            </div>
+          )
         )}
-        {!compact && (
+        {!compact && !poster && (
           <div className="absolute top-2 right-2 flex gap-1.5">
             <button
               type="button"

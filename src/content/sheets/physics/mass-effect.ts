@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "Mass curves spacetime: picture a gravity well whose depth follows −GM/r, with the Schwarzschild radius 2GM/c² marking where light can no longer escape.",
   level: "common",
   tags: ["relativity", "gravity", "schwarzschild", "potential", "black-hole"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Create a Three.js + TypeScript gravity-well visual. Input: mass in solar masses (0.1–10) and grid resolution (10–40). Build a PlaneGeometry (20×20 units) whose vertex height is −M/max(r, 0.5)·e^(−r/5), rotated so the dip points down, and render it as a wireframe; rebuild the geometry only when inputs change and dispose the old one. Place a sphere at the well bottom and a probe orbiting at r = 4.2 with angular speed ∝ √(M/r³), moved in useFrame without allocations. Show r_s = 2GM/c² in km. Unit-test schwarzschildRadius(1 M☉) ≈ 2953 m (±1 m) and that well depth scales linearly with mass.",
   related: ["mercury-precession", "gravitational-waves", "keplers-laws"],
@@ -28,7 +28,7 @@ const sheet: Sheet = {
     { label: "Schwarzschild radius", math: tex`r_s = \frac{2GM}{c^2}` },
     {
       label: "Newtonian potential (weak field)",
-      math: tex`\Phi(r) = -\frac{GM}{r}`,
+      math: tex`\textcolor{#fafafa}{\Phi(r)} = -\frac{GM}{r}`,
     },
     {
       label: "Escape velocity",
@@ -87,7 +87,7 @@ schwarzschildRadius(M_SUN) // ≈ 2953 m`,
     },
   ],
   visual:
-    "The cyan wireframe is the gravity-well analogy, the yellow sphere is the central mass, and the orange probe orbits faster as the well deepens. Drag the mass slider to deepen the well and switch the well off to compare with flat space; the readout gives the Schwarzschild radius.",
+    "The white wireframe is the gravity-well analogy (its depth is the potential Φ), the glowing white sphere is the central mass, and the solid yellow probe orbits faster as the well deepens. Drag the mass slider to deepen the well and switch the well off to compare with flat space; the readout gives the Schwarzschild radius.",
 }
 
 export default sheet

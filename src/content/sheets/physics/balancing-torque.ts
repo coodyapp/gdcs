@@ -11,7 +11,7 @@ export const meta: SheetMeta = {
     "A lever balances when m₁r₁ = m₂r₂. Torque is force times lever arm, and net torque over moment of inertia gives angular acceleration.",
   level: "core",
   tags: ["torque", "levers", "statics", "rotation", "moment-of-inertia"],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write a TypeScript see-saw puzzle module for a Three.js game. Inputs: plank length and mass, a list of loads {mass, x} where x is signed distance from the fulcrum, and a fixed timestep. Compute net torque Σ(−m·g·x·cos θ), moment of inertia ML²/12 + Σ m x², integrate angle with semi-implicit Euler plus light damping, and clamp at ±25° ground stops. Expose isBalanced(tolerance) and counterweightPosition(mass). Unit tests: 3 kg at −2 m and 2 kg at +3 m is balanced; moving the 2 kg load to +3.5 m makes the plank rotate clockwise.",
   related: ["buoyancy", "spring-mass-oscillator", "fixed-timestep"],
@@ -27,11 +27,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Torque (vector form)",
-      math: tex`\vec\tau = \vec r \times \vec F`,
+      math: tex`\vec\tau = \vec r \times \textcolor{#f65a5a}{\vec F}`,
     },
     {
       label: "Lever balance",
-      math: tex`m_1 g\, r_1 = m_2 g\, r_2 \;\Rightarrow\; m_1 r_1 = m_2 r_2`,
+      math: tex`\textcolor{#fafafa}{m_1} g\, r_1 = \textcolor{#a1a1aa}{m_2} g\, r_2 \;\Rightarrow\; m_1 r_1 = m_2 r_2`,
     },
     { label: "Rotational Newton's law", math: tex`\sum \tau = I\alpha` },
     {
@@ -89,7 +89,7 @@ export function stepSeesaw(
     },
   ],
   visual:
-    "The cyan (left) and orange (right) loads sit on a grey plank with 1 m ticks; yellow arrows are their weights. The defaults balance (3 kg × 2 m = 2 kg × 3 m), so the plank stays level. Change any mass or distance and it tips toward the larger torque.",
+    "The solid white box (left, m₁) and the translucent grey outlined box (right, m₂) sit on a grey plank with 1 m ticks; the solid red arrows are their weights (forces). The defaults balance (3 kg × 2 m = 2 kg × 3 m), so the plank stays level. Change any mass or distance and it tips toward the larger torque.",
 }
 
 export default sheet

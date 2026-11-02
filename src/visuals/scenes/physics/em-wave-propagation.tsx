@@ -175,8 +175,8 @@ function Scene({ v }: { v: V }) {
       <mesh position={[X0 + SOURCE * DX, 0, 0]}>
         <sphereGeometry args={[0.12, 16, 16]} />
         <meshStandardMaterial
-          color={palette.secondary}
-          emissive={palette.secondary}
+          color={palette.energy}
+          emissive={palette.energy}
           emissiveIntensity={0.5}
         />
       </mesh>
@@ -184,7 +184,7 @@ function Scene({ v }: { v: V }) {
         ref={eStems}
         segments
         points={flatStems}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={1}
         transparent
         opacity={0.45}
@@ -203,7 +203,7 @@ function Scene({ v }: { v: V }) {
       <Line
         ref={eRef}
         points={flatE}
-        color={palette.primary}
+        color={palette.subject}
         lineWidth={3}
         frustumCulled={false}
       />

@@ -93,8 +93,9 @@ function Scene({ v }: { v: V }) {
       ),
     []
   )
-  const green = useMemo(() => new THREE.Color(palette.positive), [])
-  const orange = useMemo(() => new THREE.Color(palette.secondary), [])
+  const green = useMemo(() => new THREE.Color(palette.success), [])
+  const red = useMemo(() => new THREE.Color(palette.error), [])
+  const hurtFill = useRef<THREE.Mesh>(null)
 
   useFrame(() => {
     const s = sim.current
@@ -104,7 +105,9 @@ function Scene({ v }: { v: V }) {
     for (const m of [hbOff.current, hbOn.current]) m?.position.set(cx, cy, 0)
     if (hbOff.current) hbOff.current.visible = !s.on
     if (hbOn.current) hbOn.current.visible = s.on
-    hurtMat.current?.color.copy(s.flash > 0 ? orange : green)
+    // On a hit the hurtbox outline turns red AND fills in (not hue alone).
+    hurtMat.current?.color.copy(s.flash > 0 ? red : green)
+    if (hurtFill.current) hurtFill.current.visible = s.flash > 0
     if (pips.current) {
       for (let i = 0; i < MAX_PIPS; i++) {
         dummy.position.set(0.75 + (i - (MAX_PIPS - 1) / 2) * 0.22, 2.15, 0)
@@ -126,13 +129,19 @@ function Scene({ v }: { v: V }) {
     x: -BAR_W / 2 + ((from + n / 2) / total) * BAR_W,
     w: (n / total) * BAR_W,
   })
+  // Phases also differ by bar height: active frames stand tallest.
   const bars = [
-    { ...seg(0, fd.startup), color: palette.guide },
-    { ...seg(fd.startup, fd.active), color: palette.negative },
-    { ...seg(fd.startup + fd.active, fd.recovery), color: palette.tertiary },
+    { ...seg(0, fd.startup), color: palette.guide, h: 0.06 },
+    { ...seg(fd.startup, fd.active), color: palette.error, h: 0.2 },
+    {
+      ...seg(fd.startup + fd.active, fd.recovery),
+      color: palette.tertiary,
+      h: 0.11,
+    },
     {
       ...seg(fd.startup + fd.active + fd.recovery, REST),
       color: palette.surface,
+      h: 0.03,
     },
   ]
 
@@ -141,7 +150,7 @@ function Scene({ v }: { v: V }) {
       {/* Attacker */}
       <mesh position={[-1.45, 0.8, 0]}>
         <boxGeometry args={[0.7, 1.6, 0.5]} />
-        <meshStandardMaterial color={palette.primary} />
+        <meshStandardMaterial color={palette.subject} />
       </mesh>
       <group ref={arm} position={[PIVOT.x, PIVOT.y, 0.32]}>
         <mesh position={[0, 0.8, 0]}>
@@ -154,11 +163,7 @@ function Scene({ v }: { v: V }) {
       </lineSegments>
       <mesh ref={hbOn}>
         <boxGeometry args={[HB * 2, HB * 2, 0.6]} />
-        <meshBasicMaterial
-          color={palette.negative}
-          transparent
-          opacity={0.55}
-        />
+        <meshBasicMaterial color={palette.error} transparent opacity={0.55} />
       </mesh>
       {/* Defender + hurtbox */}
       <mesh position={[0.75, 0.85, -0.1]}>
@@ -169,15 +174,25 @@ function Scene({ v }: { v: V }) {
         geometry={hurtEdges}
         position={[(HURT.minX + HURT.maxX) / 2, (HURT.minY + HURT.maxY) / 2, 0]}
       >
-        <lineBasicMaterial ref={hurtMat} color={palette.positive} />
+        <lineBasicMaterial ref={hurtMat} color={palette.success} />
       </lineSegments>
+      <mesh
+        ref={hurtFill}
+        visible={false}
+        position={[(HURT.minX + HURT.maxX) / 2, (HURT.minY + HURT.maxY) / 2, 0]}
+      >
+        <boxGeometry
+          args={[HURT.maxX - HURT.minX, HURT.maxY - HURT.minY, 0.62]}
+        />
+        <meshBasicMaterial color={palette.error} transparent opacity={0.35} />
+      </mesh>
       <instancedMesh ref={pips} args={[undefined, undefined, MAX_PIPS]}>
-        <sphereGeometry args={[0.08, 12, 8]} />
-        <meshBasicMaterial color={palette.secondary} />
+        <octahedronGeometry args={[0.1, 0]} />
+        <meshBasicMaterial color={palette.error} />
       </instancedMesh>
       {bars.map((b, i) => (
-        <mesh key={i} position={[b.x, 0.04, 1.3]}>
-          <boxGeometry args={[Math.max(0.001, b.w - 0.03), 0.06, 0.22]} />
+        <mesh key={i} position={[b.x, 0.01 + b.h / 2, 1.3]}>
+          <boxGeometry args={[Math.max(0.001, b.w - 0.03), b.h, 0.22]} />
           <meshBasicMaterial color={b.color} />
         </mesh>
       ))}

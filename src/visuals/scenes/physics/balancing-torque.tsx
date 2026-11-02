@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, type RefObject } from "react"
 import { useFrame } from "@react-three/fiber"
+import { Edges } from "@react-three/drei"
 import * as THREE from "three"
 
 import { G_EARTH, leverNetTorque } from "@/lib/physics/mechanics-labs"
@@ -124,15 +125,20 @@ function Scene({ v }: { v: V }) {
         ))}
         <mesh position={[-v.leftArm, HALF_T + lh / 2, 0]}>
           <boxGeometry args={[0.55, lh, 0.55]} />
-          <meshStandardMaterial color={palette.primary} />
+          <meshStandardMaterial color={palette.subject} />
         </mesh>
         <mesh position={[v.rightArm, HALF_T + rh / 2, 0]}>
           <boxGeometry args={[0.55, rh, 0.55]} />
-          <meshStandardMaterial color={palette.secondary} />
+          <meshStandardMaterial
+            color={palette.tertiary}
+            transparent
+            opacity={0.55}
+          />
+          <Edges color={palette.tertiary} />
         </mesh>
       </group>
-      <WeightArrow arrow={leftArrow} color={palette.warning} />
-      <WeightArrow arrow={rightArrow} color={palette.warning} />
+      <WeightArrow arrow={leftArrow} color={palette.force} />
+      <WeightArrow arrow={rightArrow} color={palette.force} />
       <mesh position={[0, 0.74, 0]} rotation={[0, Math.PI / 4, 0]}>
         <coneGeometry args={[0.7, 1.5, 4]} />
         <meshStandardMaterial color={palette.object} />
