@@ -80,7 +80,14 @@ function PathProgress({ done, total }: { done: number; total: number }) {
   )
 }
 
-export function PathCard({ path }: { path: LearningPath }) {
+export function PathCard({
+  path,
+  heading: Heading = "h3",
+}: {
+  path: LearningPath
+  /** h2 where the cards are the page's top-level sections. */
+  heading?: "h2" | "h3"
+}) {
   const { visited } = useHistory()
   const steps = stepsOf(path)
   const done = steps.filter((s) => visited.has(s.slug)).length
@@ -97,14 +104,14 @@ export function PathCard({ path }: { path: LearningPath }) {
       </CardContent>
       <CardHeader>
         <CardTitle className="text-[1.0625rem] font-semibold">
-          <h3>
+          <Heading>
             <Link
               to={pathUrl(path.slug)}
               className="after:absolute after:inset-0 focus-visible:outline-none"
             >
               {path.title}
             </Link>
-          </h3>
+          </Heading>
         </CardTitle>
         <CardDescription className="line-clamp-2 leading-relaxed">
           {path.summary}
@@ -130,7 +137,7 @@ export function PathsIndexPage() {
       </header>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {paths.map((p) => (
-          <PathCard key={p.slug} path={p} />
+          <PathCard key={p.slug} path={p} heading="h2" />
         ))}
       </div>
     </>
