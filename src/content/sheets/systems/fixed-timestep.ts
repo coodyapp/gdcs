@@ -20,6 +20,7 @@ export const meta: SheetMeta = {
     "steering-behaviors",
     "client-side-prediction",
     "rollback-netcode",
+    "deterministic-lockstep",
   ],
 }
 

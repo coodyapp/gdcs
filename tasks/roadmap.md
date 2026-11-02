@@ -21,6 +21,12 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ---
 
+## Planned next
+
+Multiplayer next (section 9): state sync and delta compression, quantization, floating-point determinism, clock synchronization, bandwidth budgeting.
+
+After multiplayer: skeletal skinning, animation blending, spring-arm camera, character controller, shadow mapping, tone mapping, wave function collapse, marching squares.
+
 ## 1. Top-40 most-used concepts
 
 | # | Term | Status | Covered by / target |
@@ -567,17 +573,17 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 ## 9. Networking & simulation · COMMON / ADVANCED
 - ✅ Tick rate, delta time & fixed timestep: [GD] Fixed timestep, Delta time
 - ✅ Snapshot interpolation & interpolation buffers
-- ⬜ Extrapolation & dead reckoning
+- ✅ Extrapolation & dead reckoning
 - ✅ Client-side prediction & reconciliation
 - ✅ Rollback netcode
-- ⬜ Deterministic lockstep
-- ⬜ Lag compensation / server rewind
-- ⬜ Latency, RTT & jitter
+- ✅ Deterministic lockstep
+- ✅ Lag compensation / server rewind
+- ✅ Latency, RTT & jitter
 - ⬜ State sync & delta compression
 - ⬜ Quantization & smallest-three quaternions
 - ⬜ Floating-point determinism
 - ⬜ Clock synchronization
-- ⬜ Interest management (AOI)
+- ✅ Interest management (AOI)
 - ⬜ Bandwidth budgeting
 
 ## 10. Audio, waves & signal processing · COMMON / ADVANCED

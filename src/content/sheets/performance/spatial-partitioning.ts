@@ -26,6 +26,7 @@ export const meta: SheetMeta = {
     "raycasting",
     "collision-detection",
     "bounding-volumes",
+    "interest-management",
   ],
 }
 

@@ -255,6 +255,10 @@ export const paths: LearningPath[] = [
         why: "Every input must mean the same simulated time on every machine.",
       },
       {
+        slug: "latency-and-jitter",
+        why: "Measure the delay, jitter and loss you are designing around.",
+      },
+      {
         slug: "client-side-prediction",
         why: "Your own character responds at once, and the server stays in charge.",
       },
@@ -263,8 +267,24 @@ export const paths: LearningPath[] = [
         why: "Other players move smoothly from a few updates a second.",
       },
       {
+        slug: "dead-reckoning",
+        why: "Guess between updates and send only when the guess goes wrong.",
+      },
+      {
+        slug: "lag-compensation",
+        why: "Let shots hit what the shooter actually saw.",
+      },
+      {
+        slug: "deterministic-lockstep",
+        why: "Send only inputs and wait for everyone, the classic RTS model.",
+      },
+      {
         slug: "rollback-netcode",
         why: "Rewind and re-simulate when precise timing rules out input lag.",
+      },
+      {
+        slug: "interest-management",
+        why: "Send each player only what is near them, so servers scale.",
       },
     ],
   },

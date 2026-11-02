@@ -28,6 +28,7 @@ export const meta: SheetMeta = {
     "fixed-timestep",
     "input-buffering",
     "frame-budget",
+    "deterministic-lockstep",
   ],
 }
 

@@ -184,10 +184,21 @@ export const categories: Category[] = [
       "Keeping multiplayer games responsive and in agreement across slow connections.",
     subcategories: [
       {
+        slug: "fundamentals",
+        title: "Fundamentals",
+        description:
+          "Latency, jitter and loss: what the network does to packets.",
+      },
+      {
         slug: "netcode",
         title: "Netcode",
         description:
           "Prediction, interpolation and rollback for real-time play.",
+      },
+      {
+        slug: "scaling",
+        title: "Scaling",
+        description: "Sending each player only what they need to know.",
       },
     ],
   },

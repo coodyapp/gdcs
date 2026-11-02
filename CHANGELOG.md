@@ -8,6 +8,16 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.11.0] - 2026-11-02
+
+### Added
+
+- 5 multiplayer sheets: latency, RTT and jitter; lag compensation; dead reckoning; deterministic lockstep; interest management.
+
+### Changed
+
+- The Multiplayer & netcode path now has 10 steps.
+
 ## [1.10.3] - 2026-11-02
 
 ### Changed

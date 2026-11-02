@@ -232,8 +232,9 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 
 ## Then
 - [x] v1.7.1: home phone LCP (inline poster), Yellow box slider while moving. Sheet pages: real paint is about 0.2 s, simulated scores vary run to run, main bundle has no leak to cut.
-- [ ] Email check: signup needs the user (Turnstile), then D1 and digest dry run.
-- [ ] Batch 2 (about 14 sheets) in groups of 4 or 5.
+- [x] Signup and confirmation: done by the user, subscription active.
+- [ ] Digest: not tested yet. Dry run first, and confirm before sending anything.
+- [ ] Later sheets: see "Planned next" in tasks/roadmap.md.
 
 ## Batch 2, group A (v1.8.0)
 - [x] client-side-prediction, snapshot-interpolation, rollback-netcode (new Networking category); behavior-trees, utility-ai. Review, posters, OG, backlinks, multiplayer and game AI paths, roadmap, changelog.
@@ -242,3 +243,9 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Lesson: confirm which server answers before trusting a run. Lighthouse and browser checks hit a leftover dev server on the port, and later a stale build after a failed `tsc`.
 - Lesson: Lighthouse LCP moves to any image that outgrows the text. Check the LCP element after adding a hero image.
 - Lesson: inline scripts under a CSP hash must not be reformatted; `index.html` is now excluded and a test compares the hash.
+
+## Multiplayer group (v1.11.0)
+- [x] latency-and-jitter, lag-compensation, dead-reckoning, deterministic-lockstep, interest-management. Review, posters, OG, links, extend the Multiplayer path, roadmap, changelog.
+
+## Review: v1.10 to v1.11 (2026-11-02)
+- Lesson: gate the push on the checks with `if`, not `;`. A failing build was pushed once because the commands were chained loosely; CD stopped it and production was unaffected.

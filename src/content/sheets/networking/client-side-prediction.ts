@@ -27,6 +27,8 @@ export const meta: SheetMeta = {
     "fixed-timestep",
     "input-buffering",
     "delta-time",
+    "latency-and-jitter",
+    "lag-compensation",
   ],
 }
 

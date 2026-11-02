@@ -26,6 +26,9 @@ export const meta: SheetMeta = {
     "rollback-netcode",
     "lerp-and-smoothstep",
     "fixed-timestep",
+    "latency-and-jitter",
+    "dead-reckoning",
+    "lag-compensation",
   ],
 }
 
