@@ -180,8 +180,11 @@ Decision: **one Worker `gdcs-prd-01`** with Static Assets + API + mailer + cron.
 - [x] Remove `functions/`, `public/_routes.json`, `workers/mailer`. Add `dist/.assetsignore`.
 - [x] Tests: move existing API/mailer tests and add router tests (method/route dispatch, 404 for unknown `/api/*`).
 - [x] Parity check before cutover: deploy to `gdcs-prd-01.<subdomain>.workers.dev`, then diff status + key headers (content-type, cache-control, CSP) for all 86 routes, every `.md`, llms/feed/sitemap/robots, a 404, and `/assets/*` against the current Pages site. Run API flows end to end (send to your inbox).
-- [~] Cutover (in progress): `gdcs.coody.app` is detached from Pages and served by the Worker through a **zone route** on the existing CNAME. Final step: you delete the CNAME, then I attach the custom domain and remove the route. Original plan: detach `gdcs.coody.app` from Pages and attach it to the Worker as a custom domain. **Needs you**: delete the `gdcs` CNAME at that moment (Workers custom domains create their own record), or I attach via a Worker route if you'd rather keep the record.
-- [ ] CD: `wrangler deploy` (+ `d1 migrations apply`). Token permissions needed: Account · Workers Scripts Edit, Account · D1 Edit, Account · Email Sending Edit, Zone (coody.app) · Workers Routes Edit. Delete the old `gdcs-mailer-prd-01` Worker and the Pages project `coody-gdcs-prd-01` **after you confirm**.
+- [x] Cutover done 2026-11-01: `gdcs.coody.app` is a Workers custom domain on `gdcs-prd-01`; the temporary zone route was removed. Downtime < 1 min.
+- [x] CD: `wrangler deploy` (+ `d1 migrations apply`). Token permissions needed: Account · Workers Scripts Edit, Account · D1 Edit, Account · Email Sending Edit, Zone (coody.app) · Workers Routes Edit. Delete the old `gdcs-mailer-prd-01` Worker and the Pages project `coody-gdcs-prd-01` **after you confirm**.
+
+- [x] Deleted Pages project `coody-gdcs-prd-01` and Worker `gdcs-mailer-prd-01` (confirmed by you). The CD run with the new token passed (migrations + deploy).
+- [x] `<PoweredByCoody />` (`src/components/coody/`): portable glitch-logo component, used in the footer.
 
 ## B. UI/UX + colour system (rules: `docs/design-system.md`)
 - [ ] Tokens: surfaces/text/semantic accents/category accents as Tailwind v4 `@theme` (OKLCH + hex). Retire zinc-500 for text. Focus ring = 2px cyan, offset 2.

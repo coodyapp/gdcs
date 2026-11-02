@@ -1,0 +1,144 @@
+/*
+ * Coody "Powered by" mark: portable, framework-free CSS (no Tailwind needed).
+ * Two decorative copies of the logo slice and RGB-split for ~400 ms every
+ * 4.4 s. With reduced motion the mark stays still.
+ * Theme with: --coody-pb-color, --coody-pb-muted, --coody-pb-focus, --coody-pb-height.
+ */
+.coody-powered-by {
+  --coody-pb-height: 28px;
+  --coody-pb-color: currentColor;
+  --coody-pb-muted: color-mix(in oklch, currentColor 62%, transparent);
+  --coody-pb-focus: #2dd4ef;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: var(--coody-pb-align, flex-start);
+  color: var(--coody-pb-color);
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.coody-powered-by:focus-visible {
+  outline: 2px solid var(--coody-pb-focus);
+  outline-offset: 4px;
+}
+
+.coody-powered-by__label {
+  font-family:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--coody-pb-muted);
+}
+
+.coody-powered-by__mark {
+  position: relative;
+  display: block;
+  height: var(--coody-pb-height);
+  opacity: 0.85;
+  transition: opacity 200ms ease;
+}
+
+.coody-powered-by:hover .coody-powered-by__mark,
+.coody-powered-by:focus-visible .coody-powered-by__mark {
+  opacity: 1;
+}
+
+.coody-powered-by__mark img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+.coody-powered-by__slice {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .coody-powered-by__mark > img:first-child {
+    animation: coody-glitch-base 4.4s steps(1, end) infinite;
+  }
+  .coody-powered-by__slice--a {
+    animation: coody-glitch-a 4.4s steps(1, end) infinite;
+    filter: drop-shadow(2px 0 hsl(350 100% 60% / 0.7));
+  }
+  .coody-powered-by__slice--b {
+    animation: coody-glitch-b 4.4s steps(1, end) infinite;
+    filter: drop-shadow(-2px 0 hsl(200 100% 60% / 0.7));
+  }
+  /* Hover replays the glitch immediately. */
+  .coody-powered-by:hover .coody-powered-by__mark > * {
+    animation-delay: -3.96s;
+  }
+}
+
+@keyframes coody-glitch-base {
+  0%,
+  90% {
+    transform: none;
+  }
+  92% {
+    transform: translateX(1px);
+  }
+  95% {
+    transform: translateX(-2px);
+  }
+  98% {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes coody-glitch-a {
+  0%,
+  90% {
+    opacity: 0;
+  }
+  91% {
+    opacity: 1;
+    clip-path: inset(10% 0 62% 0);
+    transform: translateX(-4px);
+  }
+  94% {
+    opacity: 1;
+    clip-path: inset(55% 0 20% 0);
+    transform: translateX(5px);
+  }
+  97% {
+    opacity: 1;
+    clip-path: inset(30% 0 45% 0);
+    transform: translateX(-2px);
+  }
+  99% {
+    opacity: 0;
+  }
+}
+
+@keyframes coody-glitch-b {
+  0%,
+  90% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 1;
+    clip-path: inset(68% 0 8% 0);
+    transform: translateX(4px);
+  }
+  95% {
+    opacity: 1;
+    clip-path: inset(18% 0 60% 0);
+    transform: translateX(-5px);
+  }
+  98% {
+    opacity: 1;
+    clip-path: inset(40% 0 35% 0);
+    transform: translateX(3px);
+  }
+  99% {
+    opacity: 0;
+  }
+}

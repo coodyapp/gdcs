@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-import coodyLogo from "@/assets/coody-logo-white.webp"
+import { PoweredByCoody } from "@/components/coody/powered-by"
 import { siteConfig } from "@/config/site"
 
 export function SiteFooter() {
@@ -34,21 +34,10 @@ export function SiteFooter() {
             </a>
           </nav>
         </div>
-        <a
-          href={siteConfig.authorUrl}
-          className="flex flex-col items-start gap-2 md:items-end"
-          rel="noopener"
-        >
-          <span className="eyebrow">Powered by</span>
-          <img
-            src={coodyLogo}
-            alt="Coody"
-            width={84}
-            height={28}
-            loading="lazy"
-            className="h-7 w-auto opacity-80 transition-opacity hover:opacity-100"
-          />
-        </a>
+        <PoweredByCoody
+          source="gdcs"
+          className="md:items-end md:[--coody-pb-align:flex-end]"
+        />
       </div>
     </footer>
   )

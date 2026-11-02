@@ -12,7 +12,8 @@
     "not_found_handling": "404-page",
     "run_worker_first": ["/api/*"],
   },
-  // Production hostname: added at cutover (see tasks/todo.md, phase 2 A).
+  // Production hostname (Workers custom domain; Cloudflare manages its DNS).
+  "routes": [{ "pattern": "gdcs.coody.app", "custom_domain": true }],
   "workers_dev": true,
   "preview_urls": false,
   "triggers": {
