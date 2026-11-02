@@ -25,13 +25,33 @@ const licenseText = (dir: string) => {
   return file ? readFileSync(path.join(dir, file), "utf8").trim() : null
 }
 
+/** Upstream license texts for what ships without one, stored in licenses/. */
+const stored = (file: string) =>
+  readFileSync(path.join(root, "licenses", file), "utf8").trim()
+const PACKAGE_TEXTS: Record<string, string> = {
+  "@react-three/fiber": "react-three-fiber.txt",
+  maath: "maath.txt",
+  "react-remove-scroll-bar": "react-remove-scroll-bar.txt",
+  "stats-gl": "stats-gl.txt",
+  "@mediapipe/tasks-vision": "mediapipe.txt",
+  draco3d: "draco.txt",
+}
+/** Copied into this repository or served as assets, so no package lists them. */
+const VENDORED = [
+  ["Ghost Fibers, React Bits (MIT + Commons Clause)", "react-bits.txt"],
+  ["shadcn/ui components (MIT)", "shadcn-ui.txt"],
+  ["Cal Sans font (SIL OFL 1.1)", "cal-sans.txt"],
+  ["KaTeX fonts (MIT)", "katex-fonts.txt"],
+]
+
 const packages = Object.entries(listed)
   .flatMap(([license, list]) => list.map((p) => ({ ...p, license })))
   .sort((a, b) => a.name.localeCompare(b.name))
 
 const rule = "=".repeat(72)
 const sections = packages.map((p) => {
-  const text = licenseText(p.paths[0])
+  const file = PACKAGE_TEXTS[p.name]
+  const text = licenseText(p.paths[0]) ?? (file ? stored(file) : null)
   return [
     rule,
     `${p.name} ${p.versions.join(", ")} (${p.license})`,
@@ -39,7 +59,12 @@ const sections = packages.map((p) => {
     text ?? `Licensed under ${p.license}; the package ships no license file.`,
   ].join("\n")
 })
-const missing = packages.filter((p) => !licenseText(p.paths[0]))
+const missing = packages.filter(
+  (p) => !licenseText(p.paths[0]) && !PACKAGE_TEXTS[p.name]
+)
+const vendored = VENDORED.map(([name, file]) =>
+  [rule, name, rule, stored(file)].join("\n")
+)
 
 writeFileSync(
   path.join(root, "public", "third-party-licenses.txt"),
@@ -47,6 +72,8 @@ writeFileSync(
     "GDCS third-party licenses. GDCS's own license: https://gdcs.coody.app/license",
     "",
     readFileSync(path.join(root, "THIRD_PARTY_LICENSES.md"), "utf8").trim(),
+    "",
+    ...vendored,
     "",
     ...sections,
     "",

@@ -18,7 +18,7 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 
 ## Content rules
 
-- **All prose, code, prompts and visuals are original.** Write from your own knowledge and primary docs. Never copy text from other cheat-sheet sites, and never name the site the game-dev topic list came from.
+- **All prose, code, prompts and visuals are original.** Write from your own knowledge and primary docs. Never copy text from other cheat-sheet sites.
 - `summary`: **70–160 chars**. It is the meta description and card text.
 - `title` ≤ 60 chars. `hook`: a short lowercase phrase, the "one-line idea".
 - `what`: 2–4 paragraphs. Inline markup allowed: `` `code` ``, `**bold**`, `[label](/category/sub/slug)`. Internal links must be real sheet paths.
@@ -32,7 +32,7 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 - `visual`: 1–2 sentences telling the reader what each colour means and what to tweak.
 - `updated: "2026-11-01"`.
 
-## Design rules (docs/design-system.md §2)
+## Design rules (docs/reference/design-system.md §2)
 
 - The UI is black/white/grey. **Inside visuals, the only hues are green, yellow and red**, plus whites and greys. Use `palette.*` names, never raw hex: `subject` (white) main subject · `moving`/`energy` (yellow) moving thing · `velocity` (yellow, **dashed**) · `tertiary` (grey outline) secondary object · `accel` (light grey) · `success` (green) valid/goal/normals · `force`/`error` (red) force/error/contact.
 - **Never rely on hue alone**: dashes, shapes, outline vs fill, labels.

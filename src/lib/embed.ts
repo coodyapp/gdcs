@@ -17,7 +17,7 @@ export const embedPath = (slug: string) => `/embed/${slug}`
 
 /** One line for a page that reuses a sheet's text. */
 export const attributionText = (sheet: SheetMeta) =>
-  `"${sheet.title}" by GDCS, ${absoluteUrl(sheetPath(sheet))}, licensed under CC BY 4.0 (${CC_BY_URL}).`
+  `"${sheet.title}" by GDCS © COODY, ${absoluteUrl(sheetPath(sheet))}, licensed under CC BY 4.0 (${CC_BY_URL}).`
 
 /**
  * What a site pastes to embed a simulation. The link below the iframe is part of

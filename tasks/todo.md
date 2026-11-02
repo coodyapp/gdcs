@@ -262,3 +262,6 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Lesson: a link inside an iframe is not a backlink for the host page, so the embed code carries a visible link too.
 - Lesson: a failed `pnpm build` leaves the old `dist` in place, so stop on failure before testing or the checks read stale output.
 - Earlier versions shipped as MIT; relicensing is not retroactive. A lawyer should review LICENSE.md.
+
+## License follow-up (v1.12.5)
+- [x] Open source declined: repo stays private, split license kept. Audit fixes applied, third-party notices completed, docs structure added.

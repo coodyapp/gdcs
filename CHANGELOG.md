@@ -8,6 +8,19 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [Unreleased]
+
+## [1.12.5] - 2026-11-02
+
+### Changed
+
+- License terms: embeds come with no warranty and can be changed or withdrawn, resizing an embed is allowed, reusing an image of a simulation does not license the simulation, and attribution includes the copyright holder.
+- Documentation moved to `docs/reference/` and `docs/decisions/`, indexed in `docs/README.md`.
+
+### Fixed
+
+- `third-party-licenses.txt` now includes the license texts it was missing, and lists KaTeX fonts correctly as MIT.
+
 ## [1.12.4] - 2026-11-02
 
 ### Changed

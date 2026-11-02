@@ -11,7 +11,7 @@
 /* Always emitted (also used via var() in inline styles, which Tailwind can't see).
    Mirrors src/styles/tokens.ts. */
 @theme static {
-  /* GDCS design system (docs/design-system.md). Coody brand: the UI is
+  /* GDCS design system (docs/reference/design-system.md). Coody brand: the UI is
      black, white and greys only. Mirrors src/styles/tokens.ts. */
   --color-surface-2: #262626;
   --color-surface-3: #262626;

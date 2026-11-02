@@ -2,20 +2,20 @@
 
 ## Software
 
-| Package                                           | License                  |
-| ------------------------------------------------- | ------------------------ |
-| react, react-dom                                  | MIT                      |
-| react-router-dom                                  | MIT                      |
-| three                                             | MIT                      |
-| @react-three/fiber, @react-three/drei             | MIT                      |
-| katex (including KaTeX fonts)                     | MIT (fonts: SIL OFL 1.1) |
-| lucide-react                                      | ISC                      |
-| tailwindcss, tw-animate-css, clsx, tailwind-merge | MIT                      |
-| class-variance-authority                          | Apache-2.0               |
-| @fontsource-variable/inter (Inter)                | SIL OFL 1.1              |
-| Cal Sans                                          | SIL OFL 1.1              |
+| Package                                           | License     |
+| ------------------------------------------------- | ----------- |
+| react, react-dom                                  | MIT         |
+| react-router-dom                                  | MIT         |
+| three                                             | MIT         |
+| @react-three/fiber, @react-three/drei             | MIT         |
+| katex (including KaTeX fonts)                     | MIT         |
+| lucide-react                                      | ISC         |
+| tailwindcss, tw-animate-css, clsx, tailwind-merge | MIT         |
+| class-variance-authority                          | Apache-2.0  |
+| @fontsource-variable/inter (Inter)                | SIL OFL 1.1 |
+| Cal Sans                                          | SIL OFL 1.1 |
 
-Full license texts ship with each package in `node_modules/<package>/LICENSE`.
+Full license texts: `public/third-party-licenses.txt`, served at https://gdcs.coody.app/third-party-licenses.txt. `pnpm notices` rebuilds it from `node_modules` and `licenses/`.
 
 ### Cloudflare security-audit skill
 
@@ -27,7 +27,7 @@ Full license texts ship with each package in `node_modules/<package>/LICENSE`.
 
 ## Content
 
-All GDCS explanations, code samples, prompts and visualizations are original works by Coody. The physics simulations come from Coody's own physics.coody.app project.
+GDCS explanations, code samples, prompts and visualizations were written for this project, with AI assistance. Their license is in `LICENSE.md`. The physics simulations come from Coody's own physics.coody.app project.
 
 These references informed the content and are linked from the relevant sheets under "Further reading". No text is reproduced from them.
 

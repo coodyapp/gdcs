@@ -1,0 +1,5 @@
+MIT License
+
+The stats-gl package declares the MIT License in its package.json and ships no
+license file. It is a dependency of @react-three/drei and is not in the shipped
+bundles. Source: https://github.com/RenaudRohlinger/stats-gl

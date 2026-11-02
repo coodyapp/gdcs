@@ -135,9 +135,26 @@ describe("site", () => {
     for (const s of sheets) expect(txt).toContain(`${sheetPath(s)}.md`)
   })
 
-  it("never names the external topic reference", () => {
-    const corpus = JSON.stringify(fullSheets).toLowerCase()
-    expect(corpus).not.toMatch(/gamedev-cheatsheet|zullo/)
+  it("never names the external topic reference", async () => {
+    // Hashed, so this test does not name it either.
+    const blocked = new Set(["23ee3b8278a67eae", "8e0e7acb709b40a2"])
+    const words = JSON.stringify(fullSheets)
+      .toLowerCase()
+      .match(/[a-z0-9-]+/g)!
+    const hash = async (word: string) => {
+      const digest = await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(word)
+      )
+      return [...new Uint8Array(digest)]
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join("")
+        .slice(0, 16)
+    }
+    const unique = [...new Set(words)]
+    const hashes = await Promise.all(unique.map(hash))
+    const found = unique.filter((_, i) => blocked.has(hashes[i]))
+    expect(found).toEqual([])
   })
 
   it("returns 404 heads for unknown paths", () => {

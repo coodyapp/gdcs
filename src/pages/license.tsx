@@ -76,8 +76,10 @@ export function LicensePage() {
           </li>
         </ul>
         <p>
-          Embeds set no cookies. You can change the width and height to suit
-          your layout.
+          Embeds set no cookies, and you can change the width and height to suit
+          your layout. They are provided as is, with no warranty. We may change
+          or remove them, and may withdraw permission from a site that does not
+          follow these terms.
         </p>
       </section>
 
@@ -88,7 +90,8 @@ export function LicensePage() {
           <a href={CC_BY_URL} className="link-quiet" rel="noopener">
             CC BY 4.0
           </a>
-          . Say if you changed it, and credit it like this:
+          . Say if you changed it, and credit it like this. Reusing an image of
+          a simulation does not license the simulation or its code.
         </p>
         <SheetCode
           code={attributionText(example)}

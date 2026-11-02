@@ -28,7 +28,7 @@ pnpm preview             # wrangler dev: Worker + assets + local D1
 ## Content
 
 - Taxonomy: `src/content/taxonomy.ts` (Category › Subcategory). A new topic area is one entry there.
-- Sheets: `src/content/sheets/<category>/<slug>.ts` + visual `src/visuals/scenes/<category>/<slug>.tsx`. See `docs/authoring.md`.
+- Sheets: `src/content/sheets/<category>/<slug>.ts` + visual `src/visuals/scenes/<category>/<slug>.tsx`. See `docs/reference/authoring.md`.
 - Roadmap: `tasks/roadmap.md`.
 
 ## Updates (email)
@@ -48,14 +48,8 @@ Manual: `pnpm deploy`.
 
 ## Versioning
 
-[Semantic Versioning](https://semver.org). The version lives in `package.json`, appears in the footer, and each release has an entry in `CHANGELOG.md` and a `vX.Y.Z` tag:
-
-```bash
-pnpm version minor --no-git-tag-version   # or patch / major
-# add the CHANGELOG entry, commit, then:
-git tag v$(node -p "require('./package.json').version") && git push --tags
-```
+Semantic Versioning. See [docs/reference/versioning.md](docs/reference/versioning.md). Documentation starts at [docs/README.md](docs/README.md).
 
 ## Licenses
 
-Code: see `LICENSE.md`. Third-party: `THIRD_PARTY_LICENSES.md`.
+See `LICENSE.md` and https://gdcs.coody.app/license. Third-party: `THIRD_PARTY_LICENSES.md`.

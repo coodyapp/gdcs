@@ -4,7 +4,7 @@ import type { ComponentType } from "react"
 import { neutral, sim, surfaces, text } from "@/styles/tokens"
 
 /**
- * Shared colours for every scene (docs/design-system.md §2). Coody brand:
+ * Shared colours for every scene (docs/reference/design-system.md §2). Coody brand:
  * whites/greys for structure, plus three meaningful hues:
  * subject/primary = white · moving/energy/secondary = yellow · secondary
  * object/tertiary = grey · velocity/warning = yellow (dashed) · acceleration

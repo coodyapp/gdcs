@@ -8,7 +8,7 @@ GDCS has three parts, under different terms. This applies to versions from 1.12.
 
 Explanations, formulas, captions and images on the sheets are licensed under the Creative Commons Attribution 4.0 International License: https://creativecommons.org/licenses/by/4.0/
 
-Attribution must name GDCS and link to the source sheet.
+Attribution must name GDCS, state "© COODY" and link to the source sheet. Reusing an image of a simulation under this license does not license the simulation or its code, which part 3 covers.
 
 ## 2. Code examples and prompts: MIT
 
@@ -26,10 +26,12 @@ The interactive simulations, their source code and compiled JavaScript, and the 
 
 You may embed a simulation on any site, free of charge, including commercial sites, using the iframe from its sheet's "Copy embed code" button, provided that:
 
-- the iframe loads from gdcs.coody.app and is not modified, cropped or covered so that its link to GDCS is hidden, and
+- the iframe loads from gdcs.coody.app and is not cropped or covered so that its link to GDCS is hidden (changing its width and height is fine), and
 - the visible link to the source sheet in the embed code stays on your page.
 
 You may not copy, download for redistribution, rehost, extract or adapt the simulations or their code without written permission from hi@coody.app. Writing your own implementation of the same concept, for example from a sheet's prompt, is fine.
+
+Embeds are provided "as is", without warranty of any kind, and to the extent the law allows COODY is not liable for any damage arising from them. COODY may change or remove embeds at any time, and may withdraw this permission from a site that does not follow these terms.
 
 ## Not covered
 

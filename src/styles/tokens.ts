@@ -1,5 +1,5 @@
 /**
- * Design tokens (docs/design-system.md). Single source for TypeScript (the
+ * Design tokens (docs/reference/design-system.md). Single source for TypeScript (the
  * Three.js palette, tests). `globals.css` mirrors these values; keep both in
  * sync.
  *
