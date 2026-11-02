@@ -1,7 +1,5 @@
-import type { PagesFunction } from "@cloudflare/workers-types"
-
-import { safely, type Env } from "../_lib/http"
-import { isToken } from "../_lib/subscribers"
+import { safely, type Env } from "../http"
+import { isToken } from "../subscribers"
 
 const back = (request: Request, status: string) =>
   Response.redirect(
@@ -10,7 +8,7 @@ const back = (request: Request, status: string) =>
   )
 
 /** GET /api/confirm?token=… activates a pending subscriber. */
-export const onRequestGet: PagesFunction<Env> = ({ request, env }) =>
+export const confirm = (request: Request, env: Env, _ctx?: unknown) =>
   safely(async () => {
     const value = new URL(request.url).searchParams.get("token")
     if (!isToken(value)) return back(request, "invalid")

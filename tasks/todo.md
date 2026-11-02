@@ -164,3 +164,44 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 ### Lessons
 - The shared org Cloudflare token is Pages-scoped and per-project. Check deploy permissions before wiring a new project into CD.
 - Mixing `?` and `?N` placeholders in one SQLite statement binds the wrong values. Use numbered placeholders only.
+
+---
+
+# Phase 2 (2026-11-01) — Workers migration, design system, content batch
+
+Status: **APPROVED 2026-11-01** (custom-domain cutover). Order: A (Workers) → B (design) → C (Top-40 batch) → D (learning paths) → E (performance) → F (polish).
+
+## A. Pages → Workers (single Worker)
+Decision: **one Worker `gdcs-prd-01`** with Static Assets + API + mailer + cron. The mailer merges in, which removes the service binding and the separate deploy. Bindings: `ASSETS`, `DB` (D1 `gdcs-prd`), `EMAIL` (send_email), cron `0 14 * * 1`.
+- [x] `wrangler.jsonc`: `main: worker/index.ts`, `assets: { directory: "./dist", binding: "ASSETS", html_handling: "auto-trailing-slash", not_found_handling: "404-page", run_worker_first: ["/api/*"] }`.
+- [x] Port `functions/api/*` + `functions/_lib/*` into `worker/` (a small router: POST subscribe, GET confirm, GET/POST unsubscribe, POST event). Mailer code moves from `workers/mailer` → `worker/mailer.ts`, so subscribe calls the mailer function directly. `scheduled()` sends the digest.
+- [x] Keep `_headers` (applies to static assets on Workers). API responses already set their own headers.
+- [x] Web Analytics: Pages auto-injection doesn't carry over to Workers, so add the beacon `<script>` explicitly (site token `a9144059…`). CSP already allows it.
+- [x] Remove `functions/`, `public/_routes.json`, `workers/mailer`. Add `dist/.assetsignore`.
+- [x] Tests: move existing API/mailer tests and add router tests (method/route dispatch, 404 for unknown `/api/*`).
+- [x] Parity check before cutover: deploy to `gdcs-prd-01.<subdomain>.workers.dev`, then diff status + key headers (content-type, cache-control, CSP) for all 86 routes, every `.md`, llms/feed/sitemap/robots, a 404, and `/assets/*` against the current Pages site. Run API flows end to end (send to your inbox).
+- [~] Cutover (in progress): `gdcs.coody.app` is detached from Pages and served by the Worker through a **zone route** on the existing CNAME. Final step: you delete the CNAME, then I attach the custom domain and remove the route. Original plan: detach `gdcs.coody.app` from Pages and attach it to the Worker as a custom domain. **Needs you**: delete the `gdcs` CNAME at that moment (Workers custom domains create their own record), or I attach via a Worker route if you'd rather keep the record.
+- [ ] CD: `wrangler deploy` (+ `d1 migrations apply`). Token permissions needed: Account · Workers Scripts Edit, Account · D1 Edit, Account · Email Sending Edit, Zone (coody.app) · Workers Routes Edit. Delete the old `gdcs-mailer-prd-01` Worker and the Pages project `coody-gdcs-prd-01` **after you confirm**.
+
+## B. UI/UX + colour system (rules: `docs/design-system.md`)
+- [ ] Tokens: surfaces/text/semantic accents/category accents as Tailwind v4 `@theme` (OKLCH + hex). Retire zinc-500 for text. Focus ring = 2px cyan, offset 2.
+- [ ] Visual palette (`src/visuals/core.ts`) → semantic names (`subject`, `moving`, `secondary`, `success`, `velocity`, `accel`, `force`). Codemod all 55 scenes, then review each for the hue-only rule (dash/shape for velocity vs force) and screenshot every scene.
+- [ ] Formula ↔ visual colour link: KaTeX `\textcolor` on the key variables in each sheet (force, velocity, energy…).
+- [ ] Cards: slimmer (title, hook, level pips, category accent top border, poster). Long summary off the grid. Hover/focus states per spec. Visited tick.
+- [ ] Navigation: ⌘K command palette (fuzzy search + recently viewed). Mobile drawer. Sticky category chips with scroll-spy and level filter in the URL on home. Sheet layout with left sidebar + right TOC + reading time + progress bar. Builds-on / Leads-to chips.
+- [ ] Reduced-motion branch: sims paused by default, no hover lift.
+- [ ] Validate: before/after screenshots (desktop 1280 + mobile 390; home, category, sheet), automated contrast test over tokens (vitest), Lighthouse: A11y 100 and Performance not lower than before.
+
+## C. Top-40 gap batch (12 sheets, same parallel workflow as phase 1)
+mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matrices, local-vs-world-space, euler-angles · interpolation: lerp-and-smoothstep, bezier-curves · physics/mechanics: rigid-body-dynamics · animation (new category): inverse-kinematics · threejs/rendering: reflection-and-refraction, pbr-materials.
+- [ ] Each built on the new palette; content contract tests; screenshot review; roadmap ✅ updates.
+
+## D. Learning paths (hub pages)
+- [ ] `/paths/<slug>`: racing & vehicles, character animation & IK, procedural worlds, multiplayer & simulation, 3D math foundations. Each is an ordered list of existing sheets with one sentence of why, progress checkmarks (localStorage), JSON-LD `Course`/`ItemList`, and sitemap + llms.txt entries.
+
+## E. Performance: static poster before WebGL
+- [ ] Build-time poster per visual (headless capture of the default frame → `.webp`, ~15–30 KB) shown in cards and as the sheet LCP. The canvas replaces it on view/interaction. Target mobile Performance ≥ 95 on sheet pages without losing interactivity.
+
+## F. Polish
+- [ ] Cloudflare Turnstile (managed, invisible) on subscribe, verified in the Worker. Secret in Worker secrets.
+- [ ] Per-sheet OG images (1200×630) generated at build from the poster + title.

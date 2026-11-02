@@ -13,6 +13,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["functions", "workers"],
-  "exclude": ["functions/**/*.test.ts", "workers/**/*.test.ts"]
+  "include": ["worker"],
+  "exclude": ["worker/**/*.test.ts"]
 }

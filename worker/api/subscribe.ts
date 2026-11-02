@@ -1,14 +1,8 @@
-import type { PagesFunction } from "@cloudflare/workers-types"
+import type { ExecutionContext } from "@cloudflare/workers-types"
 
-import {
-  json,
-  limitWrites,
-  readJson,
-  safely,
-  token,
-  type Env,
-} from "../_lib/http"
-import { cleanSource, isBot, parseEmail } from "../_lib/subscribers"
+import { json, limitWrites, readJson, safely, token, type Env } from "../http"
+import { sendConfirmation } from "../mailer"
+import { cleanSource, isBot, parseEmail } from "../subscribers"
 
 const COOLDOWN_MS = 15 * 60 * 1000
 /** At most MAX_SENDS confirmation emails per address per rolling day. */
@@ -21,11 +15,7 @@ const WINDOW_MS = 24 * 60 * 60 * 1000
  * The response is identical whether or not the address already exists, so
  * the endpoint can't be used to check who is subscribed.
  */
-export const onRequestPost: PagesFunction<Env> = ({
-  request,
-  env,
-  waitUntil,
-}) =>
+export const subscribe = (request: Request, env: Env, ctx: ExecutionContext) =>
   safely(async () => {
     const body = await readJson(request)
     if (isBot(body)) return json({ ok: true }, 202)
@@ -65,18 +55,11 @@ export const onRequestPost: PagesFunction<Env> = ({
       .first<{ confirm_token: string }>()
 
     // `row` is null when active, throttled or capped: nothing to send.
-    if (row && env.MAILER) {
-      const origin = new URL(request.url).origin
-      waitUntil(
-        env.MAILER.fetch("https://mailer/confirm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            url: `${origin}/api/confirm?token=${row.confirm_token}`,
-          }),
-        }).then((r) => {
-          if (!r.ok) console.error("confirmation email failed", r.status)
+    if (row) {
+      const url = `${new URL(request.url).origin}/api/confirm?token=${row.confirm_token}`
+      ctx.waitUntil(
+        sendConfirmation(env, email, url).catch((error) => {
+          console.error("confirmation email failed", error)
         })
       )
     }

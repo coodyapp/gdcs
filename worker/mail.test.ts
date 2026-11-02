@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import {
-  confirmationEmail,
-  digestEmail,
-  newSince,
-  type FeedItem,
-} from "./digest"
+import { confirmationEmail, digestEmail, newSince, type FeedItem } from "./mail"
 
 const item = (id: string, date: string, title = id): FeedItem => ({
   id,

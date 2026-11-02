@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "vp dev",
     "build": "tsc -b && vp build && vp build --ssr src/entry-server.tsx --outDir dist-server && node scripts/prerender.ts",
-    "preview": "wrangler pages dev dist",
+    "preview": "wrangler dev --port 8788",
     "lint": "vp lint . --fix",
     "typecheck": "tsc -b",
     "prepare": "husky",
     "db:migrate:local": "wrangler d1 migrations apply gdcs-prd --local",
-    "db:migrate:remote": "wrangler d1 migrations apply gdcs-prd --remote"
+    "db:migrate:remote": "wrangler d1 migrations apply gdcs-prd --remote",
+    "deploy": "pnpm build && wrangler deploy"
   },
   "packageManager": "pnpm@10.15.0",
   "dependencies": {

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-GDCS (gdcs.coody.app): visual, AI-ready cheat sheets. Vite+ (`vp`) · React 19 · TypeScript · Tailwind v4 · React Three Fiber · KaTeX (build time) · Cloudflare Pages + Functions + D1 + an Email Worker.
+GDCS (gdcs.coody.app): visual, AI-ready cheat sheets. Vite+ (`vp`) · React 19 · TypeScript · Tailwind v4 · React Three Fiber · KaTeX (build time) · one Cloudflare Worker (Static Assets + API + mailer + cron) + D1.
 
 - Adding/editing a sheet: follow `docs/authoring.md` (two files per slug; no registry edits).
 - Validate: `pnpm exec vp check`, `pnpm exec vp test --run`, `pnpm build`.

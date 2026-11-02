@@ -6,7 +6,7 @@ Each sheet has an interactive Three.js visual, formulas (KaTeX, rendered at buil
 
 ## Stack
 
-Vite+ (`vp`) · React 19 · TypeScript · Tailwind v4 · React Three Fiber/drei · Cloudflare Pages (static + Functions) · D1 · Email Worker (Cloudflare Email Service).
+Vite+ (`vp`) · React 19 · TypeScript · Tailwind v4 · React Three Fiber/drei · one Cloudflare Worker (Static Assets + API + mailer + cron) · D1 · Cloudflare Email Service.
 
 ## Develop
 
@@ -16,7 +16,7 @@ pnpm dev                 # http://localhost:5173
 pnpm exec vp check       # format + lint
 pnpm exec vp test --run  # content contract, physics, API, mailer, prerender tests
 pnpm build               # client build → SSR build → prerender (dist/)
-pnpm preview             # wrangler pages dev dist (Functions + local D1)
+pnpm preview             # wrangler dev: Worker + assets + local D1
 ```
 
 ## How the build works
@@ -33,19 +33,18 @@ pnpm preview             # wrangler pages dev dist (Functions + local D1)
 
 ## Updates (email)
 
-- `functions/api/subscribe|confirm|unsubscribe|event` (Pages Functions, D1 `gdcs-prd`).
-- `workers/mailer`: sends double opt-in confirmations (via service binding) and a weekly digest (cron, Mondays 14:00 UTC). It only sends when `feed.json` shows sheets changed since the last digest. Sender: `gdcs@mail.coody.app`.
+- `worker/`: one Worker `gdcs-prd-01`. Static assets are served first; `/api/*` (subscribe, confirm, unsubscribe, event) runs the Worker (`run_worker_first`). It binds D1 `gdcs-prd` and Email Service, and its `scheduled()` sends the weekly digest (Mondays 14:00 UTC), only when `feed.json` shows changes. Sender: `gdcs@mail.coody.app`.
 
 ## Deploy
 
-Pushing to `main` runs `.github/workflows/cd.yaml`: check, test, build, then the Pages deploy to `coody-gdcs-prd-01`. It uses the coodyapp org secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+Pushing to `main` runs `.github/workflows/cd.yaml`: check → test → build → D1 migrations → `wrangler deploy`. It needs a `CLOUDFLARE_API_TOKEN` with these permissions:
 
-That token is scoped to Pages, so these two steps are manual when they change:
+- Account · Workers Scripts · Edit
+- Account · D1 · Edit
+- Account · Email Sending · Edit
+- Zone (coody.app) · Workers Routes · Edit
 
-```bash
-pnpm db:migrate:remote                    # D1 schema (migrations/)
-(cd workers/mailer && wrangler deploy)    # email Worker + cron
-```
+Manual: `pnpm deploy`.
 
 ## Licenses
 

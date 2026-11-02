@@ -1,17 +1,9 @@
-import type { PagesFunction } from "@cloudflare/workers-types"
-
-import {
-  HttpError,
-  limitWrites,
-  readJson,
-  safely,
-  type Env,
-} from "../_lib/http"
+import { HttpError, limitWrites, readJson, safely, type Env } from "../http"
 
 const NAMES = new Set(["copy_prompt", "copy_prompt_card", "copy_markdown"])
 
 /** Cookieless daily counts of copy actions per page. */
-export const onRequestPost: PagesFunction<Env> = ({ request, env }) =>
+export const recordEvent = (request: Request, env: Env, _ctx?: unknown) =>
   safely(async () => {
     const body = await readJson(request)
     const name = String(body.name ?? "")

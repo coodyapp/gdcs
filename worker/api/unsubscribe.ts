@@ -1,7 +1,5 @@
-import type { PagesFunction } from "@cloudflare/workers-types"
-
-import { safely, token, type Env } from "../_lib/http"
-import { isToken } from "../_lib/subscribers"
+import { safely, token, type Env } from "../http"
+import { isToken } from "../subscribers"
 
 /** Also rotates the confirm token so an old confirmation link can't resubscribe. */
 async function unsubscribe(env: Env, value: string) {
@@ -13,7 +11,7 @@ async function unsubscribe(env: Env, value: string) {
 }
 
 /** GET /api/unsubscribe?token=… from the email footer link. */
-export const onRequestGet: PagesFunction<Env> = ({ request, env }) =>
+export const unsubscribeLink = (request: Request, env: Env, _ctx?: unknown) =>
   safely(async () => {
     const value = new URL(request.url).searchParams.get("token")
     const origin = new URL(request.url).origin
@@ -24,7 +22,11 @@ export const onRequestGet: PagesFunction<Env> = ({ request, env }) =>
   })
 
 /** RFC 8058 one-click unsubscribe (List-Unsubscribe-Post). */
-export const onRequestPost: PagesFunction<Env> = ({ request, env }) =>
+export const unsubscribeOneClick = (
+  request: Request,
+  env: Env,
+  _ctx?: unknown
+) =>
   safely(async () => {
     const value = new URL(request.url).searchParams.get("token")
     if (isToken(value)) await unsubscribe(env, value)

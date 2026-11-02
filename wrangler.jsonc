@@ -1,8 +1,24 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "coody-gdcs-prd-01",
-  "pages_build_output_dir": "./dist",
+  "name": "gdcs-prd-01",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-10-15",
+  "upload_source_maps": true,
+  // Prerendered site. Files are served first; only /api/* runs the Worker.
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"],
+  },
+  // Production hostname: added at cutover (see tasks/todo.md, phase 2 A).
+  "workers_dev": true,
+  "preview_urls": false,
+  "triggers": {
+    // Mondays 14:00 UTC. Sends only when sheets changed since the last digest.
+    "crons": ["0 14 * * 1"],
+  },
   "d1_databases": [
     {
       "binding": "DB",
@@ -11,5 +27,11 @@
       "migrations_dir": "migrations",
     },
   ],
-  "services": [{ "binding": "MAILER", "service": "gdcs-mailer-prd-01" }],
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    "SITE_URL": "https://gdcs.coody.app",
+    "FROM_EMAIL": "gdcs@mail.coody.app",
+    "FROM_NAME": "GDCS updates",
+  },
+  "observability": { "enabled": true },
 }
