@@ -23,7 +23,13 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write `src/lib/interp.ts` in TypeScript with pure functions: `clamp(x, min, max)`, `lerp(a, b, t)` (unclamped), `inverseLerp(a, b, v)` returning 0 when a === b, `remap(v, inMin, inMax, outMin, outMax)`, `smoothstep(edge0, edge1, x)` and `smootherstep(edge0, edge1, x)` (both clamp t to [0, 1]), and `damp(current, target, lambda, dt)` = lerp(current, target, 1 - Math.exp(-lambda * dt)) plus `lambdaFor(fraction, seconds)`. Use them in a Three.js camera follow that damps position towards the player with lambda = lambdaFor(0.99, 0.4) using reused vectors, and a fog density that remaps the camera height from [2, 40] to [0.05, 0.005] with clamping. Write Vitest tests: lerp hits both endpoints; inverseLerp undoes lerp; remap is reversible; smoothstep is 0 and 1 at the edges, 0.5 in the middle and monotonic; damp gives the same result stepping 30 or 144 times over one second.",
-  related: ["easing", "bezier-curves", "delta-time", "camera-deadzone"],
+  related: [
+    "easing",
+    "bezier-curves",
+    "delta-time",
+    "camera-deadzone",
+    "snapshot-interpolation",
+  ],
 }
 
 const sheet: Sheet = {

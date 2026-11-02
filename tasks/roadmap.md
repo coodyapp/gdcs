@@ -512,8 +512,8 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ### 7.2 Game AI & decision-making · COMMON / ADVANCED
 - ✅ Finite state machines: [GD] Finite state machine · ⬜ hierarchical FSMs
-- ⬜ Behavior trees
-- ⬜ Utility AI
+- ✅ Behavior trees
+- ✅ Utility AI
 - ⬜ Influence maps
 - ⬜ Potential fields
 - ✅ Seek, flee & arrive: [GD] Steering behaviors
@@ -566,10 +566,10 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ## 9. Networking & simulation · COMMON / ADVANCED
 - ✅ Tick rate, delta time & fixed timestep: [GD] Fixed timestep, Delta time
-- ⬜ Snapshot interpolation & interpolation buffers
+- ✅ Snapshot interpolation & interpolation buffers
 - ⬜ Extrapolation & dead reckoning
-- ⬜ Client-side prediction & reconciliation
-- ⬜ Rollback netcode
+- ✅ Client-side prediction & reconciliation
+- ✅ Rollback netcode
 - ⬜ Deterministic lockstep
 - ⬜ Lag compensation / server rewind
 - ⬜ Latency, RTT & jitter

@@ -3,10 +3,12 @@ import {
   ArrowRight,
   Atom,
   Axis3d,
+  Brain,
   Check,
   Gamepad2,
   Layers,
   Mountain,
+  Network,
   PersonStanding,
   Route,
   type LucideIcon,
@@ -64,6 +66,8 @@ const PATH_ICONS: Record<string, LucideIcon> = {
   "character-animation": PersonStanding,
   "rendering-pipeline": Layers,
   "procedural-worlds": Mountain,
+  "multiplayer-netcode": Network,
+  "game-ai": Brain,
 }
 
 function PathProgress({ done, total }: { done: number; total: number }) {

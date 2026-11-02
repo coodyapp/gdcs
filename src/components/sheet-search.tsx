@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Atom,
@@ -17,13 +17,7 @@ import {
 
 import { getCategory, liveCategories, sheetPath, sheets } from "@/content"
 import { cn } from "@/lib/utils"
-import {
-  facetCounts,
-  searchFiltered,
-  SORTS,
-  type SheetFilters,
-  type SortKey,
-} from "@/lib/search"
+import { facetCounts, searchFiltered, type SheetFilters } from "@/lib/search"
 import { Button } from "@/components/ui/button"
 import {
   InputGroup,
@@ -34,8 +28,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { SearchKbd, useSearchTarget } from "@/components/command-palette"
-
-const LEVELS = ["core", "common", "advanced"] as const
+import { isFiltering, LEVELS, NO_FILTERS } from "@/hooks/use-sheet-filters"
 
 const ICONS: Record<string, LucideIcon> = {
   threejs: Box,
@@ -53,51 +46,6 @@ const PRESSED =
   "aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
 const CHIP =
   "h-9 shrink-0 gap-1.5 rounded-lg border-0 px-2.5 text-[13px] font-normal sm:px-3 sm:text-sm disabled:opacity-40"
-
-export const NO_FILTERS: SheetFilters = {
-  query: "",
-  categories: [],
-  subcategory: "",
-  level: "all",
-  sort: "relevance",
-}
-
-/** Whether anything narrows the list. Sorting alone does not. */
-export const isFiltering = (f: SheetFilters) =>
-  f.query.trim() !== "" ||
-  f.categories.length > 0 ||
-  f.subcategory !== "" ||
-  f.level !== "all"
-
-/** Search and filters mirrored in the URL (?q=&cat=&sub=&level=&sort=), read after hydration. */
-export function useSheetFilters() {
-  const [filters, setFilters] = useState<SheetFilters>(NO_FILTERS)
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search)
-    const level = q.get("level") as SheetFilters["level"] | null
-    const sort = q.get("sort") as SortKey | null
-    setFilters({
-      query: q.get("q") ?? "",
-      categories: (q.get("cat") ?? "").split(",").filter(Boolean),
-      subcategory: q.get("sub") ?? "",
-      level: level && LEVELS.includes(level as never) ? level : "all",
-      sort: sort && sort in SORTS ? sort : "relevance",
-    })
-  }, [])
-  const update = (next: SheetFilters) => {
-    setFilters(next)
-    const url = new URL(window.location.href)
-    const set = (k: string, v: string) =>
-      v ? url.searchParams.set(k, v) : url.searchParams.delete(k)
-    set("q", next.query)
-    set("cat", next.categories.join(","))
-    set("sub", next.subcategory)
-    set("level", next.level === "all" ? "" : next.level)
-    set("sort", next.sort === "relevance" ? "" : next.sort)
-    window.history.replaceState(window.history.state, "", url)
-  }
-  return [filters, update] as const
-}
 
 const Count = ({ n }: { n: number }) => (
   <span className="text-xs tabular-nums opacity-60">{n}</span>

@@ -239,6 +239,68 @@ export const paths: LearningPath[] = [
       { slug: "time-slicing", why: "Spread expensive updates across frames." },
     ],
   },
+  {
+    slug: "multiplayer-netcode",
+    title: "Multiplayer & netcode",
+    summary:
+      "Make online play feel instant: fixed ticks, prediction for your own character, interpolation for everyone else and rollback.",
+    accent: "networking",
+    steps: [
+      {
+        slug: "delta-time",
+        why: "See why raw frame time cannot drive a shared simulation.",
+      },
+      {
+        slug: "fixed-timestep",
+        why: "Every input must mean the same simulated time on every machine.",
+      },
+      {
+        slug: "client-side-prediction",
+        why: "Your own character responds at once, and the server stays in charge.",
+      },
+      {
+        slug: "snapshot-interpolation",
+        why: "Other players move smoothly from a few updates a second.",
+      },
+      {
+        slug: "rollback-netcode",
+        why: "Rewind and re-simulate when precise timing rules out input lag.",
+      },
+    ],
+  },
+  {
+    slug: "game-ai",
+    title: "Game AI",
+    summary:
+      "Build enemies that see, move and decide: from perception and pathfinding to state machines, behavior trees and utility scores.",
+    accent: "ai",
+    steps: [
+      {
+        slug: "field-of-view",
+        why: "Decide what the agent can actually see.",
+      },
+      {
+        slug: "a-star-pathfinding",
+        why: "Find a route around the level.",
+      },
+      {
+        slug: "steering-behaviors",
+        why: "Follow that route with believable movement.",
+      },
+      {
+        slug: "finite-state-machine",
+        why: "The simplest way to decide what to do next.",
+      },
+      {
+        slug: "behavior-trees",
+        why: "Keep priorities manageable as behaviours multiply.",
+      },
+      {
+        slug: "utility-ai",
+        why: "Score options when no fixed order fits the situation.",
+      },
+    ],
+  },
 ]
 
 export const getPath = (slug: string) => paths.find((p) => p.slug === slug)

@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Implement Reynolds steering behaviors in TypeScript for a Three.js crowd on the XZ plane. Agents have pos/vel (THREE.Vector2), maxSpeed, maxForce. Write seek, arrive (linear slow-down inside slowRadius), flee and separation (1/d weighting within a radius), each writing into an output vector with no allocation; steering = (desired − vel) / reactionTime, truncated to maxForce; combine with weights. Integrate at a fixed 60 Hz, orient each instanced cone along its velocity, and guard zero-length vectors. Write Vitest tests: arrive ends within 0.05 u of a static target with near-zero speed; seek passes the target at near max speed; separation between two agents 0.5 u apart points away from the neighbor with magnitude 2.",
-  related: ["a-star-pathfinding", "finite-state-machine", "fixed-timestep"],
+  related: [
+    "a-star-pathfinding",
+    "finite-state-machine",
+    "fixed-timestep",
+    "behavior-trees",
+  ],
 }
 
 const sheet: Sheet = {

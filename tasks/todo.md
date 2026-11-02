@@ -236,4 +236,9 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - [ ] Batch 2 (about 14 sheets) in groups of 4 or 5.
 
 ## Batch 2, group A (v1.8.0)
-- [ ] client-side-prediction, snapshot-interpolation, rollback-netcode (new Networking category); behavior-trees, utility-ai. Review, posters, OG, backlinks, a multiplayer learning path, roadmap, changelog.
+- [x] client-side-prediction, snapshot-interpolation, rollback-netcode (new Networking category); behavior-trees, utility-ai. Review, posters, OG, backlinks, multiplayer and game AI paths, roadmap, changelog.
+
+## Review: v1.7 to v1.9 (2026-11-02)
+- Lesson: confirm which server answers before trusting a run. Lighthouse and browser checks hit a leftover dev server on the port, and later a stale build after a failed `tsc`.
+- Lesson: Lighthouse LCP moves to any image that outgrows the text. Check the LCP element after adding a hero image.
+- Lesson: inline scripts under a CSP hash must not be reformatted; `index.html` is now excluded and a test compares the hash.

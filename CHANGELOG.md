@@ -8,6 +8,13 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.9.0] - 2026-11-02
+
+### Added
+
+- 5 sheets: client-side prediction, snapshot interpolation and rollback netcode in a new Networking category; behavior trees and utility AI.
+- 2 learning paths: Multiplayer & netcode, and Game AI.
+
 ## [1.8.0] - 2026-11-02
 
 ### Added

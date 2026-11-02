@@ -13,7 +13,13 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write a table-driven finite state machine in TypeScript for enemy AI in a Three.js game. Generic `StateMachine<S, E>` takes a transition table Record<S, Partial<Record<E, S>>>, an initial state and optional enter/exit/transition hooks; `send(e)` returns whether it transitioned and resets time-in-state; illegal events are ignored. Build a guard with Idle, Patrol, Chase and Attack states: sensors run at 10 Hz and emit events, with see radius 6 and lose radius 8 (hysteresis), attack range 1.2, and a 0.6 s attack commitment. Log transitions in dev. Write Vitest tests: legal transitions follow the table, illegal events leave the state unchanged, hooks run in order exit → transition → enter, and time in state resets.",
-  related: ["steering-behaviors", "a-star-pathfinding", "hitbox-hurtbox"],
+  related: [
+    "steering-behaviors",
+    "a-star-pathfinding",
+    "hitbox-hurtbox",
+    "behavior-trees",
+    "utility-ai",
+  ],
 }
 
 const sheet: Sheet = {

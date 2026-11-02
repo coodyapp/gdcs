@@ -14,7 +14,13 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Implement a fixed-timestep game loop in TypeScript for a Three.js app. A `FixedStepper` class takes a step (default 1/60) and a max frame time (0.25 s); `advance(frameTime, step)` accumulates the clamped time, calls step(dt) as many times as fits and returns the count; an `alpha` getter returns accumulator/dt. Each physics body stores prev and curr position + quaternion; before stepping copy curr→prev; render with lerpVectors/slerpQuaternions using alpha; provide `teleport()` that sets both. Write Vitest tests with power-of-two steps: 30 fps rendering at 60 Hz physics gives 2 steps per frame, step totals over 1 s don't depend on frame pattern, a 5 s frame is clamped, and alpha equals the leftover fraction.",
-  related: ["tunneling", "particle-system", "steering-behaviors"],
+  related: [
+    "tunneling",
+    "particle-system",
+    "steering-behaviors",
+    "client-side-prediction",
+    "rollback-netcode",
+  ],
 }
 
 const sheet: Sheet = {

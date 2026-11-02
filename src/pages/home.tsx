@@ -24,17 +24,17 @@ import { Kbd } from "@/components/ui/kbd"
 import { NativeSelect } from "@/components/ui/native-select"
 import { HeroFibers } from "@/components/backgrounds"
 import { SheetGrid } from "@/components/sheet-card"
-import {
-  isFiltering,
-  NO_FILTERS,
-  SheetSearch,
-  useSheetFilters,
-} from "@/components/sheet-search"
+import { SheetSearch } from "@/components/sheet-search"
 import { SEARCH_SUGGESTIONS } from "@/components/sheet-search-data"
 import { SubscribeForm } from "@/components/subscribe-form"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { PathCard } from "@/pages/paths"
 import { siteConfig } from "@/config/site"
+import {
+  isFiltering,
+  NO_FILTERS,
+  useSheetFilters,
+} from "@/hooks/use-sheet-filters"
 
 type Level = SheetMeta["level"]
 const LEVELS: Level[] = ["core", "common", "advanced"]

@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write `src/lib/weighted-random.ts` in TypeScript with no dependencies. `mulberry32(seed)` returns floats in [0, 1). `weightedPick(weights, rand)` returns an index with probability weights[i] / sum, by a cumulative walk; it throws on a negative weight or a zero sum, never returns a zero-weight item even if float rounding runs off the end, and allocates nothing. `fisherYates(array, rand)` shuffles in place, drawing j from 0 to i inclusive. `ShuffleBag(counts, rand)` deals each item `counts[i]` times in shuffled order, then reshuffles, with `next()` and `reset()`. Every function takes `rand` as an argument and never touches `Math.random()`. Vitest: the same seed gives the same sequence; 200,000 picks land within 0.5% of the weights; a shuffle is a permutation and all 6 orders of 3 items are about equally likely; every full bag holds exact counts; the longest run without an item never exceeds 2 × (bag size − its copies).",
-  related: ["seeded-noise", "particle-system", "finite-state-machine"],
+  related: [
+    "seeded-noise",
+    "particle-system",
+    "finite-state-machine",
+    "utility-ai",
+  ],
 }
 
 const sheet: Sheet = {
