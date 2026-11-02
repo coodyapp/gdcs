@@ -3,7 +3,6 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { useEffect } from "react"
 import { OrbitControls } from "@react-three/drei"
 
-import { gridPlacement } from "./grid"
 import { palette, type Values, type VisualDef } from "./core"
 
 /**
@@ -44,10 +43,7 @@ export default function Stage({
       <ambientLight intensity={1.1} />
       <hemisphereLight args={["#ffffff", "#262626", 0.6]} />
       <directionalLight position={[5, 8, 4]} intensity={1.4} />
-      <ReferenceGrid
-        position={camera.position}
-        target={camera.target ?? [0, 0, 0]}
-      />
+      {def.gridY !== undefined && <ReferenceGrid y={def.gridY} />}
       <Suspense fallback={null}>
         <def.Scene v={values} />
       </Suspense>
@@ -71,17 +67,13 @@ export default function Stage({
 const GRID_SIZE = 60
 const GRID_LINES = "#fafafa"
 const GRID_OPACITY = 0.1
-function ReferenceGrid({
-  position,
-  target,
-}: {
-  position: readonly number[]
-  target: readonly number[]
-}) {
+/** Just under the ground, so surfaces lying on it do not flicker against it. */
+const GRID_GAP = 0.001
+function ReferenceGrid({ y }: { y: number }) {
   return (
     <gridHelper
       args={[GRID_SIZE, GRID_SIZE, GRID_LINES, GRID_LINES]}
-      {...gridPlacement(position, target)}
+      position={[0, y - GRID_GAP, 0]}
       renderOrder={-1}
       material-transparent
       material-opacity={GRID_OPACITY}

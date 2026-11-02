@@ -38,7 +38,7 @@ const heatFragment = /* glsl */ `
     float d2 = step(mod(f.x - f.y, 9.0), 1.5);
     float hatch = n < 4.5 ? 0.0 : n < 7.5 ? d1 : max(d1, d2);
     col *= 1.0 - 0.6 * hatch;
-    // No layers: see through to the grid, like the other simulations.
+    // No layers: see through to the stage background.
     gl_FragColor = vec4(col, n < 0.5 ? 0.0 : 1.0);
     #include <colorspace_fragment>
   }`

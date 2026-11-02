@@ -124,6 +124,7 @@ const fmt = (m: Mat4) =>
     .join(", ")
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [0, 5.6, 5.2], target: [0, 0, 0.2] },
   params: [
     {

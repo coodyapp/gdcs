@@ -156,6 +156,7 @@ const f = (p: Vec3) =>
   p.map((x) => (Math.abs(x) < 0.005 ? 0 : x).toFixed(2)).join(", ")
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [1.2, 4.6, 6.2], target: [0, 0.7, 0] },
   params: [
     { key: "spin", label: "Spin parent", type: "toggle", value: true },

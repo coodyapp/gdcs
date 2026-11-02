@@ -10,6 +10,12 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.9] - 2026-11-02
+
+### Changed
+
+- The faint grid now appears only on 3D simulations, as a floor aligned with the scene. 2D simulations have no grid.
+
 ## [1.12.8] - 2026-11-02
 
 ### Changed

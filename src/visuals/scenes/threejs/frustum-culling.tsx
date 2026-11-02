@@ -129,6 +129,7 @@ function countVisible(v: V) {
 }
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [0.6, 14, 5.2], target: [0.6, 0, -0.2] },
   params: [
     {

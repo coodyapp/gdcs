@@ -234,6 +234,7 @@ const MAX_SLOPE = (() => {
 })()
 
 export default defineVisual<V>({
+  gridY: -0.22,
   camera: { position: [0, 7.3, 6.9], target: [0, 0.1, 0.5] },
   params: [
     { key: "normalMap", label: "Normal map", type: "toggle", value: true },

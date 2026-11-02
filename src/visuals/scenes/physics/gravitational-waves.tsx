@@ -119,6 +119,7 @@ function Scene({ v }: { v: V }) {
 const MSUN = PHYSICS_CONSTANTS.M_sun
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [0, 7.2, 8.8], target: [0, -0.7, 0] },
   params: [
     {

@@ -70,6 +70,11 @@ export interface VisualDef<V extends Values = Values> {
     orthographic?: boolean
     zoom?: number
   }
+  /**
+   * Height of the ground in a 3D scene, where the stage draws the horizontal
+   * reference grid. 2D scenes leave it out and get no grid.
+   */
+  gridY?: number
   /** Allow drag-to-orbit (default true). */
   orbit?: boolean
   /** Short live readout under the controls, e.g. "Range: 4.2 m". */

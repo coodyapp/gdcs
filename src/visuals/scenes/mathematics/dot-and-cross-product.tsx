@@ -104,6 +104,7 @@ function Scene({ v }: { v: V }) {
 }
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [2, 4.6, 6.4], target: [0.4, 0.5, 0.4] },
   params: [
     { key: "auto", label: "Rotate b", type: "toggle", value: true },

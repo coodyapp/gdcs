@@ -365,7 +365,8 @@ function Scene({ v }: { v: V }) {
 }
 
 export default defineVisual<V>({
-  camera: { position: [0, 1.3, 11.4], target: [0, -0.25, 0], fov: 30 },
+  gridY: -2.7,
+  camera: { position: [0, 3.8, 11], target: [0, -0.25, 0], fov: 30 },
   params: [
     {
       key: "volume",

@@ -106,6 +106,7 @@ function Scene({ v }: { v: V }) {
 }
 
 export default defineVisual<V>({
+  gridY: 0,
   camera: { position: [0, 7.5, 6.5], target: [0, 0, 0] },
   params: [
     { key: "auto", label: "Auto sweep", type: "toggle", value: true },

@@ -58,11 +58,6 @@ function Scene({ v }: { v: V }) {
 
   return (
     <>
-      <gridHelper
-        args={[24, 24, palette.grid, palette.grid]}
-        rotation={[Math.PI / 2, 0, 0]}
-        position={[ORIGIN.x, ORIGIN.y, -0.05]}
-      />
       <primitive object={bAtA} />
       <primitive object={aAtB} />
       <Arrow ref={sumRef} color={palette.secondary} radius={0.07} head={0.34} />
