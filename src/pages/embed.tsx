@@ -10,8 +10,8 @@ import { VisualShell } from "@/visuals/shell"
  * on any host page.
  */
 export function EmbedPage() {
-  const { slug = "" } = useParams()
-  const sheet = getSheet(slug)
+  const { slug = "", "*": deeper } = useParams()
+  const sheet = deeper ? undefined : getSheet(slug)
   if (!sheet)
     return (
       <p className="p-4 text-sm">

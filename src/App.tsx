@@ -15,8 +15,9 @@ export function App() {
   return (
     <Routes>
       <Route path="embed/:slug" element={<EmbedPage />} />
-      {/* Never the site layout: its signup form must not appear under /embed. */}
-      <Route path="embed/*" element={<EmbedPage />} />
+      {/* Never the site layout: its signup form must not appear under /embed.
+          Must outrank the three-segment sheet route, which a bare embed/* does not. */}
+      <Route path="embed/:slug/*" element={<EmbedPage />} />
       <Route element={<SiteLayout />}>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
