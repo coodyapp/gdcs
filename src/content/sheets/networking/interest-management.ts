@@ -27,6 +27,8 @@ export const meta: SheetMeta = {
     "client-side-prediction",
     "chunk-streaming",
     "time-slicing",
+    "state-sync-and-delta-compression",
+    "bandwidth-budgeting",
   ],
 }
 

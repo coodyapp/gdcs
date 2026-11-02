@@ -74,7 +74,7 @@ game-feel/timing: delta-time, coyote-time, input-buffering, hit-stop, invincibil
 game-feel/motion: acceleration-and-friction, squash-and-stretch · game-feel/camera: camera-deadzone, screen-shake
 systems/patterns: object-pooling, particle-system · systems/simulation: fixed-timestep · systems/collision: collision-detection, bounding-volumes, hitbox-hurtbox, tunneling
 ai/navigation: a-star-pathfinding · ai/steering: steering-behaviors · ai/decision: finite-state-machine, behavior-trees, utility-ai
-networking/fundamentals: latency-and-jitter · networking/netcode: client-side-prediction, snapshot-interpolation, rollback-netcode, lag-compensation, dead-reckoning, deterministic-lockstep · networking/scaling: interest-management
+networking/fundamentals: latency-and-jitter · networking/netcode: client-side-prediction, snapshot-interpolation, rollback-netcode, lag-compensation, dead-reckoning, deterministic-lockstep, clock-synchronization, floating-point-determinism · networking/scaling: interest-management, state-sync-and-delta-compression, quantization, bandwidth-budgeting
 performance/cpu: frame-budget, time-slicing · performance/gpu: draw-calls, overdraw, texture-atlas · performance/world: spatial-partitioning, chunk-streaming
 physics/mechanics: rigid-body-dynamics, impulse-and-momentum, moment-of-inertia, projectile-motion, spring-mass-oscillator, damped-pendulum, keplers-laws, solar-system, balancing-torque, projectile-data-lab, sound-waves, buoyancy
 physics/electromagnetism: electric-field-lines, charged-particle-motion, em-wave-propagation

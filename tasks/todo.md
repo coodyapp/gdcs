@@ -270,3 +270,8 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Lesson: check that `origin/main` is still the parent before tagging. Commits can land from elsewhere during a long task.
 - Lesson: a release gate must fail on every check it runs. v1.12.6 shipped a phone overflow because the gate only read accessibility results.
 - Lesson: measure speed with `--throttling-method=devtools`. Simulated scores vary by more than 10 points on the same page.
+
+## Review: v1.13.0 (2026-11-02)
+- Multiplayer section of the roadmap complete. The owner confirmed COODY as copyright holder, Brazil as governing law, and a 3D-only grid.
+- Lesson: check spec claims at the source. `Math.sqrt` looked exact and never differed in a run, but the ECMAScript spec leaves it unspecified.
+- Known gap: feed dates are midnight, so a sheet dated the same day as a digest but released after it is never announced.

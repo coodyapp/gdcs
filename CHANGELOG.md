@@ -10,6 +10,16 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-02
+
+### Added
+
+- 5 multiplayer sheets: state sync and delta compression, quantization, floating-point determinism, clock synchronization, and bandwidth budgeting. The Multiplayer & netcode path now has 15 steps.
+
+### Changed
+
+- The laws of Brazil govern the embed terms in the license.
+
 ## [1.12.11] - 2026-11-02
 
 ### Changed

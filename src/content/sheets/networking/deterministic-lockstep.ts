@@ -27,6 +27,7 @@ export const meta: SheetMeta = {
     "fixed-timestep",
     "snapshot-interpolation",
     "frame-budget",
+    "floating-point-determinism",
   ],
 }
 

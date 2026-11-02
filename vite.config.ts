@@ -196,6 +196,18 @@ export default defineConfig({
         rules: { "react/only-export-components": "off" },
       },
       {
+        // Scenes reuse pre-allocated objects inside the render loop on purpose
+        // (docs/reference/authoring.md), which these React rules flag.
+        files: ["src/visuals/scenes/**/*.tsx"],
+        rules: {
+          "react/immutability": "off",
+          "react/refs": "off",
+          "react/use-memo": "off",
+          "react/purity": "off",
+          "react/globals": "off",
+        },
+      },
+      {
         files: ["public/**/*.js"],
         globals: {
           document: "readonly",

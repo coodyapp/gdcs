@@ -27,6 +27,7 @@ export const meta: SheetMeta = {
     "client-side-prediction",
     "rollback-netcode",
     "seeded-noise",
+    "clock-synchronization",
   ],
 }
 

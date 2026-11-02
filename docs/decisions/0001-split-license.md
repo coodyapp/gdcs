@@ -11,6 +11,8 @@ The goal is for search engines and AI tools to read the site and for people to e
 
 The repository stays private. Sheet text and images are CC BY 4.0, code examples and prompts are MIT, and simulations and site code are all rights reserved with free embedding.
 
+The copyright holder is COODY. The laws of Brazil govern the custom terms in part 3.
+
 ## Consequences
 
 - Browsers must download the simulation code to run it, so the restriction on copying relies on the license and takedown requests, not on technical measures.

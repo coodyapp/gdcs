@@ -14,7 +14,7 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write a TypeScript module of quaternion helpers on plain [x, y, z, w] tuples (no Three.js dependency): fromAxisAngle, fromEuler (XYZ order, matching Three.js), multiply, conjugate, rotateVector, normalize, angleBetween (2·acos|a·b|), slerp(a, b, t, shortest = true) that flips b when a·b < 0 and falls back to normalized lerp when a·b > 0.9995, and rotateTowards(a, b, maxAngle). Add Vitest tests: fromEuler equals THREE.Quaternion.setFromEuler for random angles; slerp returns unit quaternions and hits both endpoints; slerp at t = 0.5 is half the angle; slerping yaw 170° → -170° sweeps 20° while lerping the Euler angles sweeps 340°.",
-  related: ["easing", "billboarding", "steering-behaviors"],
+  related: ["easing", "billboarding", "steering-behaviors", "quantization"],
 }
 
 const sheet: Sheet = {

@@ -29,6 +29,8 @@ export const meta: SheetMeta = {
     "latency-and-jitter",
     "dead-reckoning",
     "lag-compensation",
+    "clock-synchronization",
+    "state-sync-and-delta-compression",
   ],
 }
 

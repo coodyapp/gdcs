@@ -79,7 +79,7 @@ export function LicensePage() {
           Embeds set no cookies, and you can change the width and height to suit
           your layout. They are provided as is, with no warranty. We may change
           or remove them, and may withdraw permission from a site that does not
-          follow these terms.
+          follow these terms. The laws of Brazil govern these embed terms.
         </p>
       </section>
 

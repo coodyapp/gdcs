@@ -33,6 +33,8 @@ You may not copy, download for redistribution, rehost, extract or adapt the simu
 
 Embeds are provided "as is", without warranty of any kind, and to the extent the law allows COODY is not liable for any damage arising from them. COODY may change or remove embeds at any time, and may withdraw this permission from a site that does not follow these terms.
 
+The laws of Brazil govern this part 3.
+
 ## Not covered
 
 - Third-party software keeps its own license, including Ghost Fibers from React Bits (MIT + Commons Clause). See THIRD_PARTY_LICENSES.md and https://gdcs.coody.app/third-party-licenses.txt

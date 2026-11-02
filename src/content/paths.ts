@@ -259,6 +259,10 @@ export const paths: LearningPath[] = [
         why: "Measure the delay, jitter and loss you are designing around.",
       },
       {
+        slug: "clock-synchronization",
+        why: "Agree on what time it is, despite the delay.",
+      },
+      {
         slug: "client-side-prediction",
         why: "Your own character responds at once, and the server stays in charge.",
       },
@@ -279,12 +283,28 @@ export const paths: LearningPath[] = [
         why: "Send only inputs and wait for everyone, the classic RTS model.",
       },
       {
+        slug: "floating-point-determinism",
+        why: "Find out why identical code can still drift apart.",
+      },
+      {
         slug: "rollback-netcode",
         why: "Rewind and re-simulate when precise timing rules out input lag.",
       },
       {
         slug: "interest-management",
         why: "Send each player only what is near them, so servers scale.",
+      },
+      {
+        slug: "state-sync-and-delta-compression",
+        why: "Send only what changed since the client last confirmed.",
+      },
+      {
+        slug: "quantization",
+        why: "Spend fewer bits on each value that is left.",
+      },
+      {
+        slug: "bandwidth-budgeting",
+        why: "Fit it all into a fixed budget, and share what is left.",
       },
     ],
   },

@@ -22,8 +22,6 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ## Planned next
 
-Multiplayer next (section 9): state sync and delta compression, quantization, floating-point determinism, clock synchronization, bandwidth budgeting.
-
 After multiplayer: skeletal skinning, animation blending, spring-arm camera, character controller, shadow mapping, tone mapping, wave function collapse, marching squares.
 
 ## 1. Top-40 most-used concepts
@@ -578,12 +576,12 @@ After multiplayer: skeletal skinning, animation blending, spring-arm camera, cha
 - ✅ Deterministic lockstep
 - ✅ Lag compensation / server rewind
 - ✅ Latency, RTT & jitter
-- ⬜ State sync & delta compression
-- ⬜ Quantization & smallest-three quaternions
-- ⬜ Floating-point determinism
-- ⬜ Clock synchronization
+- ✅ State sync & delta compression
+- ✅ Quantization & smallest-three quaternions
+- ✅ Floating-point determinism
+- ✅ Clock synchronization
 - ✅ Interest management (AOI)
-- ⬜ Bandwidth budgeting
+- ✅ Bandwidth budgeting
 
 ## 10. Audio, waves & signal processing · COMMON / ADVANCED
 - ✅ Frequency, amplitude, phase, wavelength: [PH] Sound Waves
