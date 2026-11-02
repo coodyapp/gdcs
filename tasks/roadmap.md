@@ -4,7 +4,7 @@ Source: "The Encyclopedia of Mathematics & Physics in Game Development" (topic t
 
 `[P2]` = phase-2 sheets (2026-11-02). `[P3]` = Top-40 completion sheets (2026-11-02). Section entries now name the covering sheet directly.
 
-Legend: ✅ **complete**: covered by a phase-1 sheet (`[GD]` = phase-1 game-dev core set, `[PH]` = migrated physics.coody.app labs) · 🟡 **partial**: an existing sheet touches it, but it still needs its own sheet (counts as planned) · ⬜ **planned**
+Legend: ✅ **complete**: covered by a phase-1 sheet (`[GD]` = phase-1 game development core set, `[PH]` = migrated physics.coody.app labs) · 🟡 **partial**: an existing sheet touches it, but it still needs its own sheet (counts as planned) · ⬜ **planned**
 Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ## Assessment: is the table useful as a roadmap?
@@ -14,7 +14,6 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ⚠️ It is a **vocabulary list (~600 terms)**, and many bullets are 5–10 synonyms or sub-terms. Sheet granularity should be **one sheet per bullet group** (≈ 250 sheets), not one per term.
 - ⚠️ **Duplicates across sections** (fixed timestep in §2.8/§9, PBD/XPBD in §3.4/§3.6, spatial partitioning in §5/§7/§9, Voronoi/Delaunay in §2.5/§6.2). Each gets one canonical sheet and is cross-linked elsewhere.
 - ⚠️ Some areas (networking, audio DSP, control theory) need less obvious Three.js visuals: timelines, signal plots in 3D space, or client/server ghosts.
-- ⚠️ It misses **game-feel** topics that the phase-1 game-dev set covers (coyote time, hit stop, i-frames…), and covers only part of our existing electromagnetism/quantum/relativity sheets. Both are listed under "Already shipped, outside the table" below.
 - Citations in the table point to Unity, Godot, Box2D, Gaffer On Games, Red Blob Games, Khronos, Scratchapixel, and GPU Gems. Use them as "Further reading" links, not as content to copy.
 
 **Suggested order after phase 1:** finish the Top-40 (vectors, trig, transforms, matrices, lerp/smoothstep, collision basics, rigid bodies), then follow §14's learning order, then specializations by demand.

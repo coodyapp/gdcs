@@ -8,8 +8,7 @@ Target: https://gdcs.coody.app
 | Source | What it is | What we reuse |
 | --- | --- | --- |
 | `coodyapp/www` (coody.app) | Vite+ (`vp`) · React 19 · TS · Tailwind v4 · three · react-router 7 · **pnpm** · Cloudflare Pages + Pages Functions + D1 · custom build-time prerender plugin (`scripts/prerender.ts`) · `_headers` CSP · cookieless analytics | Design tokens (`globals.css`: HSL tokens, Inter Variable + Cal Sans, `--text-display/title/lead`), prerender/sitemap pattern, Functions + D1 + migrations pattern, CI/CD workflow, `_headers` |
-| `physics` (physics.coody.app) | Same Vite+ toolchain (yarn), React Three Fiber + drei, 18 lab sims + 3 GR sims, 29 physics tests. Pages project `coody-physics-prd-01`. Repo `augustobr1to/physics` → redirects to **`coodyapp/physics`** (public) | All 21 simulations + `src/physics/*` equations + tests become the Physics category |
-| Game-dev topic reference (external, unnamed) | 34 widely used game-dev concepts in 4 groups. Card = hook + animated demo + explanation + copyable prompt; detail page = when to use, pseudocode, mistakes, related. | **Topic list only** (generic industry terms). All explanations, code, prompts and visuals are original. The source is never named in the repo, commits, or site. |
+| `physics` (physics.coody.app) | Same Vite+ toolchain (yarn), React Three Fiber + drei, 18 lab sims + 3 GR sims, 29 physics tests. Pages project `coody-physics-prd-01`. Repo `augustobr1to/physics` → redirects to **`coodyapp/physics`** (public) | All 21 simulations + `src/physics/*` equations + tests become the Physics category |34 widely used game development concepts in 4 groups. Card = hook + animated demo + explanation + copyable prompt; detail page = when to use, pseudocode, mistakes, related. | **Topic list only** (generic industry terms). All explanations, code, prompts and visuals are original. The source is never named in the repo, commits, or site. |
 
 Other facts:
 - Wrangler is logged in with `email_sending (write)`, `email_routing`, D1, Pages scopes → everything can run on Cloudflare.
@@ -38,7 +37,7 @@ Other facts:
 | `/performance` Performance | `cpu`: frame-budget, time-slicing · `gpu`: draw-calls, overdraw, texture-atlas · `world`: spatial-partitioning, chunk-streaming |
 | `/physics` Physics | `mechanics` (9), `electromagnetism` (3), `thermodynamics` (3), `quantum-mechanics` (3), `relativity` (mass-effect, gravitational-waves, mercury-precession) |
 
-Total in phase 1: **34 game-dev + 21 physics = 55 sheets.**
+Total in phase 1: **34 game development + 21 physics = 55 sheets.**
 
 URLs (stable, lowercase, no trailing slash):
 - `/` · `/{category}` · `/{category}/{subcategory}` · `/{category}/{subcategory}/{slug}`
@@ -63,7 +62,7 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - Build all phases, 0 → 9.
 - Email: **Cloudflare Email Service** (`send_email` binding) from `gdcs@mail.coody.app` (mail.coody.app is already onboarded; no new DNS).
 - physics.coody.app: **remove the DNS record + Pages project** in cleanup, without redirects. Each step is still confirmed with you first.
-- Repo: **`coodyapp/gdcs`, public**. The game-dev topic source is never named in code, commits, docs, or the site. Third-party credits go in `THIRD_PARTY_LICENSES.md`.
+- Third-party credits go in `THIRD_PARTY_LICENSES.md`.
 
 ## 5. Checklist
 
@@ -83,7 +82,7 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - [x] Write the sheet content from the existing `summary/principle/equations/method/expectedOutput`, adding formulas, mistakes, and a prompt.
 - [x] Verify: the 29 existing physics tests pass; each scene was visually checked in the browser.
 
-### Phase 3 — Game-dev sheets (34)
+### Phase 3 — Game Development sheets (34)
 - [x] Write original content + Three.js visual for each of the 34 topics, in batches by category (Three.js → Game Feel → Systems/AI → Performance → Math).
 - [x] Unit-test the pure helpers behind the visuals (easing fns, A*, fixed-step accumulator, PRNG/noise, steering, grid partitioning).
 - [x] Verify each batch in the browser (screenshot + console clean).
@@ -122,8 +121,8 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 - [x] Final summary: what was built, what was verified (with outputs), what remains. Add a review section to this file.
 
 ## 6. Risks / notes
-- **Scope**: 55 hand-built interactive scenes is the bulk of the work. I'll ship in batches and deploy early (phases 0, 1, 2, 7 first) so the site is live while game-dev sheets fill in.
-- **Copyright**: the game-dev topic reference has no license. No text, code, or demo is copied, and it is not named anywhere. Other references (Three.js, KaTeX, Gaffer On Games, Red Blob Games, Box2D, etc.) are credited in `THIRD_PARTY_LICENSES.md` and in each sheet's Further reading.
+- **Scope**: 55 hand-built interactive scenes is the bulk of the work. I'll ship in batches and deploy early (phases 0, 1, 2, 7 first) so the site is live while game development sheets fill in.
+- **Copyright**: No text, code, or demo is copied, and it is not named anywhere. Other references (Three.js, KaTeX, Gaffer On Games, Red Blob Games, Box2D, etc.) are credited in `THIRD_PARTY_LICENSES.md` and in each sheet's Further reading.
 - Email deliverability depends on domain authentication. The first sends go to you only.
 
 ## Progress log
@@ -135,7 +134,7 @@ Page actions: `Copy prompt`, `Copy as Markdown`, `View .md`. Breadcrumbs, previo
 ## Review (2026-11-01)
 
 ### Built
-- 55 sheets (34 game-dev in 6 categories + 21 physics in 5 subcategories). Each has an interactive R3F visual, KaTeX formulas, code, mistakes, prompt, related and reading.
+- 55 sheets (34 game development in 6 categories + 21 physics in 5 subcategories). Each has an interactive R3F visual, KaTeX formulas, code, mistakes, prompt, related and reading.
 - Prerendered SSR HTML for 86 routes, `.md` twins, `llms.txt`, `llms-full.txt`, `feed.json`, `sitemap.xml`, `robots.txt` (AI crawlers allowed), and JSON-LD on every page.
 - Main bundle is ~114 KB br. three.js loads lazily (~196 KB br). Sheet bodies are lazy chunks, cards mount through an idle queue, and CSS is inlined.
 - Get Updates: Pages Functions (subscribe/confirm/unsubscribe/event) + D1 `gdcs-prd` + `gdcs-mailer-prd-01` Worker (double opt-in, weekly digest cron, RFC 8058 one-click unsubscribe).
