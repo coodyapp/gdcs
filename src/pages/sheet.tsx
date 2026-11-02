@@ -18,6 +18,7 @@ import {
 import { recordVisit } from "@/lib/local"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LevelPips, SheetEndCard } from "@/components/sheet-card"
+import { embedCode, LICENSE_PATH } from "@/lib/embed"
 import { promptMarkdown } from "@/lib/prompt-markdown"
 import { SheetCode } from "@/components/sheet-code"
 import { Badge } from "@/components/ui/badge"
@@ -129,6 +130,12 @@ function SheetArticle({ slug }: { slug: string }) {
               label="Copy as Markdown"
               getText={copyMarkdown(sheet.slug)}
               event="copy_markdown"
+            />
+            <CopyButton
+              label="Copy embed code"
+              copiedLabel="Embed code copied"
+              text={embedCode(sheet)}
+              event="copy_embed"
             />
             <Button
               variant="outline"
@@ -351,7 +358,11 @@ function SheetArticle({ slug }: { slug: string }) {
           )}
         </nav>
         <p className="mt-6 text-xs text-muted-foreground">
-          Updated {sheet.updated}
+          Updated {sheet.updated}. Text CC BY 4.0, code MIT, simulation
+          embeddable.{" "}
+          <Link to={LICENSE_PATH} className="link-quiet">
+            License
+          </Link>
         </p>
       </article>
       <TableOfContents sections={sections} />

@@ -73,6 +73,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link to="/license" className={quiet}>
+                  License
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy" className={quiet}>
                   Privacy policy
                 </Link>

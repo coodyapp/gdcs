@@ -99,7 +99,12 @@ export function sheetMarkdown(sheet: Sheet) {
       ""
     )
   }
-  out.push(`---`, `Source: ${siteConfig.longName} (${siteConfig.url})`, "")
+  out.push(
+    `---`,
+    `Source: ${siteConfig.longName} (${absoluteUrl(sheetPath(sheet))})`,
+    `License: text CC BY 4.0, credit GDCS with a link to the source. Code and prompts MIT. Details: ${absoluteUrl("/license")}`,
+    ""
+  )
   return out.join("\n")
 }
 
@@ -113,6 +118,8 @@ export function llmsTxt() {
     "Each sheet has an HTML page and a Markdown twin at the same URL plus `.md`. The full corpus is at " +
       absoluteUrl("/llms-full.txt") +
       ".",
+    "",
+    `License: sheet text is CC BY 4.0, so credit GDCS and link to the sheet when you use it. Code examples and prompts are MIT. Simulations are all rights reserved and can be embedded. Details: ${absoluteUrl("/license")}`,
     "",
   ]
   for (const category of liveCategories()) {
@@ -138,6 +145,7 @@ export function llmsTxt() {
     "",
     `- [Sitemap](${absoluteUrl("/sitemap.xml")})`,
     `- [About](${absoluteUrl("/about")})`,
+    `- [License](${absoluteUrl("/license")})`,
     ""
   )
   return out.join("\n")

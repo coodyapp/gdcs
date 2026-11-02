@@ -1,6 +1,7 @@
 {
   "name": "gdcs",
-  "version": "1.11.0",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "version": "1.12.0",
   "private": true,
   "type": "module",
   "homepage": "https://gdcs.coody.app",
@@ -17,7 +18,8 @@
     "posters": "node scripts/posters.ts",
     "og": "node scripts/og.ts",
     "posters:fibers": "node scripts/fiber-posters.ts",
-    "brand": "node scripts/brand-assets.ts"
+    "brand": "node scripts/brand-assets.ts",
+    "notices": "node scripts/third-party-notices.ts"
   },
   "packageManager": "pnpm@10.15.0",
   "dependencies": {

@@ -1,6 +1,11 @@
 import { HttpError, limitWrites, readJson, safely, type Env } from "../http"
 
-const NAMES = new Set(["copy_prompt", "copy_prompt_card", "copy_markdown"])
+const NAMES = new Set([
+  "copy_prompt",
+  "copy_prompt_card",
+  "copy_markdown",
+  "copy_embed",
+])
 
 /** Cookieless daily counts of copy actions per page. */
 export const recordEvent = (request: Request, env: Env, _ctx?: unknown) =>

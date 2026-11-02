@@ -21,6 +21,7 @@ interface Head {
   type: string
   jsonLd: object[]
   noindex?: boolean
+  canonical?: false
   markdown?: string
   updated: string
   image?: string
@@ -38,6 +39,7 @@ interface ServerEntry {
   render(url: string): string
   headFor(path: string): Head
   allPaths(): string[]
+  embedPaths(): string[]
   sheetMarkdown(sheet: SheetLike): string
   llmsTxt(): string
   llmsFullTxt(): string
@@ -94,12 +96,15 @@ export function applyHead(shell: string, head: Head) {
     `<title>${escapeHtml(head.title)}</title>`,
     "title"
   )
-  html = setTag(
-    html,
-    /<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/,
-    `<link rel="canonical" href="${url}" />`,
-    "canonical"
-  )
+  html =
+    head.canonical === false
+      ? html.replace(/\s*<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/, "")
+      : setTag(
+          html,
+          /<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/,
+          `<link rel="canonical" href="${url}" />`,
+          "canonical"
+        )
   html = meta(html, "name", "description", head.description)
   html = meta(
     html,
@@ -161,6 +166,7 @@ export function sitemap(entries: { path: string; updated: string }[]) {
 /** Search engines and AI crawlers are explicitly welcome. */
 export const robots = () =>
   [
+    `# Welcome. Terms and how to credit: ${SITE}/license`,
     "User-agent: *",
     "Allow: /",
     "Disallow: /api/",
@@ -235,6 +241,15 @@ async function main() {
       p === "/" ? "index.html" : `${p.slice(1)}.html`,
       p === "/" ? inlineHeroPoster(html, heroPoster) : html
     )
+  }
+
+  // Embeds are real pages, on purpose not indexed.
+  for (const p of entry.embedPaths()) {
+    const html = applyHead(shell, entry.headFor(p)).replace(
+      '<div id="root"></div>',
+      `<div id="root">${entry.render(p)}</div>`
+    )
+    await write(`${p.slice(1)}.html`, html)
   }
 
   // Unknown URLs: the bare shell, client-rendered, never indexed.

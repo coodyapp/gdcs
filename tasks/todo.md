@@ -249,3 +249,16 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 
 ## Review: v1.10 to v1.11 (2026-11-02)
 - Lesson: gate the push on the checks with `if`, not `;`. A failing build was pushed once because the commands were chained loosely; CD stopped it and production was unaffected.
+
+## License and embeds (v1.12.0)
+- [x] LICENSE.md split: CC BY 4.0 text and images, MIT code examples and prompts, all rights reserved simulations and site code, third party excluded.
+- [x] /embed/<slug> outside the layout: simulation, controls, backlink; framable, noindex, no canonical, not in sitemap.
+- [x] "Copy embed code" on sheets: iframe plus a visible link on the host page.
+- [x] /license page, footer link, sitemap, llms.txt.
+- [x] Signals: rel=license, Link header, JSON-LD, .md footer, llms.txt, robots comment, notice in JS bundles.
+- [x] Verify: real iframe from another origin, headers, axe, tests.
+
+## Review: v1.12.0 (2026-11-02)
+- Lesson: a link inside an iframe is not a backlink for the host page, so the embed code carries a visible link too.
+- Lesson: a failed `pnpm build` leaves the old `dist` in place, so stop on failure before testing or the checks read stale output.
+- Earlier versions shipped as MIT; relicensing is not retroactive. A lawyer should review LICENSE.md.

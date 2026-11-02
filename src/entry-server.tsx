@@ -17,7 +17,7 @@ export function render(url: string) {
   )
 }
 
-export { headFor, allPaths } from "@/lib/seo"
+export { headFor, allPaths, embedPaths } from "@/lib/seo"
 export { sheetMarkdown, llmsTxt } from "@/content/markdown"
 export { sheets, sheetMarkdownPath, sheetPath } from "@/content"
 export { fullSheets }

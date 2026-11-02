@@ -21,6 +21,8 @@ export interface Head {
   type: "website" | "article"
   jsonLd: object[]
   noindex?: boolean
+  /** false: no canonical tag, for pages that should not be indexed at all. */
+  canonical?: false
   /** Markdown alternate for AI agents. */
   markdown?: string
   updated: string
@@ -90,6 +92,9 @@ function sheetHead(sheet: SheetMeta): Head {
       {
         "@type": ["TechArticle", "LearningResource"],
         "@id": `${absoluteUrl(path)}#article`,
+        license: "https://creativecommons.org/licenses/by/4.0/",
+        copyrightHolder: { "@id": organization["@id"] },
+        usageInfo: absoluteUrl("/license"),
         headline: sheet.title,
         name: sheet.title,
         description: sheet.summary,
@@ -139,6 +144,13 @@ const staticPages: Record<string, Omit<Head, "jsonLd" | "updated">> = {
     description:
       "What GDCS is, how each cheat sheet is built, and how to use the Markdown, llms.txt and prompt exports with AI assistants.",
     path: "/about",
+    type: "website",
+  },
+  "/license": {
+    title: formatTitle("License"),
+    description:
+      "What you can do with GDCS: reuse the text with credit, use the code in your games and embed the simulations with a link back.",
+    path: "/license",
     type: "website",
   },
   "/privacy": {
@@ -243,6 +255,20 @@ export function headFor(pathname: string): Head {
       ],
     }
   }
+  const embed = /^\/embed\/([^/]+)$/.exec(path)
+  if (embed && getSheet(embed[1])) {
+    const sheet = getSheet(embed[1])!
+    return {
+      title: formatTitle(`${sheet.title} simulation`),
+      description: sheet.summary,
+      path,
+      type: "website",
+      noindex: true,
+      canonical: false,
+      updated: sheet.updated,
+      jsonLd: [],
+    }
+  }
   const page = staticPages[path]
   if (page)
     return { ...page, updated: latest(), jsonLd: [organization, website] }
@@ -304,6 +330,9 @@ export function headFor(pathname: string): Head {
   if (!sheet || sheet.category !== c || sheet.subcategory !== s) return notFound
   return sheetHead(sheet)
 }
+
+/** Pages other sites may frame: prerendered, but not in the sitemap. */
+export const embedPaths = () => sheets.map((s) => `/embed/${s.slug}`)
 
 /** Every indexable path, for prerendering and the sitemap. */
 export function allPaths(): string[] {

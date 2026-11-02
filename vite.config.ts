@@ -271,6 +271,13 @@ export default defineConfig({
     sourcemap: "hidden",
     reportCompressedSize: false,
     chunkSizeWarningLimit: 1200,
+    rolldownOptions: {
+      output: {
+        // After minifying, so the notice survives in every served script.
+        postBanner:
+          "/*!  GDCS (c) COODY. Simulations and site code: all rights reserved. Embed and terms: https://gdcs.coody.app/license . Third-party software: https://gdcs.coody.app/third-party-licenses.txt */",
+      },
+    },
   },
   resolve: {
     alias: {

@@ -12,6 +12,30 @@ describe("theme script", () => {
     const script = /<script>(.*?)<\/script>/s.exec(read("index.html"))?.[1]
     expect(script).toBeTruthy()
     const hash = createHash("sha256").update(script!).digest("base64")
-    expect(read("public/_headers")).toContain(`'sha256-${hash}'`)
+    const policies = read("public/_headers")
+      .split("\n")
+      .filter((line) => line.includes("Content-Security-Policy: "))
+    expect(policies).toHaveLength(2)
+    for (const policy of policies) expect(policy).toContain(`'sha256-${hash}'`)
+  })
+})
+
+describe("framing", () => {
+  const blocks = read("public/_headers").split(/\n\n+/)
+  const block = (start: string) => blocks.find((b) => b.includes(`${start}\n`))!
+
+  it("is refused everywhere except embeds", () => {
+    expect(block("/*")).toContain("frame-ancestors 'none'")
+    expect(block("/embed/*")).toContain("! Content-Security-Policy")
+    expect(block("/embed/*")).toContain("frame-ancestors *")
+  })
+
+  it("keeps embeds out of search results", () => {
+    expect(block("/embed/*")).toContain("X-Robots-Tag: noindex")
+  })
+
+  it("points every page at the license", () => {
+    expect(block("/*")).toContain('</license>; rel="license"')
+    expect(read("index.html")).toContain('<link rel="license" href="/license"')
   })
 })

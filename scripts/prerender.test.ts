@@ -26,6 +26,30 @@ describe("inlineHeroPoster", () => {
   })
 })
 
+describe("embed pages", () => {
+  const html = applyHead(shell, {
+    title: "x",
+    description: "d",
+    path: "/embed/x",
+    type: "website",
+    jsonLd: [],
+    noindex: true,
+    canonical: false,
+    updated: "2026-11-02",
+  })
+  it("have noindex and no canonical", () => {
+    expect(html).toContain('content="noindex,follow"')
+    expect(html).not.toContain('rel="canonical"')
+  })
+})
+
+describe("robots", () => {
+  it("welcomes crawlers, embeds included, and points at the license", () => {
+    expect(robots()).toContain("/license")
+    expect(robots()).not.toContain("Disallow: /embed")
+  })
+})
+
 describe("applyHead", () => {
   const html = applyHead(shell, {
     title: 'A "quoted" <title>',

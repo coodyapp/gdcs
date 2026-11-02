@@ -8,6 +8,18 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.12.0] - 2026-11-02
+
+### Added
+
+- Embeds: "Copy embed code" on every sheet, and `/embed/<slug>` pages other sites can frame, with a link back to the sheet.
+- `/license` page, and `third-party-licenses.txt` with the license text of every production dependency.
+- License information in `llms.txt`, `.md` files, `robots.txt`, JSON-LD, page headers and JavaScript files.
+
+### Changed
+
+- License: sheet text and images CC BY 4.0, code examples and prompts MIT, simulations and site code all rights reserved. Earlier versions were MIT.
+
 ## [1.11.0] - 2026-11-02
 
 ### Added

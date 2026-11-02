@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 import { siteConfig } from "@/config/site"
 import { sheets } from "@/content"
 
@@ -77,8 +79,15 @@ export function AboutPage() {
         <a href={siteConfig.authorUrl} className="link-quiet" rel="noopener">
           Coody
         </a>{" "}
-        with React, Three.js, React Three Fiber and KaTeX. Third-party licenses
-        and references are listed in the repository.
+        with React, Three.js, React Three Fiber and KaTeX. See the{" "}
+        <Link to="/license" className="link-quiet">
+          license
+        </Link>{" "}
+        and the{" "}
+        <a href="/third-party-licenses.txt" className="link-quiet">
+          third-party licenses
+        </a>
+        .
       </p>
     </article>
   )
