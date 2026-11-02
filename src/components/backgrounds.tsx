@@ -81,6 +81,36 @@ export function HeroFibers({ className }: { className?: string }) {
   )
 }
 
+/**
+ * Footer: the hero's fibers, drawn larger so they leave every edge. Nothing
+ * fades at the bottom, so the page reads as continuing past the screen.
+ */
+export function FooterFibers({ className }: { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const near = useNearViewport(ref)
+  return (
+    <div ref={ref} aria-hidden className={cn("h-full w-full", className)}>
+      {near && (
+        <Suspense fallback={null}>
+          <GhostFibers
+            glowColor="#a3a3a3"
+            lineColor="#fafafa"
+            secondaryColor="#737373"
+            threads={isPhone() ? 40 : 72}
+            speed={0.35}
+            scale={1.6}
+            rotation={-24}
+            brightness={0.85}
+            vignette={0}
+            pulseOnClick={false}
+            dpr={1}
+          />
+        </Suspense>
+      )}
+    </div>
+  )
+}
+
 /** Quiet ASCII band that leads into the footer, in Coody neutrals. */
 export function FooterAscii({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -90,7 +120,7 @@ export function FooterAscii({ className }: { className?: string }) {
       ref={ref}
       aria-hidden
       className={cn(
-        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%)] md:h-56",
+        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%,#000_70%,transparent)] md:h-56",
         className
       )}
     >

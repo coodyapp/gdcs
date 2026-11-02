@@ -2,10 +2,9 @@ import { Link } from "react-router-dom"
 import { ArrowUp } from "lucide-react"
 
 import { PoweredByCoody } from "@/components/coody/powered-by"
-import { FooterAscii } from "@/components/backgrounds"
+import { FooterAscii, FooterFibers } from "@/components/backgrounds"
 import { SubscribeForm } from "@/components/subscribe-form"
 import { Tagline } from "@/components/tagline"
-import { Separator } from "@/components/ui/separator"
 import { categoryPath, liveCategories } from "@/content"
 
 const quiet = "text-muted-foreground transition-colors hover:text-foreground"
@@ -29,7 +28,13 @@ export function SiteFooter() {
   return (
     <>
       <FooterAscii className="mt-8 md:mt-10" />
-      <footer className="border-t">
+      <footer className="relative isolate">
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <FooterFibers />
+          {/* Keeps the links readable; the top edge melts into the page. */}
+          <div className="absolute inset-0 bg-background/65" />
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        </div>
         <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <section aria-labelledby="updates-title" className="max-w-md">
             <Link
@@ -104,7 +109,6 @@ export function SiteFooter() {
             </Column>
           </div>
         </div>
-        <Separator />
         <div className="container flex flex-col items-center gap-3 py-8 pb-20 text-center lg:pb-8">
           <p
             className="text-xs text-muted-foreground tabular-nums"

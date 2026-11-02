@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.3.0] - 2026-11-02
+
+### Changed
+
+- Footer has the hero's Ghost Fibers behind it, with no dividing lines. The fibers run off the bottom of the screen, so the page reads as endless.
+
 ## [1.2.1] - 2026-11-02
 
 ### Fixed
