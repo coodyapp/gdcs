@@ -113,7 +113,7 @@ export function SiteFooter() {
         <div className="flex flex-wrap items-center gap-4">
           <PoweredByCoody
             source="gdcs"
-            className="[--coody-pb-muted:currentColor]"
+            className="[--coody-pb-muted:currentColor]!"
           />
           <BackToTop />
         </div>

@@ -218,3 +218,4 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Lesson: compare tokens against the real coody.app CSS, not by eye. Zinc passed review for weeks because it is nearly grey.
 - Lesson: shadcn's Base UI `data-selected:` variant matches attribute presence; cmdk always sets the attribute, so use `data-[selected=true]:`.
 - Local `wrangler dev` needs `--compatibility-date 2026-09-30` until wrangler is upgraded.
+- Lesson: measure a third-party script's cost before unblocking it. The nonce was Cloudflare's documented fix and removed a console error, but it let a script run that used more CPU than the whole app.

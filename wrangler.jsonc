@@ -5,7 +5,7 @@
   "compatibility_date": "2026-10-15",
   "upload_source_maps": true,
   // Prerendered site. Hashed files and images skip the Worker; pages and /api/*
-  // run it (pages need a per-request CSP nonce, see worker/csp.ts).
+  // run it (see worker/page.ts).
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

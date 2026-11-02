@@ -8,6 +8,16 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.1.2] - 2026-11-02
+
+### Changed
+
+- Pages opt out of Cloudflare's injected bot-detection script with `no-transform`. It was the heaviest script on the page and nothing here uses its signal. Replaces the 1.1.0 nonce. The Worker now compresses pages, and the analytics beacon is a script tag.
+
+### Fixed
+
+- "Powered by" label contrast (the 1.1.1 fix did not apply).
+
 ## [1.1.1] - 2026-11-02
 
 ### Changed
@@ -37,7 +47,7 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ### Fixed
 
-- Content Security Policy now passes Cloudflare's bot protection script through a per-request nonce, so it no longer logs a console error. Pages run through the Worker; hashed files and images still skip it.
+- Content Security Policy now passes Cloudflare's bot protection script through a per-request nonce, so it no longer logs a console error. Pages run through the Worker; hashed files and images still skip it. Reverted in 1.1.2: letting the script run cost too much main-thread time.
 
 ## [1.0.1] - 2026-11-02
 

@@ -4,11 +4,11 @@ import type {
 } from "@cloudflare/workers-types"
 
 import { confirm } from "./api/confirm"
-import { withScriptNonce } from "./csp"
 import { recordEvent } from "./api/event"
 import { subscribe } from "./api/subscribe"
 import { unsubscribeLink, unsubscribeOneClick } from "./api/unsubscribe"
 import { json, type Env } from "./http"
+import { preparePage } from "./page"
 import { sendDigest } from "./mailer"
 
 type Handler = (
@@ -38,8 +38,8 @@ export async function handle(
     return json({ error: "Method not allowed." }, 405)
   }
   if (pathname.startsWith("/api/")) return json({ error: "Not found." }, 404)
-  // Pages: serve the asset and give it a per-request script nonce.
-  return withScriptNonce(await env.ASSETS.fetch(request))
+  // Anything else is a static page (or its 404).
+  return preparePage(request, await env.ASSETS.fetch(request))
 }
 
 export default {
