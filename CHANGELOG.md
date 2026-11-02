@@ -10,6 +10,12 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.8] - 2026-11-02
+
+### Changed
+
+- Build tools upgraded to Vite+ 1.3.0.
+
 ## [1.12.7] - 2026-11-02
 
 ### Changed
