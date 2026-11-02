@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 /**
  * Builds the icons and default social card in public/ from the logos in
  * src/assets/brand. Run after changing a logo: node scripts/brand-assets.ts
