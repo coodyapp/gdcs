@@ -15,7 +15,12 @@ export default defineConfig({
     env: {
       builtin: true,
     },
-    ignorePatterns: ["dist/**", "dist-server/**", "node_modules/**"],
+    ignorePatterns: [
+      "dist/**",
+      "dist-server/**",
+      "node_modules/**",
+      ".claude/**",
+    ],
     rules: {
       "constructor-super": "error",
       "for-direction": "error",
@@ -249,9 +254,12 @@ export default defineConfig({
       "node_modules",
       "pnpm-lock.yaml",
       "tasks",
+      ".claude",
     ],
   },
   plugins: [katexPlugin(), react(), tailwindcss()],
+  // Vendored skills carry their own tests (node:test).
+  test: { exclude: ["**/node_modules/**", "**/dist/**", ".claude/**"] },
   // Semantic version from package.json, shown in the footer.
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   server: {

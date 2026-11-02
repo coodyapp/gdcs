@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { ArrowUp } from "lucide-react"
 
 import { PoweredByCoody } from "@/components/coody/powered-by"
+import { SiteCredits } from "@/components/coody/site-credits"
 import { FooterFibers } from "@/components/backgrounds"
 import { SubscribeForm } from "@/components/subscribe-form"
 import { Tagline } from "@/components/tagline"
@@ -98,21 +98,7 @@ export function SiteFooter() {
                 </a>
               </li>
             </Column>
-            <ul className="space-y-2 text-sm">
-              <li className="text-muted-foreground" suppressHydrationWarning>
-                © {new Date().getFullYear()}{" "}
-                <a
-                  href="https://coody.app"
-                  rel="noopener"
-                  className="transition-colors hover:text-foreground"
-                >
-                  coody.app
-                </a>
-              </li>
-              <li>
-                <BackToTop />
-              </li>
-            </ul>
+            <SiteCredits className="col-span-2 text-sm text-muted-foreground sm:col-span-1" />
           </div>
         </div>
         <div className="container flex flex-col items-center gap-3 pb-20 text-center lg:pb-10">
@@ -123,24 +109,5 @@ export function SiteFooter() {
         </div>
       </footer>
     </>
-  )
-}
-
-function BackToTop() {
-  return (
-    <a
-      href="#main"
-      className={`${quiet} inline-flex items-center gap-1.5`}
-      onClick={(e) => {
-        e.preventDefault()
-        const reduce = window.matchMedia(
-          "(prefers-reduced-motion: reduce)"
-        ).matches
-        window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" })
-        document.getElementById("main")?.focus({ preventScroll: true })
-      }}
-    >
-      <ArrowUp className="size-3.5" aria-hidden /> Back to top
-    </a>
   )
 }

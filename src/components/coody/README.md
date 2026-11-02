@@ -22,3 +22,21 @@ Accessibility:
 - With `prefers-reduced-motion`, the glitch is off. Hovering replays it.
 
 The logo is white, so use it on dark surfaces. For light themes, add a dark logo variant.
+
+# `<SiteCredits />`
+
+The standard footer credits for Coody projects: "Built in" with the Brazilian flag, a quote, the year with coody.app, and Back to top.
+
+**Portable:** React ≥ 18 and one CSS file. No Tailwind and no other dependencies. It inherits colour and font size from its parent.
+
+```tsx
+import { SiteCredits } from "@/components/coody/site-credits"
+
+<SiteCredits />                                  // the defaults
+<SiteCredits quote="" />                         // no quote
+<SiteCredits owner="drive.coody.app" ownerHref="https://drive.coody.app" topTarget="content" />
+```
+
+Theme with CSS variables: `--coody-credits-hover`, `--coody-credits-focus`, `--coody-credits-gap`.
+
+Back to top scrolls smoothly (instantly with reduced motion) and moves focus to `topTarget`, so it needs an element with that id and `tabIndex={-1}`.

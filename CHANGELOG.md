@@ -8,6 +8,13 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.5.0] - 2026-11-02
+
+### Added
+
+- `SiteCredits`, a reusable component next to `PoweredByCoody`: "Built in" with the Brazilian flag, the Newton quote, the year and Back to top. Used in the footer.
+- Cloudflare's `security-audit` skill in `.claude/skills/`.
+
 ## [1.4.1] - 2026-11-02
 
 ### Fixed

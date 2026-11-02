@@ -17,6 +17,10 @@
 
 Full license texts ship with each package in `node_modules/<package>/LICENSE`.
 
+### Cloudflare security-audit skill
+
+`.claude/skills/security-audit/` comes from https://github.com/cloudflare/security-audit-skill (commit c1c8a8c), MIT. Its license is in that folder. It is a development tool and is not part of the website.
+
 ### React Bits
 
 `src/components/ghost-fibers.tsx` comes from [React Bits](https://reactbits.dev), used as part of this website under its MIT + Commons Clause license: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md. Copyright (c) 2026 David Haz. The component may not be sold, sublicensed or redistributed on its own. This repository's own license does not apply to this file.
