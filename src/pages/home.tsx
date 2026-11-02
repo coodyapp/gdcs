@@ -13,6 +13,7 @@ import { catStyle } from "@/lib/accent"
 import { cn } from "@/lib/utils"
 import { SearchTrigger } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
+import { GetUpdatesButton } from "@/components/updates"
 import { siteConfig } from "@/config/site"
 import { paths } from "@/content/paths"
 import { PathCard } from "@/pages/paths"
@@ -91,7 +92,10 @@ export function HomePage() {
           </a>
           .
         </p>
-        <SearchTrigger wide className="mt-8" />
+        <div className="mt-8 flex max-w-2xl flex-col gap-3 sm:flex-row">
+          <SearchTrigger wide className="flex-1" />
+          <GetUpdatesButton className="shrink-0" />
+        </div>
       </section>
 
       <div className="sticky top-0 z-30 -mx-8 mb-10 border-y border-white/[0.06] bg-background/90 px-8 py-3 backdrop-blur-md">

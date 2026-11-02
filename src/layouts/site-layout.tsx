@@ -6,6 +6,7 @@ import {
   FloatingSearch,
 } from "@/components/command-palette"
 import { SiteFooter } from "@/components/site-footer"
+import { UpdatesNotice } from "@/components/updates"
 import { Seo } from "@/components/seo"
 
 export function SiteLayout() {
@@ -23,7 +24,12 @@ export function SiteLayout() {
       </a>
       <Seo />
       <FloatingSearch />
-      <main id="main" className="container min-h-[60vh] pt-10">
+      <UpdatesNotice />
+      <main
+        id="main"
+        tabIndex={-1}
+        className="container min-h-[60vh] pt-10 outline-none"
+      >
         <Outlet />
       </main>
       <SiteFooter />

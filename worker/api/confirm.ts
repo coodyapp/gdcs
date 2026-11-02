@@ -2,10 +2,7 @@ import { safely, type Env } from "../http"
 import { isToken } from "../subscribers"
 
 const back = (request: Request, status: string) =>
-  Response.redirect(
-    `${new URL(request.url).origin}/updates?status=${status}`,
-    303
-  )
+  Response.redirect(`${new URL(request.url).origin}/?updates=${status}`, 303)
 
 /** GET /api/confirm?token=… activates a pending subscriber. */
 export const confirm = (request: Request, env: Env, _ctx?: unknown) =>

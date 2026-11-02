@@ -10,6 +10,7 @@ import { llmsTxt, sheetMarkdown } from "./markdown"
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const RESERVED = new Set([
   "about",
+  "privacy",
   "paths",
   "updates",
   "api",

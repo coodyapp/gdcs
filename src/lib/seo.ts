@@ -138,11 +138,11 @@ const staticPages: Record<string, Omit<Head, "jsonLd" | "updated">> = {
     path: "/about",
     type: "website",
   },
-  "/updates": {
-    title: formatTitle("Get updates"),
+  "/privacy": {
+    title: formatTitle("Privacy policy"),
     description:
-      "Get an occasional email when new game development and physics cheat sheets are published. Double opt-in, one-click unsubscribe.",
-    path: "/updates",
+      "What GDCS collects: cookieless analytics, copy-click counts, Turnstile on signup, and the minimum needed for the newsletter.",
+    path: "/privacy",
     type: "website",
   },
 }

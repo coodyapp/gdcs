@@ -41,7 +41,7 @@ describe("worker router", () => {
     const res = await call("GET", "/api/confirm?token=bad")
     expect(res.status).toBe(303)
     expect(res.headers.get("Location")).toBe(
-      "https://gdcs.coody.app/updates?status=invalid"
+      "https://gdcs.coody.app/?updates=invalid"
     )
   })
 

@@ -7,7 +7,7 @@ import { HomePage } from "@/pages/home"
 import { NotFoundPage } from "@/pages/not-found"
 import { PathPage, PathsIndexPage } from "@/pages/paths"
 import { SheetPage } from "@/pages/sheet"
-import { UpdatesPage } from "@/pages/updates"
+import { PrivacyPage } from "@/pages/privacy"
 
 export function App() {
   return (
@@ -15,7 +15,7 @@ export function App() {
       <Route element={<SiteLayout />}>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="updates" element={<UpdatesPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
         <Route path="paths" element={<PathsIndexPage />} />
         <Route path="paths/:path" element={<PathPage />} />
         <Route path=":category" element={<CategoryPage />} />

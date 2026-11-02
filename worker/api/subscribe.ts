@@ -9,6 +9,8 @@ const COOLDOWN_MS = 15 * 60 * 1000
 /** At most MAX_SENDS confirmation emails per address per rolling day. */
 const MAX_SENDS = 5
 const WINDOW_MS = 24 * 60 * 60 * 1000
+/** Bump when /privacy changes materially (matches src/pages/privacy.tsx). */
+export const CONSENT_VERSION = "2026-11-02"
 
 /**
  * POST /api/subscribe {email, website (honeypot), source}
@@ -29,11 +31,12 @@ export const subscribe = (request: Request, env: Env, ctx: ExecutionContext) =>
     // New address: insert as pending. Known, non-active address: send again
     // only after a cooldown and at most MAX_SENDS times; keep its token.
     const row = await env.DB.prepare(
-      `INSERT INTO subscribers (id, email, status, confirm_token, unsub_token, source, created_at, last_confirm_sent_at, confirm_sends)
-       VALUES (?1, ?2, 'pending', ?3, ?4, ?5, ?6, ?6, 1)
+      `INSERT INTO subscribers (id, email, status, confirm_token, unsub_token, source, created_at, last_confirm_sent_at, confirm_sends, consent_version)
+       VALUES (?1, ?2, 'pending', ?3, ?4, ?5, ?6, ?6, 1, ?10)
        ON CONFLICT(email) DO UPDATE SET
          status = 'pending',
          last_confirm_sent_at = ?6,
+         consent_version = ?10,
          confirm_sends = CASE
            WHEN subscribers.last_confirm_sent_at IS NULL OR subscribers.last_confirm_sent_at < ?9 THEN 1
            ELSE subscribers.confirm_sends + 1
@@ -52,7 +55,8 @@ export const subscribe = (request: Request, env: Env, ctx: ExecutionContext) =>
         now.toISOString(), // ?6
         cooldown, // ?7 resend cooldown cutoff
         MAX_SENDS, // ?8
-        new Date(now.getTime() - WINDOW_MS).toISOString() // ?9 rolling-day cutoff
+        new Date(now.getTime() - WINDOW_MS).toISOString(), // ?9 rolling-day cutoff
+        CONSENT_VERSION // ?10 privacy policy version accepted
       )
       .first<{ confirm_token: string }>()
 

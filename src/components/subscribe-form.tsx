@@ -1,5 +1,7 @@
 import { useId, useState, type FormEvent } from "react"
 
+import { Link } from "react-router-dom"
+
 import { useTurnstile } from "@/hooks/use-turnstile"
 
 type Status = "idle" | "sending" | "sent" | "error"
@@ -58,7 +60,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           required
           autoComplete="email"
           placeholder="you@studio.dev"
-          className="h-10 min-w-0 flex-1 rounded-md border bg-background px-3 text-sm outline-none focus-visible:border-foreground/50"
+          className="h-10 w-full min-w-0 rounded-md border bg-background px-3 text-sm outline-none focus-visible:border-foreground/50 sm:flex-1"
           disabled={status === "sending" || status === "sent"}
         />
         {/* Honeypot: real people never see or fill this. */}
@@ -90,8 +92,15 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
             : "text-sm text-muted-foreground"
         }
       >
-        {message ||
-          "New sheets only, a few times a month at most. Unsubscribe in one click."}
+        {message || (
+          <>
+            New sheets only, a few times a month at most. Unsubscribe in one
+            click.{" "}
+            <Link to="/privacy" className="link-quiet">
+              Privacy policy
+            </Link>
+          </>
+        )}
       </p>
     </form>
   )
