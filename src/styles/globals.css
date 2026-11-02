@@ -136,9 +136,13 @@
 
 @layer base {
   :root {
+    --color-text-3: #616161;
+    --color-ui-strong: #0a0a0a;
+    --color-ui-mark: #737373;
+    --coody-pb-invert: invert(1); /* the Coody logo is a white image */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
+    --card: 0 0% 98%; /* neutral-50: cards sit just off the page, as in dark */
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
@@ -147,13 +151,13 @@
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted-foreground: 0 0% 38%; /* 4.5:1 or better on muted and card */
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
+    --input: 0 0% 83.1%; /* neutral-300 */
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
@@ -164,6 +168,10 @@
   }
 
   .dark {
+    --color-text-3: #a3a3a3;
+    --color-ui-strong: #fafafa;
+    --color-ui-mark: #a3a3a3;
+    --coody-pb-invert: ;
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 9%; /* neutral-900 */
@@ -218,7 +226,7 @@
       var(--color-ui-strong) 30%,
       transparent
     );
-    color: hsl(0 0% 100%);
+    color: hsl(var(--foreground));
   }
 
   :focus-visible {
@@ -241,6 +249,16 @@
 }
 
 @layer components {
+  /* Decorative fibers are light on black: flipped, they read as ink on white.
+     The extra brightness takes the poster's near-black to pure page white. */
+  :root:not(.dark) [data-fibers] {
+    filter: invert(1) brightness(1.05);
+  }
+
+  :root:not(.dark) .coody-credits {
+    --coody-credits-hover: #0a0a0a;
+  }
+
   .eyebrow {
     font-size: 0.8125rem;
     font-weight: 500;

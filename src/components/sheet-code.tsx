@@ -58,8 +58,9 @@ export function SheetCode({
   const highlightable = near && lang !== "pseudo" && lang !== "text"
   const lines = useHighlightedCode(value, highlightable ? lang : "text")
   return (
-    <div ref={ref}>
-      <CodeBlock>
+    // Code stays on a dark panel in both themes, like the simulations.
+    <div ref={ref} className="dark">
+      <CodeBlock className="text-foreground dark:bg-[#1a1a1a]">
         <CodeBlockHeader>
           <CodeBlockTitle>{title ?? LABELS[lang] ?? lang}</CodeBlockTitle>
           <CodeBlockActions>

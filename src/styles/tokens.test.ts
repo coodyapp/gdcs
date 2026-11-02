@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test"
 
-import { neutral, sim, surfaces, text } from "./tokens"
+import { light, neutral, sim, surfaces, text } from "./tokens"
 
 const lum = (hex: string) => {
   const c = [1, 3, 5]
@@ -31,6 +31,13 @@ describe("design tokens (WCAG 2.2 AA, Coody neutrals)", () => {
     for (const s of SURFACES)
       expect(contrast(hex, s)).toBeGreaterThanOrEqual(4.5)
   })
+  it.each([light.text, light.secondary])(
+    "light mode text %s is ≥ 4.5:1 on every light surface",
+    (hex) => {
+      for (const s of [light.bg, light.card, light.muted])
+        expect(contrast(hex, s)).toBeGreaterThanOrEqual(4.5)
+    }
+  )
   it("neutrals are greys (no hue)", () => {
     for (const hex of [
       ...Object.values(neutral),

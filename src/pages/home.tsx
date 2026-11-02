@@ -1,25 +1,16 @@
-import {
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { ArrowRight, FileText, Search, SearchX, X } from "lucide-react"
+import { useDeferredValue, useMemo, type CSSProperties } from "react"
+import { Link } from "react-router-dom"
+import { ArrowRight, FileText, SearchX } from "lucide-react"
 
 import {
   categoryPath,
   liveCategories,
   sheets,
   sheetsIn,
-  sheetPath,
   type SheetMeta,
 } from "@/content"
 import { paths } from "@/content/paths"
-import { searchFiltered, type SheetFilters } from "@/lib/search"
-import { cn } from "@/lib/utils"
+import { searchFiltered, SORTS, type SortKey } from "@/lib/search"
 import { Button } from "@/components/ui/button"
 import {
   Empty,
@@ -29,28 +20,24 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/ui/input-group"
-import { Separator } from "@/components/ui/separator"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Kbd } from "@/components/ui/kbd"
+import { NativeSelect } from "@/components/ui/native-select"
 import { HeroFibers } from "@/components/backgrounds"
-import { SearchKbd, useSearchTarget } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
+import {
+  isFiltering,
+  NO_FILTERS,
+  SheetSearch,
+  useSheetFilters,
+} from "@/components/sheet-search"
+import { SEARCH_SUGGESTIONS } from "@/components/sheet-search-data"
 import { SubscribeForm } from "@/components/subscribe-form"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { PathCard } from "@/pages/paths"
 import { siteConfig } from "@/config/site"
 
 type Level = SheetMeta["level"]
 const LEVELS: Level[] = ["core", "common", "advanced"]
-const PRESSED =
-  "aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
-/** Quiet segment inside the filter bar. */
-const SEGMENT =
-  "h-9 shrink-0 rounded-lg border-0 px-2 text-[13px] font-normal sm:h-10 sm:px-3.5 sm:text-sm"
 
 /** Home shows a taste of each category: fundamentals first, the rest one click away. */
 const PREVIEW = 3
@@ -58,35 +45,6 @@ const preview = (category: string) =>
   [...sheetsIn(category)]
     .sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level))
     .slice(0, PREVIEW)
-
-type Filters = SheetFilters<Level>
-const EMPTY: Filters = { query: "", categories: [], level: "all" }
-
-/** Search and filters mirrored in the URL (?q=lerp&cat=a,b&level=core), read after hydration. */
-function useFilters() {
-  const [filters, setFilters] = useState<Filters>(EMPTY)
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search)
-    const list = (k: string) => (q.get(k) ?? "").split(",").filter(Boolean)
-    const level = q.get("level") as Level | null
-    setFilters({
-      query: q.get("q") ?? "",
-      categories: list("cat"),
-      level: level && LEVELS.includes(level) ? level : "all",
-    })
-  }, [])
-  const update = (next: Filters) => {
-    setFilters(next)
-    const url = new URL(window.location.href)
-    const set = (k: string, v: string) =>
-      v ? url.searchParams.set(k, v) : url.searchParams.delete(k)
-    set("q", next.query)
-    set("cat", next.categories.join(","))
-    set("level", next.level === "all" ? "" : next.level)
-    window.history.replaceState(window.history.state, "", url)
-  }
-  return [filters, update] as const
-}
 
 const titleWords = siteConfig.longName.split(" ")
 const titleEnd = titleWords.pop()
@@ -115,36 +73,21 @@ function CountUp({ value }: { value: number }) {
 
 export function HomePage() {
   const live = liveCategories()
-  const [filters, setFilters] = useFilters()
-  const navigate = useNavigate()
-  const searchInput = useRef<HTMLInputElement>(null)
+  const [filters, setFilters] = useSheetFilters()
   const query = useDeferredValue(filters.query)
-  const active =
-    filters.query.trim() !== "" ||
-    filters.categories.length > 0 ||
-    filters.level !== "all"
+  const active = isFiltering(filters)
   const results = useMemo(
     () => searchFiltered(sheets, { ...filters, query }),
     [query, filters]
   )
-
-  // Results replace what is below the card: bring them into view when they appear.
-  const searchCard = useRef<HTMLElement>(null)
-  useEffect(() => {
-    if (!active) return
-    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)")
-      .matches
-    searchCard.current?.scrollIntoView?.({
-      block: "start",
-      behavior: smooth ? "smooth" : "auto",
-    })
-  }, [active])
-
-  // Start typing anywhere on this page and it lands in the search field.
-  useSearchTarget((typed) => {
-    if (typed) setFilters({ ...filters, query: filters.query + typed })
-    searchInput.current?.focus()
-  })
+  // Zero results because of the filters: say how many the search has without them.
+  const withoutFilters = useMemo(
+    () =>
+      results.length || !query.trim()
+        ? 0
+        : searchFiltered(sheets, { ...NO_FILTERS, query }).length,
+    [results.length, query]
+  )
 
   return (
     <>
@@ -158,6 +101,7 @@ export function HomePage() {
           <div className="absolute inset-0 bg-background/60 lg:bg-transparent lg:bg-gradient-to-r lg:from-background lg:from-15% lg:via-background/70 lg:via-50% lg:to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </div>
+        <ThemeToggle className="absolute top-0 right-0" />
         <h1 className="max-w-4xl font-heading text-display text-balance">
           {titleStart}{" "}
           <span className="whitespace-nowrap">
@@ -191,142 +135,93 @@ export function HomePage() {
         </Button>
       </section>
 
-      <section
-        ref={searchCard}
-        role="search"
-        aria-label="Search and filter sheets"
-        className="mb-12 flex scroll-mt-4 flex-col gap-2 rounded-2xl bg-card p-2 ring-1 ring-foreground/10 md:mb-16"
-      >
-        <InputGroup className="h-14 rounded-xl border-0 bg-transparent! has-[[data-slot=input-group-control]:focus-visible]:ring-2 md:h-16">
-          <InputGroupAddon className="pl-3 md:pl-4">
-            <Search className="size-5" aria-hidden />
-          </InputGroupAddon>
-          <InputGroupInput
-            ref={searchInput}
-            type="text"
-            inputMode="search"
-            enterKeyHint="search"
-            autoComplete="off"
-            spellCheck={false}
-            aria-label="Search sheets"
-            aria-keyshortcuts="Meta+K Control+K /"
-            placeholder={`Search ${sheets.length} sheets: lerp, tunneling`}
-            className="h-full text-base md:text-lg md:placeholder:text-lg"
-            value={filters.query}
-            onChange={(e) => setFilters({ ...filters, query: e.target.value })}
-            onKeyDown={(e) => {
-              // Not `results`: it is deferred and can lag behind the last keystroke.
-              const first = filters.query.trim()
-                ? searchFiltered(sheets, filters)[0]
-                : undefined
-              if (e.key === "Enter" && first) navigate(sheetPath(first))
-              if (e.key === "Escape") setFilters({ ...filters, query: "" })
-            }}
-          />
-          <InputGroupAddon align="inline-end" className="pr-2 md:pr-3">
-            {filters.query ? (
-              <InputGroupButton
-                size="icon-sm"
-                aria-label="Clear search"
-                onClick={() => {
-                  setFilters({ ...filters, query: "" })
-                  searchInput.current?.focus()
-                }}
-              >
-                <X aria-hidden />
-              </InputGroupButton>
-            ) : (
-              <SearchKbd />
-            )}
-          </InputGroupAddon>
-        </InputGroup>
-        <Separator />
-        {/* Rows wrap instead of scrolling: every filter stays visible at any width. */}
-        <ToggleGroup
-          multiple
-          aria-label="Filter by category"
-          spacing={1}
-          className="w-full flex-wrap"
-          value={filters.categories}
-          onValueChange={(categories) => setFilters({ ...filters, categories })}
-        >
-          {live.map((c) => (
-            <ToggleGroupItem
-              key={c.slug}
-              value={c.slug}
-              className={cn(SEGMENT, PRESSED)}
-            >
-              {c.short ?? c.title}
-              <span className="text-xs tabular-nums opacity-60">
-                {sheetsIn(c.slug).length}
-              </span>
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-        <Separator />
-        <div className="flex items-center justify-between gap-2">
-          <ToggleGroup
-            aria-label="Filter by level"
-            spacing={1}
-            className="min-w-0 flex-wrap"
-            value={[filters.level]}
-            onValueChange={(next) =>
-              setFilters({
-                ...filters,
-                level: (next[0] as Level | "all") ?? "all",
-              })
-            }
-          >
-            {(["all", ...LEVELS] as const).map((l) => (
-              <ToggleGroupItem
-                key={l}
-                value={l}
-                className={cn(SEGMENT, PRESSED)}
-              >
-                {l === "all" ? "All levels" : l[0].toUpperCase() + l.slice(1)}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-          <Button
-            variant="outline"
-            className="h-9 shrink-0 px-2.5 font-normal sm:h-10 sm:px-3.5"
-            aria-label="Clear filters"
-            title="Clear filters"
-            disabled={!active}
-            onClick={() => setFilters(EMPTY)}
-          >
-            <X aria-hidden />
-            <span className="hidden sm:inline">Clear filters</span>
-          </Button>
-        </div>
-      </section>
+      <SheetSearch
+        filters={filters}
+        setFilters={setFilters}
+        deferredQuery={query}
+      />
 
       {active ? (
-        <section aria-labelledby="results-title" className="space-y-5">
-          <h2
-            id="results-title"
-            className="font-heading text-title"
-            aria-live="polite"
-          >
-            {results.length} sheet{results.length === 1 ? "" : "s"}
-          </h2>
+        <section
+          id="search-results"
+          aria-labelledby="results-title"
+          className="space-y-5"
+        >
+          <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h2
+                id="results-title"
+                className="font-heading text-title"
+                aria-live="polite"
+              >
+                {results.length} sheet{results.length === 1 ? "" : "s"}
+              </h2>
+              {query.trim() !== "" && results.length > 0 && (
+                <p className="hidden items-center gap-1.5 text-sm text-muted-foreground md:flex">
+                  <Kbd>↵</Kbd> opens the first, <Kbd>↓</Kbd> moves into the
+                  results
+                </p>
+              )}
+            </div>
+            {results.length > 1 && (
+              <NativeSelect
+                aria-label="Sort results"
+                value={filters.sort}
+                onChange={(e) =>
+                  setFilters({ ...filters, sort: e.target.value as SortKey })
+                }
+              >
+                {Object.entries(SORTS).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </NativeSelect>
+            )}
+          </header>
           {results.length ? (
-            <SheetGrid list={results} showCategory />
+            <SheetGrid list={results} showCategory highlight={query} />
           ) : (
             <Empty className="border">
               <EmptyHeader>
                 <EmptyMedia variant="icon">
                   <SearchX aria-hidden />
                 </EmptyMedia>
-                <EmptyTitle>No sheets match</EmptyTitle>
+                <EmptyTitle>
+                  {query.trim()
+                    ? `No sheets match “${query.trim()}”`
+                    : "No sheets match these filters"}
+                </EmptyTitle>
                 <EmptyDescription>
-                  Try another word, category or level.
+                  {withoutFilters > 0
+                    ? `Your filters hide ${withoutFilters} sheet${withoutFilters === 1 ? "" : "s"} for this search.`
+                    : "Try one of these:"}
                 </EmptyDescription>
               </EmptyHeader>
               <EmptyContent>
-                <Button variant="outline" onClick={() => setFilters(EMPTY)}>
-                  Clear filters
-                </Button>
+                {withoutFilters > 0 ? (
+                  <Button
+                    variant="outline"
+                    onClick={() => setFilters({ ...NO_FILTERS, query })}
+                  >
+                    Search all topics and levels
+                  </Button>
+                ) : (
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {SEARCH_SUGGESTIONS.map((term) => (
+                      <Button
+                        key={term}
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          setFilters({ ...NO_FILTERS, query: term })
+                        }
+                      >
+                        {term}
+                      </Button>
+                    ))}
+                  </div>
+                )}
               </EmptyContent>
             </Empty>
           )}

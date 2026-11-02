@@ -59,17 +59,21 @@
   pointer-events: none;
 }
 
+.coody-powered-by__mark > img {
+  filter: var(--coody-pb-invert,);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .coody-powered-by__mark > img:first-child {
     animation: coody-glitch-base 4.4s steps(1, end) infinite;
   }
   .coody-powered-by__slice--a {
     animation: coody-glitch-a 4.4s steps(1, end) infinite;
-    filter: drop-shadow(2px 0 hsl(350 100% 60% / 0.7));
+    filter: var(--coody-pb-invert,) drop-shadow(2px 0 hsl(350 100% 60% / 0.7));
   }
   .coody-powered-by__slice--b {
     animation: coody-glitch-b 4.4s steps(1, end) infinite;
-    filter: drop-shadow(-2px 0 hsl(200 100% 60% / 0.7));
+    filter: var(--coody-pb-invert,) drop-shadow(-2px 0 hsl(200 100% 60% / 0.7));
   }
   /* Hover replays the glitch immediately. */
   .coody-powered-by:hover .coody-powered-by__mark > * {

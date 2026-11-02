@@ -13,7 +13,7 @@ import { PoweredByCoody } from "@/components/coody/powered-by"
 ```
 
 Theme with CSS variables on a parent or `className`:
-`--coody-pb-color` (default `currentColor`), `--coody-pb-muted` (caption), `--coody-pb-focus` (focus ring, default `#2dd4ef`).
+`--coody-pb-invert` (set to `invert(1)` on light backgrounds, since the logo is white), `--coody-pb-color` (default `currentColor`), `--coody-pb-muted` (caption), `--coody-pb-focus` (focus ring, default `#2dd4ef`).
 
 Accessibility:
 

@@ -99,8 +99,8 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           <FieldDescription role="status">
             {message || (
               <>
-                New sheets only, a few times a month at most. Unsubscribe in one
-                click.{" "}
+                New sheets &amp; updates, a few times a month at most.
+                Unsubscribe in one click.{" "}
                 <Link to="/privacy" className="link-quiet">
                   Privacy policy
                 </Link>

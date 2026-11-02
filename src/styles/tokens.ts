@@ -19,6 +19,15 @@ export const text = {
   meta: "#a3a3a3",
 } as const
 
+/** Light mode UI. Simulations, code and formulas stay on dark panels in both themes. */
+export const light = {
+  bg: "#ffffff",
+  card: "#fafafa", // neutral-50
+  muted: "#f5f5f5", // neutral-100
+  text: "#0a0a0a",
+  secondary: "#616161",
+} as const
+
 /** Neutral steps usable in UI and inside simulations. */
 export const neutral = {
   white: "#fafafa",

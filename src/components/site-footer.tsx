@@ -5,6 +5,7 @@ import { SiteCredits } from "@/components/coody/site-credits"
 import { FooterFibers } from "@/components/backgrounds"
 import { SubscribeForm } from "@/components/subscribe-form"
 import { Tagline } from "@/components/tagline"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { categoryPath, liveCategories } from "@/content"
 
 const quiet =
@@ -32,13 +33,16 @@ export function SiteFooter() {
       <footer className="border-t">
         <div className="container grid gap-12 pt-12 pb-10 md:pt-16 md:pb-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <section aria-labelledby="updates-title" className="max-w-md">
-            <Link
-              to="/"
-              className="font-heading text-xl"
-              aria-label="GDCS home"
-            >
-              GDCS
-            </Link>
+            <div className="flex items-center justify-between gap-4">
+              <Link
+                to="/"
+                className="font-heading text-xl"
+                aria-label="GDCS home"
+              >
+                GDCS
+              </Link>
+              <ThemeToggle />
+            </div>
             <Tagline className="mt-2" />
             <h2 id="updates-title" className="mt-8 mb-3 text-sm font-medium">
               Get new sheets by email

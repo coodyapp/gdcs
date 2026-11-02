@@ -8,6 +8,24 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.8.0] - 2026-11-02
+
+### Added
+
+- Light mode. It follows the system setting until you choose, with a switch in the hero, footer and phone menu, and no flash on load. Simulations, code and formulas stay on dark panels in both themes.
+- Search filters show live counts for the current search, and choices with no results are disabled. A single topic opens its subtopics.
+- Sort results by best match, easiest first, A to Z or recently updated. Matching words are underlined in titles, and the down arrow moves into the results.
+- When filters hide every result, the page says how many and offers to search everything.
+
+### Changed
+
+- Powered by Coody opens in a new tab.
+- Signup text and privacy policy now say new sheets and updates.
+
+### Fixed
+
+- Long formulas that scroll sideways can be reached by keyboard.
+
 ## [1.7.1] - 2026-11-02
 
 ### Fixed

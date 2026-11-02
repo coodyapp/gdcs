@@ -51,8 +51,8 @@ export function PrivacyPage() {
           If you subscribe, we store your email address, the subscription date,
           the page you signed up from, the version of this policy you agreed to,
           and random confirmation and unsubscribe tokens. Your address is only
-          used to confirm the subscription and to send updates about new cheat
-          sheets. Every newsletter includes an unsubscribe link, and
+          used to confirm the subscription and to send new cheat sheets and site
+          updates. Every newsletter includes an unsubscribe link, and
           unsubscribing deletes your subscription record.
         </p>
       </section>

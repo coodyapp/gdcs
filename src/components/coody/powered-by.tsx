@@ -53,8 +53,9 @@ export function PoweredByCoody({
         className ? `coody-powered-by ${className}` : "coody-powered-by"
       }
       style={style}
+      target="_blank"
       rel="noopener"
-      aria-label={`${label || "Powered by"} Coody`}
+      aria-label={`${label || "Powered by"} Coody (opens in a new tab)`}
     >
       {label && (
         <span className="coody-powered-by__label" aria-hidden="true">

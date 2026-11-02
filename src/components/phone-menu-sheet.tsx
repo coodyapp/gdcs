@@ -4,6 +4,7 @@ import { categoryPath, liveCategories, sheetsIn } from "@/content"
 import { paths } from "@/content/paths"
 import { SearchTrigger } from "@/components/command-palette"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
@@ -29,8 +30,11 @@ export default function PhoneMenuSheet({
         <SheetHeader className="pb-2">
           <SheetTitle className="font-heading text-lg">GDCS</SheetTitle>
         </SheetHeader>
-        <div className="px-4 pb-3" onClick={close}>
-          <SearchTrigger className="w-full" />
+        <div className="flex gap-2 px-4 pb-3">
+          <div className="min-w-0 flex-1" onClick={close}>
+            <SearchTrigger className="w-full" />
+          </div>
+          <ThemeToggle />
         </div>
         <Separator />
         <ScrollArea className="min-h-0 flex-1">

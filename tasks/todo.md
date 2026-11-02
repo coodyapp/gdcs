@@ -234,3 +234,6 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - [x] v1.7.1: home phone LCP (inline poster), Yellow box slider while moving. Sheet pages: real paint is about 0.2 s, simulated scores vary run to run, main bundle has no leak to cut.
 - [ ] Email check: signup needs the user (Turnstile), then D1 and digest dry run.
 - [ ] Batch 2 (about 14 sheets) in groups of 4 or 5.
+
+## Batch 2, group A (v1.8.0)
+- [ ] client-side-prediction, snapshot-interpolation, rollback-netcode (new Networking category); behavior-trees, utility-ai. Review, posters, OG, backlinks, a multiplayer learning path, roadmap, changelog.

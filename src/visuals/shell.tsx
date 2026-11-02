@@ -250,7 +250,7 @@ export function VisualShell({
         }}
         onPointerLeave={() => setHovered(false)}
         className={cn(
-          "visual-stage relative overflow-hidden rounded-lg border bg-[#0a0a0a]",
+          "visual-stage dark relative overflow-hidden rounded-lg border bg-[#0a0a0a] text-foreground",
           compact ? "aspect-[16/10]" : "aspect-[16/10] sm:aspect-[16/9]"
         )}
       >

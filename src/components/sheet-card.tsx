@@ -3,6 +3,7 @@ import { Check, Copy } from "lucide-react"
 
 import { getCategory, sheetPath, type SheetMeta } from "@/content"
 import { useHistory } from "@/lib/local"
+import { highlightParts } from "@/lib/search"
 import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
 import { Badge } from "@/components/ui/badge"
@@ -86,10 +87,13 @@ export function SheetCard({
   sheet,
   index,
   showCategory = false,
+  highlight = "",
 }: {
   sheet: SheetMeta
   index?: number
   showCategory?: boolean
+  /** Search text: matching words in the title get underlined. */
+  highlight?: string
 }) {
   const href = sheetPath(sheet)
   const { visited } = useHistory()
@@ -117,7 +121,18 @@ export function SheetCard({
                   {index + 1}.
                 </span>
               )}
-              {sheet.title}
+              {highlightParts(sheet.title, highlight).map((part, i) =>
+                part.match ? (
+                  <mark
+                    key={i}
+                    className="bg-transparent text-inherit underline decoration-foreground/50 decoration-2 underline-offset-4"
+                  >
+                    {part.text}
+                  </mark>
+                ) : (
+                  part.text
+                )
+              )}
             </Link>
           </h3>
         </CardTitle>
@@ -150,10 +165,12 @@ export function SheetGrid({
   list,
   numbered,
   showCategory,
+  highlight,
 }: {
   list: SheetMeta[]
   numbered?: boolean
   showCategory?: boolean
+  highlight?: string
 }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -163,6 +180,7 @@ export function SheetGrid({
           sheet={s}
           index={numbered ? i : undefined}
           showCategory={showCategory}
+          highlight={highlight}
         />
       ))}
     </div>

@@ -182,12 +182,16 @@ function SheetArticle({ slug }: { slug: string }) {
               <h2 id="formulas">Key formulas</h2>
               <dl className="grid gap-2.5">
                 {sheet.formulas.map((f) => (
-                  <Card key={f.label} size="sm" className="card-lift px-4">
+                  <Card key={f.label} size="sm" className="card-lift dark px-4">
                     <dt className="eyebrow">{f.label}</dt>
                     <dd>
                       {f.math.html ? (
                         <div
                           className="formula overflow-x-auto"
+                          // Long formulas scroll sideways: keyboards must reach them.
+                          tabIndex={0}
+                          role="group"
+                          aria-label={f.label}
                           dangerouslySetInnerHTML={{ __html: f.math.html }}
                         />
                       ) : (

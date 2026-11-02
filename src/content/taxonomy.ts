@@ -177,6 +177,21 @@ export const categories: Category[] = [
     ],
   },
   {
+    slug: "networking",
+    title: "Networking",
+    short: "Networking",
+    description:
+      "Keeping multiplayer games responsive and in agreement across slow connections.",
+    subcategories: [
+      {
+        slug: "netcode",
+        title: "Netcode",
+        description:
+          "Prediction, interpolation and rollback for real-time play.",
+      },
+    ],
+  },
+  {
     slug: "physics",
     title: "Physics",
     description:

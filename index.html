@@ -14,6 +14,8 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://gdcs.coody.app" />
     <meta name="theme-color" content="#0a0a0a" />
+    <!-- Theme before first paint. Its hash is in public/_headers; a test keeps them in step. -->
+    <script>(function(){var t;try{t=localStorage.getItem("gdcs-theme")}catch(e){}var d=t?t==="dark":!matchMedia("(prefers-color-scheme: light)").matches,r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light";document.querySelector('meta[name="theme-color"]').content=d?"#0a0a0a":"#ffffff"})()</script>
     <meta name="author" content="Coody" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
