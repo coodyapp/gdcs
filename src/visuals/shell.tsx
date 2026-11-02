@@ -190,17 +190,20 @@ function useWarm() {
  * The page's main visual goes live on the first interaction or when idle;
  * cards go live on hover (fine pointers) through the idle mount queue.
  */
-export function VisualShell({
-  slug,
-  title,
-  compact = false,
-  className,
-}: {
+export function VisualShell(props: VisualShellProps) {
+  // Moving between sheets reuses this spot in the page. The key starts each
+  // sheet fresh, or the last sheet's scene and slider values would stay.
+  return <Visual key={props.slug} {...props} />
+}
+
+interface VisualShellProps {
   slug: string
   title: string
   compact?: boolean
   className?: string
-}) {
+}
+
+function Visual({ slug, title, compact = false, className }: VisualShellProps) {
   const [ref, inView] = useInView<HTMLDivElement>(compact ? "100px" : "400px")
   // Cards also wait for the page to settle, so first load stays poster-only.
   const warm = useWarm()

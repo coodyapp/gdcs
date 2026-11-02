@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.12.3] - 2026-11-02
+
+### Fixed
+
+- Moving from one sheet to another now loads that sheet's simulation. It used to keep the previous sheet's scene and slider values until a full page load.
+
 ## [1.12.2] - 2026-11-02
 
 ### Fixed
