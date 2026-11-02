@@ -22,6 +22,26 @@ export function useClock(speed = 1) {
   return time
 }
 
+/**
+ * Shows values that change during the animation in the line under the controls.
+ * `readout(v)` only runs when a param changes; this runs a few times a second
+ * and writes the text directly, so the page does not re-render. Return null to
+ * leave the `readout(v)` text in place. Does nothing on cards, which have no line.
+ */
+export function useLiveReadout(text: () => string | null, ms = 200) {
+  const { readout } = useVisual()
+  const latest = useRef(text)
+  latest.current = text
+  useEffect(() => {
+    if (!readout) return
+    const id = setInterval(() => {
+      const next = latest.current()
+      if (next !== null && readout.current) readout.current.textContent = next
+    }, ms)
+    return () => clearInterval(id)
+  }, [readout, ms])
+}
+
 /** Same clock as state, for small declarative scenes that re-render per frame. */
 export function useAnimationTime(speed = 1) {
   const { playing, resetKey } = useVisual()

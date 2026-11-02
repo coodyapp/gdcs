@@ -227,6 +227,7 @@ export function VisualShell({
   const [values, setValues] = useState<Values | null>(null)
   const [playing, setPlaying] = useState(true)
   const [resetKey, setResetKey] = useState(0)
+  const readoutRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     if (reducedMotion()) setPlaying(false)
@@ -271,7 +272,9 @@ export function VisualShell({
           />
         )}
         {live && def && values && loaded ? (
-          <VisualContext.Provider value={{ playing, resetKey, compact }}>
+          <VisualContext.Provider
+            value={{ playing, resetKey, compact, readout: readoutRef }}
+          >
             <loaded.Stage
               def={def}
               values={values}
@@ -315,6 +318,7 @@ export function VisualShell({
               setValues((v) => ({ ...v, [key]: value }))
             }
             readout={def.readout?.(values)}
+            readoutRef={readoutRef}
           />
         </Suspense>
       )}

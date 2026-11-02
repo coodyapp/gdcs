@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "In a TypeScript Three.js project, add a `DecalLayer` helper that creates a decal mesh over a surface without z-fighting. Use a material with polygonOffset (factor -1, units -4), depthWrite false and transparent true, and also lift the mesh along the surface normal by an amount that grows with camera distance (e.g. 0.0005 × distance, clamped to 0.02) updated each frame without allocations. Expose a `depthStep(z, near, bits = 24)` utility returning z² / (near × 2^bits) and log a warning on startup if the camera's near is below 0.05. Write a Vitest test for depthStep (doubling near halves it; doubling z quadruples it).",
-  related: ["normals", "frustum-culling", "fragment-shader"],
+  related: [
+    "normals",
+    "frustum-culling",
+    "fragment-shader",
+    "camera-projection",
+  ],
 }
 
 const sheet: Sheet = {

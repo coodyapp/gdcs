@@ -1,3 +1,4 @@
+import type { Ref } from "react"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
@@ -10,11 +11,13 @@ export default function Controls({
   values,
   onChange,
   readout,
+  readoutRef,
 }: {
   params: ParamDef[]
   values: Values
   onChange: (key: string, value: number | boolean | string) => void
   readout?: string
+  readoutRef?: Ref<HTMLParagraphElement>
 }) {
   return (
     <figcaption className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -95,7 +98,10 @@ export default function Controls({
         )
       })}
       {readout && (
-        <p className="font-hud text-xs text-muted-foreground sm:col-span-2 lg:col-span-3">
+        <p
+          ref={readoutRef}
+          className="font-hud text-xs text-muted-foreground sm:col-span-2 lg:col-span-3"
+        >
           {readout}
         </p>
       )}

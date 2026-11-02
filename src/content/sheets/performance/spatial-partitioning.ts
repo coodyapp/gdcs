@@ -20,7 +20,13 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Implement a uniform-grid broad phase in TypeScript for circles in a 2D (x/z) Three.js game. Constructor takes world bounds, cell size and capacity and preallocates Int32Arrays for counts, cell starts and sorted items. build(circles) bins by centre with a counting sort, clamps out-of-bounds points to edge cells, and throws if any diameter exceeds the cell size. candidates(visit) reports each unordered pair from the same cell and the 4 forward neighbours exactly once and returns the number of checks. Add queryRadius(x, y, r, out) for AI. Write tests: on random data the grid's overlapping pairs equal brute force exactly, with no duplicates, and use far fewer checks.",
-  related: ["chunk-streaming", "time-slicing", "raycasting"],
+  related: [
+    "chunk-streaming",
+    "time-slicing",
+    "raycasting",
+    "collision-detection",
+    "bounding-volumes",
+  ],
 }
 
 const sheet: Sheet = {

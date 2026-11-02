@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write a texture-atlas builder in TypeScript for Three.js. Input: an array of HTMLImageElement or ImageBitmap with ids. Pack them with a shelf packer (sort by height, rows left to right) into the smallest power-of-two square up to 4096, with configurable padding filled by extruding each sprite's edge pixels on an OffscreenCanvas. Output a CanvasTexture (flipY true, sRGB colour space) and a map from id to UV rect {u0, v0, u1, v1}. Provide a helper that remaps a PlaneGeometry's uv attribute into a given rect. Return null if the sprites can't fit. Write tests: padded rects never overlap, all lie inside the atlas, and UVs stay inside 0–1.",
-  related: ["draw-calls", "overdraw", "frame-budget"],
+  related: [
+    "draw-calls",
+    "overdraw",
+    "frame-budget",
+    "barycentric-coordinates",
+  ],
 }
 
 const sheet: Sheet = {

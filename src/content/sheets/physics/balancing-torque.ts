@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write a TypeScript see-saw puzzle module for a Three.js game. Inputs: plank length and mass, a list of loads {mass, x} where x is signed distance from the fulcrum, and a fixed timestep. Compute net torque Σ(−m·g·x·cos θ), moment of inertia ML²/12 + Σ m x², integrate angle with semi-implicit Euler plus light damping, and clamp at ±25° ground stops. Expose isBalanced(tolerance) and counterweightPosition(mass). Unit tests: 3 kg at −2 m and 2 kg at +3 m is balanced; moving the 2 kg load to +3.5 m makes the plank rotate clockwise.",
-  related: ["buoyancy", "spring-mass-oscillator", "fixed-timestep"],
+  related: [
+    "buoyancy",
+    "spring-mass-oscillator",
+    "fixed-timestep",
+    "moment-of-inertia",
+  ],
 }
 
 const sheet: Sheet = {

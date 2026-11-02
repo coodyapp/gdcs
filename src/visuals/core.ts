@@ -94,6 +94,8 @@ interface VisualState {
   /** Increments on Reset; scenes restart their simulation when it changes. */
   resetKey: number
   compact: boolean
+  /** The text line under the controls; absent on cards. See useLiveReadout. */
+  readout?: { current: HTMLElement | null }
 }
 
 export const VisualContext = createContext<VisualState>({

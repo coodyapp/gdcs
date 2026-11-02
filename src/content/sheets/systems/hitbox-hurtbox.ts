@@ -13,7 +13,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Implement melee hit detection for a Three.js action game in TypeScript. Each attack has frame data {startup, active, recovery} counted in fixed 60 Hz ticks and a hitbox (THREE.Box3) attached to a weapon bone offset; each fighter has a hurtbox Box3 updated each tick from its root. During active frames only, test the attacker's hitbox against hurtboxes on the opposing layer; keep a per-swing Set of already-hit fighter ids cleared at frame 0; queue hits and resolve them after all overlaps are gathered. Add a debug renderer (Box3Helper: hurtbox green, inactive hitbox gray, active red). Write Vitest tests: phase boundaries at the exact frames, a hitbox overlapping for 3 active frames yields one hit, a different target can still be hit in the same swing.",
-  related: ["tunneling", "fixed-timestep", "finite-state-machine"],
+  related: [
+    "tunneling",
+    "fixed-timestep",
+    "finite-state-machine",
+    "collision-detection",
+  ],
 }
 
 const sheet: Sheet = {

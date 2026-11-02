@@ -14,7 +14,13 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write a TypeScript Three.js module that culls a list of game entities each frame. Build a THREE.Frustum from camera.projectionMatrix × camera.matrixWorldInverse after calling camera.updateMatrixWorld(). For each entity, transform its geometry's bounding sphere (computed once and padded by an optional `padding` value) into world space and test it; set `entity.mesh.visible` and an `entity.onScreen` flag that game code can use to throttle updates. No allocations per frame. Edge cases: objects straddling a plane count as visible; the camera inside an object's sphere counts as visible. Include a Vitest test with a camera at the origin looking down -Z: a sphere at (0,0,-5) is visible, one at (0,0,5) is culled, one at (100,0,-5) is culled.",
-  related: ["level-of-detail", "draw-calls", "spatial-partitioning"],
+  related: [
+    "level-of-detail",
+    "draw-calls",
+    "spatial-partitioning",
+    "camera-projection",
+    "bounding-volumes",
+  ],
 }
 
 const sheet: Sheet = {

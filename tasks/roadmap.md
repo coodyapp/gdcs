@@ -2,7 +2,7 @@
 
 Source: "The Encyclopedia of Mathematics & Physics in Game Development" (topic table provided 2026-11-01).
 
-`[P2]` = phase-2 sheets (2026-11-02).
+`[P2]` = phase-2 sheets (2026-11-02). `[P3]` = Top-40 completion sheets (2026-11-02). Section entries now name the covering sheet directly.
 
 Legend: ✅ **complete**: covered by a phase-1 sheet (`[GD]` = phase-1 game-dev core set, `[PH]` = migrated physics.coody.app labs) · 🟡 **partial**: an existing sheet touches it, but it still needs its own sheet (counts as planned) · ⬜ **planned**
 Levels come from the table: **CORE / COMMON / ADVANCED**.
@@ -41,32 +41,32 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 | 14 | Velocity | ✅ | [GD] Acceleration and friction · [PH] Projectile Motion |
 | 15 | Acceleration | ✅ | [GD] Acceleration and friction · [PH] Projectile Motion |
 | 16 | Raycasting | ✅ | [GD] Raycasting |
-| 17 | Collision Detection | 🟡 | [GD] Hitbox and hurtbox, Tunneling |
-| 18 | AABB / Bounding Box | 🟡 | [GD] Frustum culling, Spatial partitioning |
+| 17 | Collision Detection | ✅ | [P3] collision-detection |
+| 18 | AABB / Bounding Box | ✅ | [P3] bounding-volumes |
 | 19 | Gravity | ✅ | [PH] Projectile Motion, Kepler's Laws, My Solar System |
-| 20 | Forces / Impulses | 🟡 | [PH] Spring-Mass, Balancing Act (forces); impulses missing |
+| 20 | Forces / Impulses | ✅ | [P3] impulse-and-momentum |
 | 21 | Euler Angles / Radians | ✅ | [P2] euler-angles |
 | 22 | Local vs. World Space | ✅ | [P2] local-vs-world-space |
 | 23 | Smoothstep / SmoothDamp | ✅ | [P2] lerp-and-smoothstep |
 | 24 | Slerp | ✅ | [GD] Quaternions |
 | 25 | Fixed Timestep | ✅ | [GD] Fixed timestep |
 | 26 | Damping / Friction | ✅ | [GD] Acceleration and friction · [PH] Damped Pendulum, Spring-Mass |
-| 27 | Mass / Inertia | 🟡 | [PH] Balancing Act (torque); inertia tensor missing |
-| 28 | Normals / Tangents | 🟡 | [GD] Normals; tangents missing |
-| 29 | Projection | 🟡 | [GD] Frustum culling, Z-fighting |
-| 30 | Random Numbers / Probability | 🟡 | [GD] Seeded noise (PRNG) |
+| 27 | Mass / Inertia | ✅ | [P3] moment-of-inertia |
+| 28 | Normals / Tangents | ✅ | [GD] Normals · [P3] tangent-space |
+| 29 | Projection | ✅ | [P3] camera-projection |
+| 30 | Random Numbers / Probability | ✅ | [P3] probability-and-weighted-random |
 | 31 | Noise Functions | ✅ | [GD] Seeded noise |
 | 32 | Bézier Curves / Splines | ✅ | [P2] bezier-curves |
 | 33 | Rigid-Body Dynamics | ✅ | [P2] rigid-body-dynamics |
-| 34 | Broad Phase / Narrow Phase | 🟡 | [GD] Spatial partitioning (broad phase) |
+| 34 | Broad Phase / Narrow Phase | ✅ | [P3] collision-detection |
 | 35 | Inverse Kinematics | ✅ | [P2] inverse-kinematics |
-| 36 | UV / Barycentric Coordinates | 🟡 | [GD] Texture atlas (UVs) |
+| 36 | UV / Barycentric Coordinates | ✅ | [P3] barycentric-coordinates |
 | 37 | Reflection / Refraction | ✅ | [P2] reflection-and-refraction |
 | 38 | PBR / BRDF | ✅ | [P2] pbr-materials |
 | 39 | Spatial Partitioning | ✅ | [GD] Spatial partitioning |
 | 40 | Numerical Integration | ✅ | [GD] Fixed timestep · [PH] Spring-Mass (semi-implicit), Charged Particle (RK4) |
 
-**Top-40: 31 ✅ · 9 🟡 · 0 ⬜**
+**Top-40: 40 ✅ · 0 🟡 · 0 ⬜**
 
 ---
 
@@ -74,19 +74,19 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ### 2.1 Arithmetic, algebra, scalar math · CORE
 - ⬜ Scalars, number types, floating vs fixed point
-- ⬜ Min / max / clamp / saturate / rounding
+- ✅ Min / max / clamp / saturate / rounding: lerp-and-smoothstep
 - ⬜ Modulo, wrapping, ping-pong
 - ⬜ Equations & polynomials
 - 🟡 Exponential growth/decay, logarithms: [GD] Delta time (`1 - exp(-k·dt)`)
 - ⬜ Piecewise / step / sign functions
-- ⬜ Remap & inverse lerp
+- ✅ Remap & inverse lerp: lerp-and-smoothstep
 - ⬜ Epsilon comparisons & tolerances
 - ⬜ Units & dimensional analysis
 
 ### 2.2 Trigonometry & angles · CORE
-- ⬜ sin / cos / tan, atan2, radians ↔ degrees
-- ⬜ Angle difference, wrapping, shortest arc
-- ⬜ Unit circle & identities
+- ✅ sin / cos / tan, atan2, radians ↔ degrees: trigonometry
+- ✅ Angle difference, wrapping, shortest arc: trigonometry
+- ✅ Unit circle & identities: trigonometry
 - ⬜ Pythagoras, law of sines/cosines
 - ⬜ Polar / spherical / cylindrical coordinates
 - ⬜ Heading, pitch, yaw, roll
@@ -95,29 +95,29 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - 🟡 Rotation matrices, axis-angle: [GD] Quaternions
 
 ### 2.3 Vectors & linear algebra · CORE
-- ⬜ Vector2/3/4 & basic ops
-- ⬜ Magnitude, squared magnitude, normalization
-- 🟡 Dot product: [GD] Normals
-- ⬜ Cross product
+- ✅ Vector2/3/4 & basic ops: vectors
+- ✅ Magnitude, squared magnitude, normalization: vectors
+- ✅ Dot product: dot-and-cross-product
+- ✅ Cross product: dot-and-cross-product
 - ⬜ Projection & rejection
 - ⬜ Reflection & refraction of vectors
 - 🟡 Euclidean / Manhattan / Chebyshev distance: [GD] A* pathfinding (Manhattan/octile heuristics)
-- ⬜ Angle between vectors, orthogonality
+- ✅ Angle between vectors, orthogonality: dot-and-cross-product
 - ⬜ Basis vectors, orthonormal basis, Gram–Schmidt
 - ⬜ Linear combination, independence, span
 - ⬜ Eigenvalues & eigenvectors
 - ⬜ Triple products
-- ⬜ Barycentric coordinates
-- 🟡 Tangent / normal / binormal: [GD] Normals
+- ✅ Barycentric coordinates: barycentric-coordinates
+- ✅ Tangent / normal / binormal: tangent-space
 
 ### 2.4 Matrices, transforms & rotations · CORE
-- ⬜ Matrix ops (multiply, transpose, inverse, determinant)
+- 🟡 Matrix ops (multiply, transpose, inverse, determinant): transforms-and-matrices
 - ⬜ Affine & homogeneous transforms
-- ⬜ TRS & composition order
-- ⬜ Transform hierarchies, parent/child
-- ⬜ Coordinate spaces (local, world, view, clip, screen, tangent)
+- ✅ TRS & composition order: transforms-and-matrices
+- ✅ Transform hierarchies, parent/child: local-vs-world-space
+- ✅ Coordinate spaces (local, world, view, clip, screen, tangent): camera-projection
 - ⬜ Handedness & change of basis
-- 🟡 Euler angles & gimbal lock: [GD] Quaternions
+- ✅ Euler angles & gimbal lock: euler-angles
 - ✅ Quaternions (multiply, conjugate, inverse): [GD] Quaternions
 - ⬜ Axis-angle & Rodrigues' formula
 - ✅ Slerp: [GD] Quaternions · ⬜ Nlerp, squad
@@ -127,10 +127,10 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ### 2.5 Geometry & spatial math · CORE / COMMON
 - ⬜ Primitives (point, line, ray, plane, sphere, capsule, box)
-- 🟡 AABB / OBB / bounding sphere: [GD] Frustum culling
+- ✅ AABB / OBB / bounding sphere: bounding-volumes
 - ⬜ Convex hull
 - 🟡 Ray–plane / ray–sphere / ray–triangle intersection: [GD] Raycasting
-- ⬜ Point-in-polygon / triangle tests
+- ✅ Point-in-polygon / triangle tests: barycentric-coordinates
 - ⬜ Closest-point queries
 - ✅ Surface / face / vertex normals: [GD] Normals
 - ⬜ Area & volume
@@ -145,14 +145,14 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ⬜ Bézier / B-spline / NURBS surfaces
 
 ### 2.6 Interpolation, easing & curves · CORE / COMMON
-- 🟡 Lerp & inverse lerp: [GD] Easing
+- ✅ Lerp & inverse lerp: lerp-and-smoothstep
 - ⬜ Bilinear & trilinear interpolation
 - ✅ Slerp: [GD] Quaternions · ⬜ Nlerp
-- ⬜ Smoothstep / smootherstep
+- ✅ Smoothstep / smootherstep: lerp-and-smoothstep
 - ⬜ SmoothDamp / critically damped smoothing
 - ✅ Exponential smoothing: [GD] Delta time
 - ⬜ Hermite & cubic splines
-- ⬜ Bézier curves
+- ✅ Bézier curves: bezier-curves
 - ⬜ Catmull–Rom, B-splines, NURBS
 - ✅ Easing curves (in/out/in-out, back, elastic, bounce): [GD] Easing
 - ⬜ Step / nearest interpolation, keyframes
@@ -205,14 +205,14 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - 🟡 Newton's laws: [PH] Spring-Mass Oscillator
 - ✅ Force, mass, weight, gravity: [PH] Projectile Motion, Kepler's Laws, Buoyancy
 - 🟡 Density: [PH] Buoyancy
-- ⬜ Momentum (linear & angular)
-- ⬜ Impulse–momentum theorem
+- ✅ Momentum (linear & angular): impulse-and-momentum
+- ✅ Impulse–momentum theorem: impulse-and-momentum
 - ✅ Torque & lever arm: [PH] Balancing Act
 - 🟡 Work, kinetic & potential energy: [PH] Spring-Mass Oscillator (U = ½kx²)
 - 🟡 Conservation of energy & momentum: [PH] Kepler's Laws
 - ⬜ Power & efficiency
 - 🟡 Center of mass: [PH] Balancing Act, Gravitational Waves (barycenter)
-- ⬜ Moment of inertia & inertia tensor
+- ✅ Moment of inertia & inertia tensor: moment-of-inertia
 - ✅ Free fall, projectile motion, ballistic trajectory: [PH] Projectile Motion, Projectile Data Lab
 - ✅ Circular / orbital motion, centripetal acceleration: [PH] Kepler's Laws, My Solar System
 - ⬜ Centrifugal force & rotating frames
@@ -221,13 +221,13 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ### 3.2 Rigid-body dynamics · COMMON
 - ⬜ Body types (static / dynamic / kinematic)
-- ⬜ Mass properties & inertia tensor
+- ✅ Mass properties & inertia tensor: moment-of-inertia
 - ⬜ Forces vs torques at an application point
-- ⬜ Linear & angular impulse
+- 🟡 Linear & angular impulse: impulse-and-momentum (linear only)
 - ⬜ Gravity scale & force accumulators
 - 🟡 Linear & angular damping: [GD] Acceleration and friction
 - ⬜ Static / dynamic / Coulomb friction, friction cone
-- ⬜ Restitution
+- ✅ Restitution: impulse-and-momentum
 - ⬜ Contacts: point, normal, penetration, manifold
 - ⬜ Sleeping & islands
 - ⬜ Impulse-based constraint solver
@@ -237,7 +237,7 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 ### 3.3 Collision detection & response · CORE / COMMON
 - 🟡 Detection vs response, overlap tests: [GD] Hitbox and hurtbox
-- 🟡 Broad / narrow phase: [GD] Spatial partitioning
+- ✅ Broad / narrow phase: collision-detection
 - ✅ Discrete vs continuous detection, TOI, tunneling: [GD] Tunneling
 - ✅ Raycast: [GD] Raycasting · ⬜ shape / sphere / capsule / box casts
 - 🟡 Colliders, triggers, layers & masks: [GD] Raycasting (collision mask), Hitbox and hurtbox
@@ -330,9 +330,9 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 ### 4.1 Skeletal animation & kinematics · COMMON
 - ⬜ Skeleton, bones & bind pose
 - ⬜ Forward kinematics
-- ⬜ Two-bone / analytical IK
-- ⬜ FABRIK
-- ⬜ CCD IK
+- ✅ Two-bone / analytical IK: inverse-kinematics
+- ✅ FABRIK: inverse-kinematics
+- ✅ CCD IK: inverse-kinematics
 - ⬜ Jacobian IK & DLS
 - ⬜ Full-body / multi-effector IK
 - ⬜ Pole vectors & joint limits
@@ -361,12 +361,12 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 ## 5. Graphics & rendering
 
 ### 5.1 Cameras, projection & visibility · CORE / COMMON
-- ⬜ Perspective vs orthographic projection
-- ⬜ Model / view / projection (MVP)
-- ⬜ FOV, aspect, near/far planes
+- ✅ Perspective vs orthographic projection: camera-projection
+- ✅ Model / view / projection (MVP): camera-projection
+- ✅ FOV, aspect, near/far planes: camera-projection
 - ✅ View frustum & frustum culling: [GD] Frustum culling
-- ⬜ NDC, perspective divide & viewport
-- ⬜ World ↔ screen projection
+- ✅ NDC, perspective divide & viewport: camera-projection
+- ✅ World ↔ screen projection: camera-projection
 - ✅ Depth buffer, depth precision & Z-fighting: [GD] Z-fighting · ⬜ reversed-Z
 - ⬜ Occlusion culling
 - 🟡 Backface culling & winding: [GD] Normals
@@ -383,7 +383,7 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ⬜ Vertex / index buffers
 - ⬜ Manifold vs non-manifold
 - ⬜ Vertex attributes
-- ⬜ Tangent, bitangent & TBN
+- ✅ Tangent, bitangent & TBN: tangent-space
 - 🟡 UV mapping & unwrapping: [GD] Texture atlas
 - ✅ Texture atlas: [GD] Texture atlas · ⬜ texture arrays, UDIM
 - ⬜ Normal / bump / displacement mapping
@@ -453,7 +453,7 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ✅ PRNG & seeds, deterministic randomness: [GD] Seeded noise
 - ⬜ Uniform vs normal distributions
 - ⬜ Bernoulli, binomial, Poisson, exponential distributions
-- ⬜ Weighted random & loot tables
+- ✅ Weighted random & loot tables: probability-and-weighted-random
 - ⬜ PDF & CDF
 - ⬜ Expected value & variance
 - ⬜ Conditional probability & Bayes
@@ -461,7 +461,7 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ✅ Monte Carlo methods: [PH] Boltzmann Energy Distribution, Ideal Gas Kinetics
 - ⬜ Markov chains
 - ⬜ Random walks & Brownian motion
-- ⬜ Fisher–Yates & reservoir sampling
+- 🟡 Fisher–Yates & reservoir sampling: probability-and-weighted-random (Fisher–Yates only)
 
 ### 6.2 Noise & procedural worlds · COMMON
 - ✅ Perlin / simplex noise, octaves (fBm): [GD] Seeded noise · ⬜ value noise

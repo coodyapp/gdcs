@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Write `src/lib/noise.ts` in TypeScript: `mulberry32(seed)` returning floats in [0, 1); `hashSeed(text)` using FNV-1a; `createNoise2D(seed)` implementing 2D gradient noise with a 256-entry permutation table shuffled by mulberry32 (Fisher–Yates), 16 unit gradients and a quintic fade, scaled to roughly [-1, 1]; and `fbm2D(noise, x, y, { octaves, lacunarity, gain })` normalized by the sum of amplitudes. Then build a Three.js heightfield (PlaneGeometry 128×128) from fBm sampled in world coordinates, coloured by height. Vitest: the same seed yields identical sequences and noise values, different seeds differ, noise and fBm stay within [-1, 1], and noise is 0 at integer lattice points.",
-  related: ["chunk-streaming", "easing", "normals"],
+  related: [
+    "chunk-streaming",
+    "easing",
+    "normals",
+    "probability-and-weighted-random",
+  ],
 }
 
 const sheet: Sheet = {

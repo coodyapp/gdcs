@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Add raycast-based interaction to my Three.js scene in TypeScript. On pointerdown, convert the pointer to NDC (flip Y), call raycaster.setFromCamera, limit raycaster.far to 100, and intersect only an explicit `pickables` array (non-recursive). For the closest hit, log object name, world-space hit point, distance, and the world-space normal (transform face.normal by the object's normal matrix). Also write a reusable `groundCheck(origin, maxDistance)` that casts straight down and treats the hit as walkable if dot(normal, up) > 0.7. No per-frame allocations.",
-  related: ["normals", "tunneling", "hitbox-hurtbox"],
+  related: [
+    "normals",
+    "tunneling",
+    "hitbox-hurtbox",
+    "barycentric-coordinates",
+  ],
 }
 
 const sheet: Sheet = {

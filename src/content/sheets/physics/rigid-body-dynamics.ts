@@ -20,6 +20,8 @@ export const meta: SheetMeta = {
     "projectile-motion",
     "tunneling",
     "dot-and-cross-product",
+    "impulse-and-momentum",
+    "moment-of-inertia",
   ],
 }
 

@@ -8,6 +8,17 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.6.0] - 2026-11-02
+
+### Added
+
+- 8 sheets that finish the Top-40: collision detection, bounding volumes, impulse and momentum, moment of inertia, tangent space, camera projection, probability and weighted random, barycentric coordinates.
+- `useLiveReadout` in the visual kit, so the line under the controls can show values that change during the animation.
+
+### Changed
+
+- New sheets added to the learning paths and linked from related sheets.
+
 ## [1.5.0] - 2026-11-02
 
 ### Added

@@ -44,6 +44,7 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 
 - `defineVisual<V>({ params, camera, readout, Scene, grid?, orbit? })`. At most 4 params (range/toggle/select). Defaults must already show the concept clearly.
 - Use `palette` colours only (`primary` cyan = main subject, `secondary` orange = moving thing/hit, `positive` green = OK/normal, `negative` red = bad/penetration, `warning` yellow = velocity/forces, `object` = solid props, `guide` = helpers).
+- Values that change during the animation: `useLiveReadout(() => text)` updates the line under the controls (`readout(v)` only runs when a param changes).
 - Time: `useClock()` (ref, preferred) or `useAnimationTime()` (state). Numerical sims use `useFixedStep(step, hz)`. All of them respect pause/reset (`useVisual().resetKey`).
 - Performance: no allocations inside `useFrame` (pre-allocate vectors with `useMemo`), keep < ~2k instances/particles, and use `<Line>` from drei for lines. Scenes must run at 60 fps on a laptop and look good in a **16:10 compact card with no controls** (the defaults are what cards show).
 - Keep the subject within about 6 units of the origin, and pick a `camera.position`/`target` that frames it. Cards are not orbitable.
@@ -64,16 +65,16 @@ Then look at the screenshot. There must be no console errors and the concept mus
 
 ## Master sheet list (slug → category/subcategory)
 
-threejs/rendering: raycasting, normals, level-of-detail, frustum-culling, fragment-shader, billboarding, z-fighting
-mathematics/vectors: vectors, dot-and-cross-product · mathematics/trigonometry: trigonometry · mathematics/transforms: transforms-and-matrices, local-vs-world-space, euler-angles
-mathematics/rotations: quaternions · mathematics/interpolation: easing, lerp-and-smoothstep, bezier-curves · mathematics/procedural: seeded-noise
+threejs/rendering: raycasting, normals, tangent-space, camera-projection, level-of-detail, frustum-culling, fragment-shader, billboarding, z-fighting
+mathematics/vectors: vectors, dot-and-cross-product, barycentric-coordinates · mathematics/trigonometry: trigonometry · mathematics/transforms: transforms-and-matrices, local-vs-world-space, euler-angles
+mathematics/rotations: quaternions · mathematics/interpolation: easing, lerp-and-smoothstep, bezier-curves · mathematics/procedural: seeded-noise, probability-and-weighted-random
 threejs/materials: reflection-and-refraction, pbr-materials · animation/kinematics: inverse-kinematics
 game-feel/timing: delta-time, coyote-time, input-buffering, hit-stop, invincibility-frames
 game-feel/motion: acceleration-and-friction, squash-and-stretch · game-feel/camera: camera-deadzone, screen-shake
-systems/patterns: object-pooling, particle-system · systems/simulation: fixed-timestep · systems/collision: hitbox-hurtbox, tunneling
+systems/patterns: object-pooling, particle-system · systems/simulation: fixed-timestep · systems/collision: collision-detection, bounding-volumes, hitbox-hurtbox, tunneling
 ai/navigation: a-star-pathfinding · ai/steering: steering-behaviors · ai/decision: finite-state-machine
 performance/cpu: frame-budget, time-slicing · performance/gpu: draw-calls, overdraw, texture-atlas · performance/world: spatial-partitioning, chunk-streaming
-physics/mechanics: rigid-body-dynamics, projectile-motion, spring-mass-oscillator, damped-pendulum, keplers-laws, solar-system, balancing-torque, projectile-data-lab, sound-waves, buoyancy
+physics/mechanics: rigid-body-dynamics, impulse-and-momentum, moment-of-inertia, projectile-motion, spring-mass-oscillator, damped-pendulum, keplers-laws, solar-system, balancing-torque, projectile-data-lab, sound-waves, buoyancy
 physics/electromagnetism: electric-field-lines, charged-particle-motion, em-wave-propagation
 physics/thermodynamics: heat-diffusion, ideal-gas, boltzmann-distribution
 physics/quantum-mechanics: particle-in-box, quantum-tunneling, schrodinger-2d

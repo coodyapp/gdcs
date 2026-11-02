@@ -14,7 +14,12 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "Add continuous collision for fast projectiles in a TypeScript Three.js game. Write `sweptSphereAabb(p0, p1, r, min, max): number | null` (slab method, box expanded by r, returns entry t in [0,1], 0 if starting inside) and `sweptSphereSphere(p0, p1, r, c, R)` (quadratic, earliest root, null if moving away). In the fixed-step bullet update, compute next = pos + vel*dt, find the earliest t across nearby colliders, place the bullet at the contact point minus a 0.005 skin and fire onHit. Write Vitest tests: a 0.05-radius bullet at 60 u/s with 1/60 s ticks against a 0.1-thick wall is missed by a discrete overlap test but caught by the swept test at the correct x; parallel segments outside the slab return null.",
-  related: ["raycasting", "hitbox-hurtbox", "fixed-timestep"],
+  related: [
+    "raycasting",
+    "hitbox-hurtbox",
+    "fixed-timestep",
+    "collision-detection",
+  ],
 }
 
 const sheet: Sheet = {

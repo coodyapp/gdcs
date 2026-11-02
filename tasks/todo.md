@@ -219,3 +219,7 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 - Lesson: shadcn's Base UI `data-selected:` variant matches attribute presence; cmdk always sets the attribute, so use `data-[selected=true]:`.
 - Local `wrangler dev` needs `--compatibility-date 2026-09-30` until wrangler is upgraded.
 - Lesson: measure a third-party script's cost before unblocking it. The nonce was Cloudflare's documented fix and removed a console error, but it let a script run that used more CPU than the whole app.
+
+## Review: v1.6.0 (2026-11-02)
+- Top-40 complete: 40 of 40. Roadmap section statuses corrected where a sheet demonstrably covers the term.
+- Lesson: readouts need a live channel. Four scenes hit the same wall independently before `useLiveReadout` existed.

@@ -14,7 +14,7 @@ export const meta: SheetMeta = {
   updated: "2026-11-02",
   prompt:
     "In TypeScript with Three.js, write a `surfaceInfo(hit: THREE.Intersection, maxSlopeDeg = 45)` helper that returns the world-space unit normal (use the normal matrix of hit.object.matrixWorld, not matrixWorld itself), the slope angle in degrees, and `walkable = dot(n, up) >= cos(maxSlopeDeg)`. Handle hits with no face by returning null. Also write `faceNormal(a, b, c, out)` using the CCW cross product without allocating. Add a Vitest test: a triangle in the XZ plane wound CCW from above gives (0, 1, 0); a mesh scaled (1, 4, 1) still returns a unit normal perpendicular to the transformed surface; a 30° ramp is walkable and a 60° ramp is not.",
-  related: ["raycasting", "fragment-shader", "z-fighting"],
+  related: ["raycasting", "fragment-shader", "z-fighting", "tangent-space"],
 }
 
 const sheet: Sheet = {

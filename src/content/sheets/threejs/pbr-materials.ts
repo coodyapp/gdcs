@@ -10,8 +10,16 @@ export const meta: SheetMeta = {
   summary:
     "Physically based rendering describes surfaces with base colour, roughness and metalness, so one material looks right under any lighting and environment.",
   level: "common",
-  tags: ["pbr", "materials", "roughness", "metalness", "fresnel", "ibl"],
-  updated: "2026-11-01",
+  tags: [
+    "pbr",
+    "brdf",
+    "materials",
+    "roughness",
+    "metalness",
+    "fresnel",
+    "ibl",
+  ],
+  updated: "2026-11-02",
   prompt:
     "Set up physically based materials in a Three.js scene with TypeScript, without loading any remote files. Generate image-based lighting from `RoomEnvironment` (three/examples/jsm/environments) through `PMREMGenerator.fromScene(room, 0.04)` and assign it to `scene.environment`; dispose the generator and texture on teardown. Set `renderer.toneMapping = THREE.ACESFilmicToneMapping` and keep output colour space sRGB. Build a 5×5 grid of spheres with `MeshStandardMaterial`, roughness 0→1 along x and metalness 0→1 along y, all sharing one geometry, and one large `MeshPhysicalMaterial` sphere driven by UI sliders for roughness, metalness and clearcoat. Clamp roughness to at least 0.04. Also export a pure function `f0(baseColor, metalness)` = lerp(0.04, baseColor, metalness) per channel, with a unit test for metalness 0 and 1.",
   related: [
@@ -29,6 +37,7 @@ const sheet: Sheet = {
     "**Physically based rendering (PBR)** separates *what a surface is* from *how it is lit*. Instead of tweaking a highlight colour per scene, you describe the material with a few physical parameters, and a lighting model that conserves energy turns them into pixels. The same asset then looks right in a sunny level, a dark cave and a studio turntable.",
     "The common **metal/rough** workflow (glTF 2.0, Three.js, Unity, Unreal) uses three main inputs. **Base colour** (albedo) is the diffuse colour for non-metals and the reflection tint for metals; it contains no lighting or shadows. **Metalness** is 0 for dielectrics (plastic, wood, skin, stone) and 1 for bare metal; values in between are only for transitions such as rust or dust. **Roughness** spreads reflections: 0 is a mirror, 1 is chalk.",
     "Every surface reflects more at grazing angles (**Fresnel**). The head-on reflectance **F0** is about 4% for dielectrics and equals the base colour for metals, so the shader derives it as `mix(0.04, baseColor, metalness)`. **Energy conservation** means light that is reflected specularly is not also scattered diffusely, and metals have no diffuse part at all.",
+    "A **BRDF** (bidirectional reflectance distribution function) is the formula that says how much light arriving from one direction leaves toward another. PBR's standard BRDF adds a diffuse term to the Cook–Torrance specular term below.",
     "In Three.js, `MeshStandardMaterial` implements this model; `MeshPhysicalMaterial` adds clearcoat, transmission, sheen and iridescence. PBR needs **environment lighting** (`scene.environment`) to look right, because a smooth metal only reflects its surroundings. A procedural `RoomEnvironment` run through `PMREMGenerator` gives good image-based lighting without downloading an HDR file.",
   ],
   formulas: [
@@ -46,7 +55,7 @@ const sheet: Sheet = {
       note: "m = metalness. Metals (m = 1) have no diffuse term at all.",
     },
     {
-      label: "Cook–Torrance specular",
+      label: "Cook–Torrance specular BRDF",
       math: tex`f_{spec} = \frac{D(\alpha)\, \textcolor{#fdc700}{F}\, G}{4\,(\textcolor{#05df72}{\hat n}\cdot\hat v)(\textcolor{#05df72}{\hat n}\cdot\hat l)}, \quad \alpha = \textit{roughness}^2`,
       note: "D: microfacet distribution (GGX), G: self-shadowing.",
     },

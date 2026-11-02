@@ -108,6 +108,14 @@ export const paths: LearningPath[] = [
         why: "Which way a surface faces: bounces and slopes.",
       },
       {
+        slug: "bounding-volumes",
+        why: "Wrap complex shapes in simple ones so tests stay cheap.",
+      },
+      {
+        slug: "collision-detection",
+        why: "The broad and narrow phases that every engine is built on.",
+      },
+      {
         slug: "spatial-partitioning",
         why: "Avoid testing every pair of objects.",
       },
@@ -117,6 +125,14 @@ export const paths: LearningPath[] = [
       {
         slug: "projectile-motion",
         why: "The analytic reference for ballistic motion.",
+      },
+      {
+        slug: "impulse-and-momentum",
+        why: "Resolve a hit by changing velocity along the contact normal.",
+      },
+      {
+        slug: "moment-of-inertia",
+        why: "Why mass far from the axis is harder to spin.",
       },
       {
         slug: "rigid-body-dynamics",
@@ -169,7 +185,15 @@ export const paths: LearningPath[] = [
       "How a Three.js frame is drawn: normals, shaders, materials, depth and the costs that slow it down.",
     accent: "threejs",
     steps: [
+      {
+        slug: "camera-projection",
+        why: "How a 3D point becomes a pixel on screen.",
+      },
       { slug: "normals", why: "Lighting starts with which way surfaces face." },
+      {
+        slug: "tangent-space",
+        why: "The per-point frame that makes normal maps work.",
+      },
       {
         slug: "fragment-shader",
         why: "Per-pixel programs that decide the final colour.",
@@ -192,6 +216,10 @@ export const paths: LearningPath[] = [
       "Generate worlds from seeds and stream, cull and batch them so huge maps stay fast.",
     accent: "performance",
     steps: [
+      {
+        slug: "probability-and-weighted-random",
+        why: "Seeded rolls, loot tables and controlling bad luck.",
+      },
       { slug: "seeded-noise", why: "Reproducible terrain from a single seed." },
       {
         slug: "chunk-streaming",

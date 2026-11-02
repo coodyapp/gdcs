@@ -17,9 +17,10 @@ export const meta: SheetMeta = {
     "clamp",
     "smoothstep",
     "damping",
+    "smoothdamp",
     "interpolation",
   ],
-  updated: "2026-11-01",
+  updated: "2026-11-02",
   prompt:
     "Write `src/lib/interp.ts` in TypeScript with pure functions: `clamp(x, min, max)`, `lerp(a, b, t)` (unclamped), `inverseLerp(a, b, v)` returning 0 when a === b, `remap(v, inMin, inMax, outMin, outMax)`, `smoothstep(edge0, edge1, x)` and `smootherstep(edge0, edge1, x)` (both clamp t to [0, 1]), and `damp(current, target, lambda, dt)` = lerp(current, target, 1 - Math.exp(-lambda * dt)) plus `lambdaFor(fraction, seconds)`. Use them in a Three.js camera follow that damps position towards the player with lambda = lambdaFor(0.99, 0.4) using reused vectors, and a fog density that remaps the camera height from [2, 40] to [0.05, 0.005] with clamping. Write Vitest tests: lerp hits both endpoints; inverseLerp undoes lerp; remap is reversible; smoothstep is 0 and 1 at the edges, 0.5 in the middle and monotonic; damp gives the same result stepping 30 or 144 times over one second.",
   related: ["easing", "bezier-curves", "delta-time", "camera-deadzone"],
@@ -31,6 +32,7 @@ const sheet: Sheet = {
     "**Lerp** (linear interpolation) blends from `a` to `b` by a fraction `t`: `a + (b − a)·t`. At `t = 0` you get `a`, at `t = 1` you get `b`, and anything outside [0, 1] extrapolates. It works on numbers, colours, and component-wise on vectors (`Vector3.lerp`). **Inverse lerp** answers the opposite question: where does `v` sit between `a` and `b`, as a 0..1 fraction? Chain the two and you get **remap**, which converts any range to any other: health 0..100 to a bar width, speed to engine pitch, height to fog density. **Clamp** the fraction when the output must stay in range.",
     "Linear blends start and stop abruptly. **Smoothstep** runs `t` through `3t² − 2t³`, which has zero slope at both ends, so a fade or move eases in and out. **Smootherstep** (`6t⁵ − 15t⁴ + 10t³`) also has zero curvature at the ends, which matters for camera moves and noise. Both take two edges and clamp, which makes them handy soft thresholds in shaders: `smoothstep(0.4, 0.6, d)` is a step with a soft border. For more curve shapes see [easing functions](/mathematics/interpolation/easing).",
     "A common trap is `pos = lerp(pos, target, 0.1)` every frame. It does smooth out motion, but it closes 10% of the gap **per frame**, so the game is twice as snappy at 120 fps as at 60. The fix is **exponential damping**: use `t = 1 − e^(−λ·dt)` with the frame's [delta time](/game-feel/timing/delta-time). Now the same fraction of the gap closes per **second** at any frame rate. It never quite arrives, so snap when close enough.",
+    "Exponential damping jumps to its full speed on the first frame. **SmoothDamp** fixes that by also tracking velocity: it behaves like a critically damped spring, easing in as well as out, which is why it suits cameras chasing a moving target.",
   ],
   formulas: [
     {
@@ -53,6 +55,7 @@ const sheet: Sheet = {
     },
   ],
   rules: [
+    "SmoothDamp: use it when the target keeps moving and you want no jerk at the start. From rest it covers 99% of the distance to a still target in about 3.3 × `smoothTime`, so 0.1–0.3 s suits cameras and UI.",
     "Camera follow: λ ≈ 5–10 /s feels tight, 2–4 /s feels floaty. λ = 4.6 closes 99% of the gap in one second.",
     "Snap when within a small epsilon (e.g. 0.001 units or 0.1°) so damped values actually reach their target and stop dirtying state.",
     "Fixed-duration moves (a door opening in 0.4 s) use lerp + smoothstep of `elapsed / duration`. Moving or unknown targets use damping.",
@@ -81,6 +84,28 @@ vignette.opacity = 1 - smoothstep(0.1, 0.3, hp / maxHp)
 const LAMBDA = 6
 function follow(dt: number) {
   camera.position.lerp(goal, 1 - Math.exp(-LAMBDA * dt))
+}`,
+    },
+    {
+      lang: "ts",
+      caption:
+        "SmoothDamp: a critically damped spring that keeps its velocity, so it starts gently and never overshoots a still target:",
+      code: `function smoothDamp(
+  current: number,
+  target: number,
+  velocity: number,
+  smoothTime: number,
+  dt: number
+) {
+  const omega = 2 / smoothTime
+  const x = omega * dt
+  const decay = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x)
+  const offset = current - target
+  const temp = (velocity + omega * offset) * dt
+  return {
+    value: target + (offset + temp) * decay,
+    velocity: (velocity - omega * temp) * decay,
+  }
 }`,
     },
   ],
