@@ -2,10 +2,10 @@ import { Link } from "react-router-dom"
 import { ArrowUp } from "lucide-react"
 
 import { PoweredByCoody } from "@/components/coody/powered-by"
+import { FooterAscii } from "@/components/backgrounds"
 import { SubscribeForm } from "@/components/subscribe-form"
-import { Button } from "@/components/ui/button"
+import { Tagline } from "@/components/tagline"
 import { Separator } from "@/components/ui/separator"
-import { siteConfig } from "@/config/site"
 import { categoryPath, liveCategories } from "@/content"
 
 const quiet = "text-muted-foreground transition-colors hover:text-foreground"
@@ -27,109 +27,106 @@ function Column({
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t md:mt-28">
-      <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-        <section aria-labelledby="updates-title" className="max-w-md">
-          <Link to="/" className="font-heading text-xl" aria-label="GDCS home">
-            GDCS
-          </Link>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {siteConfig.tagline}.
-          </p>
-          <h2 id="updates-title" className="mt-8 mb-3 text-sm font-medium">
-            Get new sheets by email
-          </h2>
-          <SubscribeForm compact />
-        </section>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-          <Column title="Topics">
-            {liveCategories().map((c) => (
-              <li key={c.slug}>
-                <Link to={categoryPath(c.slug)} className={quiet}>
-                  {c.title}
+    <>
+      <FooterAscii className="mt-12 md:mt-16" />
+      <footer className="border-t">
+        <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+          <section aria-labelledby="updates-title" className="max-w-md">
+            <Link
+              to="/"
+              className="font-heading text-xl"
+              aria-label="GDCS home"
+            >
+              GDCS
+            </Link>
+            <Tagline className="mt-2" />
+            <h2 id="updates-title" className="mt-8 mb-3 text-sm font-medium">
+              Get new sheets by email
+            </h2>
+            <SubscribeForm compact />
+          </section>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            <Column title="Topics">
+              {liveCategories().map((c) => (
+                <li key={c.slug}>
+                  <Link to={categoryPath(c.slug)} className={quiet}>
+                    {c.title}
+                  </Link>
+                </li>
+              ))}
+            </Column>
+            <Column title="Learn">
+              <li>
+                <Link to="/" className={quiet}>
+                  Home
                 </Link>
               </li>
-            ))}
-          </Column>
-          <Column title="Learn">
-            <li>
-              <Link to="/" className={quiet}>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/paths" className={quiet}>
-                Learning paths
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className={quiet}>
-                About
-              </Link>
-            </li>
-            <li>
-              <Link to="/privacy" className={quiet}>
-                Privacy policy
-              </Link>
-            </li>
-          </Column>
-          <Column title="For AI agents">
-            <li>
-              <a href="/llms.txt" className={quiet}>
-                llms.txt
-              </a>
-            </li>
-            <li>
-              <a href="/llms-full.txt" className={quiet}>
-                llms-full.txt
-              </a>
-            </li>
-            <li>
-              <a href="/feed.json" className={quiet}>
-                JSON feed
-              </a>
-            </li>
-            <li>
-              <a href="/sitemap.xml" className={quiet}>
-                Sitemap
-              </a>
-            </li>
-          </Column>
+              <li>
+                <Link to="/paths" className={quiet}>
+                  Learning paths
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className={quiet}>
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className={quiet}>
+                  Privacy policy
+                </Link>
+              </li>
+              <li>
+                <BackToTop />
+              </li>
+            </Column>
+            <Column title="For AI agents">
+              <li>
+                <a href="/llms.txt" className={quiet}>
+                  llms.txt
+                </a>
+              </li>
+              <li>
+                <a href="/llms-full.txt" className={quiet}>
+                  llms-full.txt
+                </a>
+              </li>
+              <li>
+                <a href="/feed.json" className={quiet}>
+                  JSON feed
+                </a>
+              </li>
+              <li>
+                <a href="/sitemap.xml" className={quiet}>
+                  Sitemap
+                </a>
+              </li>
+            </Column>
+          </div>
         </div>
-      </div>
-      <Separator />
-      <div className="container flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-5 pr-16 text-sm text-muted-foreground lg:pr-8">
-        <p className="flex items-center gap-3">
-          <span>© 2026 Coody</span>
-          <a
-            href={siteConfig.changelog}
-            className={`${quiet} tabular-nums`}
-            rel="noopener"
-            title="Changelog"
+        <Separator />
+        <div className="container flex flex-col items-center gap-3 py-8 pb-20 text-center lg:pb-8">
+          <p
+            className="text-xs text-muted-foreground tabular-nums"
+            suppressHydrationWarning
           >
-            v{siteConfig.version}
-          </a>
-        </p>
-        <div className="flex flex-wrap items-center gap-4">
+            © {new Date().getFullYear()}
+          </p>
           <PoweredByCoody
             source="gdcs"
-            className="[--coody-pb-muted:currentColor]!"
+            className="text-muted-foreground [--coody-pb-align:center]! [--coody-pb-muted:currentColor]!"
           />
-          <BackToTop />
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   )
 }
 
 function BackToTop() {
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className="text-muted-foreground"
-      nativeButton={false}
-      render={<a href="#main" />}
+    <a
+      href="#main"
+      className={`${quiet} inline-flex items-center gap-1.5`}
       onClick={(e) => {
         e.preventDefault()
         const reduce = window.matchMedia(
@@ -139,7 +136,7 @@ function BackToTop() {
         document.getElementById("main")?.focus({ preventScroll: true })
       }}
     >
-      <ArrowUp aria-hidden /> Back to top
-    </Button>
+      <ArrowUp className="size-3.5" aria-hidden /> Back to top
+    </a>
   )
 }

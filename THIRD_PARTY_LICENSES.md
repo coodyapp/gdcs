@@ -17,6 +17,10 @@
 
 Full license texts ship with each package in `node_modules/<package>/LICENSE`.
 
+### React Bits
+
+`src/components/ghost-fibers.tsx` and `src/components/gradient-ascii.tsx` come from [React Bits](https://reactbits.dev), used as part of this website under its MIT + Commons Clause license: https://github.com/DavidHDev/react-bits/blob/main/LICENSE.md. Copyright (c) 2026 David Haz. The components may not be sold, sublicensed or redistributed on their own. This repository's own license does not apply to these two files.
+
 ## Content
 
 All GDCS explanations, code samples, prompts and visualizations are original works by Coody. The physics simulations come from Coody's own physics.coody.app project.

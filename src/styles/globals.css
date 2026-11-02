@@ -212,6 +212,7 @@
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: clip; /* full-bleed hero uses 100vw, which includes the scrollbar */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings:
@@ -220,7 +221,6 @@
   }
 
   html {
-    scroll-padding-top: 5rem; /* sticky home filter bar: focus never obscured (WCAG 2.4.11) */
   }
 }
 
@@ -289,33 +289,6 @@
     margin-block: 0.4rem;
     line-height: 1.7;
     color: hsl(var(--foreground) / 0.88);
-  }
-
-  /* Hero backdrop: a viewport grid that fades out, like an engine's scene view. */
-  .scene-grid {
-    background-image:
-      linear-gradient(hsl(var(--foreground) / 0.055) 1px, transparent 1px),
-      linear-gradient(
-        90deg,
-        hsl(var(--foreground) / 0.055) 1px,
-        transparent 1px
-      );
-    background-size: 48px 48px;
-    mask-image: radial-gradient(
-      ellipse 75% 85% at 70% 20%,
-      #000 10%,
-      transparent 75%
-    );
-  }
-
-  /* Hero wall: the interface is monochrome until a simulation is touched. */
-  .wall-tile img {
-    filter: grayscale(1) brightness(0.92);
-    transition: filter 240ms ease;
-  }
-  .wall-tile:hover img,
-  .wall-tile:focus-visible img {
-    filter: none;
   }
 
   /* Cards lift through light, not shadow: a hairline on the top edge. */

@@ -8,6 +8,23 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.2.0] - 2026-11-02
+
+### Added
+
+- Hero background: Ghost Fibers from React Bits, in Coody neutrals. Replaces the grid and the simulation wall.
+- Low-opacity Gradient ASCII band before the footer.
+- Version next to the tagline in the hero and footer.
+
+### Changed
+
+- Filter bar stays in place on the page instead of following the scroll, and is taller with more padding.
+- Footer: centred year above "Powered by"; "Back to top" moved into the link columns.
+
+### Removed
+
+- Topics from the home page, including the filter.
+
 ## [1.1.3] - 2026-11-02
 
 ### Fixed
