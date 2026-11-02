@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.12.1] - 2026-11-02
+
+### Security
+
+- Addresses under `/embed/` that are not real embeds can no longer be framed, and no longer show the site layout.
+
 ## [1.12.0] - 2026-11-02
 
 ### Added

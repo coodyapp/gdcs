@@ -15,6 +15,8 @@ export function App() {
   return (
     <Routes>
       <Route path="embed/:slug" element={<EmbedPage />} />
+      {/* Never the site layout: its signup form must not appear under /embed. */}
+      <Route path="embed/*" element={<EmbedPage />} />
       <Route element={<SiteLayout />}>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />

@@ -54,3 +54,30 @@ describe("preparePage", () => {
     expect(preparePage(req(), original)).toBe(original)
   })
 })
+
+describe("framing under /embed", () => {
+  const CSP = "default-src 'self'; frame-ancestors *; object-src 'none'"
+  const at = (path: string, status = 200) =>
+    preparePage(
+      new Request(`https://x.test${path}`),
+      page({ "Content-Security-Policy": CSP }, status)
+    ).headers.get("Content-Security-Policy")
+
+  it("stays open for a real embed page", () => {
+    expect(at("/embed/rollback-netcode")).toBe(CSP)
+    expect(at("/embed/rollback-netcode", 304)).toBe(CSP)
+  })
+  it.each([
+    ["an unknown embed", "/embed/no-such-sheet", 404],
+    ["a deeper path", "/embed/a/b", 404],
+    ["a deeper path that somehow exists", "/embed/a/b", 200],
+    ["an unexpected file name", "/embed/Rollback.html", 200],
+  ])("is refused for %s", (_, path, status) => {
+    expect(at(path, status)).toBe(
+      "default-src 'self'; frame-ancestors 'none'; object-src 'none'"
+    )
+  })
+  it("leaves other pages alone", () => {
+    expect(at("/about")).toBe(CSP)
+  })
+})

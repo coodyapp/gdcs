@@ -8,10 +8,33 @@
  * the runtime to do it here. The analytics beacon, no longer injected either,
  * is a plain script tag in index.html.
  */
+const EMBED_PAGE = /^\/embed\/[a-z0-9-]+$/
+
+/**
+ * `_headers` opens framing for all of /embed/*, which also matches addresses that
+ * are not embeds. Only a page that exists, one level down, may be framed.
+ */
+function refuseFramingUnlessEmbed(
+  request: Request,
+  response: Response,
+  headers: Headers
+) {
+  const { pathname } = new URL(request.url)
+  if (!pathname.startsWith("/embed/")) return
+  if (response.status < 400 && EMBED_PAGE.test(pathname)) return
+  const policy = headers.get("Content-Security-Policy")
+  if (policy)
+    headers.set(
+      "Content-Security-Policy",
+      policy.replace(/frame-ancestors [^;]*/, "frame-ancestors 'none'")
+    )
+}
+
 export function preparePage(request: Request, response: Response) {
   if (!response.headers.get("Content-Type")?.includes("text/html"))
     return response
   const headers = new Headers(response.headers)
+  refuseFramingUnlessEmbed(request, response, headers)
   const cache = headers.get("Cache-Control")
   headers.set(
     "Cache-Control",
