@@ -218,7 +218,7 @@
   }
 
   html {
-    scroll-padding-top: 4.5rem; /* sticky header: focus never obscured (WCAG 2.4.11) */
+    scroll-padding-top: 5rem; /* sticky home filter bar: focus never obscured (WCAG 2.4.11) */
   }
 }
 

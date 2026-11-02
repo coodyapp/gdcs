@@ -34,7 +34,10 @@ const isTyping = (el: EventTarget | null) =>
 export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState(false)
-  const show = useCallback(() => {
+  const [initial, setInitial] = useState("")
+  const show = useCallback((query = "") => {
+    if (dialog.current?.open) return
+    setInitial(query)
     dialog.current?.showModal()
     setOpen(true)
   }, [])
@@ -47,6 +50,19 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
       ) {
         e.preventDefault()
         show()
+        return
+      }
+      // Type to search: a letter or digit typed anywhere opens search with it.
+      if (
+        /^[\p{L}\p{N}]$/u.test(e.key) &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        !e.repeat &&
+        !isTyping(e.target)
+      ) {
+        e.preventDefault()
+        show(e.key)
       }
     }
     window.addEventListener("keydown", onKey)
@@ -54,7 +70,7 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   }, [show])
 
   return (
-    <PaletteContext.Provider value={show}>
+    <PaletteContext.Provider value={() => show()}>
       {children}
       <dialog
         ref={dialog}
@@ -63,16 +79,18 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
         aria-label="Search cheat sheets"
         className="palette m-auto mt-[12vh] w-[min(640px,calc(100vw-2rem))] rounded-xl border border-white/10 bg-popover p-0 text-foreground shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
       >
-        {open && <Palette close={() => dialog.current?.close()} />}
+        {open && (
+          <Palette initial={initial} close={() => dialog.current?.close()} />
+        )}
       </dialog>
     </PaletteContext.Provider>
   )
 }
 
-function Palette({ close }: { close: () => void }) {
+function Palette({ initial, close }: { initial: string; close: () => void }) {
   const navigate = useNavigate()
   const { recent } = useHistory()
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState(initial)
   const [active, setActive] = useState(0)
   const list = useRef<HTMLUListElement>(null)
 
@@ -195,7 +213,7 @@ function Palette({ close }: { close: () => void }) {
       <p className="flex gap-4 border-t border-white/10 px-4 py-2 font-hud text-[10px] text-text-3">
         <span>↑↓ navigate</span>
         <span>↵ open</span>
-        <span>/ or ⌘K anywhere</span>
+        <span>type anywhere · / · ⌘K</span>
       </p>
     </div>
   )
@@ -230,6 +248,26 @@ export function SearchTrigger({
       </span>
       <kbd className="hidden rounded border border-white/15 px-1.5 py-0.5 font-hud text-[10px] sm:inline">
         {mac ? "⌘K" : "Ctrl K"}
+      </kbd>
+    </button>
+  )
+}
+
+/** The only persistent search affordance now the header is gone (touch devices need it). */
+export function FloatingSearch() {
+  const open = useOpenPalette()
+  return (
+    <button
+      type="button"
+      onClick={open}
+      aria-label="Search cheat sheets"
+      aria-keyshortcuts="Meta+K Control+K /"
+      className="chip fixed right-4 bottom-4 z-40 !min-h-11 !min-w-11 bg-surface-2/90 shadow-lg shadow-black/40 backdrop-blur-md sm:right-6 sm:bottom-6"
+    >
+      <Search className="size-4" aria-hidden />
+      <span className="hidden sm:inline">Search</span>
+      <kbd className="hidden rounded border border-white/15 px-1.5 py-0.5 font-hud text-[10px] text-text-3 md:inline">
+        type to search
       </kbd>
     </button>
   )

@@ -18,7 +18,7 @@ export function SheetSidebar({ current }: { current: SheetMeta }) {
   return (
     <nav
       aria-label="All cheat sheets"
-      className="sticky top-20 hidden max-h-[calc(100dvh-6rem)] overflow-y-auto pr-2 pb-8 text-sm lg:block"
+      className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] overflow-y-auto pr-2 pb-8 text-sm lg:block"
     >
       {liveCategories().map((c) => (
         <details
@@ -108,7 +108,7 @@ export function TableOfContents({
   return (
     <nav
       aria-label="On this page"
-      className="sticky top-20 hidden self-start text-sm xl:block"
+      className="sticky top-6 hidden self-start text-sm xl:block"
     >
       <p className="eyebrow mb-3">On this page</p>
       <ul className="space-y-1 border-l border-white/10">

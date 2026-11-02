@@ -60,7 +60,6 @@ export function useTurnstile() {
               window.location.hostname === "gdcs.coody.app"
                 ? PROD_KEY
                 : TEST_KEY,
-            size: "invisible",
             "refresh-expired": "auto",
             callback: (t: string) => {
               token.current = t

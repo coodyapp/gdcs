@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react"
+import { useId, useState, type FormEvent } from "react"
 
 import { useTurnstile } from "@/hooks/use-turnstile"
 
@@ -9,6 +9,7 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
   const [status, setStatus] = useState<Status>("idle")
   const [message, setMessage] = useState("")
   const human = useTurnstile()
+  const id = useId()
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -47,11 +48,11 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
       <div
         className={compact ? "flex gap-2" : "flex flex-col gap-2 sm:flex-row"}
       >
-        <label htmlFor="subscribe-email" className="sr-only">
+        <label htmlFor={id} className="sr-only">
           Email address
         </label>
         <input
-          id="subscribe-email"
+          id={id}
           name="email"
           type="email"
           required
@@ -76,7 +77,11 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           {status === "sending" ? "Sending…" : "Get updates"}
         </button>
       </div>
-      <div ref={human.container} aria-hidden="true" />
+      <div
+        ref={human.container}
+        aria-hidden="true"
+        className="h-0 overflow-hidden"
+      />
       <p
         role="status"
         className={

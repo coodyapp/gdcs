@@ -94,7 +94,7 @@ export function HomePage() {
         <SearchTrigger wide className="mt-8" />
       </section>
 
-      <div className="sticky top-14 z-30 -mx-8 mb-10 border-y border-white/[0.06] bg-background/90 px-8 py-3 backdrop-blur-md">
+      <div className="sticky top-0 z-30 -mx-8 mb-10 border-y border-white/[0.06] bg-background/90 px-8 py-3 backdrop-blur-md">
         <div className="flex flex-wrap items-center gap-3">
           <nav
             aria-label="Jump to category"
