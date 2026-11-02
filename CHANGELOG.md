@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.1.3] - 2026-11-02
+
+### Fixed
+
+- Analytics beacon reports to the same-origin endpoint; the cross-origin one rejected it with a CORS error.
+
 ## [1.1.2] - 2026-11-02
 
 ### Changed
