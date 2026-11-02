@@ -1,56 +1,32 @@
-import { useEffect, useRef, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
 import { Mail, X } from "lucide-react"
 
-import { SubscribeForm } from "@/components/subscribe-form"
+import { Button } from "@/components/ui/button"
 
-/** Hero button: opens the signup in a dialog (full screen on phones). */
+const UpdatesDialog = lazy(() => import("@/components/updates-dialog"))
+
+/** Hero button: opens the signup dialog (loaded on first click). */
 export function GetUpdatesButton({ className = "" }: { className?: string }) {
-  const dialog = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   return (
     <>
-      <button
-        type="button"
+      <Button
+        size="lg"
         aria-haspopup="dialog"
-        className={`chip !min-h-11 bg-foreground !text-background hover:bg-foreground/90 ${className}`}
+        className={`h-11 rounded-full px-5 ${className}`}
         onClick={() => {
-          dialog.current?.showModal()
+          setLoaded(true)
           setOpen(true)
         }}
       >
-        <Mail className="size-4" aria-hidden /> Get updates
-      </button>
-      <dialog
-        ref={dialog}
-        aria-labelledby="updates-dialog-title"
-        onClose={() => setOpen(false)}
-        onClick={(e) => e.target === dialog.current && dialog.current?.close()}
-        className="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-xl border border-white/10 bg-popover p-0 text-foreground shadow-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm max-sm:m-0 max-sm:h-dvh max-sm:max-h-dvh max-sm:w-screen max-sm:max-w-none max-sm:rounded-none max-sm:border-0"
-      >
-        <div className="flex h-full flex-col gap-6 p-6 max-sm:justify-center">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="eyebrow mb-2">Get updates</p>
-              <h2 id="updates-dialog-title" className="font-heading text-2xl">
-                New cheat sheets, in your inbox
-              </h2>
-            </div>
-            <button
-              type="button"
-              className="chip !min-h-9 !min-w-9 !px-2"
-              aria-label="Close"
-              onClick={() => dialog.current?.close()}
-            >
-              <X className="size-4" aria-hidden />
-            </button>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            An occasional digest when new visual sheets are published. We send a
-            confirmation link first.
-          </p>
-          {open && <SubscribeForm />}
-        </div>
-      </dialog>
+        <Mail aria-hidden /> Get updates
+      </Button>
+      {loaded && (
+        <Suspense fallback={null}>
+          <UpdatesDialog open={open} onOpenChange={setOpen} />
+        </Suspense>
+      )}
     </>
   )
 }
@@ -82,14 +58,14 @@ export function UpdatesNotice() {
     >
       <Mail className="size-4 shrink-0 text-text-3" aria-hidden />
       <p className="flex-1">{notice}</p>
-      <button
-        type="button"
-        className="chip !min-h-8 !min-w-8 !px-2"
+      <Button
+        variant="ghost"
+        size="icon-sm"
         aria-label="Dismiss"
         onClick={() => setNotice(undefined)}
       >
-        <X className="size-3.5" aria-hidden />
-      </button>
+        <X aria-hidden />
+      </Button>
     </div>
   )
 }

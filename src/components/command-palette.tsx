@@ -1,27 +1,21 @@
 import {
   createContext,
+  lazy,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type ReactNode,
 } from "react"
-import { useNavigate } from "react-router-dom"
-import { CornerDownLeft, History, Search } from "lucide-react"
+import { Search } from "lucide-react"
 
-import {
-  getCategory,
-  getSheet,
-  sheetPath,
-  sheets,
-  type SheetMeta,
-} from "@/content"
-import { catStyle } from "@/lib/accent"
-import { useHistory } from "@/lib/local"
-import { searchSheets } from "@/lib/search"
 import { cn } from "@/lib/utils"
+import { Kbd } from "@/components/ui/kbd"
+
+/** Loaded on first open: dialog primitives and search stay out of the main bundle. */
+const PaletteDialog = lazy(() => import("@/components/palette-dialog"))
 
 const PaletteContext = createContext<() => void>(() => {})
 /** Opens the search palette (header button, home search field…). */
@@ -32,13 +26,15 @@ const isTyping = (el: EventTarget | null) =>
   (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
 
 export function CommandPaletteProvider({ children }: { children: ReactNode }) {
-  const dialog = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState(false)
   const [initial, setInitial] = useState("")
+  const [loaded, setLoaded] = useState(false)
+  const openRef = useRef(false)
+  openRef.current = open
   const show = useCallback((query = "") => {
-    if (dialog.current?.open) return
+    if (openRef.current) return
     setInitial(query)
-    dialog.current?.showModal()
+    setLoaded(true)
     setOpen(true)
   }, [])
 
@@ -72,150 +68,12 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   return (
     <PaletteContext.Provider value={() => show()}>
       {children}
-      <dialog
-        ref={dialog}
-        onClose={() => setOpen(false)}
-        onClick={(e) => e.target === dialog.current && dialog.current?.close()}
-        aria-label="Search cheat sheets"
-        className="palette m-auto mt-[12vh] w-[min(640px,calc(100vw-2rem))] rounded-xl border border-white/10 bg-popover p-0 text-foreground shadow-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
-      >
-        {open && (
-          <Palette initial={initial} close={() => dialog.current?.close()} />
-        )}
-      </dialog>
+      {loaded && (
+        <Suspense fallback={null}>
+          <PaletteDialog open={open} onOpenChange={setOpen} initial={initial} />
+        </Suspense>
+      )}
     </PaletteContext.Provider>
-  )
-}
-
-function Palette({ initial, close }: { initial: string; close: () => void }) {
-  const navigate = useNavigate()
-  const { recent } = useHistory()
-  const [query, setQuery] = useState(initial)
-  const [active, setActive] = useState(0)
-  const list = useRef<HTMLUListElement>(null)
-
-  const results: SheetMeta[] = useMemo(() => {
-    if (query.trim()) return searchSheets(sheets, query)
-    const recents = recent
-      .map(getSheet)
-      .filter((s): s is SheetMeta => Boolean(s))
-    return recents.length
-      ? recents
-      : sheets.filter((s) => s.level === "core").slice(0, 8)
-  }, [query, recent])
-  const heading = query.trim()
-    ? `${results.length} result${results.length === 1 ? "" : "s"}`
-    : recent.length
-      ? "Recently viewed"
-      : "Start here"
-
-  useEffect(() => setActive(0), [query])
-  useEffect(() => {
-    list.current
-      ?.querySelector<HTMLElement>(`[data-index="${active}"]`)
-      ?.scrollIntoView({ block: "nearest" })
-  }, [active])
-
-  const go = (sheet?: SheetMeta) => {
-    if (!sheet) return
-    close()
-    navigate(sheetPath(sheet))
-  }
-
-  return (
-    <div
-      onKeyDown={(e) => {
-        if (e.key === "ArrowDown") {
-          e.preventDefault()
-          setActive((i) => Math.min(i + 1, results.length - 1))
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault()
-          setActive((i) => Math.max(i - 1, 0))
-        } else if (e.key === "Enter") {
-          e.preventDefault()
-          go(results[active])
-        }
-      }}
-    >
-      <div className="flex items-center gap-3 border-b border-white/10 px-4">
-        <Search className="size-4 shrink-0 text-text-3" aria-hidden />
-        <input
-          autoFocus
-          role="combobox"
-          aria-expanded="true"
-          aria-controls="palette-results"
-          aria-activedescendant={
-            results[active] ? `palette-${results[active].slug}` : undefined
-          }
-          aria-label="Search cheat sheets"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search 55+ sheets: lerp, tunneling, slerp…"
-          className="h-12 w-full bg-transparent text-[15px] outline-none placeholder:text-text-3"
-        />
-        <kbd className="hidden rounded border border-white/15 px-1.5 py-0.5 font-hud text-[10px] text-text-3 sm:block">
-          ESC
-        </kbd>
-      </div>
-      <p
-        className="eyebrow flex items-center gap-2 px-4 pt-3 pb-1"
-        aria-live="polite"
-      >
-        {!query.trim() && recent.length > 0 && (
-          <History className="size-3" aria-hidden />
-        )}
-        {heading}
-      </p>
-      <ul
-        id="palette-results"
-        role="listbox"
-        ref={list}
-        className="max-h-[50vh] overflow-y-auto p-2"
-      >
-        {results.map((s, i) => (
-          <li
-            key={s.slug}
-            id={`palette-${s.slug}`}
-            data-index={i}
-            role="option"
-            aria-selected={i === active}
-            onMouseMove={() => setActive(i)}
-            onClick={() => go(s)}
-            style={catStyle(s.category)}
-            className={cn(
-              "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5",
-              i === active ? "bg-white/[0.07]" : ""
-            )}
-          >
-            <span className="cat-dot shrink-0" aria-hidden />
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-medium">
-                {s.title}
-              </span>
-              <span className="block truncate text-xs text-text-3">
-                {getCategory(s.category)?.title} · {s.hook}
-              </span>
-            </span>
-            {i === active && (
-              <CornerDownLeft
-                className="size-3.5 shrink-0 text-text-3"
-                aria-hidden
-              />
-            )}
-          </li>
-        ))}
-        {query.trim() && results.length === 0 && (
-          <li className="px-3 py-6 text-center text-sm text-muted-foreground">
-            No sheets match “{query}”.
-          </li>
-        )}
-      </ul>
-      <p className="flex gap-4 border-t border-white/10 px-4 py-2 font-hud text-[10px] text-text-3">
-        <span>↑↓ navigate</span>
-        <span>↵ open</span>
-        <span>type anywhere · / · ⌘K</span>
-      </p>
-    </div>
   )
 }
 
@@ -246,29 +104,7 @@ export function SearchTrigger({
       <span className={cn("text-left", wide ? "flex-1" : "hidden lg:inline")}>
         {wide ? "Search: quaternions, coyote time, tunneling…" : "Search"}
       </span>
-      <kbd className="hidden rounded border border-white/15 px-1.5 py-0.5 font-hud text-[10px] sm:inline">
-        {mac ? "⌘K" : "Ctrl K"}
-      </kbd>
-    </button>
-  )
-}
-
-/** The only persistent search affordance now the header is gone (touch devices need it). */
-export function FloatingSearch() {
-  const open = useOpenPalette()
-  return (
-    <button
-      type="button"
-      onClick={open}
-      aria-label="Search cheat sheets"
-      aria-keyshortcuts="Meta+K Control+K /"
-      className="chip fixed right-4 bottom-4 z-40 !min-h-11 !min-w-11 bg-surface-2/90 shadow-lg shadow-black/40 backdrop-blur-md sm:right-6 sm:bottom-6"
-    >
-      <Search className="size-4" aria-hidden />
-      <span className="hidden sm:inline">Search</span>
-      <kbd className="hidden rounded border border-white/15 px-1.5 py-0.5 font-hud text-[10px] text-text-3 md:inline">
-        type to search
-      </kbd>
+      <Kbd className="hidden sm:inline-flex">{mac ? "⌘K" : "Ctrl K"}</Kbd>
     </button>
   )
 }

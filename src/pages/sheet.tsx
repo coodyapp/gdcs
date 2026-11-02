@@ -19,6 +19,9 @@ import { catStyle } from "@/lib/accent"
 import { recordVisit } from "@/lib/local"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LevelPips } from "@/components/sheet-card"
+import { SheetCode } from "@/components/sheet-code"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   ReadingProgress,
   SheetSidebar,
@@ -102,12 +105,12 @@ function SheetArticle({ slug }: { slug: string }) {
         />
         <header className="mb-8">
           <p className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="eyebrow flex items-center gap-2">
-              <span className="cat-dot" aria-hidden />
-              {c.title} · {s.title}
-            </span>
+            <Badge variant="secondary">{c.title}</Badge>
+            <Badge variant="secondary">{s.title}</Badge>
             <LevelPips level={sheet.level} />
-            <span className="eyebrow">{minutes} min read</span>
+            <Badge variant="outline" className="text-muted-foreground">
+              {minutes} min read
+            </Badge>
           </p>
           <h1 className="font-heading text-display">{sheet.title}</h1>
           <p className="mt-3 text-lead text-muted-foreground italic">
@@ -126,13 +129,17 @@ function SheetArticle({ slug }: { slug: string }) {
               getText={copyMarkdown(sheet.slug)}
               event="copy_markdown"
             />
-            <a
-              href={sheetMarkdownPath(sheet)}
-              className="chip"
-              type="text/markdown"
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              nativeButton={false}
+              render={
+                <a href={sheetMarkdownPath(sheet)} type="text/markdown" />
+              }
             >
-              <FileText className="size-3.5" aria-hidden /> View .md
-            </a>
+              <FileText aria-hidden /> View .md
+            </Button>
           </div>
         </header>
 
@@ -151,6 +158,18 @@ function SheetArticle({ slug }: { slug: string }) {
                 <Rich text={p} />
               </p>
             ))}
+            <ul
+              aria-label="Tags"
+              className="!mt-4 flex !list-none flex-wrap gap-1.5 !pl-0"
+            >
+              {sheet.tags.map((t) => (
+                <li key={t} className="!m-0">
+                  <Badge variant="outline" className="text-muted-foreground">
+                    {t}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
           </section>
 
           {sheet.formulas?.length ? (
@@ -196,25 +215,18 @@ function SheetArticle({ slug }: { slug: string }) {
 
           <section aria-labelledby="code">
             <h2 id="code">Implementation</h2>
-            {sheet.code.map((block, i) => (
-              <figure key={i} className="space-y-2">
-                {block.caption && (
-                  <figcaption className="text-sm text-muted-foreground">
-                    <Rich text={block.caption} />
-                  </figcaption>
-                )}
-                <div className="relative">
-                  <pre className="code-block" data-lang={block.lang}>
-                    <code>{block.code.trim()}</code>
-                  </pre>
-                  <CopyButton
-                    label="Copy"
-                    text={block.code.trim()}
-                    className="absolute top-2 right-2 !min-h-7 !px-2 text-[11px]"
-                  />
-                </div>
-              </figure>
-            ))}
+            <div className="space-y-4">
+              {sheet.code.map((block, i) => (
+                <figure key={i} className="space-y-2">
+                  {block.caption && (
+                    <figcaption className="text-sm text-muted-foreground">
+                      <Rich text={block.caption} />
+                    </figcaption>
+                  )}
+                  <SheetCode code={block.code} lang={block.lang} />
+                </figure>
+              ))}
+            </div>
           </section>
 
           <section aria-labelledby="mistakes">
@@ -230,18 +242,17 @@ function SheetArticle({ slug }: { slug: string }) {
 
           <section aria-labelledby="prompt">
             <h2 id="prompt">Prompt</h2>
-            <div className="relative">
-              <pre className="code-block whitespace-pre-wrap">
-                {sheet.prompt}
-              </pre>
-              <CopyButton
-                label="Copy prompt"
-                copiedLabel="Prompt copied"
-                text={sheet.prompt}
-                className="absolute top-2 right-2 !min-h-7 !px-2 text-[11px]"
-                event="copy_prompt"
-              />
-            </div>
+            <SheetCode
+              code={sheet.prompt}
+              lang="text"
+              title="Prompt for your AI assistant"
+              wrap
+              onCopy={() =>
+                window.dispatchEvent(
+                  new CustomEvent("gdcs:event", { detail: "copy_prompt" })
+                )
+              }
+            />
           </section>
 
           <SheetPaths slug={sheet.slug} />

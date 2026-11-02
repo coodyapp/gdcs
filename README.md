@@ -46,6 +46,16 @@ Pushing to `main` runs `.github/workflows/cd.yaml`: check → test → build →
 
 Manual: `pnpm deploy`.
 
+## Versioning
+
+[Semantic Versioning](https://semver.org). The version lives in `package.json`, appears in the footer, and each release has an entry in `CHANGELOG.md` and a `vX.Y.Z` tag:
+
+```bash
+pnpm version minor --no-git-tag-version   # or patch / major
+# add the CHANGELOG entry, commit, then:
+git tag v$(node -p "require('./package.json').version") && git push --tags
+```
+
 ## Licenses
 
 Code: see `LICENSE.md`. Third-party: `THIRD_PARTY_LICENSES.md`.

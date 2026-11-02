@@ -2,10 +2,11 @@ import { Check, Copy } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
+import { Button } from "@/components/ui/button"
 
 /**
- * Copies `text` (or the result of `getText`) and confirms in place. Both
- * labels are stacked in one grid cell so the button never changes width.
+ * shadcn Button that copies `text` (or `getText()`) and confirms in place.
+ * Both labels share one grid cell, so the width never jumps.
  */
 export function CopyButton({
   label,
@@ -14,25 +15,22 @@ export function CopyButton({
   getText,
   className,
   event,
+  size = "sm",
 }: {
   label: string
-  /** What was copied, e.g. "Prompt copied". */
   copiedLabel?: string
   text?: string
   getText?: () => string | Promise<string>
   className?: string
-  /** Analytics event name, e.g. "copy_prompt". */
   event?: string
+  size?: "sm" | "default" | "lg"
 }) {
   const { copied, copy } = useClipboard()
   return (
-    <button
-      type="button"
-      className={cn(
-        "chip",
-        copied && "!border-[var(--color-ui-strong)]/50",
-        className
-      )}
+    <Button
+      variant="outline"
+      size={size}
+      className={cn("rounded-full", className)}
       onClick={async (e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -41,11 +39,7 @@ export function CopyButton({
           window.dispatchEvent(new CustomEvent("gdcs:event", { detail: event }))
       }}
     >
-      {copied ? (
-        <Check className="size-3.5 text-[var(--color-ui-strong)]" aria-hidden />
-      ) : (
-        <Copy className="size-3.5" aria-hidden />
-      )}
+      {copied ? <Check aria-hidden /> : <Copy aria-hidden />}
       <span className="grid">
         <span
           className={cn(
@@ -68,6 +62,6 @@ export function CopyButton({
       <span className="sr-only" aria-live="polite">
         {copied ? `${copiedLabel} to clipboard` : ""}
       </span>
-    </button>
+    </Button>
   )
 }

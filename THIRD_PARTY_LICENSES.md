@@ -35,3 +35,12 @@ These references informed the content and are linked from the relevant sheets un
 - OpenStax University Physics
 - Game Programming Patterns (Robert Nystrom)
 - GDC Vault talks linked from individual sheets
+
+## Additional software and references (v1.0.0)
+| Package | License |
+| --- | --- |
+| @base-ui/react | MIT |
+| shadcn/ui components (copied into `src/components/ui`) | MIT |
+| shiki | MIT |
+
+- Sebastian Lague, Field-of-View project (https://github.com/SebLague/Field-of-View): conceptual reference for the field-of-view sheets. No code is reproduced.

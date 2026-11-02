@@ -122,6 +122,12 @@ export const categories: Category[] = [
         description: "Finding paths through grids and graphs.",
       },
       {
+        slug: "perception",
+        title: "Perception",
+        description:
+          "What an agent can see: vision cones, line of sight and visibility meshes.",
+      },
+      {
         slug: "steering",
         title: "Steering",
         description: "Local movement forces for agents.",

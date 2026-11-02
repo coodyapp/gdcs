@@ -195,6 +195,10 @@ Decision: **one Worker `gdcs-prd-01`** with Static Assets + API + mailer + cron.
 - [ ] Reduced-motion branch: sims paused by default, no hover lift.
 - [ ] Validate: before/after screenshots (desktop 1280 + mobile 390; home, category, sheet), automated contrast test over tokens (vitest), Lighthouse: A11y 100 and Performance not lower than before.
 
+## Progress (2026-11-02)
+- A, B, C, D, E and F1 (Turnstile) are done. B changed direction per your feedback: the UI uses Coody neutrals only; simulations use green, yellow and red plus greys. The top header, floating search and /updates page were removed. shadcn (Base UI) components adopted. Field-of-view and stencil sheets added. Home cards animate within a live-canvas budget (4 desktop / 2 phone, 30 fps). Released as v1.0.0.
+- Not done: F2, per-sheet OG images.
+
 ## C. Top-40 gap batch (12 sheets, same parallel workflow as phase 1)
 mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matrices, local-vs-world-space, euler-angles · interpolation: lerp-and-smoothstep, bezier-curves · physics/mechanics: rigid-body-dynamics · animation (new category): inverse-kinematics · threejs/rendering: reflection-and-refraction, pbr-materials.
 - [ ] Each built on the new palette; content contract tests; screenshot review; roadmap ✅ updates.

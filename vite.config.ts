@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite-plus"
 
+import pkg from "./package.json" with { type: "json" }
 import { katexPlugin } from "./scripts/katex"
 
 export default defineConfig({
@@ -180,7 +181,13 @@ export default defineConfig({
       },
       {
         // Scene modules export a visual definition object, not components.
-        files: ["src/visuals/**/*.{ts,tsx}", "src/entry-server.tsx"],
+        files: [
+          "src/visuals/**/*.{ts,tsx}",
+          "src/entry-server.tsx",
+          // shadcn exports variant helpers next to components.
+          "src/components/ui/**/*.tsx",
+          "src/components/command-palette.tsx",
+        ],
         rules: { "react/only-export-components": "off" },
       },
       {
@@ -245,6 +252,8 @@ export default defineConfig({
     ],
   },
   plugins: [katexPlugin(), react(), tailwindcss()],
+  // Semantic version from package.json, shown in the footer.
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   server: {
     // API during `vp dev`: run `pnpm preview` (wrangler pages dev) alongside.
     proxy: { "/api": "http://localhost:8788" },

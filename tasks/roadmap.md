@@ -2,6 +2,8 @@
 
 Source: "The Encyclopedia of Mathematics & Physics in Game Development" (topic table provided 2026-11-01).
 
+`[P2]` = phase-2 sheets (2026-11-02).
+
 Legend: ✅ **complete**: covered by a phase-1 sheet (`[GD]` = phase-1 game-dev core set, `[PH]` = migrated physics.coody.app labs) · 🟡 **partial**: an existing sheet touches it, but it still needs its own sheet (counts as planned) · ⬜ **planned**
 Levels come from the table: **CORE / COMMON / ADVANCED**.
 
@@ -23,19 +25,19 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 
 | # | Term | Status | Covered by / target |
 |---|---|---|---|
-| 1 | Vectors (Vector2, Vector3) | ⬜ | mathematics/vectors |
+| 1 | Vectors (Vector2, Vector3) | ✅ | [P2] vectors |
 | 2 | Delta Time | ✅ | [GD] Delta time |
-| 3 | Linear Interpolation (Lerp) | 🟡 | [GD] Easing uses lerp; needs mathematics/interpolation/lerp |
-| 4 | Trigonometry (sin, cos, atan2) | ⬜ | |
-| 5 | Dot Product | 🟡 | [GD] Normals (slope check) |
-| 6 | Normalization | ⬜ | |
-| 7 | Magnitude / Length | ⬜ | |
-| 8 | Distance / Squared Distance | ⬜ | |
-| 9 | Transforms (TRS) | ⬜ | |
-| 10 | Matrices (3×3, 4×4) | ⬜ | |
+| 3 | Linear Interpolation (Lerp) | ✅ | [P2] lerp-and-smoothstep |
+| 4 | Trigonometry (sin, cos, atan2) | ✅ | [P2] trigonometry |
+| 5 | Dot Product | ✅ | [P2] dot-and-cross-product |
+| 6 | Normalization | ✅ | [P2] vectors |
+| 7 | Magnitude / Length | ✅ | [P2] vectors |
+| 8 | Distance / Squared Distance | ✅ | [P2] vectors |
+| 9 | Transforms (TRS) | ✅ | [P2] transforms-and-matrices |
+| 10 | Matrices (3×3, 4×4) | ✅ | [P2] transforms-and-matrices |
 | 11 | Quaternions | ✅ | [GD] Quaternions |
-| 12 | Cross Product | ⬜ | |
-| 13 | Clamp / Min / Max | ⬜ | |
+| 12 | Cross Product | ✅ | [P2] dot-and-cross-product |
+| 13 | Clamp / Min / Max | ✅ | [P2] lerp-and-smoothstep |
 | 14 | Velocity | ✅ | [GD] Acceleration and friction · [PH] Projectile Motion |
 | 15 | Acceleration | ✅ | [GD] Acceleration and friction · [PH] Projectile Motion |
 | 16 | Raycasting | ✅ | [GD] Raycasting |
@@ -43,9 +45,9 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 | 18 | AABB / Bounding Box | 🟡 | [GD] Frustum culling, Spatial partitioning |
 | 19 | Gravity | ✅ | [PH] Projectile Motion, Kepler's Laws, My Solar System |
 | 20 | Forces / Impulses | 🟡 | [PH] Spring-Mass, Balancing Act (forces); impulses missing |
-| 21 | Euler Angles / Radians | 🟡 | [GD] Quaternions (gimbal-lock contrast) |
-| 22 | Local vs. World Space | ⬜ | |
-| 23 | Smoothstep / SmoothDamp | 🟡 | [GD] Easing, Delta time (exp smoothing) |
+| 21 | Euler Angles / Radians | ✅ | [P2] euler-angles |
+| 22 | Local vs. World Space | ✅ | [P2] local-vs-world-space |
+| 23 | Smoothstep / SmoothDamp | ✅ | [P2] lerp-and-smoothstep |
 | 24 | Slerp | ✅ | [GD] Quaternions |
 | 25 | Fixed Timestep | ✅ | [GD] Fixed timestep |
 | 26 | Damping / Friction | ✅ | [GD] Acceleration and friction · [PH] Damped Pendulum, Spring-Mass |
@@ -54,17 +56,17 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 | 29 | Projection | 🟡 | [GD] Frustum culling, Z-fighting |
 | 30 | Random Numbers / Probability | 🟡 | [GD] Seeded noise (PRNG) |
 | 31 | Noise Functions | ✅ | [GD] Seeded noise |
-| 32 | Bézier Curves / Splines | ⬜ | |
-| 33 | Rigid-Body Dynamics | ⬜ | |
+| 32 | Bézier Curves / Splines | ✅ | [P2] bezier-curves |
+| 33 | Rigid-Body Dynamics | ✅ | [P2] rigid-body-dynamics |
 | 34 | Broad Phase / Narrow Phase | 🟡 | [GD] Spatial partitioning (broad phase) |
-| 35 | Inverse Kinematics | ⬜ | |
+| 35 | Inverse Kinematics | ✅ | [P2] inverse-kinematics |
 | 36 | UV / Barycentric Coordinates | 🟡 | [GD] Texture atlas (UVs) |
-| 37 | Reflection / Refraction | ⬜ | |
-| 38 | PBR / BRDF | ⬜ | |
+| 37 | Reflection / Refraction | ✅ | [P2] reflection-and-refraction |
+| 38 | PBR / BRDF | ✅ | [P2] pbr-materials |
 | 39 | Spatial Partitioning | ✅ | [GD] Spatial partitioning |
 | 40 | Numerical Integration | ✅ | [GD] Fixed timestep · [PH] Spring-Mass (semi-implicit), Charged Particle (RK4) |
 
-**Top-40: 13 ✅ · 15 🟡 · 12 ⬜**
+**Top-40: 31 ✅ · 9 🟡 · 0 ⬜**
 
 ---
 
@@ -517,7 +519,7 @@ Levels come from the table: **CORE / COMMON / ADVANCED**.
 - ✅ Seek, flee & arrive: [GD] Steering behaviors
 - ⬜ Pursuit, evasion & interception
 - ⬜ Flocking / boids
-- ⬜ Line of sight & vision cones
+- ✅ Line of sight & vision cones: [P2] field-of-view, field-of-view-visualization
 - ⬜ Minimax & alpha-beta
 - ⬜ MCTS
 - ⬜ MDPs & reinforcement learning
@@ -643,3 +645,4 @@ Shown as curated "learning paths" on the home page once there are enough sheets 
 - **Game feel [GD]:** Coyote time, Hit stop, Invincibility frames, Input buffering, Squash and stretch, Camera deadzone, Screen shake
 - **Systems / performance [GD]:** Object pooling, Hitbox and hurtbox, Particle system, Frame budget, Draw calls, Overdraw, Time slicing, Texture atlas, Chunk streaming, Billboarding
 - **Physics [PH]:** Kepler's Laws, My Solar System, Projectile Data Lab, Electric Field Lines, Charged Particle Motion, EM Wave Propagation, Heat Diffusion Plate, Ideal Gas Kinetics, Boltzmann Energy Distribution, Particle in a Box, Quantum Tunneling, 2D Schrödinger Wave Packet, Spacetime Curvature (Mass Effect), Gravitational Waves, Mercury Precession
+- **Phase 2, outside the table [P2]:** Stencil Buffer Masks, Field of View Visualization

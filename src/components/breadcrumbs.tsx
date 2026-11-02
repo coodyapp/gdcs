@@ -1,36 +1,41 @@
 import { Fragment } from "react"
 import { Link } from "react-router-dom"
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
 export function Breadcrumbs({
   items,
 }: {
   items: { label: string; to?: string }[]
 }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
-      <ol className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
-        <li>
-          <Link to="/" className="link-quiet no-underline">
-            Home
-          </Link>
-        </li>
+    <Breadcrumb className="mb-6">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link to="/" />}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
         {items.map((item, i) => (
           <Fragment key={`${i}-${item.label}`}>
-            <li aria-hidden>/</li>
-            <li>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
               {item.to ? (
-                <Link to={item.to} className="link-quiet no-underline">
+                <BreadcrumbLink render={<Link to={item.to} />}>
                   {item.label}
-                </Link>
+                </BreadcrumbLink>
               ) : (
-                <span aria-current="page" className="text-foreground">
-                  {item.label}
-                </span>
+                <BreadcrumbPage>{item.label}</BreadcrumbPage>
               )}
-            </li>
+            </BreadcrumbItem>
           </Fragment>
         ))}
-      </ol>
-    </nav>
+      </BreadcrumbList>
+    </Breadcrumb>
   )
 }

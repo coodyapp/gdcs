@@ -10,6 +10,8 @@ export const siteConfig = {
   authorUrl: "https://coody.app",
   repo: "https://github.com/coodyapp/gdcs",
   locale: "en",
+  version: __APP_VERSION__,
+  changelog: "https://github.com/coodyapp/gdcs/blob/main/CHANGELOG.md",
 } as const
 
 export function formatTitle(title?: string) {

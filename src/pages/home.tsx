@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
+import { X } from "lucide-react"
 
 import {
   categoryPath,
@@ -9,74 +10,105 @@ import {
   subcategoryPath,
   type SheetMeta,
 } from "@/content"
-import { catStyle } from "@/lib/accent"
+import { paths } from "@/content/paths"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Toggle } from "@/components/ui/toggle"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { SearchTrigger } from "@/components/command-palette"
 import { SheetGrid } from "@/components/sheet-card"
 import { GetUpdatesButton } from "@/components/updates"
-import { siteConfig } from "@/config/site"
-import { paths } from "@/content/paths"
 import { PathCard } from "@/pages/paths"
+import { siteConfig } from "@/config/site"
 
-type Level = SheetMeta["level"] | "all"
-const LEVELS: { value: Level; label: string }[] = [
-  { value: "all", label: "All levels" },
-  { value: "core", label: "Core" },
-  { value: "common", label: "Common" },
-  { value: "advanced", label: "Advanced" },
-]
+type Level = SheetMeta["level"]
+const LEVELS: Level[] = ["core", "common", "advanced"]
+const PRESSED =
+  "aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
 
-/** Level filter mirrored in ?level= (read after hydration: prerendered HTML has no query). */
-function useLevelFilter() {
-  const [level, setLevel] = useState<Level>("all")
-  useEffect(() => {
-    const v = new URLSearchParams(window.location.search).get("level")
-    if (v && LEVELS.some((l) => l.value === v)) setLevel(v as Level)
-  }, [])
-  const update = (next: Level) => {
-    setLevel(next)
-    const url = new URL(window.location.href)
-    if (next === "all") url.searchParams.delete("level")
-    else url.searchParams.set("level", next)
-    window.history.replaceState(window.history.state, "", url)
-  }
-  return [level, update] as const
+/** Most used tags, weighted 1–3 for the cloud. */
+function tagCloud(limit = 28) {
+  const counts = new Map<string, number>()
+  for (const s of sheets)
+    for (const t of s.tags)
+      counts.set(t.toLowerCase(), (counts.get(t.toLowerCase()) ?? 0) + 1)
+  const top = [...counts]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, limit)
+  const max = top[0]?.[1] ?? 1
+  return top
+    .map(([tag, count]) => ({
+      tag,
+      count,
+      weight: count >= max * 0.66 ? 3 : count >= max * 0.33 ? 2 : 1,
+    }))
+    .sort((a, b) => a.tag.localeCompare(b.tag))
 }
 
-/** Which category section is under the sticky bar. */
-function useScrollSpy(ids: string[]) {
-  const [active, setActive] = useState<string>()
+interface Filters {
+  categories: string[]
+  level: Level | "all"
+  tags: string[]
+}
+const EMPTY: Filters = { categories: [], level: "all", tags: [] }
+
+/** Filters mirrored in the URL (?cat=a,b&level=core&tag=x,y), read after hydration. */
+function useFilters() {
+  const [filters, setFilters] = useState<Filters>(EMPTY)
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        const hit = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
-          )[0]
-        if (hit) setActive(hit.target.id.replace(/^cat-/, ""))
-      },
-      { rootMargin: "-120px 0px -60% 0px" }
-    )
-    ids.forEach((id) => {
-      const el = document.getElementById(`cat-${id}`)
-      if (el) io.observe(el)
+    const q = new URLSearchParams(window.location.search)
+    const list = (k: string) => (q.get(k) ?? "").split(",").filter(Boolean)
+    const level = q.get("level") as Level | null
+    setFilters({
+      categories: list("cat"),
+      level: level && LEVELS.includes(level) ? level : "all",
+      tags: list("tag"),
     })
-    return () => io.disconnect()
-  }, [ids])
-  return active
+  }, [])
+  const update = (next: Filters) => {
+    setFilters(next)
+    const url = new URL(window.location.href)
+    const set = (k: string, v: string) =>
+      v ? url.searchParams.set(k, v) : url.searchParams.delete(k)
+    set("cat", next.categories.join(","))
+    set("level", next.level === "all" ? "" : next.level)
+    set("tag", next.tags.join(","))
+    window.history.replaceState(window.history.state, "", url)
+  }
+  return [filters, update] as const
 }
 
 export function HomePage() {
   const live = liveCategories()
-  const [level, setLevel] = useLevelFilter()
-  const active = useScrollSpy(live.map((c) => c.slug))
-  const visible = (list: SheetMeta[]) =>
-    level === "all" ? list : list.filter((s) => s.level === level)
+  const cloud = useMemo(() => tagCloud(), [])
+  const [filters, setFilters] = useFilters()
+  const active =
+    filters.categories.length > 0 ||
+    filters.level !== "all" ||
+    filters.tags.length > 0
+  const results = useMemo(
+    () =>
+      sheets.filter(
+        (s) =>
+          (!filters.categories.length ||
+            filters.categories.includes(s.category)) &&
+          (filters.level === "all" || s.level === filters.level) &&
+          (!filters.tags.length ||
+            s.tags.some((t) => filters.tags.includes(t.toLowerCase())))
+      ),
+    [filters]
+  )
+  const toggleTag = (tag: string) =>
+    setFilters({
+      ...filters,
+      tags: filters.tags.includes(tag)
+        ? filters.tags.filter((t) => t !== tag)
+        : [...filters.tags, tag],
+    })
 
   return (
     <>
-      <section className="py-10 md:py-14">
+      <section className="pt-6 pb-12 sm:pt-10 md:pb-16">
         <p className="eyebrow mb-4">
           {sheets.length} visual cheat sheets · AI-ready
         </p>
@@ -98,127 +130,192 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className="sticky top-0 z-30 -mx-8 mb-10 border-y border-white/[0.06] bg-background/90 px-8 py-3 backdrop-blur-md">
+      <section
+        aria-label="Filters"
+        className="sticky top-0 z-30 -mx-4 mb-6 border-y border-white/[0.06] bg-background/90 px-4 py-3 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+      >
         <div className="flex flex-wrap items-center gap-3">
-          <nav
-            aria-label="Jump to category"
-            className="no-scrollbar -mx-1 flex min-w-0 basis-full gap-2 overflow-x-auto px-1 md:flex-1 md:basis-0"
+          <ToggleGroup
+            multiple
+            aria-label="Filter by category"
+            variant="outline"
+            size="sm"
+            spacing={1}
+            className="no-scrollbar -mx-1 min-w-0 basis-full flex-nowrap overflow-x-auto px-1 md:flex-1 md:basis-0"
+            value={filters.categories}
+            onValueChange={(categories) =>
+              setFilters({ ...filters, categories })
+            }
           >
             {live.map((c) => (
-              <a
+              <ToggleGroupItem
                 key={c.slug}
-                href={`#cat-${c.slug}`}
-                style={catStyle(c.slug)}
-                aria-current={active === c.slug ? "location" : undefined}
-                className={cn(
-                  "chip shrink-0 !min-h-8",
-                  active === c.slug &&
-                    "!border-[var(--cat)] bg-[color-mix(in_oklch,var(--cat)_12%,transparent)]"
-                )}
+                value={c.slug}
+                className={cn("shrink-0 rounded-full px-3 text-xs", PRESSED)}
               >
-                <span className="cat-dot" aria-hidden />
-                {c.title}
-                <span className="text-text-3">{sheetsIn(c.slug).length}</span>
-              </a>
+                {c.short ?? c.title}
+                <span className="font-hud text-[10px] opacity-60">
+                  {sheetsIn(c.slug).length}
+                </span>
+              </ToggleGroupItem>
             ))}
-          </nav>
-          <div
-            role="radiogroup"
+          </ToggleGroup>
+          <ToggleGroup
             aria-label="Filter by level"
-            className="flex gap-1 rounded-full border border-white/10 p-0.5"
+            variant="outline"
+            size="sm"
+            spacing={0}
+            value={[filters.level]}
+            onValueChange={(next) =>
+              setFilters({
+                ...filters,
+                level: (next[0] as Level | "all") ?? "all",
+              })
+            }
           >
-            {LEVELS.map((l) => (
-              <button
-                key={l.value}
-                type="button"
-                role="radio"
-                aria-checked={level === l.value}
-                onClick={() => setLevel(l.value)}
-                className={cn(
-                  "rounded-full px-3 py-1 text-xs transition-colors",
-                  level === l.value
-                    ? "bg-foreground text-background"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
+            {(["all", ...LEVELS] as const).map((l) => (
+              <ToggleGroupItem
+                key={l}
+                value={l}
+                className={cn("px-3 text-xs capitalize", PRESSED)}
               >
-                {l.label}
-              </button>
+                {l === "all" ? "All levels" : l}
+              </ToggleGroupItem>
             ))}
-          </div>
-        </div>
-      </div>
-
-      <section aria-labelledby="paths-title" className="mb-20">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="eyebrow mb-2">Not sure where to start?</p>
-            <h2 id="paths-title" className="font-heading text-title">
-              Learning paths
-            </h2>
-          </div>
-          <Link to="/paths" className="link-quiet text-sm">
-            All {paths.length} paths →
-          </Link>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {paths.slice(0, 3).map((p) => (
-            <PathCard key={p.slug} path={p} />
-          ))}
+          </ToggleGroup>
         </div>
       </section>
 
-      <div className="space-y-20">
-        {live.map((c) => (
-          <section
-            key={c.slug}
-            id={`cat-${c.slug}`}
-            aria-labelledby={`cat-title-${c.slug}`}
-            style={catStyle(c.slug)}
-            className="scroll-mt-32 space-y-8"
+      <section aria-labelledby="tags-title" className="mb-14">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h2 id="tags-title" className="eyebrow">
+            Browse by topic
+          </h2>
+          {active && (
+            <Button variant="ghost" size="sm" onClick={() => setFilters(EMPTY)}>
+              <X aria-hidden /> Clear filters
+            </Button>
+          )}
+        </div>
+        <ul className="flex flex-wrap gap-1.5" aria-label="Topics">
+          {cloud.map(({ tag, count, weight }) => (
+            <li key={tag}>
+              <Toggle
+                size="sm"
+                variant="outline"
+                pressed={filters.tags.includes(tag)}
+                onPressedChange={() => toggleTag(tag)}
+                className={cn(
+                  "h-auto rounded-full px-3 py-1",
+                  weight === 3
+                    ? "text-[0.95rem] text-foreground"
+                    : weight === 2
+                      ? "text-sm text-foreground/85"
+                      : "text-xs text-muted-foreground",
+                  PRESSED
+                )}
+                aria-label={`${tag}, ${count} sheets`}
+              >
+                {tag}
+              </Toggle>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {active ? (
+        <section aria-labelledby="results-title" className="space-y-6">
+          <h2
+            id="results-title"
+            className="font-heading text-2xl"
+            aria-live="polite"
           >
-            <header className="flex flex-wrap items-end justify-between gap-4 border-b border-white/[0.08] pb-4">
-              <div className="max-w-2xl">
-                <p className="eyebrow mb-2 flex items-center gap-2">
-                  <span className="cat-dot" aria-hidden />{" "}
-                  {sheetsIn(c.slug).length} sheets
-                </p>
-                <h2
-                  id={`cat-title-${c.slug}`}
-                  className="font-heading text-title"
-                >
-                  <Link to={categoryPath(c.slug)}>{c.title}</Link>
+            {results.length} sheet{results.length === 1 ? "" : "s"}
+          </h2>
+          {results.length ? (
+            <SheetGrid list={results} showCategory />
+          ) : (
+            <p className="text-muted-foreground">
+              Nothing matches these filters.{" "}
+              <button
+                type="button"
+                className="link-quiet"
+                onClick={() => setFilters(EMPTY)}
+              >
+                Clear filters
+              </button>
+            </p>
+          )}
+        </section>
+      ) : (
+        <>
+          <section aria-labelledby="paths-title" className="mb-20">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <p className="eyebrow mb-2">Not sure where to start?</p>
+                <h2 id="paths-title" className="font-heading text-title">
+                  Learning paths
                 </h2>
-                <p className="mt-2 text-muted-foreground">{c.description}</p>
               </div>
-              <Link to={categoryPath(c.slug)} className="link-quiet text-sm">
-                All {c.title} →
+              <Link to="/paths" className="link-quiet text-sm">
+                All {paths.length} paths →
               </Link>
-            </header>
-            {c.subcategories.map((s) => {
-              const list = visible(sheetsIn(c.slug, s.slug))
-              if (!list.length) return null
-              return (
-                <div key={s.slug} className="space-y-4">
-                  <h3 className="eyebrow">
-                    <Link
-                      to={subcategoryPath(c.slug, s.slug)}
-                      className="hover:text-foreground"
-                    >
-                      {s.title}
-                    </Link>
-                  </h3>
-                  <SheetGrid list={list} />
-                </div>
-              )
-            })}
-            {visible(sheetsIn(c.slug)).length === 0 && (
-              <p className="text-sm text-muted-foreground">
-                No {level} sheets in {c.title} yet.
-              </p>
-            )}
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {paths.slice(0, 3).map((p) => (
+                <PathCard key={p.slug} path={p} />
+              ))}
+            </div>
           </section>
-        ))}
-      </div>
+
+          <div className="space-y-24">
+            {live.map((c) => (
+              <section
+                key={c.slug}
+                id={`cat-${c.slug}`}
+                aria-labelledby={`cat-title-${c.slug}`}
+                className="cv-auto scroll-mt-24 space-y-10"
+              >
+                <header className="flex flex-wrap items-end justify-between gap-4 border-b border-white/[0.08] pb-5">
+                  <div className="max-w-2xl">
+                    <p className="eyebrow mb-2">
+                      {sheetsIn(c.slug).length} sheets
+                    </p>
+                    <h2
+                      id={`cat-title-${c.slug}`}
+                      className="font-heading text-title"
+                    >
+                      <Link to={categoryPath(c.slug)}>{c.title}</Link>
+                    </h2>
+                    <p className="mt-2 text-muted-foreground">
+                      {c.description}
+                    </p>
+                  </div>
+                  <Link
+                    to={categoryPath(c.slug)}
+                    className="link-quiet text-sm"
+                  >
+                    All {c.title} →
+                  </Link>
+                </header>
+                {c.subcategories.map((s) => (
+                  <div key={s.slug} className="space-y-5">
+                    <h3 className="eyebrow">
+                      <Link
+                        to={subcategoryPath(c.slug, s.slug)}
+                        className="hover:text-foreground"
+                      >
+                        {s.title}
+                      </Link>
+                    </h3>
+                    <SheetGrid list={sheetsIn(c.slug, s.slug)} />
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
+        </>
+      )}
     </>
   )
 }

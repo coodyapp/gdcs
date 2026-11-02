@@ -1,5 +1,6 @@
 import { Suspense, useLayoutEffect } from "react"
 import { Canvas, useThree } from "@react-three/fiber"
+import { useEffect } from "react"
 import { OrbitControls } from "@react-three/drei"
 
 import { palette, type Values, type VisualDef } from "./core"
@@ -22,7 +23,9 @@ export default function Stage({
   const camera = def.camera ?? { position: [6, 4, 6] }
   return (
     <Canvas
-      dpr={compact ? [1, 1.5] : [1, 2]}
+      // Cards: DPR 1 and 30 fps on demand (see Throttle); pages: full quality.
+      dpr={compact ? 1 : [1, 2]}
+      frameloop={compact ? "demand" : "always"}
       orthographic={camera.orthographic}
       camera={{
         position: camera.position,
@@ -31,11 +34,12 @@ export default function Stage({
         near: 0.05,
         far: 500,
       }}
-      gl={{ antialias: true, powerPreference: "low-power" }}
+      gl={{ antialias: true, stencil: true, powerPreference: "low-power" }}
       aria-label={label}
       role="img"
     >
       <color attach="background" args={[palette.stage]} />
+      {compact && <Throttle fps={30} />}
       <ambientLight intensity={1.1} />
       <hemisphereLight args={["#ffffff", "#27272a", 0.6]} />
       <directionalLight position={[5, 8, 4]} intensity={1.4} />
@@ -71,5 +75,17 @@ function LookAt({ target }: { target: [number, number, number] }) {
     camera.lookAt(...target)
     camera.updateProjectionMatrix()
   }, [camera, target])
+  return null
+}
+
+/** Drives a demand-mode canvas at a fixed rate, paused while the tab is hidden. */
+function Throttle({ fps }: { fps: number }) {
+  const invalidate = useThree((s) => s.invalidate)
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!document.hidden) invalidate()
+    }, 1000 / fps)
+    return () => clearInterval(id)
+  }, [invalidate, fps])
   return null
 }

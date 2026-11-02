@@ -3,6 +3,8 @@ import { useId, useState, type FormEvent } from "react"
 import { Link } from "react-router-dom"
 
 import { useTurnstile } from "@/hooks/use-turnstile"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 type Status = "idle" | "sending" | "sent" | "error"
 
@@ -53,14 +55,14 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
         <label htmlFor={id} className="sr-only">
           Email address
         </label>
-        <input
+        <Input
           id={id}
           name="email"
           type="email"
           required
           autoComplete="email"
           placeholder="you@studio.dev"
-          className="h-10 w-full min-w-0 rounded-md border bg-background px-3 text-sm outline-none focus-visible:border-foreground/50 sm:flex-1"
+          className="h-10 w-full min-w-0 sm:flex-1"
           disabled={status === "sending" || status === "sent"}
         />
         {/* Honeypot: real people never see or fill this. */}
@@ -71,13 +73,14 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
           className="hidden"
           aria-hidden
         />
-        <button
+        <Button
           type="submit"
-          className="chip h-10 !rounded-md bg-foreground !text-background hover:bg-foreground/90"
+          size="lg"
+          className="h-10 px-4"
           disabled={status === "sending" || status === "sent"}
         >
           {status === "sending" ? "Sending…" : "Get updates"}
-        </button>
+        </Button>
       </div>
       <div
         ref={human.container}

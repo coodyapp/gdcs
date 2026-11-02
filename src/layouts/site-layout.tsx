@@ -1,10 +1,7 @@
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 
-import {
-  CommandPaletteProvider,
-  FloatingSearch,
-} from "@/components/command-palette"
+import { CommandPaletteProvider } from "@/components/command-palette"
 import { SiteFooter } from "@/components/site-footer"
 import { UpdatesNotice } from "@/components/updates"
 import { Seo } from "@/components/seo"
@@ -23,7 +20,6 @@ export function SiteLayout() {
         Skip to content
       </a>
       <Seo />
-      <FloatingSearch />
       <UpdatesNotice />
       <main
         id="main"

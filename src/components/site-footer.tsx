@@ -3,14 +3,17 @@ import { ArrowUp } from "lucide-react"
 
 import { PoweredByCoody } from "@/components/coody/powered-by"
 import { SubscribeForm } from "@/components/subscribe-form"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { siteConfig } from "@/config/site"
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-white/[0.08]">
+    <footer className="mt-24">
+      <Separator />
       <section
         aria-labelledby="updates-title"
-        className="container grid gap-6 border-b border-white/[0.08] py-12 md:grid-cols-[1fr_minmax(0,28rem)] md:items-center"
+        className="container grid gap-6 py-12 md:grid-cols-[1fr_minmax(0,28rem)] md:items-center"
       >
         <div>
           <p className="eyebrow mb-2">Get updates</p>
@@ -24,12 +27,22 @@ export function SiteFooter() {
         </div>
         <SubscribeForm compact />
       </section>
-      <div className="container grid gap-10 pt-12 pb-28 md:grid-cols-[1fr_auto]">
+      <div className="container grid gap-10 py-12 md:grid-cols-[1fr_auto]">
         <div className="max-w-md space-y-3">
           <Link to="/" className="font-heading text-lg" aria-label="GDCS home">
             GDCS · {siteConfig.longName}
           </Link>
-          <p className="text-sm text-muted-foreground">{siteConfig.tagline}.</p>
+          <p className="text-sm text-muted-foreground">
+            {siteConfig.tagline}.{" "}
+            <a
+              href={siteConfig.changelog}
+              className="link-quiet font-hud text-xs"
+              rel="noopener"
+              title="Changelog"
+            >
+              v{siteConfig.version}
+            </a>
+          </p>
           <nav
             aria-label="Footer"
             className="flex flex-wrap gap-x-5 gap-y-2 text-sm"
@@ -78,9 +91,12 @@ export function SiteFooter() {
 
 function BackToTop() {
   return (
-    <a
-      href="#main"
-      className="chip"
+    <Button
+      variant="outline"
+      size="sm"
+      className="rounded-full"
+      nativeButton={false}
+      render={<a href="#main" />}
       onClick={(e) => {
         e.preventDefault()
         const reduce = window.matchMedia(
@@ -90,7 +106,7 @@ function BackToTop() {
         document.getElementById("main")?.focus({ preventScroll: true })
       }}
     >
-      <ArrowUp className="size-3.5" aria-hidden /> Back to top
-    </a>
+      <ArrowUp aria-hidden /> Back to top
+    </Button>
   )
 }

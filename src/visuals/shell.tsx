@@ -1,16 +1,27 @@
-import { useEffect, useRef, useState, type ComponentType } from "react"
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentType,
+  type ReactNode,
+} from "react"
 import { Pause, Play, RotateCcw } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 import {
   initialValues,
   VisualContext,
-  type ParamDef,
   type Values,
   type VisualDef,
 } from "./core"
+import { registerCard } from "./budget"
 import { visualLoaders } from "./registry"
+
+const Controls = lazy(() => import("./controls"))
 
 const reducedMotion = () =>
   typeof window !== "undefined" &&
@@ -103,31 +114,73 @@ const posterMode = () =>
   typeof window !== "undefined" &&
   new URLSearchParams(window.location.search).has("poster")
 
-/** True once the visitor interacts (or the page has been idle a while). */
-function useWarm(enabled: boolean) {
+let cardIds = 0
+/** Cards ask the global budget for a live slot, ranked by how visible they are. */
+function useCardBudget(ref: { current: Element | null }, enabled: boolean) {
+  const [granted, setGranted] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!enabled || !el) return
+    const card = registerCard(`card-${cardIds++}`, setGranted)
+    const io = new IntersectionObserver(
+      ([entry]) => card.update(entry.intersectionRatio),
+      {
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      card.release()
+      setGranted(false)
+    }
+  }, [ref, enabled])
+  return granted
+}
+
+/**
+ * True once the visitor interacts (or the page has been idle a while). One
+ * shared set of listeners for the whole page, however many visuals there are.
+ */
+let warmed = false
+let watching = false
+const warmSubscribers = new Set<() => void>()
+function startWarmWatch() {
+  const events = [
+    "pointerdown",
+    "pointermove",
+    "keydown",
+    "wheel",
+    "touchstart",
+    "scroll",
+  ] as const
+  const go = () => {
+    if (warmed) return
+    warmed = true
+    events.forEach((e) => window.removeEventListener(e, go))
+    warmSubscribers.forEach((fn) => fn())
+    warmSubscribers.clear()
+  }
+  events.forEach((e) =>
+    window.addEventListener(e, go, { once: true, passive: true })
+  )
+  // Reduced motion: only on interaction. Otherwise also after a quiet moment.
+  if (!reducedMotion()) setTimeout(() => idle(go), 3500)
+}
+function useWarm() {
   const [warm, setWarm] = useState(false)
   useEffect(() => {
-    if (!enabled || warm) return
-    if (posterMode()) return setWarm(true)
-    const go = () => setWarm(true)
-    const events = [
-      "pointerdown",
-      "pointermove",
-      "keydown",
-      "wheel",
-      "touchstart",
-      "scroll",
-    ] as const
-    events.forEach((e) =>
-      window.addEventListener(e, go, { once: true, passive: true })
-    )
-    // Reduced motion: only on interaction. Otherwise also after a quiet moment.
-    const timer = reducedMotion() ? undefined : setTimeout(() => idle(go), 3500)
-    return () => {
-      events.forEach((e) => window.removeEventListener(e, go))
-      clearTimeout(timer)
+    if (posterMode() || warmed) return setWarm(true)
+    if (!watching) {
+      watching = true
+      startWarmWatch()
     }
-  }, [enabled, warm])
+    const fn = () => setWarm(true)
+    warmSubscribers.add(fn)
+    return () => {
+      warmSubscribers.delete(fn)
+    }
+  }, [])
   return warm
 }
 
@@ -149,8 +202,10 @@ export function VisualShell({
   className?: string
 }) {
   const [ref, inView] = useInView<HTMLDivElement>(compact ? "100px" : "400px")
-  const warm = useWarm(!compact)
+  // Cards also wait for the page to settle, so first load stays poster-only.
+  const warm = useWarm()
   const [hovered, setHovered] = useState(false)
+  const granted = useCardBudget(ref, compact && warm)
   const [active, setActive] = useState(false)
   const [posterOk, setPosterOk] = useState(true)
   const poster = posterMode()
@@ -163,8 +218,10 @@ export function VisualShell({
       setActive(true)
       return
     }
-    if (compact && hovered) return scheduleMount(() => setActive(true))
-  }, [inView, compact, warm, hovered, poster])
+    if (compact && (hovered || granted))
+      return scheduleMount(() => setActive(true))
+    if (compact) setActive(false)
+  }, [inView, compact, warm, hovered, granted, poster])
   const loaded = useVisualDef(slug, active)
   const def = loaded?.def
   const [values, setValues] = useState<Values | null>(null)
@@ -190,6 +247,7 @@ export function VisualShell({
         onPointerEnter={(e) => {
           if (compact && e.pointerType === "mouse") setHovered(true)
         }}
+        onPointerLeave={() => setHovered(false)}
         className={cn(
           "visual-stage relative overflow-hidden rounded-lg border bg-[#0a0a0a]",
           compact ? "aspect-[16/10]" : "aspect-[16/10] sm:aspect-[16/9]"
@@ -230,140 +288,59 @@ export function VisualShell({
         )}
         {!compact && !poster && (
           <div className="absolute top-2 right-2 flex gap-1.5">
-            <button
-              type="button"
-              className="chip !min-h-8 !min-w-8 !px-2"
+            <IconButton
+              label={playing ? "Pause animation" : "Play animation"}
               onClick={() => setPlaying((p) => !p)}
-              aria-label={playing ? "Pause animation" : "Play animation"}
             >
-              {playing ? (
-                <Pause className="size-3.5" />
-              ) : (
-                <Play className="size-3.5" />
-              )}
-            </button>
-            <button
-              type="button"
-              className="chip !min-h-8 !min-w-8 !px-2"
+              {playing ? <Pause /> : <Play />}
+            </IconButton>
+            <IconButton
+              label="Reset visual"
               onClick={() => {
                 setValues(initialValues(def?.params))
                 setResetKey((k) => k + 1)
               }}
-              aria-label="Reset visual"
             >
-              <RotateCcw className="size-3.5" />
-            </button>
+              <RotateCcw />
+            </IconButton>
           </div>
         )}
       </div>
       {!compact && def?.params && values && (
-        <Controls
-          params={def.params}
-          values={values}
-          onChange={(key, value) => setValues((v) => ({ ...v, [key]: value }))}
-          readout={def.readout?.(values)}
-        />
+        <Suspense fallback={null}>
+          <Controls
+            params={def.params}
+            values={values}
+            onChange={(key, value) =>
+              setValues((v) => ({ ...v, [key]: value }))
+            }
+            readout={def.readout?.(values)}
+          />
+        </Suspense>
       )}
     </figure>
   )
 }
 
-function Controls({
-  params,
-  values,
-  onChange,
-  readout,
+function IconButton({
+  label,
+  onClick,
+  children,
 }: {
-  params: ParamDef[]
-  values: Values
-  onChange: (key: string, value: number | boolean | string) => void
-  readout?: string
+  label: string
+  onClick: () => void
+  children: ReactNode
 }) {
   return (
-    <figcaption className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
-      {params.map((p) => {
-        const id = `param-${p.key}`
-        if (p.type === "toggle") {
-          return (
-            <label
-              key={p.key}
-              htmlFor={id}
-              className="flex items-center gap-2 text-sm"
-            >
-              <input
-                id={id}
-                type="checkbox"
-                checked={Boolean(values[p.key])}
-                onChange={(e) => onChange(p.key, e.target.checked)}
-                className="size-4 accent-sky-400"
-              />
-              {p.label}
-            </label>
-          )
-        }
-        if (p.type === "select") {
-          return (
-            <div key={p.key} className="text-sm">
-              <div className="mb-1 text-muted-foreground">{p.label}</div>
-              <div
-                className="flex flex-wrap gap-1"
-                role="radiogroup"
-                aria-label={p.label}
-              >
-                {p.options.map((o) => (
-                  <button
-                    key={o.value}
-                    type="button"
-                    role="radio"
-                    aria-checked={values[p.key] === o.value}
-                    onClick={() => onChange(p.key, o.value)}
-                    className={cn(
-                      "rounded-md border px-2 py-1 text-xs transition-colors",
-                      values[p.key] === o.value
-                        ? "border-foreground/50 bg-foreground/10 text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {o.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )
-        }
-        const value = Number(values[p.key])
-        return (
-          <label key={p.key} htmlFor={id} className="block text-sm">
-            <span className="mb-1 flex justify-between gap-2">
-              <span className="text-muted-foreground">{p.label}</span>
-              <output htmlFor={id} className="font-hud text-xs tabular-nums">
-                {value.toFixed(
-                  p.digits ??
-                    (p.step < 1
-                      ? Math.min(3, String(p.step).split(".")[1]?.length ?? 1)
-                      : 0)
-                )}
-                {p.unit ? ` ${p.unit}` : ""}
-              </output>
-            </span>
-            <input
-              id={id}
-              type="range"
-              min={p.min}
-              max={p.max}
-              step={p.step}
-              value={value}
-              onChange={(e) => onChange(p.key, Number(e.target.value))}
-              className="w-full accent-sky-400"
-            />
-          </label>
-        )
-      })}
-      {readout && (
-        <p className="font-hud text-xs text-muted-foreground sm:col-span-2 lg:col-span-3">
-          {readout}
-        </p>
-      )}
-    </figcaption>
+    <Button
+      variant="outline"
+      size="icon-sm"
+      className="rounded-full bg-background/70 backdrop-blur"
+      title={label}
+      aria-label={label}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
   )
 }

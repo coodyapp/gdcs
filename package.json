@@ -1,6 +1,6 @@
 {
   "name": "gdcs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "homepage": "https://gdcs.coody.app",
@@ -18,6 +18,7 @@
   },
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "@fontsource-variable/inter": "^5.3.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
@@ -28,6 +29,7 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",
+    "shiki": "^4.5.0",
     "tailwind-merge": "^3.7.0",
     "three": "^0.185.1"
   },
