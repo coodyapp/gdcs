@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.2.1] - 2026-11-02
+
+### Fixed
+
+- ASCII band fills its space above the footer instead of a thin line under a gap.
+
 ## [1.2.0] - 2026-11-02
 
 ### Added

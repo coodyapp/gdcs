@@ -90,7 +90,7 @@ export function FooterAscii({ className }: { className?: string }) {
       ref={ref}
       aria-hidden
       className={cn(
-        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_45%)] md:h-56",
+        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%)] md:h-56",
         className
       )}
     >
@@ -98,6 +98,7 @@ export function FooterAscii({ className }: { className?: string }) {
         <Suspense fallback={null}>
           <GradientASCII
             shape="rise"
+            scale={0.55}
             colors={["#0a0a0a", "#404040", "#a3a3a3", "#fafafa"]}
             cellSize={isPhone() ? 16 : 14}
             speed={0.5}

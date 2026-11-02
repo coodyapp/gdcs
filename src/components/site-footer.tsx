@@ -28,7 +28,7 @@ function Column({
 export function SiteFooter() {
   return (
     <>
-      <FooterAscii className="mt-12 md:mt-16" />
+      <FooterAscii className="mt-8 md:mt-10" />
       <footer className="border-t">
         <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <section aria-labelledby="updates-title" className="max-w-md">
