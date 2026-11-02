@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.9.1] - 2026-11-02
+
+### Fixed
+
+- "Related" and "In learning paths" cards on a sheet are now the same size.
+
 ## [1.9.0] - 2026-11-02
 
 ### Added

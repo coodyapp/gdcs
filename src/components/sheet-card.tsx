@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -157,6 +158,51 @@ export function SheetCard({
           <CopyPrompt prompt={sheet.prompt} title={sheet.title} />
         </span>
       </CardFooter>
+    </Card>
+  )
+}
+
+/**
+ * Small card at the end of a sheet (learning paths, related). Always three single
+ * lines, so every card in these sections is the same size whatever its text.
+ */
+export function SheetEndCard({
+  title,
+  to,
+  meta,
+  children,
+  stretched = false,
+}: {
+  title: string
+  to: string
+  meta: string
+  children?: React.ReactNode
+  /** The whole card is the link. Otherwise only the title is, for a second link inside. */
+  stretched?: boolean
+}) {
+  return (
+    <Card
+      size="sm"
+      className="card-lift relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
+    >
+      <CardHeader>
+        <CardTitle className="truncate font-sans font-medium" title={title}>
+          <Link
+            to={to}
+            className={
+              stretched
+                ? "after:absolute after:inset-0 focus-visible:outline-none"
+                : "hover:underline"
+            }
+          >
+            {title}
+          </Link>
+        </CardTitle>
+        <CardDescription className="truncate text-xs">{meta}</CardDescription>
+      </CardHeader>
+      <CardContent className="truncate text-sm text-muted-foreground">
+        {children}
+      </CardContent>
     </Card>
   )
 }

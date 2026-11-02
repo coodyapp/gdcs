@@ -19,7 +19,7 @@ import { getPath, pathUrl, paths, type LearningPath } from "@/content/paths"
 import { useHistory } from "@/lib/local"
 import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/components/breadcrumbs"
-import { LevelPips } from "@/components/sheet-card"
+import { LevelPips, SheetEndCard } from "@/components/sheet-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -247,34 +247,31 @@ export function SheetPaths({ slug }: { slug: string }) {
   return (
     <section aria-labelledby="paths">
       <h2 id="paths">In learning paths</h2>
-      <ul className="grid !list-none gap-2.5 !pl-0 sm:grid-cols-2">
+      <ul className="grid !list-none grid-cols-1 gap-2.5 !pl-0 sm:grid-cols-2">
         {member.map(({ p, i }) => {
           const next = p.steps[i + 1] && getSheet(p.steps[i + 1].slug)
           return (
             <li key={p.slug} className="!m-0">
-              <Card size="sm" className="card-lift h-full">
-                <CardHeader>
-                  <CardTitle className="font-sans font-medium">
-                    <Link to={pathUrl(p.slug)} className="hover:underline">
-                      {p.title}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription className="text-xs">
-                    Step {i + 1} of {p.steps.length}
-                  </CardDescription>
-                </CardHeader>
-                {next && (
-                  <CardContent>
-                    <Link
-                      to={sheetPath(next)}
-                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-                    >
-                      Next: {next.title}
-                      <ArrowRight className="size-3.5" aria-hidden />
-                    </Link>
-                  </CardContent>
+              <SheetEndCard
+                title={p.title}
+                to={pathUrl(p.slug)}
+                meta={`Step ${i + 1} of ${p.steps.length}`}
+              >
+                {next ? (
+                  <Link
+                    to={sheetPath(next)}
+                    className="relative z-10 hover:text-foreground"
+                  >
+                    Next: {next.title}
+                    <ArrowRight
+                      className="ml-1 inline size-3.5 align-[-2px]"
+                      aria-hidden
+                    />
+                  </Link>
+                ) : (
+                  "Last step of this path"
                 )}
-              </Card>
+              </SheetEndCard>
             </li>
           )
         })}

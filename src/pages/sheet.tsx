@@ -17,17 +17,11 @@ import {
 } from "@/content"
 import { recordVisit } from "@/lib/local"
 import { Breadcrumbs } from "@/components/breadcrumbs"
-import { LevelPips } from "@/components/sheet-card"
+import { LevelPips, SheetEndCard } from "@/components/sheet-card"
 import { SheetCode } from "@/components/sheet-code"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
   ReadingProgress,
@@ -269,27 +263,22 @@ function SheetArticle({ slug }: { slug: string }) {
           {related.length > 0 && (
             <section aria-labelledby="related">
               <h2 id="related">Related</h2>
-              <ul className="grid !list-none gap-2.5 !pl-0 sm:grid-cols-2">
+              <ul className="grid !list-none grid-cols-1 gap-2.5 !pl-0 sm:grid-cols-2">
                 {related.map((r) => (
                   <li key={r.slug} className="!m-0">
-                    <Card
-                      size="sm"
-                      className="card-lift relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
+                    <SheetEndCard
+                      title={r.title}
+                      to={sheetPath(r)}
+                      meta={getCategory(r.category)?.title ?? ""}
+                      stretched
                     >
-                      <CardHeader>
-                        <CardTitle className="font-sans font-medium">
-                          <Link
-                            to={sheetPath(r)}
-                            className="after:absolute after:inset-0 focus-visible:outline-none"
-                          >
-                            {r.title}
-                          </Link>
-                        </CardTitle>
-                        <CardDescription className="line-clamp-2 first-letter:uppercase">
-                          {r.hook}
-                        </CardDescription>
-                      </CardHeader>
-                    </Card>
+                      <span
+                        className="block truncate first-letter:uppercase"
+                        title={r.hook}
+                      >
+                        {r.hook}
+                      </span>
+                    </SheetEndCard>
                   </li>
                 ))}
               </ul>
