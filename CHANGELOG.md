@@ -8,6 +8,12 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.10.1] - 2026-11-02
+
+### Changed
+
+- New Coody glitch logo in the favicons, app icons and default social card, with a maskable icon for Android. `pnpm brand` rebuilds them from `src/assets/brand`.
+
 ## [1.10.0] - 2026-11-02
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "gdcs",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "private": true,
   "type": "module",
   "homepage": "https://gdcs.coody.app",
@@ -16,7 +16,8 @@
     "deploy": "pnpm build && wrangler deploy",
     "posters": "node scripts/posters.ts",
     "og": "node scripts/og.ts",
-    "posters:fibers": "node scripts/fiber-posters.ts"
+    "posters:fibers": "node scripts/fiber-posters.ts",
+    "brand": "node scripts/brand-assets.ts"
   },
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
