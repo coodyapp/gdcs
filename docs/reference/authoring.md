@@ -42,9 +42,10 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 
 ## Visual rules
 
-- `defineVisual<V>({ params, camera, readout, Scene, grid?, orbit? })`. At most 4 params (range/toggle/select). Defaults must already show the concept clearly.
+- `defineVisual<V>({ params, camera, readout, Scene, orbit? })`. At most 4 params (range/toggle/select). Defaults must already show the concept clearly.
 - Use `palette` colours only (`primary` cyan = main subject, `secondary` orange = moving thing/hit, `positive` green = OK/normal, `negative` red = bad/penetration, `warning` yellow = velocity/forces, `object` = solid props, `guide` = helpers).
 - Values that change during the animation: `useLiveReadout(() => text)` updates the line under the controls (`readout(v)` only runs when a param changes).
+- Every visual gets the same faint grid from the stage: a floor from an angle, a backdrop when the camera looks straight along an axis. Do not draw your own reference grid.
 - Time: `useClock()` (ref, preferred) or `useAnimationTime()` (state). Numerical sims use `useFixedStep(step, hz)`. All of them respect pause/reset (`useVisual().resetKey`).
 - Performance: no allocations inside `useFrame` (pre-allocate vectors with `useMemo`), keep < ~2k instances/particles, and use `<Line>` from drei for lines. Scenes must run at 60 fps on a laptop and look good in a **16:10 compact card with no controls** (the defaults are what cards show).
 - Keep the subject within about 6 units of the origin, and pick a `camera.position`/`target` that frames it. Cards are not orbitable.

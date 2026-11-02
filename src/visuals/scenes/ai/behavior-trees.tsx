@@ -553,7 +553,6 @@ function Scene({ v }: { v: V }) {
 export default defineVisual<V>({
   camera: { position: [0, 9.8, -0.09], target: [0, 0, -0.1], fov: 45 },
   orbit: false,
-  grid: false,
   params: [
     { key: "reactive", label: "Reactive", type: "toggle", value: true },
     { key: "autoTarget", label: "Moving target", type: "toggle", value: true },

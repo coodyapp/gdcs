@@ -226,7 +226,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 2.9, 15.6], target: [0, 2.2, 0], fov: 30 },
-  grid: false,
   params: [
     {
       key: "rare",

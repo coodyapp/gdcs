@@ -126,7 +126,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 1.9, 9.6], target: [0, 1.4, 0] },
-  grid: false,
   params: [
     {
       key: "mix",

@@ -220,7 +220,6 @@ const ORBITS_PER_CENTURY = 415
 
 export default defineVisual<V>({
   camera: { position: [-0.6, 9.6, 2.6], target: [-0.6, 0, 0.1] },
-  grid: false,
   params: [
     {
       key: "mass",

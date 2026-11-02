@@ -88,7 +88,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 4.6, 8.2], target: [0, -0.6, 0] },
-  grid: false,
   params: [
     {
       key: "mass",

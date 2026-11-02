@@ -533,7 +533,6 @@ function Scene({ v }: { v: V }) {
 export default defineVisual<V>({
   camera: { position: [0, 0, 14.4], target: [0, 0, 0], fov: 30 },
   orbit: false,
-  grid: false,
   params: [
     {
       key: "bonus",

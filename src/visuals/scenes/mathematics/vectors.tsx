@@ -78,7 +78,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 0, 7.4], target: [0, 0, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "auto", label: "Swing b", type: "toggle", value: true },

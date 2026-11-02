@@ -1,7 +1,7 @@
 {
   "name": "gdcs",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "1.12.6",
+  "version": "1.12.7",
   "private": true,
   "type": "module",
   "homepage": "https://gdcs.coody.app",

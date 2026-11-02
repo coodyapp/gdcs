@@ -38,7 +38,8 @@ const heatFragment = /* glsl */ `
     float d2 = step(mod(f.x - f.y, 9.0), 1.5);
     float hatch = n < 4.5 ? 0.0 : n < 7.5 ? d1 : max(d1, d2);
     col *= 1.0 - 0.6 * hatch;
-    gl_FragColor = vec4(col, 1.0);
+    // No layers: see through to the grid, like the other simulations.
+    gl_FragColor = vec4(col, n < 0.5 ? 0.0 : 1.0);
     #include <colorspace_fragment>
   }`
 
@@ -83,6 +84,7 @@ function Scene({ v }: { v: V }) {
   const heat = useMemo(
     () =>
       new THREE.ShaderMaterial({
+        transparent: true,
         vertexShader: heatVertex,
         fragmentShader: heatFragment,
         toneMapped: false,
@@ -149,7 +151,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 0, 6.1], target: [0, 0, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "count", label: "Particles", min: 4, max: MAX, step: 1, value: 36 },

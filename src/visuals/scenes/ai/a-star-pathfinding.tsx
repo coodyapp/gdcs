@@ -172,7 +172,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 9.5, 3.2], target: [0, 0, 0.15] },
-  grid: false,
   params: [
     {
       key: "heuristic",

@@ -75,7 +75,7 @@ export function renderChangelogPage(markdown: string) {
   return renderToString(
     <StaticRouter location="/changelog">
       <main className="container pt-6 pb-16 md:pt-10">
-        <article className="prose-sheet mx-auto max-w-3xl">
+        <article className="prose-sheet mx-auto max-w-3xl [overflow-wrap:anywhere]">
           <a href="/" className="link-quiet text-sm">
             Back to GDCS
           </a>

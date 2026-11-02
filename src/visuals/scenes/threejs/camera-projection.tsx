@@ -312,7 +312,6 @@ function Scene({ v: params }: { v: V }) {
 const sign = (x: number) => `${x >= 0 ? "+" : "−"}${Math.abs(x).toFixed(2)}`
 
 export default defineVisual<V>({
-  grid: false,
   camera: { position: [-6, 3.7, 6.7], target: [-0.05, 0, 0], fov: 40 },
   params: [
     {

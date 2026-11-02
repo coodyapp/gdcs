@@ -269,7 +269,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 2, 8.4], target: [0, 1.25, 0] },
-  grid: false,
   params: [
     {
       key: "offset",

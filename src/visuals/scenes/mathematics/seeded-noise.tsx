@@ -74,7 +74,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 8, 9.8], target: [0, 0.3, 0] },
-  grid: false,
   params: [
     { key: "seed", label: "Seed", min: 1, max: 999, step: 1, value: 42 },
     { key: "octaves", label: "Octaves", min: 1, max: 8, step: 1, value: 5 },

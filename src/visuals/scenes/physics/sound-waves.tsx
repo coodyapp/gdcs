@@ -99,7 +99,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [-0.6, 0.5, 8.2], target: [-0.6, 0.45, 0] },
-  grid: false,
   params: [
     {
       key: "frequency",

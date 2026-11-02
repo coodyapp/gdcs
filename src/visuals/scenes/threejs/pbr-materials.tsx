@@ -170,7 +170,6 @@ const toLinear = (hex: string): V3 => {
 
 export default defineVisual<V>({
   camera: { position: [0, 2.45, 10.2], target: [-0.3, 2.45, 0] },
-  grid: false,
   params: [
     {
       key: "roughness",

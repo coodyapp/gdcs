@@ -288,7 +288,6 @@ const fmt = (x: number, digits = 2) =>
 
 export default defineVisual<V>({
   camera: { position: [0, 1.2, 6.9], target: [0, 0.55, 0] },
-  grid: false,
   params: [
     {
       key: "massA",

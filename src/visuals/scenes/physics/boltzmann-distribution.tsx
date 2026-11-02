@@ -175,7 +175,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0.4, 2.6, 9.4], target: [0, 1.3, 0] },
-  grid: false,
   params: [
     {
       key: "temperature",

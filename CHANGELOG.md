@@ -10,6 +10,16 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.12.7] - 2026-11-02
+
+### Changed
+
+- Every simulation now has the same faint grid behind it.
+
+### Fixed
+
+- The changelog page no longer overflows sideways on phones.
+
 ## [1.12.6] - 2026-11-02
 
 ### Added

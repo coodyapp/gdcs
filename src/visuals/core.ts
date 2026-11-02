@@ -72,8 +72,6 @@ export interface VisualDef<V extends Values = Values> {
   }
   /** Allow drag-to-orbit (default true). */
   orbit?: boolean
-  /** Draw the reference floor grid (default true). */
-  grid?: boolean
   /** Short live readout under the controls, e.g. "Range: 4.2 m". */
   readout?: (v: V) => string
   Scene: ComponentType<{ v: V }>

@@ -231,7 +231,6 @@ function sampleChecks(count: number, cell: number) {
 
 export default defineVisual<V>({
   camera: { position: [0, 8.2, 0.001], target: [0, 0, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "count", label: "Circles", min: 10, max: MAX, step: 5, value: 70 },

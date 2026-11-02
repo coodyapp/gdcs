@@ -374,7 +374,6 @@ const readoutWeights: Weights = [0, 0, 0]
 
 export default defineVisual<V>({
   camera: { position: [0.6, -0.25, 10.2], target: [0.6, -0.25, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "auto", label: "Auto path", type: "toggle", value: true },

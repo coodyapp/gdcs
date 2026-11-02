@@ -180,7 +180,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [-0.5, 0.5, 6.2], target: [-0.5, 0.4, 0] },
-  grid: false,
   params: [
     {
       key: "iframes",

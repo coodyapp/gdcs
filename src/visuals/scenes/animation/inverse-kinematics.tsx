@@ -244,7 +244,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 0.5, 7.9], target: [0, 0.4, 0] },
-  grid: false,
   params: [
     {
       key: "solver",

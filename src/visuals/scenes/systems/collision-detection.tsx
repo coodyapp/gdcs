@@ -350,7 +350,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 8.2, 0.001], target: [0, 0, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "broad", label: "Broad phase", type: "toggle", value: true },

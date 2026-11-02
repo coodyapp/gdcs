@@ -207,7 +207,6 @@ function Scene({ v }: { v: V }) {
 
 export default defineVisual<V>({
   camera: { position: [0, 0, 8.4], target: [0, 0, 0] },
-  grid: false,
   orbit: false,
   params: [
     { key: "count", label: "Sprites", min: 6, max: MAX, step: 1, value: 20 },
