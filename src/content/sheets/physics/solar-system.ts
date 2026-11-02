@@ -35,7 +35,7 @@ const sheet: Sheet = {
     },
     {
       label: "Radii around the barycentre",
-      math: tex`r_1 = \dfrac{\textcolor{#f5d547}{m_2}}{\textcolor{#fafafa}{m_1}+\textcolor{#f5d547}{m_2}}\,d,\quad r_2 = \dfrac{\textcolor{#fafafa}{m_1}}{\textcolor{#fafafa}{m_1}+\textcolor{#f5d547}{m_2}}\,d`,
+      math: tex`r_1 = \dfrac{\textcolor{#fdc700}{m_2}}{\textcolor{#fafafa}{m_1}+\textcolor{#fdc700}{m_2}}\,d,\quad r_2 = \dfrac{\textcolor{#fafafa}{m_1}}{\textcolor{#fafafa}{m_1}+\textcolor{#fdc700}{m_2}}\,d`,
     },
     {
       label: "Angular rate of a circular pair",

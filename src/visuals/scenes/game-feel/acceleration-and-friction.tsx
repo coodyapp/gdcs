@@ -134,7 +134,7 @@ function Scene({ v }: { v: V }) {
       </mesh>
       <mesh position={[0, PLOT_Y, -0.05]}>
         <boxGeometry args={[PLOT_W + 0.3, PLOT_H * 2 + 0.3, 0.01]} />
-        <meshBasicMaterial color="#141416" />
+        <meshBasicMaterial color="#171717" />
       </mesh>
       <instancedMesh
         ref={inDots}

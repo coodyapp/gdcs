@@ -36,7 +36,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Unit circle",
-      math: tex`\textcolor{#fafafa}{P(\theta)} = (\textcolor{#f5d547}{\cos\theta},\; \textcolor{#a1a1aa}{\sin\theta}), \qquad \cos^2\theta + \sin^2\theta = 1`,
+      math: tex`\textcolor{#fafafa}{P(\theta)} = (\textcolor{#fdc700}{\cos\theta},\; \textcolor{#a3a3a3}{\sin\theta}), \qquad \cos^2\theta + \sin^2\theta = 1`,
     },
     {
       label: "Aim angle",

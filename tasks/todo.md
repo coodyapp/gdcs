@@ -197,7 +197,7 @@ Decision: **one Worker `gdcs-prd-01`** with Static Assets + API + mailer + cron.
 
 ## Progress (2026-11-02)
 - A, B, C, D, E and F1 (Turnstile) are done. B changed direction per your feedback: the UI uses Coody neutrals only; simulations use green, yellow and red plus greys. The top header, floating search and /updates page were removed. shadcn (Base UI) components adopted. Field-of-view and stencil sheets added. Home cards animate within a live-canvas budget (4 desktop / 2 phone, 30 fps). Released as v1.0.0.
-- Not done: F2, per-sheet OG images.
+- F2, per-sheet OG images: done in v1.1.0.
 
 ## C. Top-40 gap batch (12 sheets, same parallel workflow as phase 1)
 mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matrices, local-vs-world-space, euler-angles · interpolation: lerp-and-smoothstep, bezier-curves · physics/mechanics: rigid-body-dynamics · animation (new category): inverse-kinematics · threejs/rendering: reflection-and-refraction, pbr-materials.
@@ -211,4 +211,10 @@ mathematics: vectors, trigonometry, dot-and-cross-product, transforms-and-matric
 
 ## F. Polish
 - [ ] Cloudflare Turnstile (managed, invisible) on subscribe, verified in the Worker. Secret in Worker secrets.
-- [ ] Per-sheet OG images (1200×630) generated at build from the poster + title.
+- [x] Per-sheet OG images (1200×630) from the poster + title (`pnpm og`, committed).
+
+## Review: v1.1.0 (2026-11-02)
+- Shipped: neutral palette matching coody.app, Tailwind 400 sim hues, shadcn component pass, compact filters, new path cards and footer, phone menu, CSP nonce, OG images.
+- Lesson: compare tokens against the real coody.app CSS, not by eye. Zinc passed review for weeks because it is nearly grey.
+- Lesson: shadcn's Base UI `data-selected:` variant matches attribute presence; cmdk always sets the attribute, so use `data-[selected=true]:`.
+- Local `wrangler dev` needs `--compatibility-date 2026-09-30` until wrangler is upgraded.

@@ -43,7 +43,7 @@ const sheet: Sheet = {
     },
     {
       label: "Mean and most likely energy",
-      math: tex`\textcolor{#f5d547}{\langle E \rangle} = (p+1)\,k_B T, \qquad E_{\text{peak}} = p\,k_B T`,
+      math: tex`\textcolor{#fdc700}{\langle E \rangle} = (p+1)\,k_B T, \qquad E_{\text{peak}} = p\,k_B T`,
     },
     {
       label: "Metropolis acceptance",

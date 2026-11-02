@@ -36,7 +36,7 @@ const sheet: Sheet = {
     },
     {
       label: "Slerp",
-      math: tex`\textcolor{#fafafa}{\operatorname{slerp}(a, b, t)} = \frac{\sin((1-t)\Omega)}{\sin\Omega}a + \frac{\sin(t\Omega)}{\sin\Omega}\textcolor{#3ee09a}{b},\quad \cos\Omega = a\cdot b`,
+      math: tex`\textcolor{#fafafa}{\operatorname{slerp}(a, b, t)} = \frac{\sin((1-t)\Omega)}{\sin\Omega}a + \frac{\sin(t\Omega)}{\sin\Omega}\textcolor{#05df72}{b},\quad \cos\Omega = a\cdot b`,
       note: "If a·b < 0, negate b first. If Ω ≈ 0, normalized lerp is accurate and cheaper.",
     },
     {

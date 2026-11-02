@@ -3,10 +3,17 @@ import { Check, Copy } from "lucide-react"
 
 import { getCategory, sheetPath, type SheetMeta } from "@/content"
 import { useHistory } from "@/lib/local"
-import { cn } from "@/lib/utils"
 import { useClipboard } from "@/hooks/use-clipboard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { VisualShell } from "@/visuals/shell"
 
 const LEVELS = { core: 1, common: 2, advanced: 3 } as const
@@ -16,8 +23,8 @@ export function LevelPips({ level }: { level: SheetMeta["level"] }) {
   const n = LEVELS[level]
   return (
     <Badge
-      variant="outline"
-      className="gap-1.5 font-hud text-[10px] tracking-[0.14em] text-muted-foreground uppercase"
+      variant="secondary"
+      className="gap-1.5 font-normal text-muted-foreground capitalize"
       title={`Level: ${level}`}
     >
       <span className="flex gap-0.5" aria-hidden>
@@ -27,7 +34,7 @@ export function LevelPips({ level }: { level: SheetMeta["level"] }) {
             className={
               i <= n
                 ? "h-2 w-1 rounded-full bg-foreground"
-                : "h-2 w-1 rounded-full bg-white/15"
+                : "h-2 w-1 rounded-full bg-foreground/20"
             }
           />
         ))}
@@ -43,9 +50,9 @@ function CopyPrompt({ prompt, title }: { prompt: string; title: string }) {
   const label = copied ? "Prompt copied" : "Copy prompt"
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon-sm"
-      className="relative z-10 rounded-full"
+      className="relative z-10 text-muted-foreground"
       title={label}
       aria-label={`${label}: ${title}`}
       onClick={async (e) => {
@@ -78,58 +85,60 @@ export function SheetCard({
   const { visited } = useHistory()
   const seen = visited.has(sheet.slug)
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-card transition-[border-color,background-color,transform] duration-200 focus-within:border-white/[0.18] hover:-translate-y-0.5 hover:border-white/[0.18] hover:bg-surface-2 motion-reduce:hover:translate-y-0">
+    <Card
+      render={<article />}
+      className="card-lift relative h-full gap-3 pt-0 pb-3 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
+    >
       <VisualShell
         slug={sheet.slug}
         title={sheet.title}
         compact
-        className="[&_.visual-stage]:rounded-none [&_.visual-stage]:border-0 [&_.visual-stage]:border-b [&_.visual-stage]:border-white/[0.06]"
+        className="[&_.visual-stage]:rounded-none [&_.visual-stage]:border-0 [&_.visual-stage]:border-b"
       />
-      <div className="flex flex-1 flex-col gap-2 p-4 pt-3.5">
-        <div className="flex items-center gap-2 text-text-3">
-          {index !== undefined && (
-            <span className="font-hud text-[11px] tabular-nums">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-          )}
-          {showCategory && (
-            <span className="eyebrow truncate">
-              {getCategory(sheet.category)?.title}
-            </span>
-          )}
-        </div>
-        <h3 className="font-heading text-[1.15rem] leading-snug">
-          <Link
-            to={href}
-            className="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none"
-          >
-            {sheet.title}
-          </Link>
-        </h3>
-        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+      <CardHeader>
+        <CardTitle className="text-[1.0625rem] font-semibold">
+          <h3>
+            <Link
+              to={href}
+              className="after:absolute after:inset-0 focus-visible:outline-none"
+            >
+              {index !== undefined && (
+                <span className="mr-1.5 text-muted-foreground tabular-nums">
+                  {index + 1}.
+                </span>
+              )}
+              {sheet.title}
+            </Link>
+          </h3>
+        </CardTitle>
+        <CardDescription className="line-clamp-2 leading-relaxed first-letter:uppercase">
           {sheet.hook}
-        </p>
-        <div className="mt-auto flex items-center gap-2 pt-3">
-          <LevelPips level={sheet.level} />
-          {seen && (
-            <Badge variant="secondary" className="gap-1 text-[11px]">
-              <Check aria-hidden /> Visited
-            </Badge>
-          )}
-          <span className="ml-auto">
-            <CopyPrompt prompt={sheet.prompt} title={sheet.title} />
-          </span>
-        </div>
-      </div>
-      {/* Keyboard focus on the stretched link outlines the whole card. */}
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-2xl ring-2 ring-foreground ring-offset-2 ring-offset-background opacity-0",
-          "group-has-[a:focus-visible]:opacity-100"
+        </CardDescription>
+      </CardHeader>
+      <CardFooter className="mt-auto gap-1.5 border-0 bg-transparent py-0 pr-2">
+        <LevelPips level={sheet.level} />
+        {showCategory && (
+          <Badge
+            variant="secondary"
+            className="truncate font-normal text-muted-foreground"
+          >
+            {getCategory(sheet.category)?.short ??
+              getCategory(sheet.category)?.title}
+          </Badge>
         )}
-        aria-hidden
-      />
-    </article>
+        {seen && (
+          <Badge
+            variant="secondary"
+            className="font-normal text-muted-foreground"
+          >
+            <Check aria-hidden /> Visited
+          </Badge>
+        )}
+        <CardAction className="ml-auto">
+          <CopyPrompt prompt={sheet.prompt} title={sheet.title} />
+        </CardAction>
+      </CardFooter>
+    </Card>
   )
 }
 
@@ -143,7 +152,7 @@ export function SheetGrid({
   showCategory?: boolean
 }) {
   return (
-    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {list.map((s, i) => (
         <SheetCard
           key={s.slug}

@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "CPU submission cost",
-      math: tex`\textcolor{#f5d547}{T_{\text{cpu}}} \approx n_{\text{calls}} \cdot c_{\text{call}} + n_{\text{switches}} \cdot c_{\text{state}}`,
+      math: tex`\textcolor{#fdc700}{T_{\text{cpu}}} \approx n_{\text{calls}} \cdot c_{\text{call}} + n_{\text{switches}} \cdot c_{\text{state}}`,
       note: "With c_call around 5–20 µs in WebGL, 1,000 separate meshes can cost several ms.",
     },
     {

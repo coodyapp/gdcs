@@ -30,7 +30,7 @@ export function CopyButton({
     <Button
       variant="outline"
       size={size}
-      className={cn("rounded-full", className)}
+      className={className}
       onClick={async (e) => {
         e.preventDefault()
         e.stopPropagation()

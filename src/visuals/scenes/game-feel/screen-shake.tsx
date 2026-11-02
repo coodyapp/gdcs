@@ -139,7 +139,7 @@ function Scene({ v }: { v: V }) {
       />
       <mesh position={[METER_X + 0.2, -0.5 + METER_H / 2, 1.6]}>
         <boxGeometry args={[0.9, METER_H + 0.06, 0.02]} />
-        <meshBasicMaterial color="#18181b" />
+        <meshBasicMaterial color="#171717" />
       </mesh>
       <mesh position={[METER_X + 0.2, -0.5 + METER_H, 1.63]}>
         <boxGeometry args={[0.9, 0.03, 0.02]} />

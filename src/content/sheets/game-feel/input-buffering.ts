@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Buffered action fires when",
-      math: tex`\text{legal}(t) \;\land\; t - \textcolor{#f5d547}{t_{press}} \le \textcolor{#3ee09a}{T_{buffer}}`,
+      math: tex`\text{legal}(t) \;\land\; t - \textcolor{#fdc700}{t_{press}} \le \textcolor{#05df72}{T_{buffer}}`,
     },
   ],
   rules: [

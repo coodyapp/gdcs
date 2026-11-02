@@ -39,7 +39,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Order 'YXZ' (yaw, pitch, roll)",
-      math: tex`R = R_y(\textcolor{#3ee09a}{\psi})\;R_x(\textcolor{#f65a5a}{\theta})\;R_z(\textcolor{#fafafa}{\phi})`,
+      math: tex`R = R_y(\textcolor{#05df72}{\psi})\;R_x(\textcolor{#ff6467}{\theta})\;R_z(\textcolor{#fafafa}{\phi})`,
       note: "Outer ring yaw ψ (green, Y), middle ring pitch θ (red, X), inner ring roll φ (white, Z): the axis colours in the visual.",
     },
     {

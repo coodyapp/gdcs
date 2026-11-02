@@ -73,11 +73,13 @@ export function PoweredByCoody({
         <img
           src={logo}
           alt=""
+          loading="lazy"
           className="coody-powered-by__slice coody-powered-by__slice--a"
         />
         <img
           src={logo}
           alt=""
+          loading="lazy"
           className="coody-powered-by__slice coody-powered-by__slice--b"
         />
       </span>

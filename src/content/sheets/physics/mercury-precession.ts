@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Precession per orbit",
-      math: tex`\textcolor{#a1a1aa}{\Delta\omega} = \frac{6\pi G M}{c^2 a (1 - e^2)}\ \text{rad/orbit}`,
+      math: tex`\textcolor{#a3a3a3}{\Delta\omega} = \frac{6\pi G M}{c^2 a (1 - e^2)}\ \text{rad/orbit}`,
     },
     {
       label: "Weak-field (1PN) radial acceleration",

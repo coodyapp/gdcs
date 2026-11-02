@@ -41,11 +41,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Reflection vector",
-      math: tex`\textcolor{#f5d547}{\vec R} = \textcolor{#fafafa}{\vec I} - 2(\textcolor{#3ee09a}{\hat n}\cdot\textcolor{#fafafa}{\vec I})\,\textcolor{#3ee09a}{\hat n}`,
+      math: tex`\textcolor{#fdc700}{\vec R} = \textcolor{#fafafa}{\vec I} - 2(\textcolor{#05df72}{\hat n}\cdot\textcolor{#fafafa}{\vec I})\,\textcolor{#05df72}{\hat n}`,
     },
     {
       label: "Snell's law",
-      math: tex`n_1 \sin \textcolor{#fafafa}{\theta_1} = n_2 \sin \textcolor{#a1a1aa}{\theta_2}`,
+      math: tex`n_1 \sin \textcolor{#fafafa}{\theta_1} = n_2 \sin \textcolor{#a3a3a3}{\theta_2}`,
     },
     {
       label: "Critical angle (n₁ > n₂)",
@@ -54,7 +54,7 @@ const sheet: Sheet = {
     },
     {
       label: "Schlick's Fresnel approximation",
-      math: tex`\textcolor{#f5d547}{F}(\theta) = F_0 + (1 - F_0)(1 - \cos\theta)^5, \quad F_0 = \left(\frac{n_1 - n_2}{n_1 + n_2}\right)^2`,
+      math: tex`\textcolor{#fdc700}{F}(\theta) = F_0 + (1 - F_0)(1 - \cos\theta)^5, \quad F_0 = \left(\frac{n_1 - n_2}{n_1 + n_2}\right)^2`,
       note: "Use the angle on the less dense side; under TIR, F = 1.",
     },
   ],

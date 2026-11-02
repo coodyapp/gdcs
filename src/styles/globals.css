@@ -13,24 +13,15 @@
 @theme static {
   /* GDCS design system (docs/design-system.md). Coody brand: the UI is
      black, white and greys only. Mirrors src/styles/tokens.ts. */
-  --color-surface-2: #1c1c1f;
-  --color-surface-3: #27272a;
-  --color-text-3: #8b8b94; /* meta, 5.86:1 */
+  --color-surface-2: #262626;
+  --color-surface-3: #262626;
+  --color-text-3: #a3a3a3; /* meta, 5.86:1 */
   --color-ui-strong: #fafafa; /* focus ring, active marks, progress */
-  --color-ui-mark: #a1a1aa; /* category dots, card accents */
+  --color-ui-mark: #a3a3a3; /* category dots, card accents */
   /* Simulation hues (formulas/visuals only, never UI chrome). */
-  --color-sim-green: #3ee09a;
-  --color-sim-yellow: #f5d547;
-  --color-sim-red: #f65a5a;
-  /* Categories share one neutral mark; identity comes from labels, not hue. */
-  --color-cat-threejs: var(--color-ui-mark);
-  --color-cat-mathematics: var(--color-ui-mark);
-  --color-cat-game-feel: var(--color-ui-mark);
-  --color-cat-systems: var(--color-ui-mark);
-  --color-cat-ai: var(--color-ui-mark);
-  --color-cat-performance: var(--color-ui-mark);
-  --color-cat-physics: var(--color-ui-mark);
-  --color-cat-animation: var(--color-ui-mark);
+  --color-sim-green: #05df72;
+  --color-sim-yellow: #fdc700;
+  --color-sim-red: #ff6467;
 }
 
 @font-face {
@@ -77,12 +68,14 @@
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
-  --text-display: clamp(2.6rem, 5.6vw, 5.25rem);
+  --text-display: clamp(2.5rem, 5vw, 4.5rem);
+  --text-sheet: clamp(2.125rem, 4vw, 3.25rem);
+  --text-sheet--line-height: 1.06;
   --text-display--line-height: 1.02;
-  --text-title: clamp(2.1rem, 4.2vw, 3.75rem);
-  --text-title--line-height: 1.06;
+  --text-title: clamp(1.75rem, 3vw, 2.5rem);
+  --text-title--line-height: 1.12;
   --text-lead: 1.0625rem;
-  --text-lead--line-height: 1.75;
+  --text-lead--line-height: 1.65;
 }
 
 @utility container {
@@ -173,22 +166,22 @@
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 5% 8.2%; /* #141416 surface-1 */
+    --card: 0 0% 9%; /* neutral-900 */
     --card-foreground: 0 0% 98%;
-    --popover: 240 5% 11.8%; /* #1c1c1f surface-2 */
+    --popover: 0 0% 9%; /* neutral-900 */
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 5% 11.8%;
-    --muted-foreground: 240 5% 65%; /* #a1a1aa text-2, 7.7:1 */
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%; /* neutral-400, same as coody.app */
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 12.5%; /* ≈ white 8% on bg */
-    --input: 240 5% 26%; /* #3f3f46 */
+    --border: 0 0% 14.9%; /* neutral-800, same as coody.app */
+    --input: 0 0% 25.1%; /* neutral-700 */
     --ring: 0 0% 98%; /* white focus ring */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -233,75 +226,11 @@
 
 @layer components {
   .eyebrow {
-    font-family: var(--font-hud);
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
     color: var(--color-text-3);
   }
 
-  .nav-link {
-    position: relative;
-    padding-block: 0.5rem;
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: hsl(var(--muted-foreground));
-    transition: color 300ms ease;
-  }
-
-  .nav-link::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 3px;
-    height: 3px;
-    border-radius: 999px;
-    background: currentColor;
-    opacity: 0;
-    transform: translateX(-50%);
-    transition: opacity 300ms ease;
-  }
-
-  .nav-link:hover,
-  .nav-link:focus-visible {
-    color: hsl(var(--foreground));
-    outline: none;
-  }
-
-  .nav-link[aria-current="page"]::after,
-  .nav-link:focus-visible::after {
-    opacity: 1;
-  }
-
-  .chip {
-    display: inline-flex;
-    min-height: 2.5rem;
-    min-width: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 1px solid hsl(var(--foreground) / 0.16);
-    border-radius: 999px;
-    background: hsl(var(--background) / 0.4);
-    padding-inline: 0.875rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    backdrop-filter: blur(8px);
-    transition:
-      border-color 300ms ease,
-      background-color 300ms ease;
-  }
-
-  .chip:hover {
-    border-color: hsl(var(--foreground) / 0.4);
-  }
-
-  .chip:focus-visible,
   .link-quiet:focus-visible {
     outline: 2px solid var(--color-ui-strong);
     outline-offset: 2px;
@@ -337,19 +266,6 @@
     font-size: 0.85em;
   }
 
-  .code-block {
-    overflow-x: auto;
-    border: 1px solid hsl(var(--border));
-    border-radius: 0.5rem;
-    background: hsl(0 0% 6%);
-    padding: 1rem;
-    padding-right: 5.5rem;
-    font-family: var(--font-hud);
-    font-size: 0.8125rem;
-    line-height: 1.6;
-    tab-size: 2;
-  }
-
   .formula .katex {
     font-size: 1.15em;
   }
@@ -375,15 +291,43 @@
     color: hsl(var(--foreground) / 0.88);
   }
 
-  /* Category accent hook: set --cat on a wrapper (style={{"--cat": ...}}). */
-  .cat-dot {
-    display: inline-block;
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 999px;
-    background: var(--cat, var(--color-text-3));
-    box-shadow: 0 0 0 3px
-      color-mix(in oklch, var(--cat, transparent) 18%, transparent);
+  /* Hero backdrop: a viewport grid that fades out, like an engine's scene view. */
+  .scene-grid {
+    background-image:
+      linear-gradient(hsl(var(--foreground) / 0.055) 1px, transparent 1px),
+      linear-gradient(
+        90deg,
+        hsl(var(--foreground) / 0.055) 1px,
+        transparent 1px
+      );
+    background-size: 48px 48px;
+    mask-image: radial-gradient(
+      ellipse 75% 85% at 70% 20%,
+      #000 10%,
+      transparent 75%
+    );
+  }
+
+  /* Hero wall: the interface is monochrome until a simulation is touched. */
+  .wall-tile img {
+    filter: grayscale(1) brightness(0.92);
+    transition: filter 240ms ease;
+  }
+  .wall-tile:hover img,
+  .wall-tile:focus-visible img {
+    filter: none;
+  }
+
+  /* Cards lift through light, not shadow: a hairline on the top edge. */
+  .card-lift {
+    box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.06);
+    transition:
+      --tw-ring-color 160ms ease,
+      background-color 160ms ease;
+  }
+  .card-lift:hover,
+  .card-lift:has(a:focus-visible) {
+    --tw-ring-color: hsl(var(--foreground) / 0.28);
   }
 
   .reading-progress {

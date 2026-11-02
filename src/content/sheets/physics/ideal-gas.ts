@@ -39,11 +39,11 @@ const sheet: Sheet = {
     },
     {
       label: "RMS speed",
-      math: tex`\textcolor{#f5d547}{v_{\text{rms}}} = \sqrt{\frac{3 k_B T}{m}}`,
+      math: tex`\textcolor{#fdc700}{v_{\text{rms}}} = \sqrt{\frac{3 k_B T}{m}}`,
     },
     {
       label: "Pressure from wall impulses",
-      math: tex`\textcolor{#f65a5a}{P} = \frac{1}{A\,\Delta t}\sum_{\text{hits}} 2 m |\textcolor{#f5d547}{v_\perp}|`,
+      math: tex`\textcolor{#ff6467}{P} = \frac{1}{A\,\Delta t}\sum_{\text{hits}} 2 m |\textcolor{#fdc700}{v_\perp}|`,
     },
     {
       label: "Maxwell–Boltzmann velocity component",

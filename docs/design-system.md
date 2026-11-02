@@ -2,49 +2,51 @@
 
 **Coody brand rule:** the UI is **black, white and greys only**: near-black base, Inter (body), Cal Sans (headings), uppercase monospace HUD eyebrows, pill chips. **Green, yellow and red** appear only inside simulations and formulas, where they carry meaning. Whites and greys may also be used inside simulations.
 
-Contrast ratios are WCAG 2.x relative luminance, measured against `bg #0a0a0a` / `card #141416`. Colour-vision checks use Machado 2009 simulation in OKLab.
+Palette source: Tailwind/shadcn **neutral** (the same greys as coody.app, no blue tint) for UI and simulations, plus Tailwind **green-400, yellow-400 and red-400** for simulations only.
+
+Contrast ratios are WCAG 2.x relative luminance, measured against `bg #0a0a0a` / `card #171717`. Colour-vision checks use Machado 2009 simulation in OKLab.
 
 ## 1. Surfaces and text
 
 | Token             | Value                 | Use                              |
 | ----------------- | --------------------- | -------------------------------- |
 | `--bg`            | `#0a0a0a`             | page                             |
-| `--surface-1`     | `#141416`             | cards                            |
-| `--surface-2`     | `#1c1c1f`             | hover, popovers                  |
-| `--surface-3`     | `#27272a`             | active, menus                    |
+| `--surface-1`     | `#171717`             | cards                            |
+| `--surface-2`     | `#262626`             | hover, popovers                  |
+| `--surface-3`     | `#404040`             | active, menus                    |
 | `--border`        | white 8%              | dividers, card edges             |
-| `--border-strong` | white 16% / `#3f3f46` | inputs, hover                    |
-| `--border-ui`     | `#71717a` (4.10:1)    | UI boundaries that must meet 3:1 |
-| `--text`          | `#FAFAFA` (18.97)     | headings, body                   |
-| `--text-2`        | `#a1a1aa` (7.72)      | secondary                        |
-| `--text-3`        | `#8b8b94` (5.86)      | meta, eyebrows                   |
+| `--border-strong` | white 16% / `#404040` | inputs, hover                    |
+| `--border-ui`     | `#737373` (4.18:1)    | UI boundaries that must meet 3:1 |
+| `--text`          | `#fafafa` (18.97)     | headings, body                   |
+| `--text-2`        | `#a3a3a3` (7.85)      | secondary                        |
+| `--text-3`        | `#a3a3a3` (7.85)      | meta, eyebrows                   |
 
-Rules: never use pure `#fff` on `#000`. Show elevation by lightening the surface, not with shadows. zinc-500 (`#71717a`) is **not** allowed for text. Body text weight ≥ 400. Antialiased font smoothing.
+Rules: never use pure `#fff` on `#000`. Show elevation by lightening the surface, not with shadows. neutral-500 (`#737373`) is **not** allowed for text. Body text weight ≥ 400. Antialiased font smoothing.
 
 ## 2. Simulation colours (Three.js visuals and formulas only)
 
 | Token (`palette.*`)               | Hex                             | bg / card     | Meaning                              |
 | --------------------------------- | ------------------------------- | ------------- | ------------------------------------ |
-| `subject` / `primary`             | `#fafafa` white                 | 18.97 / 17.6  | the main subject, selection, ray     |
-| `secondary` / `moving` / `energy` | `#f5d547` yellow                | 13.66 / 12.70 | the moving thing, energy, highlight  |
-| `velocity` / `warning`            | `#f5d547` yellow, **dashed**    | 13.66 / 12.70 | velocity, trajectory                 |
-| `tertiary`                        | `#a1a1aa` grey                  | 7.72 / 7.18   | secondary object (outline/wireframe) |
-| `accel`                           | `#d4d4d8` light grey            | 13.9 / 12.9   | acceleration, torque                 |
-| `success` / `positive`            | `#3ee09a` green                 | 11.63 / 10.81 | valid, goal, grounded, normals       |
-| `force` / `error` / `negative`    | `#f65a5a` red                   | 6.16 / 5.72   | force, error, contact, danger        |
-| `object`, `guide`, `surface`      | `#71717a`, `#8b8b94`, `#27272a` |               | props, helpers, floors               |
+| `subject` / `primary`             | `#fafafa` white                 | 18.97 / 17.18 | the main subject, selection, ray     |
+| `secondary` / `moving` / `energy` | `#fdc700` yellow                | 12.58 / 11.39 | the moving thing, energy, highlight  |
+| `velocity` / `warning`            | `#fdc700` yellow, **dashed**    | 12.58 / 11.39 | velocity, trajectory                 |
+| `tertiary`                        | `#a3a3a3` grey                  | 7.85 / 7.11   | secondary object (outline/wireframe) |
+| `accel`                           | `#d4d4d4` light grey            | 13.36 / 12.09 | acceleration, torque                 |
+| `success` / `positive`            | `#05df72` green                 | 11.13 / 10.08 | valid, goal, grounded, normals       |
+| `force` / `error` / `negative`    | `#ff6467` red                   | 6.85 / 6.21   | force, error, contact, danger        |
+| `object`, `guide`, `surface`      | `#737373`, `#a3a3a3`, `#262626` |               | props, helpers, floors               |
 
 Rules:
 
 1. Only three hues exist: green, yellow, red. Everything else is a white or grey step.
 2. **Never use hue alone (WCAG 1.4.1).** Velocity = dashed yellow, force = solid red, a moving body = solid yellow. A secondary object is a grey outline or wireframe. Use labels in readouts. Red vs green also differ strongly in lightness (6.2 vs 11.6:1), so they stay distinguishable for colour-blind users.
-3. **Formulas match visuals.** A variable gets the same colour in KaTeX (`\textcolor{...}`) as its element in the scene, using only `#fafafa`, `#a1a1aa`, `#d4d4d8`, `#f5d547`, `#3ee09a` or `#f65a5a`.
+3. **Formulas match visuals.** A variable gets the same colour in KaTeX (`\textcolor{...}`) as its element in the scene, using only `#fafafa`, `#a3a3a3`, `#d4d4d4`, `#fdc700`, `#05df72` or `#ff6467`.
 4. Ramps (heat, speed, height) run dark grey → yellow → white, or green → yellow → red for "good → bad". Never rainbow.
 5. Helpers and lines use unlit materials, so the colours stay true.
 
 ## 3. UI colour (Coody neutrals)
 
-- Category identity comes from **labels and icons, not hue**. Every category uses the same neutral mark (`--color-ui-mark` `#a1a1aa`).
+- Category identity comes from **labels and icons, not hue**. Every category uses the same neutral mark (`--color-ui-mark` `#a3a3a3`).
 - Active and selected states use white (`--color-ui-strong`) or white tints (`white/8%` fill, `white/16%` border).
 - The focus ring is 2px white, offset 2px (18.97:1).
 - Copy confirmations, progress bars and checkmarks are white.

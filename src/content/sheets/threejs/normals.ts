@@ -28,12 +28,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Face normal",
-      math: tex`\textcolor{#3ee09a}{\hat{n}} = \frac{(b - a)\times(c - a)}{\lVert (b - a)\times(c - a)\rVert}`,
+      math: tex`\textcolor{#05df72}{\hat{n}} = \frac{(b - a)\times(c - a)}{\lVert (b - a)\times(c - a)\rVert}`,
       note: "Swapping b and c flips the normal. That is what back-face culling reads.",
     },
     {
       label: "Slope angle",
-      math: tex`\theta = \arccos(\textcolor{#3ee09a}{\hat{n}}\cdot\hat{u}), \quad \text{walkable if } \textcolor{#3ee09a}{\hat{n}}\cdot\hat{u} \ge \cos\theta_{max}`,
+      math: tex`\theta = \arccos(\textcolor{#05df72}{\hat{n}}\cdot\hat{u}), \quad \text{walkable if } \textcolor{#05df72}{\hat{n}}\cdot\hat{u} \ge \cos\theta_{max}`,
     },
     {
       label: "Normal matrix",

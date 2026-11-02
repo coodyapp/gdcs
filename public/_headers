@@ -7,6 +7,14 @@
   Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
   Link: </llms.txt>; rel="describedby"; type="text/plain"
 
+/posters/*
+  ! Cache-Control
+  Cache-Control: public, max-age=86400
+
+/og/*
+  ! Cache-Control
+  Cache-Control: public, max-age=86400
+
 /assets/*
   ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable

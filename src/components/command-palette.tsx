@@ -12,13 +12,14 @@ import {
 import { Search } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Kbd } from "@/components/ui/kbd"
 
 /** Loaded on first open: dialog primitives and search stay out of the main bundle. */
 const PaletteDialog = lazy(() => import("@/components/palette-dialog"))
 
 const PaletteContext = createContext<() => void>(() => {})
-/** Opens the search palette (header button, home search field…). */
+/** Opens the search palette (hero field, phone menu). */
 export const useOpenPalette = () => useContext(PaletteContext)
 
 const isTyping = (el: EventTarget | null) =>
@@ -77,7 +78,7 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   )
 }
 
-/** Header / inline trigger that looks like a search field. */
+/** Trigger that looks like a search field. */
 export function SearchTrigger({
   className,
   wide = false,
@@ -89,22 +90,22 @@ export function SearchTrigger({
   const [mac, setMac] = useState(true)
   useEffect(() => setMac(/Mac|iPhone|iPad/.test(navigator.platform)), [])
   return (
-    <button
-      type="button"
+    <Button
+      variant="outline"
       onClick={open}
       aria-label="Search cheat sheets"
       aria-keyshortcuts="Meta+K Control+K /"
       className={cn(
-        "flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-card px-3 text-sm text-text-3 transition-colors hover:border-white/20 hover:text-foreground",
-        wide && "h-11 w-full max-w-xl",
+        "h-9 justify-start gap-2 font-normal text-muted-foreground",
+        wide && "h-11 w-full max-w-xl px-3",
         className
       )}
     >
       <Search className="size-4" aria-hidden />
-      <span className={cn("text-left", wide ? "flex-1" : "hidden lg:inline")}>
-        {wide ? "Search: quaternions, coyote time, tunneling…" : "Search"}
+      <span className={cn("truncate text-left", wide ? "flex-1" : "")}>
+        {wide ? "Search: quaternions, coyote time, tunneling" : "Search"}
       </span>
       <Kbd className="hidden sm:inline-flex">{mac ? "⌘K" : "Ctrl K"}</Kbd>
-    </button>
+    </Button>
   )
 }

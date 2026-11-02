@@ -27,11 +27,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Torque (vector form)",
-      math: tex`\vec\tau = \vec r \times \textcolor{#f65a5a}{\vec F}`,
+      math: tex`\vec\tau = \vec r \times \textcolor{#ff6467}{\vec F}`,
     },
     {
       label: "Lever balance",
-      math: tex`\textcolor{#fafafa}{m_1} g\, r_1 = \textcolor{#a1a1aa}{m_2} g\, r_2 \;\Rightarrow\; m_1 r_1 = m_2 r_2`,
+      math: tex`\textcolor{#fafafa}{m_1} g\, r_1 = \textcolor{#a3a3a3}{m_2} g\, r_2 \;\Rightarrow\; m_1 r_1 = m_2 r_2`,
     },
     { label: "Rotational Newton's law", math: tex`\sum \tau = I\alpha` },
     {

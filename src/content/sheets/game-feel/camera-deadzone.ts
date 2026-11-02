@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Deadzone clamp (per axis)",
-      math: tex`\textcolor{#fafafa}{c'} = \operatorname{clamp}\!\left(\textcolor{#fafafa}{c},\; \textcolor{#f5d547}{p} - \tfrac{w}{2},\; \textcolor{#f5d547}{p} + \tfrac{w}{2}\right)`,
+      math: tex`\textcolor{#fafafa}{c'} = \operatorname{clamp}\!\left(\textcolor{#fafafa}{c},\; \textcolor{#fdc700}{p} - \tfrac{w}{2},\; \textcolor{#fdc700}{p} + \tfrac{w}{2}\right)`,
     },
     {
       label: "Smoothed follow",

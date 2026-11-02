@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Stretch along velocity",
-      math: tex`s_{\parallel} = \min\!\left(s_{max},\; 1 + k\,\lVert \textcolor{#f5d547}{\mathbf{v}} \rVert\right)`,
+      math: tex`s_{\parallel} = \min\!\left(s_{max},\; 1 + k\,\lVert \textcolor{#fdc700}{\mathbf{v}} \rVert\right)`,
     },
     {
       label: "Volume preservation (3D)",

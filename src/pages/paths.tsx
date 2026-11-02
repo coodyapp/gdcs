@@ -3,10 +3,27 @@ import { ArrowRight, Check } from "lucide-react"
 
 import { getCategory, getSheet, sheetPath, type SheetMeta } from "@/content"
 import { getPath, pathUrl, paths, type LearningPath } from "@/content/paths"
-import { catStyle } from "@/lib/accent"
 import { useHistory } from "@/lib/local"
+import { cn } from "@/lib/utils"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LevelPips } from "@/components/sheet-card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+import { Progress } from "@/components/ui/progress"
 import { NotFoundPage } from "@/pages/not-found"
 
 const stepsOf = (path: LearningPath) =>
@@ -14,25 +31,32 @@ const stepsOf = (path: LearningPath) =>
     .map((s) => ({ ...s, sheet: getSheet(s.slug) }))
     .filter((s): s is typeof s & { sheet: SheetMeta } => Boolean(s.sheet))
 
-function Progress({ done, total }: { done: number; total: number }) {
+/** Shared poster thumbnail, same artwork as the sheet cards. */
+function Poster({ slug, className }: { slug: string; className?: string }) {
   return (
-    <div
-      className="flex items-center gap-3"
-      aria-label={`${done} of ${total} visited`}
+    <img
+      src={`/posters/${slug}.webp`}
+      alt=""
+      width={960}
+      height={600}
+      loading="lazy"
+      decoding="async"
+      className={cn("aspect-[16/10] w-full object-cover", className)}
+    />
+  )
+}
+
+function PathProgress({ done, total }: { done: number; total: number }) {
+  return (
+    <Progress
+      value={(done / total) * 100}
+      aria-label={`${done} of ${total} steps visited`}
+      className="w-full flex-nowrap items-center"
     >
-      <div
-        className="h-1.5 w-32 overflow-hidden rounded-full bg-white/10"
-        aria-hidden
-      >
-        <div
-          className="h-full rounded-full bg-[var(--color-ui-strong)] transition-[width] duration-300"
-          style={{ width: `${(done / total) * 100}%` }}
-        />
-      </div>
-      <span className="font-hud text-xs text-text-3">
+      <span className="order-last shrink-0 text-xs text-muted-foreground tabular-nums">
         {done}/{total}
       </span>
-    </div>
+    </Progress>
   )
 }
 
@@ -41,23 +65,35 @@ export function PathCard({ path }: { path: LearningPath }) {
   const steps = stepsOf(path)
   const done = steps.filter((s) => visited.has(s.slug)).length
   return (
-    <article
-      style={catStyle(path.accent)}
-      className="group relative flex flex-col gap-3 rounded-xl border border-white/[0.08] bg-card p-5 transition-colors before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:rounded-t-xl before:bg-[var(--cat)] before:opacity-60 hover:border-white/[0.16] hover:bg-surface-2 hover:before:opacity-100"
+    <Card
+      render={<article />}
+      className="card-lift relative h-full gap-3 pt-0 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
     >
-      <p className="eyebrow flex items-center gap-2">
-        <span className="cat-dot" aria-hidden /> {steps.length} steps
-      </p>
-      <h3 className="font-heading text-xl leading-tight">
-        <Link to={pathUrl(path.slug)} className="after:absolute after:inset-0">
-          {path.title}
-        </Link>
-      </h3>
-      <p className="text-sm text-muted-foreground">{path.summary}</p>
-      <div className="mt-auto pt-2">
-        <Progress done={done} total={steps.length} />
+      {/* The first steps of the route, in order: same artwork as sheet cards. */}
+      <div className="grid grid-cols-3 gap-px border-b bg-border" aria-hidden>
+        {steps.slice(0, 3).map((s) => (
+          <Poster key={s.slug} slug={s.slug} />
+        ))}
       </div>
-    </article>
+      <CardHeader>
+        <CardTitle className="text-[1.0625rem] font-semibold">
+          <h3>
+            <Link
+              to={pathUrl(path.slug)}
+              className="after:absolute after:inset-0 focus-visible:outline-none"
+            >
+              {path.title}
+            </Link>
+          </h3>
+        </CardTitle>
+        <CardDescription className="line-clamp-2 leading-relaxed">
+          {path.summary}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="mt-auto">
+        <PathProgress done={done} total={steps.length} />
+      </CardContent>
+    </Card>
   )
 }
 
@@ -66,7 +102,7 @@ export function PathsIndexPage() {
     <>
       <Breadcrumbs items={[{ label: "Learning paths" }]} />
       <header className="mb-10 max-w-3xl">
-        <h1 className="font-heading text-display">Learning paths</h1>
+        <h1 className="font-heading text-sheet">Learning paths</h1>
         <p className="mt-4 text-lead text-muted-foreground">
           Ordered routes through the cheat sheets for a specific goal. Progress
           is saved in this browser only.
@@ -90,69 +126,79 @@ export function PathPage() {
   const done = steps.filter((s) => visited.has(s.slug)).length
   const next = steps.find((s) => !visited.has(s.slug)) ?? steps[0]
   return (
-    <div style={catStyle(path.accent)} className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <Breadcrumbs
         items={[
           { label: "Learning paths", to: "/paths" },
           { label: path.title },
         ]}
       />
-      <header className="mb-10">
-        <p className="eyebrow mb-3 flex items-center gap-2">
-          <span className="cat-dot" aria-hidden /> Learning path ·{" "}
-          {steps.length} steps
-        </p>
-        <h1 className="font-heading text-display">{path.title}</h1>
+      <header className="mb-8">
+        <h1 className="font-heading text-sheet">{path.title}</h1>
         <p className="mt-4 text-lead text-muted-foreground">{path.summary}</p>
-        <div className="mt-6 flex flex-wrap items-center gap-4">
-          <Link
-            to={sheetPath(next.sheet)}
-            className="chip !border-[var(--cat)] bg-[color-mix(in_oklch,var(--cat)_14%,transparent)]"
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <Button
+            size="lg"
+            className="h-10 max-w-full px-4"
+            nativeButton={false}
+            render={<Link to={sheetPath(next.sheet)} />}
           >
-            {done === 0
-              ? "Start"
-              : done === steps.length
-                ? "Review"
-                : "Continue"}
-            : {next.sheet.title} <ArrowRight className="size-3.5" aria-hidden />
-          </Link>
-          <Progress done={done} total={steps.length} />
+            <span className="truncate">
+              {done === 0
+                ? "Start"
+                : done === steps.length
+                  ? "Review"
+                  : "Continue"}
+              : {next.sheet.title}
+            </span>
+            <ArrowRight aria-hidden />
+          </Button>
+          <div className="w-40">
+            <PathProgress done={done} total={steps.length} />
+          </div>
         </div>
       </header>
-      <ol className="relative space-y-3 border-l border-white/10 pl-6">
+      <ol className="space-y-2.5">
         {steps.map((s, i) => {
           const seen = visited.has(s.slug)
           return (
-            <li
-              key={s.slug}
-              className="relative"
-              style={catStyle(s.sheet.category)}
-            >
-              <span
-                className={`absolute top-4 -left-[2.1rem] grid size-6 place-items-center rounded-full border font-hud text-[11px] ${seen ? "border-[var(--color-ui-strong)] bg-[color-mix(in_oklch,var(--color-ui-strong)_15%,transparent)] text-[var(--color-ui-strong)]" : "border-white/20 bg-background text-text-3"}`}
-                aria-hidden
+            <li key={s.slug}>
+              <Item
+                variant="outline"
+                className="card-lift bg-card p-2.5 pr-4 hover:bg-card"
+                render={<Link to={sheetPath(s.sheet)} />}
               >
-                {seen ? <Check className="size-3" /> : i + 1}
-              </span>
-              <Link
-                to={sheetPath(s.sheet)}
-                className="block rounded-xl border border-white/[0.08] bg-card p-4 transition-colors hover:border-white/[0.16] hover:bg-surface-2"
-              >
-                <span className="mb-1 flex items-center justify-between gap-3">
-                  <span className="eyebrow flex items-center gap-2">
-                    <span className="cat-dot" aria-hidden />
-                    {getCategory(s.sheet.category)?.title}
-                  </span>
-                  <LevelPips level={s.sheet.level} />
-                </span>
-                <span className="block font-heading text-lg">
-                  {i + 1}. {s.sheet.title}
-                  {seen && <span className="sr-only"> (visited)</span>}
-                </span>
-                <span className="block text-sm text-muted-foreground">
-                  {s.why}
-                </span>
-              </Link>
+                <ItemMedia className="w-24 self-center overflow-hidden rounded-md sm:w-32">
+                  <Poster slug={s.slug} />
+                </ItemMedia>
+                <ItemContent>
+                  <ItemTitle className="text-[0.9375rem]">
+                    <span className="text-muted-foreground tabular-nums">
+                      {i + 1}.
+                    </span>{" "}
+                    {s.sheet.title}
+                    {seen && (
+                      <Check
+                        className="size-3.5 text-muted-foreground"
+                        aria-label="visited"
+                      />
+                    )}
+                  </ItemTitle>
+                  <ItemDescription className="line-clamp-2">
+                    {s.why}
+                  </ItemDescription>
+                  <div className="mt-1.5 flex gap-1.5">
+                    <LevelPips level={s.sheet.level} />
+                    <Badge
+                      variant="secondary"
+                      className="font-normal text-muted-foreground"
+                    >
+                      {getCategory(s.sheet.category)?.short ??
+                        getCategory(s.sheet.category)?.title}
+                    </Badge>
+                  </div>
+                </ItemContent>
+              </Item>
             </li>
           )
         })}
@@ -170,31 +216,34 @@ export function SheetPaths({ slug }: { slug: string }) {
   return (
     <section aria-labelledby="paths">
       <h2 id="paths">In learning paths</h2>
-      <ul className="grid !list-none gap-2 !pl-0 sm:grid-cols-2">
+      <ul className="grid !list-none gap-2.5 !pl-0 sm:grid-cols-2">
         {member.map(({ p, i }) => {
           const next = p.steps[i + 1] && getSheet(p.steps[i + 1].slug)
           return (
-            <li key={p.slug} className="!m-0" style={catStyle(p.accent)}>
-              <div className="rounded-lg border border-white/[0.08] bg-card p-3">
-                <Link
-                  to={pathUrl(p.slug)}
-                  className="flex items-center gap-2 font-medium hover:underline"
-                >
-                  <span className="cat-dot" aria-hidden /> {p.title}
-                </Link>
-                <span className="block text-xs text-text-3">
-                  Step {i + 1} of {p.steps.length}
-                </span>
+            <li key={p.slug} className="!m-0">
+              <Card size="sm" className="card-lift h-full">
+                <CardHeader>
+                  <CardTitle className="font-sans font-medium">
+                    <Link to={pathUrl(p.slug)} className="hover:underline">
+                      {p.title}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription className="text-xs">
+                    Step {i + 1} of {p.steps.length}
+                  </CardDescription>
+                </CardHeader>
                 {next && (
-                  <Link
-                    to={sheetPath(next)}
-                    className="mt-2 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Next: {next.title}{" "}
-                    <ArrowRight className="size-3.5" aria-hidden />
-                  </Link>
+                  <CardContent>
+                    <Link
+                      to={sheetPath(next)}
+                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      Next: {next.title}
+                      <ArrowRight className="size-3.5" aria-hidden />
+                    </Link>
+                  </CardContent>
                 )}
-              </div>
+              </Card>
             </li>
           )
         })}

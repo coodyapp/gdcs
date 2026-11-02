@@ -44,11 +44,11 @@ const sheet: Sheet = {
     },
     {
       label: "Smoothstep and smootherstep",
-      math: tex`\textcolor{#f5d547}{S_1(t)} = 3t^2 - 2t^3, \qquad S_2(t) = 6t^5 - 15t^4 + 10t^3`,
+      math: tex`\textcolor{#fdc700}{S_1(t)} = 3t^2 - 2t^3, \qquad S_2(t) = 6t^5 - 15t^4 + 10t^3`,
     },
     {
       label: "Frame-rate-independent damping",
-      math: tex`\textcolor{#a1a1aa}{x} \leftarrow \operatorname{lerp}\!\big(\textcolor{#a1a1aa}{x},\, x_{target},\, 1 - e^{-\lambda\,\Delta t}\big)`,
+      math: tex`\textcolor{#a3a3a3}{x} \leftarrow \operatorname{lerp}\!\big(\textcolor{#a3a3a3}{x},\, x_{target},\, 1 - e^{-\lambda\,\Delta t}\big)`,
       note: "λ = −ln(1 − fraction) / seconds: λ ≈ 4.6 closes 99% of the gap in 1 s.",
     },
   ],

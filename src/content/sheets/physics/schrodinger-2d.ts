@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Time-dependent Schrödinger equation (2D)",
-      math: tex`i\hbar\,\partial_t \psi = -\frac{\hbar^2}{2m}\left(\partial_x^2 + \partial_y^2\right)\psi + \textcolor{#f5d547}{V(x,y)}\,\psi`,
+      math: tex`i\hbar\,\partial_t \psi = -\frac{\hbar^2}{2m}\left(\partial_x^2 + \partial_y^2\right)\psi + \textcolor{#fdc700}{V(x,y)}\,\psi`,
     },
     {
       label: "Initial Gaussian packet",

@@ -7,7 +7,6 @@ import {
   subcategoryPath,
   categoryPath,
 } from "@/content"
-import { catStyle } from "@/lib/accent"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { SheetGrid } from "@/components/sheet-card"
 import { NotFoundPage } from "@/pages/not-found"
@@ -20,17 +19,15 @@ export function CategoryPage() {
   return (
     <>
       <Breadcrumbs items={[{ label: c.title }]} />
-      <header className="mb-12 max-w-3xl" style={catStyle(c.slug)}>
-        <p className="eyebrow mb-3 flex items-center gap-2">
-          <span className="cat-dot" aria-hidden /> Category
-        </p>
-        <h1 className="font-heading text-display">{c.title}</h1>
-        <p className="mt-4 text-lead text-muted-foreground">{c.description}</p>
-        <p className="eyebrow mt-4">
-          {sheetsIn(c.slug).length} cheat sheets · {subs.length} subcategories
+      <header className="mb-10 max-w-3xl">
+        <h1 className="font-heading text-sheet">{c.title}</h1>
+        <p className="mt-3 text-lead text-muted-foreground">{c.description}</p>
+        <p className="mt-3 text-sm text-muted-foreground">
+          {sheetsIn(c.slug).length} cheat sheets in {subs.length}{" "}
+          {subs.length === 1 ? "group" : "groups"}
         </p>
       </header>
-      <div className="space-y-14">
+      <div className="space-y-12">
         {subs.map((s) => (
           <section
             key={s.slug}
@@ -38,7 +35,7 @@ export function CategoryPage() {
             className="space-y-4"
           >
             <div>
-              <h2 id={`sub-${s.slug}`} className="font-heading text-2xl">
+              <h2 id={`sub-${s.slug}`} className="font-heading text-xl">
                 <Link to={subcategoryPath(c.slug, s.slug)}>{s.title}</Link>
               </h2>
               <p className="text-sm text-muted-foreground">{s.description}</p>
@@ -65,12 +62,9 @@ export function SubcategoryPage() {
           { label: s.title },
         ]}
       />
-      <header className="mb-12 max-w-3xl" style={catStyle(c.slug)}>
-        <p className="eyebrow mb-3 flex items-center gap-2">
-          <span className="cat-dot" aria-hidden /> {c.title}
-        </p>
-        <h1 className="font-heading text-display">{s.title}</h1>
-        <p className="mt-4 text-lead text-muted-foreground">{s.description}</p>
+      <header className="mb-10 max-w-3xl">
+        <h1 className="font-heading text-sheet">{s.title}</h1>
+        <p className="mt-3 text-lead text-muted-foreground">{s.description}</p>
       </header>
       <SheetGrid list={list} numbered />
     </>

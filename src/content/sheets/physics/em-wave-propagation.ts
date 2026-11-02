@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Maxwell's curl equations (1D, Ey and Hz)",
-      math: tex`\varepsilon\frac{\partial \textcolor{#fafafa}{E_y}}{\partial t} = -\frac{\partial \textcolor{#a1a1aa}{H_z}}{\partial x}, \qquad \mu\frac{\partial \textcolor{#a1a1aa}{H_z}}{\partial t} = -\frac{\partial \textcolor{#fafafa}{E_y}}{\partial x}`,
+      math: tex`\varepsilon\frac{\partial \textcolor{#fafafa}{E_y}}{\partial t} = -\frac{\partial \textcolor{#a3a3a3}{H_z}}{\partial x}, \qquad \mu\frac{\partial \textcolor{#a3a3a3}{H_z}}{\partial t} = -\frac{\partial \textcolor{#fafafa}{E_y}}{\partial x}`,
     },
     {
       label: "Yee update (normalised: c = 1, Δx = 1)",

@@ -33,11 +33,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Jump allowed",
-      math: tex`\text{canJump} = \text{grounded} \;\lor\; (t - t_{\text{left ground}}) < \textcolor{#3ee09a}{T_{\text{coyote}}}`,
+      math: tex`\text{canJump} = \text{grounded} \;\lor\; (t - t_{\text{left ground}}) < \textcolor{#05df72}{T_{\text{coyote}}}`,
     },
     {
       label: "Extra ledge distance",
-      math: tex`d = v_{run}\,\textcolor{#3ee09a}{T_{\text{coyote}}}`,
+      math: tex`d = v_{run}\,\textcolor{#05df72}{T_{\text{coyote}}}`,
       note: "At 6 u/s and 0.1 s the character can be 0.6 units past the edge and still jump.",
     },
   ],

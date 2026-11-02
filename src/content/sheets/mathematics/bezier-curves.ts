@@ -37,12 +37,12 @@ const sheet: Sheet = {
     },
     {
       label: "de Casteljau step",
-      math: tex`\textcolor{#a1a1aa}{P_i^{(k)}} = (1-t)\,P_i^{(k-1)} + t\,P_{i+1}^{(k-1)}`,
+      math: tex`\textcolor{#a3a3a3}{P_i^{(k)}} = (1-t)\,P_i^{(k-1)} + t\,P_{i+1}^{(k-1)}`,
       note: "Each grey construction level has one point fewer; the last one is B(t).",
     },
     {
       label: "Cubic tangent",
-      math: tex`\textcolor{#f5d547}{B'(t)} = 3(1-t)^2(P_1-P_0) + 6(1-t)t\,(P_2-P_1) + 3t^2(P_3-P_2)`,
+      math: tex`\textcolor{#fdc700}{B'(t)} = 3(1-t)^2(P_1-P_0) + 6(1-t)t\,(P_2-P_1) + 3t^2(P_3-P_2)`,
     },
     {
       label: "Arc length",

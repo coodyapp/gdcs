@@ -41,7 +41,7 @@ function drawAtlas(atlas: Atlas) {
   const canvas = document.createElement("canvas")
   canvas.width = canvas.height = atlas.size
   const ctx = canvas.getContext("2d")!
-  ctx.fillStyle = "#18181b"
+  ctx.fillStyle = "#171717"
   ctx.fillRect(0, 0, atlas.size, atlas.size)
   const p = atlas.padding
   atlas.rects.forEach((r, i) => {

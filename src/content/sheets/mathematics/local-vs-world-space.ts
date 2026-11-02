@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Local → world",
-      math: tex`\textcolor{#f5d547}{p_{\text{world}}} = M_{\text{parent}}^{\text{world}}\;\textcolor{#f5d547}{p_{\text{local}}}`,
+      math: tex`\textcolor{#fdc700}{p_{\text{world}}} = M_{\text{parent}}^{\text{world}}\;\textcolor{#fdc700}{p_{\text{local}}}`,
       note: "The yellow point is the same place in both frames; only its coordinates change.",
     },
     {

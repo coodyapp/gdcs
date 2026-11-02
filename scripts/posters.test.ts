@@ -16,4 +16,12 @@ describe("posters", () => {
       expect(statSync(file).size).toBeLessThan(150_000)
     }
   )
+  it.each(sheets.map((s) => s.slug))(
+    "%s has a social card (run `pnpm og`)",
+    (slug) => {
+      const file = path.join(dir, "..", "og", `${slug}.jpg`)
+      expect(existsSync(file)).toBe(true)
+      expect(statSync(file).size).toBeLessThan(150_000)
+    }
+  )
 })

@@ -32,7 +32,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Game time during hit stop",
-      math: tex`\textcolor{#3ee09a}{\Delta t_{game}} = \begin{cases} 0 & t_{stop} > 0 \\ \Delta t \cdot s_{time} & \text{otherwise} \end{cases}`,
+      math: tex`\textcolor{#05df72}{\Delta t_{game}} = \begin{cases} 0 & t_{stop} > 0 \\ \Delta t \cdot s_{time} & \text{otherwise} \end{cases}`,
     },
     {
       label: "Duration from damage",

@@ -27,11 +27,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Buoyant force",
-      math: tex`\textcolor{#f65a5a}{F_b} = \rho_{\text{fluid}}\, g\, V_{\text{sub}}`,
+      math: tex`\textcolor{#ff6467}{F_b} = \rho_{\text{fluid}}\, g\, V_{\text{sub}}`,
     },
     {
       label: "Weight",
-      math: tex`\textcolor{#f65a5a}{F_g} = \rho_{\text{obj}}\, g\, V`,
+      math: tex`\textcolor{#ff6467}{F_g} = \rho_{\text{obj}}\, g\, V`,
     },
     {
       label: "Floating fraction",

@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Tunneling risk",
-      math: tex`\textcolor{#f5d547}{v\,\Delta t} > w + 2r`,
+      math: tex`\textcolor{#fdc700}{v\,\Delta t} > w + 2r`,
       note: "Distance per tick exceeds wall thickness w plus the object's diameter. 60 u/s at 60 Hz moves 1 u per tick.",
     },
     {
@@ -37,7 +37,7 @@ const sheet: Sheet = {
     },
     {
       label: "Substeps needed",
-      math: tex`n = \left\lceil \frac{\textcolor{#f5d547}{v\,\Delta t}}{\tfrac12 (w + 2r)} \right\rceil`,
+      math: tex`n = \left\lceil \frac{\textcolor{#fdc700}{v\,\Delta t}}{\tfrac12 (w + 2r)} \right\rceil`,
     },
   ],
   rules: [

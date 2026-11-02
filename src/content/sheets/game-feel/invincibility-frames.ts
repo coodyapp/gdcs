@@ -33,7 +33,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Damage accepted when",
-      math: tex`t - t_{\text{last hit}} \ge \textcolor{#a1a1aa}{T_{iframes}}`,
+      math: tex`t - t_{\text{last hit}} \ge \textcolor{#a3a3a3}{T_{iframes}}`,
     },
     {
       label: "Blink visibility",

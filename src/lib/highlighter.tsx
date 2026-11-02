@@ -43,12 +43,12 @@ const aliases: Record<string, keyof typeof languages> = {
 const gdcsTheme = {
   name: "gdcs",
   type: "dark" as const,
-  colors: { "editor.background": "#00000000", "editor.foreground": "#d4d4d8" },
+  colors: { "editor.background": "#00000000", "editor.foreground": "#d4d4d4" },
   settings: [
-    { settings: { foreground: "#d4d4d8" } },
+    { settings: { foreground: "#d4d4d4" } },
     {
       scope: ["comment", "punctuation.definition.comment"],
-      settings: { foreground: "#8b8b94", fontStyle: "italic" },
+      settings: { foreground: "#a3a3a3", fontStyle: "italic" },
     },
     {
       scope: ["keyword", "storage", "storage.type", "storage.modifier"],
@@ -67,11 +67,11 @@ const gdcsTheme = {
     },
     {
       scope: ["string", "string.quoted", "constant.other.symbol"],
-      settings: { foreground: "#a1a1aa" },
+      settings: { foreground: "#a3a3a3" },
     },
     {
       scope: ["punctuation", "keyword.operator", "meta.brace"],
-      settings: { foreground: "#a1a1aa" },
+      settings: { foreground: "#a3a3a3" },
     },
   ],
 }

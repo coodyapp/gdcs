@@ -39,11 +39,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Linear approach",
-      math: tex`\textcolor{#f5d547}{v} \leftarrow \textcolor{#f5d547}{v} + \operatorname{clamp}(v_{target} - \textcolor{#f5d547}{v},\; -a\,\Delta t,\; a\,\Delta t)`,
+      math: tex`\textcolor{#fdc700}{v} \leftarrow \textcolor{#fdc700}{v} + \operatorname{clamp}(v_{target} - \textcolor{#fdc700}{v},\; -a\,\Delta t,\; a\,\Delta t)`,
     },
     {
       label: "Exponential damping",
-      math: tex`\textcolor{#f5d547}{v} \leftarrow v_{target} + (\textcolor{#f5d547}{v} - v_{target})\,e^{-k\,\Delta t}`,
+      math: tex`\textcolor{#fdc700}{v} \leftarrow v_{target} + (\textcolor{#fdc700}{v} - v_{target})\,e^{-k\,\Delta t}`,
       note: "Choose k = a / v_max to match the linear version's initial slope.",
     },
     {

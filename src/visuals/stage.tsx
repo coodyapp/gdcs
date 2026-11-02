@@ -41,7 +41,7 @@ export default function Stage({
       <color attach="background" args={[palette.stage]} />
       {compact && <Throttle fps={30} />}
       <ambientLight intensity={1.1} />
-      <hemisphereLight args={["#ffffff", "#27272a", 0.6]} />
+      <hemisphereLight args={["#ffffff", "#262626", 0.6]} />
       <directionalLight position={[5, 8, 4]} intensity={1.4} />
       {def.grid !== false && (
         <gridHelper

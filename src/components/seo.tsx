@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useLocation } from "react-router-dom"
 
-import { absoluteUrl } from "@/config/site"
+import { absoluteUrl, siteConfig } from "@/config/site"
 import { headFor } from "@/lib/seo"
 
 function setMeta(
@@ -52,6 +52,9 @@ export function Seo() {
       "twitter:description",
       head.description
     )
+    const image = absoluteUrl(head.image ?? siteConfig.image)
+    setMeta('meta[property="og:image"]', "property", "og:image", image)
+    setMeta('meta[name="twitter:image"]', "name", "twitter:image", image)
     document.head
       .querySelector<HTMLLinkElement>('link[rel="canonical"]')
       ?.setAttribute("href", url)

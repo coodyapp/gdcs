@@ -23,6 +23,7 @@ interface Head {
   noindex?: boolean
   markdown?: string
   updated: string
+  image?: string
 }
 interface SheetLike {
   slug: string
@@ -101,6 +102,10 @@ export function applyHead(shell: string, head: Head) {
   html = meta(html, "property", "og:description", head.description)
   html = meta(html, "name", "twitter:title", head.title)
   html = meta(html, "name", "twitter:description", head.description)
+  if (head.image) {
+    html = meta(html, "property", "og:image", abs(head.image))
+    html = meta(html, "name", "twitter:image", abs(head.image))
+  }
   const extra: string[] = []
   if (head.markdown) {
     extra.push(

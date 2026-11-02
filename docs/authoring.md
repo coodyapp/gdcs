@@ -36,7 +36,7 @@ Types: `src/content/types.ts`. Visual kit: `src/visuals/kit.tsx` and `src/visual
 
 - The UI is black/white/grey. **Inside visuals, the only hues are green, yellow and red**, plus whites and greys. Use `palette.*` names, never raw hex: `subject` (white) main subject · `moving`/`energy` (yellow) moving thing · `velocity` (yellow, **dashed**) · `tertiary` (grey outline) secondary object · `accel` (light grey) · `success` (green) valid/goal/normals · `force`/`error` (red) force/error/contact.
 - **Never rely on hue alone**: dashes, shapes, outline vs fill, labels.
-- **Formulas match the visual**: `` tex`\textcolor{#f5d547}{v}` ``. Allowed hex: `#fafafa`, `#a1a1aa`, `#d4d4d8`, `#f5d547`, `#3ee09a`, `#f65a5a`. Colour only the 1–3 variables shown in the visual.
+- **Formulas match the visual**: `` tex`\textcolor{#fdc700}{v}` ``. Allowed hex: `#fafafa`, `#a3a3a3`, `#d4d4d4`, `#fdc700`, `#05df72`, `#ff6467`. Colour only the 1–3 variables shown in the visual.
 - Ramps: dark grey → yellow → white, or green → yellow → red. Never a rainbow.
 - The `visual` caption names each colour **and** its shape cue.
 

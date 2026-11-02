@@ -146,7 +146,7 @@ function Scene({ v }: { v: V }) {
     })
     const rtScene = new THREE.Scene()
     rtScene.add(new THREE.AmbientLight("#ffffff", 1.1))
-    rtScene.add(new THREE.HemisphereLight("#ffffff", "#27272a", 0.6))
+    rtScene.add(new THREE.HemisphereLight("#ffffff", "#262626", 0.6))
     const sun = new THREE.DirectionalLight("#ffffff", 1.4)
     sun.position.set(5, 8, 4)
     rtScene.add(sun)

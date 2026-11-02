@@ -41,7 +41,7 @@ const sheet: Sheet = {
     { label: "Third law", math: tex`T^2 = \dfrac{4\pi^2 a^3}{G M}` },
     {
       label: "Speed ratio",
-      math: tex`\dfrac{\textcolor{#f5d547}{v_{\text{peri}}}}{\textcolor{#f5d547}{v_{\text{apo}}}} = \dfrac{1+e}{1-e}`,
+      math: tex`\dfrac{\textcolor{#fdc700}{v_{\text{peri}}}}{\textcolor{#fdc700}{v_{\text{apo}}}} = \dfrac{1+e}{1-e}`,
     },
   ],
   rules: [

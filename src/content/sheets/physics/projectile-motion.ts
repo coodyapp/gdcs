@@ -27,11 +27,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Horizontal position",
-      math: tex`\textcolor{#fafafa}{x(t)} = \textcolor{#f5d547}{v_0} \cos\theta \, t`,
+      math: tex`\textcolor{#fafafa}{x(t)} = \textcolor{#fdc700}{v_0} \cos\theta \, t`,
     },
     {
       label: "Vertical position",
-      math: tex`\textcolor{#fafafa}{y(t)} = \textcolor{#f5d547}{v_0} \sin\theta \, t - \tfrac{1}{2} g t^2`,
+      math: tex`\textcolor{#fafafa}{y(t)} = \textcolor{#fdc700}{v_0} \sin\theta \, t - \tfrac{1}{2} g t^2`,
     },
     {
       label: "Flight time (flat ground)",

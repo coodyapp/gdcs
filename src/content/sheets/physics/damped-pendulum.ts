@@ -32,7 +32,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Equation of motion",
-      math: tex`\ddot{\theta} = -\dfrac{g}{L}\sin\textcolor{#f5d547}{\theta} - b\,\dot{\theta}`,
+      math: tex`\ddot{\theta} = -\dfrac{g}{L}\sin\textcolor{#fdc700}{\theta} - b\,\dot{\theta}`,
     },
     {
       label: "Small-angle period",

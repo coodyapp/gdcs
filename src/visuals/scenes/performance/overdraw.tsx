@@ -88,7 +88,7 @@ function Scene({ v }: { v: V }) {
         toneMapped: false,
         uniforms: {
           map: { value: target.texture },
-          c0: { value: new THREE.Color("#101014") },
+          c0: { value: new THREE.Color("#0a0a0a") },
           c1: { value: new THREE.Color(palette.primary) },
           c2: { value: new THREE.Color(palette.success) },
           c3: { value: new THREE.Color(palette.velocity) },

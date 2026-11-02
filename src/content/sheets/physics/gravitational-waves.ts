@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Chirp mass",
-      math: tex`\mathcal{M}_c = \frac{(\textcolor{#f5d547}{m_1} \textcolor{#a1a1aa}{m_2})^{3/5}}{(\textcolor{#f5d547}{m_1} + \textcolor{#a1a1aa}{m_2})^{1/5}}`,
+      math: tex`\mathcal{M}_c = \frac{(\textcolor{#fdc700}{m_1} \textcolor{#a3a3a3}{m_2})^{3/5}}{(\textcolor{#fdc700}{m_1} + \textcolor{#a3a3a3}{m_2})^{1/5}}`,
     },
     {
       label: "Strain amplitude (circular, leading order)",

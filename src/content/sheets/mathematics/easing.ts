@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Eased lerp",
-      math: tex`\textcolor{#f5d547}{x(t)} = a + (b - a)\,\textcolor{#fafafa}{f}\!\left(\tfrac{t_{now} - t_0}{T}\right)`,
+      math: tex`\textcolor{#fdc700}{x(t)} = a + (b - a)\,\textcolor{#fafafa}{f}\!\left(\tfrac{t_{now} - t_0}{T}\right)`,
     },
     {
       label: "Common curves",

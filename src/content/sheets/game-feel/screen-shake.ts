@@ -32,11 +32,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Trauma update",
-      math: tex`\textcolor{#a1a1aa}{\tau} \leftarrow \operatorname{clamp}(\textcolor{#a1a1aa}{\tau} + \Delta\tau_{hit} - r\,\Delta t,\; 0,\; 1)`,
+      math: tex`\textcolor{#a3a3a3}{\tau} \leftarrow \operatorname{clamp}(\textcolor{#a3a3a3}{\tau} + \Delta\tau_{hit} - r\,\Delta t,\; 0,\; 1)`,
     },
     {
       label: "Offset per axis",
-      math: tex`o_x = O_{max}\,\textcolor{#f5d547}{\tau^{2}}\,N_1(f\,t), \quad \theta = \Theta_{max}\,\textcolor{#f5d547}{\tau^{2}}\,N_3(f\,t)`,
+      math: tex`o_x = O_{max}\,\textcolor{#fdc700}{\tau^{2}}\,N_1(f\,t), \quad \theta = \Theta_{max}\,\textcolor{#fdc700}{\tau^{2}}\,N_3(f\,t)`,
       note: "N is smooth noise in −1..1 with an independent seed per axis; f is the shake frequency (10–25 Hz).",
     },
   ],

@@ -38,16 +38,16 @@ const sheet: Sheet = {
     },
     {
       label: "Fresnel (Schlick)",
-      math: tex`\textcolor{#f5d547}{F} = F_0 + (1 - F_0)\,(1 - \hat v \cdot \hat h)^5`,
+      math: tex`\textcolor{#fdc700}{F} = F_0 + (1 - F_0)\,(1 - \hat v \cdot \hat h)^5`,
     },
     {
       label: "Energy split",
-      math: tex`k_d = (1 - \textcolor{#f5d547}{F})(1 - m), \qquad L_o = \left(k_d \frac{\textit{baseColor}}{\pi} + f_{spec}\right) L_i \,(\textcolor{#3ee09a}{\hat n}\cdot \hat l)`,
+      math: tex`k_d = (1 - \textcolor{#fdc700}{F})(1 - m), \qquad L_o = \left(k_d \frac{\textit{baseColor}}{\pi} + f_{spec}\right) L_i \,(\textcolor{#05df72}{\hat n}\cdot \hat l)`,
       note: "m = metalness. Metals (m = 1) have no diffuse term at all.",
     },
     {
       label: "Cook–Torrance specular",
-      math: tex`f_{spec} = \frac{D(\alpha)\, \textcolor{#f5d547}{F}\, G}{4\,(\textcolor{#3ee09a}{\hat n}\cdot\hat v)(\textcolor{#3ee09a}{\hat n}\cdot\hat l)}, \quad \alpha = \textit{roughness}^2`,
+      math: tex`f_{spec} = \frac{D(\alpha)\, \textcolor{#fdc700}{F}\, G}{4\,(\textcolor{#05df72}{\hat n}\cdot\hat v)(\textcolor{#05df72}{\hat n}\cdot\hat l)}, \quad \alpha = \textit{roughness}^2`,
       note: "D: microfacet distribution (GGX), G: self-shadowing.",
     },
   ],

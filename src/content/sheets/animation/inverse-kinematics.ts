@@ -38,7 +38,7 @@ const sheet: Sheet = {
     },
     {
       label: "Two-bone elbow angle (law of cosines)",
-      math: tex`\cos \theta_2 = \frac{d^2 - a^2 - b^2}{2ab}, \qquad d = \lvert \textcolor{#3ee09a}{\vec t} - \vec p_0 \rvert`,
+      math: tex`\cos \theta_2 = \frac{d^2 - a^2 - b^2}{2ab}, \qquad d = \lvert \textcolor{#05df72}{\vec t} - \vec p_0 \rvert`,
       note: "Clamp d to [|a − b|, a + b] first, or acos receives a value outside [−1, 1].",
     },
     {

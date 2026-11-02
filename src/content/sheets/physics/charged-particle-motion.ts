@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Lorentz force",
-      math: tex`m\frac{d\textcolor{#f5d547}{\mathbf{v}}}{dt} = q\left(\textcolor{#a1a1aa}{\mathbf{E}} + \textcolor{#f5d547}{\mathbf{v}} \times \mathbf{B}\right)`,
+      math: tex`m\frac{d\textcolor{#fdc700}{\mathbf{v}}}{dt} = q\left(\textcolor{#a3a3a3}{\mathbf{E}} + \textcolor{#fdc700}{\mathbf{v}} \times \mathbf{B}\right)`,
     },
     {
       label: "Larmor radius and cyclotron frequency",
@@ -35,7 +35,7 @@ const sheet: Sheet = {
     },
     {
       label: "E × B drift",
-      math: tex`\mathbf{v}_d = \frac{\textcolor{#a1a1aa}{\mathbf{E}} \times \mathbf{B}}{B^2}`,
+      math: tex`\mathbf{v}_d = \frac{\textcolor{#a3a3a3}{\mathbf{E}} \times \mathbf{B}}{B^2}`,
       note: "Independent of charge sign and mass.",
     },
     {

@@ -27,7 +27,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Steering",
-      math: tex`\vec F = \operatorname{trunc}\!\left(\frac{\vec v_{\text{desired}} - \textcolor{#f5d547}{\vec v}}{\tau},\ F_{\max}\right)`,
+      math: tex`\vec F = \operatorname{trunc}\!\left(\frac{\vec v_{\text{desired}} - \textcolor{#fdc700}{\vec v}}{\tau},\ F_{\max}\right)`,
       note: "τ = reaction time (e.g. 0.25 s); smaller values react faster.",
     },
     {

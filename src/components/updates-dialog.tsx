@@ -19,7 +19,6 @@ export default function UpdatesDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="gap-6 p-6 max-sm:inset-0 max-sm:top-0 max-sm:left-0 max-sm:h-dvh max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:content-center max-sm:rounded-none sm:max-w-md">
         <DialogHeader>
-          <p className="eyebrow">Get updates</p>
           <DialogTitle className="font-heading text-2xl">
             New cheat sheets, in your inbox
           </DialogTitle>

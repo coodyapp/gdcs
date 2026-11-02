@@ -41,7 +41,7 @@ const sheet: Sheet = {
     },
     {
       label: "Two-state superposition",
-      math: tex`\textcolor{#f5d547}{\Psi(x,t)} = a_1 \psi_1 e^{-iE_1 t/\hbar} + a_n \psi_n e^{-iE_n t/\hbar},\quad |a_1|^2 + |a_n|^2 = 1`,
+      math: tex`\textcolor{#fdc700}{\Psi(x,t)} = a_1 \psi_1 e^{-iE_1 t/\hbar} + a_n \psi_n e^{-iE_n t/\hbar},\quad |a_1|^2 + |a_n|^2 = 1`,
     },
     {
       label: "Beat period of the density",

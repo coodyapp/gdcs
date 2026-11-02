@@ -13,10 +13,10 @@ import { neutral, sim, surfaces, text } from "@/styles/tokens"
  */
 export const palette = {
   stage: surfaces.bg,
-  surface: surfaces.surface3,
+  surface: surfaces.surface2,
   /** Default colour for solid props: light enough to read under the stage lights. */
   object: neutral.dim,
-  grid: "#232327",
+  grid: "#262626",
   guide: text.meta,
   foreground: neutral.white,
   primary: neutral.white,

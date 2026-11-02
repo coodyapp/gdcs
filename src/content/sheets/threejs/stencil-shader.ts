@@ -37,7 +37,7 @@ const sheet: Sheet = {
     },
     {
       label: "Reveal pass (Equal)",
-      math: tex`\text{draw}\;\textcolor{#f5d547}{\text{hidden}}\iff (S \mathbin{\&} \text{mask}) = (\textcolor{#fafafa}{\text{ref}} \mathbin{\&} \text{mask})`,
+      math: tex`\text{draw}\;\textcolor{#fdc700}{\text{hidden}}\iff (S \mathbin{\&} \text{mask}) = (\textcolor{#fafafa}{\text{ref}} \mathbin{\&} \text{mask})`,
       note: "stencilFuncMask defaults to 0xff, so this is just S = ref.",
     },
   ],

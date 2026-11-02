@@ -32,7 +32,7 @@ const sheet: Sheet = {
     },
     {
       label: "Hysteresis",
-      math: tex`\text{load if } d \le \textcolor{#3ee09a}{R_{\text{load}}}, \quad \text{unload if } d > \textcolor{#f65a5a}{R_{\text{unload}}}, \quad R_{\text{unload}} > R_{\text{load}}`,
+      math: tex`\text{load if } d \le \textcolor{#05df72}{R_{\text{load}}}, \quad \text{unload if } d > \textcolor{#ff6467}{R_{\text{unload}}}, \quad R_{\text{unload}} > R_{\text{load}}`,
     },
     {
       label: "Resident chunks (approx.)",

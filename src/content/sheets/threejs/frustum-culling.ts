@@ -28,7 +28,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Plane distance",
-      math: tex`d_i = \textcolor{#f5d547}{\hat{n}_i} \cdot \mathbf{c} + w_i`,
+      math: tex`d_i = \textcolor{#fdc700}{\hat{n}_i} \cdot \mathbf{c} + w_i`,
       note: "Plane i stored as (n, w) with n pointing into the frustum.",
     },
     {

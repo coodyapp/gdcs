@@ -35,20 +35,20 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Dot product",
-      math: tex`\textcolor{#fafafa}{\vec a} \cdot \textcolor{#a1a1aa}{\vec b} = a_x b_x + a_y b_y + a_z b_z = \lVert \vec a \rVert\,\lVert \vec b \rVert \cos\theta`,
+      math: tex`\textcolor{#fafafa}{\vec a} \cdot \textcolor{#a3a3a3}{\vec b} = a_x b_x + a_y b_y + a_z b_z = \lVert \vec a \rVert\,\lVert \vec b \rVert \cos\theta`,
     },
     {
       label: "Projection of b onto a",
-      math: tex`\textcolor{#3ee09a}{\operatorname{proj}_{\vec a}\vec b} = \frac{\vec a \cdot \vec b}{\vec a \cdot \vec a}\,\vec a`,
+      math: tex`\textcolor{#05df72}{\operatorname{proj}_{\vec a}\vec b} = \frac{\vec a \cdot \vec b}{\vec a \cdot \vec a}\,\vec a`,
       note: "If a is already unit length the denominator is 1.",
     },
     {
       label: "Cross product",
-      math: tex`\textcolor{#f5d547}{\vec a \times \vec b} = (a_y b_z - a_z b_y,\; a_z b_x - a_x b_z,\; a_x b_y - a_y b_x)`,
+      math: tex`\textcolor{#fdc700}{\vec a \times \vec b} = (a_y b_z - a_z b_y,\; a_z b_x - a_x b_z,\; a_x b_y - a_y b_x)`,
     },
     {
       label: "Cross length = parallelogram area",
-      math: tex`\lVert \textcolor{#f5d547}{\vec a \times \vec b} \rVert = \lVert \vec a \rVert\,\lVert \vec b \rVert \sin\theta`,
+      math: tex`\lVert \textcolor{#fdc700}{\vec a \times \vec b} \rVert = \lVert \vec a \rVert\,\lVert \vec b \rVert \sin\theta`,
     },
   ],
   rules: [

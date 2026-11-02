@@ -4,6 +4,7 @@ import type {
 } from "@cloudflare/workers-types"
 
 import { confirm } from "./api/confirm"
+import { withScriptNonce } from "./csp"
 import { recordEvent } from "./api/event"
 import { subscribe } from "./api/subscribe"
 import { unsubscribeLink, unsubscribeOneClick } from "./api/unsubscribe"
@@ -16,7 +17,7 @@ type Handler = (
   ctx: ExecutionContext
 ) => Promise<Response>
 
-/** `METHOD /path` → handler. Static files never reach this Worker (assets first). */
+/** `METHOD /path` → handler. Hashed files skip this Worker (see wrangler.jsonc). */
 const routes: Record<string, Handler> = {
   "POST /api/subscribe": subscribe,
   "GET /api/confirm": confirm,
@@ -37,8 +38,8 @@ export async function handle(
     return json({ error: "Method not allowed." }, 405)
   }
   if (pathname.startsWith("/api/")) return json({ error: "Not found." }, 404)
-  // Anything else falls back to static assets (and their 404 page).
-  return env.ASSETS.fetch(request)
+  // Pages: serve the asset and give it a per-request script nonce.
+  return withScriptNonce(await env.ASSETS.fetch(request))
 }
 
 export default {

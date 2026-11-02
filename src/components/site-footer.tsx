@@ -6,83 +6,113 @@ import { SubscribeForm } from "@/components/subscribe-form"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { siteConfig } from "@/config/site"
+import { categoryPath, liveCategories } from "@/content"
+
+const quiet = "text-muted-foreground transition-colors hover:text-foreground"
+
+function Column({
+  title,
+  children,
+}: {
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <nav aria-label={title}>
+      <h2 className="mb-3 text-sm font-medium">{title}</h2>
+      <ul className="space-y-2 text-sm">{children}</ul>
+    </nav>
+  )
+}
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24">
-      <Separator />
-      <section
-        aria-labelledby="updates-title"
-        className="container grid gap-6 py-12 md:grid-cols-[1fr_minmax(0,28rem)] md:items-center"
-      >
-        <div>
-          <p className="eyebrow mb-2">Get updates</p>
-          <h2 id="updates-title" className="font-heading text-2xl">
-            New cheat sheets, in your inbox
-          </h2>
-          <p className="mt-2 max-w-md text-sm text-muted-foreground">
-            An occasional digest when new visual sheets are published. Double
-            opt-in, one-click unsubscribe, no tracking.
-          </p>
-        </div>
-        <SubscribeForm compact />
-      </section>
-      <div className="container grid gap-10 py-12 md:grid-cols-[1fr_auto]">
-        <div className="max-w-md space-y-3">
-          <Link to="/" className="font-heading text-lg" aria-label="GDCS home">
-            GDCS · {siteConfig.longName}
+    <footer className="mt-20 border-t md:mt-28">
+      <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <section aria-labelledby="updates-title" className="max-w-md">
+          <Link to="/" className="font-heading text-xl" aria-label="GDCS home">
+            GDCS
           </Link>
-          <p className="text-sm text-muted-foreground">
-            {siteConfig.tagline}.{" "}
-            <a
-              href={siteConfig.changelog}
-              className="link-quiet font-hud text-xs"
-              rel="noopener"
-              title="Changelog"
-            >
-              v{siteConfig.version}
-            </a>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {siteConfig.tagline}.
           </p>
-          <nav
-            aria-label="Footer"
-            className="flex flex-wrap gap-x-5 gap-y-2 text-sm"
-          >
-            <Link to="/" className="link-quiet">
-              All sheets
-            </Link>
-            <Link to="/paths" className="link-quiet">
-              Learning paths
-            </Link>
-            <Link to="/about" className="link-quiet">
-              About
-            </Link>
-            <a href="/llms.txt" className="link-quiet">
-              llms.txt
-            </a>
-            <a href="/llms-full.txt" className="link-quiet">
-              llms-full.txt
-            </a>
-            <a href="/sitemap.xml" className="link-quiet">
-              Sitemap
-            </a>
-            <Link to="/privacy" className="link-quiet">
-              Privacy policy
-            </Link>
-            <a
-              href="https://x.com/augustobr1to"
-              className="link-quiet"
-              rel="noopener me"
-            >
-              X · @augustobr1to
-            </a>
-          </nav>
+          <h2 id="updates-title" className="mt-8 mb-3 text-sm font-medium">
+            Get new sheets by email
+          </h2>
+          <SubscribeForm compact />
+        </section>
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <Column title="Topics">
+            {liveCategories().map((c) => (
+              <li key={c.slug}>
+                <Link to={categoryPath(c.slug)} className={quiet}>
+                  {c.title}
+                </Link>
+              </li>
+            ))}
+          </Column>
+          <Column title="Learn">
+            <li>
+              <Link to="/" className={quiet}>
+                All sheets
+              </Link>
+            </li>
+            <li>
+              <Link to="/paths" className={quiet}>
+                Learning paths
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className={quiet}>
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" className={quiet}>
+                Privacy policy
+              </Link>
+            </li>
+          </Column>
+          <Column title="For AI agents">
+            <li>
+              <a href="/llms.txt" className={quiet}>
+                llms.txt
+              </a>
+            </li>
+            <li>
+              <a href="/llms-full.txt" className={quiet}>
+                llms-full.txt
+              </a>
+            </li>
+            <li>
+              <a href="/feed.json" className={quiet}>
+                JSON feed
+              </a>
+            </li>
+            <li>
+              <a href="/sitemap.xml" className={quiet}>
+                Sitemap
+              </a>
+            </li>
+          </Column>
         </div>
-        <div className="flex flex-col items-start gap-6 md:items-end">
+      </div>
+      <Separator />
+      <div className="container flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-5 pr-16 text-sm text-muted-foreground lg:pr-8">
+        <p className="flex items-center gap-3">
+          <span>© 2026 Coody</span>
+          <a
+            href={siteConfig.changelog}
+            className={`${quiet} tabular-nums`}
+            rel="noopener"
+            title="Changelog"
+          >
+            v{siteConfig.version}
+          </a>
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <PoweredByCoody source="gdcs" />
           <BackToTop />
-          <PoweredByCoody
-            source="gdcs"
-            className="md:[--coody-pb-align:flex-end]"
-          />
         </div>
       </div>
     </footer>
@@ -92,9 +122,9 @@ export function SiteFooter() {
 function BackToTop() {
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="sm"
-      className="rounded-full"
+      className="text-muted-foreground"
       nativeButton={false}
       render={<a href="#main" />}
       onClick={(e) => {

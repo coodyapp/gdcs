@@ -32,11 +32,11 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Range per trial",
-      math: tex`\textcolor{#f5d547}{R_i} = \dfrac{v_i^2 \sin 2\theta}{g}`,
+      math: tex`\textcolor{#fdc700}{R_i} = \dfrac{v_i^2 \sin 2\theta}{g}`,
     },
     {
       label: "Sample mean",
-      math: tex`\textcolor{#f5d547}{\bar R} = \dfrac{1}{N}\sum_{i=1}^{N} \textcolor{#f5d547}{R_i}`,
+      math: tex`\textcolor{#fdc700}{\bar R} = \dfrac{1}{N}\sum_{i=1}^{N} \textcolor{#fdc700}{R_i}`,
     },
     {
       label: "Standard deviation",

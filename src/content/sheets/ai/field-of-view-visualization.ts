@@ -45,11 +45,11 @@ const sheet: Sheet = {
     },
     {
       label: "Edge test between neighbours",
-      math: tex`\text{id}_i \ne \text{id}_{i+1} \;\lor\; |d_i - d_{i+1}| > \textcolor{#f5d547}{\varepsilon}`,
+      math: tex`\text{id}_i \ne \text{id}_{i+1} \;\lor\; |d_i - d_{i+1}| > \textcolor{#fdc700}{\varepsilon}`,
     },
     {
       label: "Error after k iterations",
-      math: tex`\Delta\alpha_k = \frac{\theta}{(N-1)\,2^{\textcolor{#f5d547}{k}}}`,
+      math: tex`\Delta\alpha_k = \frac{\theta}{(N-1)\,2^{\textcolor{#fdc700}{k}}}`,
       note: "Fan triangles: N + 2·edges − 1, indices 3 × that.",
     },
   ],

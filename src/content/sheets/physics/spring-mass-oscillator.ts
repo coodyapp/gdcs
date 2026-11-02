@@ -32,7 +32,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Equation of motion",
-      math: tex`m\ddot{x} + c\dot{x} + \textcolor{#fafafa}{k}\textcolor{#f5d547}{x} = F_0 \sin(\omega t)`,
+      math: tex`m\ddot{x} + c\dot{x} + \textcolor{#fafafa}{k}\textcolor{#fdc700}{x} = F_0 \sin(\omega t)`,
     },
     { label: "Natural frequency", math: tex`\omega_0 = \sqrt{k/m}` },
     {

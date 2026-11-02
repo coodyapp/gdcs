@@ -24,6 +24,8 @@ export interface Head {
   /** Markdown alternate for AI agents. */
   markdown?: string
   updated: string
+  /** Social card; defaults to the site image. */
+  image?: string
 }
 
 const latest = () =>
@@ -81,6 +83,7 @@ function sheetHead(sheet: SheetMeta): Head {
     type: "article",
     markdown: sheetMarkdownPath(sheet),
     updated: sheet.updated,
+    image: `/og/${sheet.slug}.jpg`,
     jsonLd: [
       organization,
       website,
@@ -92,7 +95,7 @@ function sheetHead(sheet: SheetMeta): Head {
         description: sheet.summary,
         abstract: sheet.hook,
         url: absoluteUrl(path),
-        image: absoluteUrl(siteConfig.image),
+        image: absoluteUrl(`/og/${sheet.slug}.jpg`),
         dateModified: sheet.updated,
         datePublished: sheet.updated,
         inLanguage: siteConfig.locale,

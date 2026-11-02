@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Pressure (90° ahead of displacement)",
-      math: tex`\textcolor{#f65a5a}{p(x,t)} = p_0 - B\,\dfrac{\partial \xi}{\partial x} = p_0 - B k A\cos(kx - \omega t)`,
+      math: tex`\textcolor{#ff6467}{p(x,t)} = p_0 - B\,\dfrac{\partial \xi}{\partial x} = p_0 - B k A\cos(kx - \omega t)`,
     },
     { label: "Wave speed", math: tex`v = f\lambda` },
     {

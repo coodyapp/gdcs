@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Object transform (rightmost first)",
-      math: tex`M = \textcolor{#fafafa}{T\,R\,S}, \qquad \textcolor{#a1a1aa}{R\,T\,S} \ne T\,R\,S`,
+      math: tex`M = \textcolor{#fafafa}{T\,R\,S}, \qquad \textcolor{#a3a3a3}{R\,T\,S} \ne T\,R\,S`,
       note: "White is the object built with T·R·S; the grey outline is the same pieces multiplied as R·T·S.",
     },
     {

@@ -40,7 +40,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Add and scale",
-      math: tex`\textcolor{#f5d547}{\vec a + \vec b} = (\textcolor{#fafafa}{a_x} + \textcolor{#a1a1aa}{b_x},\; \textcolor{#fafafa}{a_y} + \textcolor{#a1a1aa}{b_y},\; \textcolor{#fafafa}{a_z} + \textcolor{#a1a1aa}{b_z}), \qquad s\,\vec a = (s a_x,\, s a_y,\, s a_z)`,
+      math: tex`\textcolor{#fdc700}{\vec a + \vec b} = (\textcolor{#fafafa}{a_x} + \textcolor{#a3a3a3}{b_x},\; \textcolor{#fafafa}{a_y} + \textcolor{#a3a3a3}{b_y},\; \textcolor{#fafafa}{a_z} + \textcolor{#a3a3a3}{b_z}), \qquad s\,\vec a = (s a_x,\, s a_y,\, s a_z)`,
     },
     {
       label: "Length and squared length",

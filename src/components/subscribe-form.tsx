@@ -4,7 +4,14 @@ import { Link } from "react-router-dom"
 
 import { useTurnstile } from "@/hooks/use-turnstile"
 import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Spinner } from "@/components/ui/spinner"
 
 type Status = "idle" | "sending" | "sent" | "error"
 
@@ -47,64 +54,61 @@ export function SubscribeForm({ compact = false }: { compact?: boolean }) {
     }
   }
 
+  const busy = status === "sending" || status === "sent"
   return (
-    <form onSubmit={onSubmit} className="space-y-3" noValidate={false}>
-      <div
-        className={compact ? "flex gap-2" : "flex flex-col gap-2 sm:flex-row"}
-      >
-        <label htmlFor={id} className="sr-only">
+    <form onSubmit={onSubmit} noValidate={false}>
+      <Field data-invalid={status === "error" || undefined}>
+        <FieldLabel htmlFor={id} className="sr-only">
           Email address
-        </label>
-        <Input
-          id={id}
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          placeholder="you@studio.dev"
-          className="h-10 w-full min-w-0 sm:flex-1"
-          disabled={status === "sending" || status === "sent"}
-        />
-        {/* Honeypot: real people never see or fill this. */}
-        <input
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-          className="hidden"
-          aria-hidden
-        />
-        <Button
-          type="submit"
-          size="lg"
-          className="h-10 px-4"
-          disabled={status === "sending" || status === "sent"}
+        </FieldLabel>
+        <div
+          className={compact ? "flex gap-2" : "flex flex-col gap-2 sm:flex-row"}
         >
-          {status === "sending" ? "Sending…" : "Get updates"}
-        </Button>
-      </div>
-      <div
-        ref={human.container}
-        aria-hidden="true"
-        className="h-0 overflow-hidden"
-      />
-      <p
-        role="status"
-        className={
-          status === "error"
-            ? "text-sm text-red-400"
-            : "text-sm text-muted-foreground"
-        }
-      >
-        {message || (
-          <>
-            New sheets only, a few times a month at most. Unsubscribe in one
-            click.{" "}
-            <Link to="/privacy" className="link-quiet">
-              Privacy policy
-            </Link>
-          </>
+          <Input
+            id={id}
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@studio.dev"
+            aria-invalid={status === "error" || undefined}
+            className="h-10 w-full min-w-0 sm:flex-1"
+            disabled={busy}
+          />
+          {/* Honeypot: real people never see or fill this. */}
+          <input
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden
+          />
+          <Button type="submit" size="lg" className="h-10 px-4" disabled={busy}>
+            {status === "sending" && <Spinner />}
+            {status === "sending" ? "Sending" : "Get updates"}
+          </Button>
+        </div>
+        <div
+          ref={human.container}
+          aria-hidden="true"
+          className="h-0 overflow-hidden"
+        />
+        {status === "error" ? (
+          <FieldError>{message}</FieldError>
+        ) : (
+          <FieldDescription role="status">
+            {message || (
+              <>
+                New sheets only, a few times a month at most. Unsubscribe in one
+                click.{" "}
+                <Link to="/privacy" className="link-quiet">
+                  Privacy policy
+                </Link>
+              </>
+            )}
+          </FieldDescription>
         )}
-      </p>
+      </Field>
     </form>
   )
 }

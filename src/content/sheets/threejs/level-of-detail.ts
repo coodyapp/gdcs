@@ -28,12 +28,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Projected size",
-      math: tex`s_{px} = \frac{r}{\textcolor{#f5d547}{d}\,\tan(\tfrac{fov_y}{2})}\cdot \frac{H}{2}`,
+      math: tex`s_{px} = \frac{r}{\textcolor{#fdc700}{d}\,\tan(\tfrac{fov_y}{2})}\cdot \frac{H}{2}`,
       note: "Radius r at distance d, viewport height H. Halving it every level matches halving the triangle budget roughly every doubling of distance.",
     },
     {
       label: "Hysteresis band",
-      math: tex`\text{enter } i \text{ at } \textcolor{#f5d547}{d} \ge D_i, \quad \text{leave } i \text{ at } \textcolor{#f5d547}{d} < D_i(1 - h)`,
+      math: tex`\text{enter } i \text{ at } \textcolor{#fdc700}{d} \ge D_i, \quad \text{leave } i \text{ at } \textcolor{#fdc700}{d} < D_i(1 - h)`,
     },
   ],
   rules: [

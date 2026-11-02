@@ -34,7 +34,7 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Heat equation",
-      math: tex`\frac{\partial \textcolor{#f5d547}{T}}{\partial t} = \alpha \nabla^2 \textcolor{#f5d547}{T} = \alpha\left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right)`,
+      math: tex`\frac{\partial \textcolor{#fdc700}{T}}{\partial t} = \alpha \nabla^2 \textcolor{#fdc700}{T} = \alpha\left(\frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}\right)`,
     },
     {
       label: "Explicit (FTCS) update",

@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Ray–plane hit",
-      math: tex`t = \frac{(P_0 - O)\cdot \textcolor{#3ee09a}{\hat{n}}}{\textcolor{#fafafa}{\hat{D}}\cdot \textcolor{#3ee09a}{\hat{n}}}`,
+      math: tex`t = \frac{(P_0 - O)\cdot \textcolor{#05df72}{\hat{n}}}{\textcolor{#fafafa}{\hat{D}}\cdot \textcolor{#05df72}{\hat{n}}}`,
       note: "No hit when the denominator is ~0 (parallel ray) or t < 0 (plane behind the origin).",
     },
     {

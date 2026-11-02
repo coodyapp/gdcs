@@ -150,11 +150,11 @@ describe("site", () => {
 describe("brand colours", () => {
   const allowed = new Set([
     "#fafafa",
-    "#a1a1aa",
-    "#d4d4d8",
-    "#f5d547",
-    "#3ee09a",
-    "#f65a5a",
+    "#a3a3a3",
+    "#d4d4d4",
+    "#fdc700",
+    "#05df72",
+    "#ff6467",
   ])
   it.each(fullSheets.map((s) => [s.slug, s] as const))(
     "%s formulas use only brand simulation colours",

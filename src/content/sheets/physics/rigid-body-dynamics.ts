@@ -33,12 +33,12 @@ const sheet: Sheet = {
   formulas: [
     {
       label: "Linear and angular Newton's law",
-      math: tex`\textcolor{#f65a5a}{\vec F} = m\,\dot{\vec v}, \qquad \tau = \vec r \times \textcolor{#f65a5a}{\vec F} = I\,\dot{\textcolor{#d4d4d8}{\omega}}`,
+      math: tex`\textcolor{#ff6467}{\vec F} = m\,\dot{\vec v}, \qquad \tau = \vec r \times \textcolor{#ff6467}{\vec F} = I\,\dot{\textcolor{#d4d4d4}{\omega}}`,
       note: "In 2D the cross product is a scalar: rx·Fy − ry·Fx.",
     },
     {
       label: "Impulse at a point",
-      math: tex`\Delta \textcolor{#f5d547}{\vec v} = \frac{\textcolor{#f65a5a}{\vec J}}{m}, \qquad \Delta \textcolor{#d4d4d8}{\omega} = \frac{\vec r \times \textcolor{#f65a5a}{\vec J}}{I}`,
+      math: tex`\Delta \textcolor{#fdc700}{\vec v} = \frac{\textcolor{#ff6467}{\vec J}}{m}, \qquad \Delta \textcolor{#d4d4d4}{\omega} = \frac{\vec r \times \textcolor{#ff6467}{\vec J}}{I}`,
     },
     {
       label: "Moment of inertia of a box",
@@ -46,7 +46,7 @@ const sheet: Sheet = {
     },
     {
       label: "Semi-implicit Euler",
-      math: tex`\textcolor{#f5d547}{\vec v} \mathrel{+}= \vec a\,\Delta t,\quad \vec x \mathrel{+}= \textcolor{#f5d547}{\vec v}\,\Delta t,\quad \theta \mathrel{+}= \textcolor{#d4d4d8}{\omega}\,\Delta t`,
+      math: tex`\textcolor{#fdc700}{\vec v} \mathrel{+}= \vec a\,\Delta t,\quad \vec x \mathrel{+}= \textcolor{#fdc700}{\vec v}\,\Delta t,\quad \theta \mathrel{+}= \textcolor{#d4d4d4}{\omega}\,\Delta t`,
     },
     {
       label: "Contact normal impulse",

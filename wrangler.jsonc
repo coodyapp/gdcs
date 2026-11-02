@@ -4,13 +4,14 @@
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-15",
   "upload_source_maps": true,
-  // Prerendered site. Files are served first; only /api/* runs the Worker.
+  // Prerendered site. Hashed files and images skip the Worker; pages and /api/*
+  // run it (pages need a per-request CSP nonce, see worker/csp.ts).
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"],
+    "run_worker_first": ["/*", "!/assets/*", "!/posters/*", "!/og/*"],
   },
   // Production hostname (Workers custom domain; Cloudflare manages its DNS).
   "routes": [{ "pattern": "gdcs.coody.app", "custom_domain": true }],

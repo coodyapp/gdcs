@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
+import { Check } from "lucide-react"
 
 import {
   categoryPath,
@@ -8,9 +9,14 @@ import {
   sheetsIn,
   type SheetMeta,
 } from "@/content"
-import { catStyle } from "@/lib/accent"
 import { useHistory } from "@/lib/local"
 import { cn } from "@/lib/utils"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 /** Left rail: every sheet, grouped; the current category is expanded. */
 export function SheetSidebar({ current }: { current: SheetMeta }) {
@@ -18,64 +24,67 @@ export function SheetSidebar({ current }: { current: SheetMeta }) {
   return (
     <nav
       aria-label="All cheat sheets"
-      className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] overflow-y-auto pr-2 pb-8 text-sm lg:block"
+      className="sticky top-6 hidden max-h-[calc(100dvh-3rem)] self-start overflow-y-auto pr-2 pb-8 text-sm lg:block"
     >
-      {liveCategories().map((c) => (
-        <details
-          key={c.slug}
-          open={c.slug === current.category}
-          style={catStyle(c.slug)}
-          className="mb-1"
-        >
-          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-2 py-1.5 font-medium hover:bg-white/5">
-            <span className="cat-dot" aria-hidden />
-            <span className="flex-1">{c.title}</span>
-            <span className="font-hud text-[11px] text-text-3">
-              {sheetsIn(c.slug).length}
-            </span>
-          </summary>
-          <div className="mt-1 mb-3 ml-3 border-l border-white/10 pl-2">
-            {c.subcategories.map((s) => (
-              <div key={s.slug} className="mb-2">
-                <p className="eyebrow px-2 py-1 !text-[10px]">{s.title}</p>
-                <ul>
-                  {sheetsIn(c.slug, s.slug).map((sheet) => (
-                    <li key={sheet.slug}>
-                      <NavLink
-                        to={sheetPath(sheet)}
-                        className={({ isActive }) =>
-                          cn(
-                            "flex items-center gap-2 rounded-md px-2 py-1 transition-colors",
-                            isActive
-                              ? "bg-white/[0.08] text-foreground"
-                              : "text-muted-foreground hover:text-foreground"
-                          )
-                        }
-                      >
-                        <span className="flex-1 truncate">{sheet.title}</span>
-                        {visited.has(sheet.slug) && (
-                          <span
-                            className="text-[10px] text-text-3"
-                            aria-label="visited"
-                          >
-                            ✓
-                          </span>
-                        )}
-                      </NavLink>
-                    </li>
+      <Accordion multiple defaultValue={[current.category]}>
+        {liveCategories().map((c) => (
+          <AccordionItem key={c.slug} value={c.slug} className="border-0">
+            <AccordionTrigger className="items-center gap-2 px-2 py-1.5 hover:bg-muted/60 hover:no-underline">
+              <span className="flex-1">{c.title}</span>
+              <span className="text-xs font-normal text-muted-foreground tabular-nums">
+                {sheetsIn(c.slug).length}
+              </span>
+            </AccordionTrigger>
+            {/* Mounted while closed so every link stays in the prerendered HTML. */}
+            <AccordionContent keepMounted className="pt-0 pb-2">
+              <div className="ml-2 border-l pl-1.5">
+                {c.subcategories
+                  .filter((s) => sheetsIn(c.slug, s.slug).length)
+                  .map((s) => (
+                    <div key={s.slug} className="mb-1.5">
+                      <p className="px-2 py-1 text-xs text-muted-foreground">
+                        {s.title}
+                      </p>
+                      <ul>
+                        {sheetsIn(c.slug, s.slug).map((sheet) => (
+                          <li key={sheet.slug}>
+                            <NavLink
+                              to={sheetPath(sheet)}
+                              className={({ isActive }) =>
+                                cn(
+                                  "flex items-center gap-2 rounded-md px-2 py-1 no-underline transition-colors",
+                                  isActive
+                                    ? "bg-muted text-foreground"
+                                    : "text-muted-foreground hover:text-foreground"
+                                )
+                              }
+                            >
+                              <span className="flex-1 truncate">
+                                {sheet.title}
+                              </span>
+                              {visited.has(sheet.slug) && (
+                                <Check
+                                  className="size-3 shrink-0"
+                                  aria-label="visited"
+                                />
+                              )}
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                <Link
+                  to={categoryPath(c.slug)}
+                  className="block px-2 py-1 text-xs text-muted-foreground no-underline hover:text-foreground"
+                >
+                  Overview
+                </Link>
               </div>
-            ))}
-            <Link
-              to={categoryPath(c.slug)}
-              className="block px-2 py-1 text-xs text-text-3 hover:text-foreground"
-            >
-              Overview →
-            </Link>
-          </div>
-        </details>
-      ))}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </nav>
   )
 }
@@ -111,7 +120,7 @@ export function TableOfContents({
       className="sticky top-6 hidden self-start text-sm xl:block"
     >
       <p className="eyebrow mb-3">On this page</p>
-      <ul className="space-y-1 border-l border-white/10">
+      <ul className="space-y-1 border-l">
         {sections.map((s) => (
           <li key={s.id}>
             <a

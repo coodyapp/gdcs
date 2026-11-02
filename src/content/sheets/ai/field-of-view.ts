@@ -50,7 +50,7 @@ const sheet: Sheet = {
     },
     {
       label: "Seen",
-      math: tex`\textcolor{#3ee09a}{\text{seen}} = \text{range} \land \text{cone} \land \lnot\,\textcolor{#f65a5a}{\text{blocked}}`,
+      math: tex`\textcolor{#05df72}{\text{seen}} = \text{range} \land \text{cone} \land \lnot\,\textcolor{#ff6467}{\text{blocked}}`,
     },
   ],
   rules: [

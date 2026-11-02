@@ -15,13 +15,20 @@ import {
   sheetPath,
   subcategoryPath,
 } from "@/content"
-import { catStyle } from "@/lib/accent"
 import { recordVisit } from "@/lib/local"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LevelPips } from "@/components/sheet-card"
 import { SheetCode } from "@/components/sheet-code"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   ReadingProgress,
   SheetSidebar,
@@ -51,11 +58,12 @@ export function SheetPage() {
   return (
     <Suspense
       fallback={
-        <article className="mx-auto max-w-4xl" aria-busy="true">
-          <h1 className="mt-14 font-heading text-display">{meta.title}</h1>
-          <p className="mt-3 text-lead text-muted-foreground italic">
+        <article className="mx-auto max-w-3xl" aria-busy="true">
+          <h1 className="mt-14 font-heading text-sheet">{meta.title}</h1>
+          <p className="mt-3 text-lead text-muted-foreground first-letter:uppercase">
             {meta.hook}
           </p>
+          <Skeleton className="mt-8 aspect-[16/9] w-full rounded-xl" />
         </article>
       }
     >
@@ -89,10 +97,7 @@ function SheetArticle({ slug }: { slug: string }) {
   const minutes = readingMinutes(sheet)
 
   return (
-    <div
-      style={catStyle(sheet.category)}
-      className="gap-10 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[14rem_minmax(0,1fr)_11rem]"
-    >
+    <div className="gap-10 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] xl:grid-cols-[14rem_minmax(0,1fr)_11rem]">
       <ReadingProgress target="sheet-article" />
       <SheetSidebar current={sheet} />
       <article id="sheet-article" className="mx-auto w-full max-w-3xl min-w-0">
@@ -103,21 +108,22 @@ function SheetArticle({ slug }: { slug: string }) {
             { label: sheet.title },
           ]}
         />
-        <header className="mb-8">
-          <p className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <Badge variant="secondary">{c.title}</Badge>
-            <Badge variant="secondary">{s.title}</Badge>
+        <header className="mb-7">
+          <h1 className="font-heading text-sheet">{sheet.title}</h1>
+          <p className="mt-3 text-lead text-muted-foreground first-letter:uppercase">
+            {sheet.hook}
+          </p>
+          <p className="mt-3 max-w-2xl leading-relaxed">{sheet.summary}</p>
+          <p className="mt-4 flex flex-wrap items-center gap-1.5">
             <LevelPips level={sheet.level} />
-            <Badge variant="outline" className="text-muted-foreground">
+            <Badge
+              variant="secondary"
+              className="font-normal text-muted-foreground"
+            >
               {minutes} min read
             </Badge>
           </p>
-          <h1 className="font-heading text-display">{sheet.title}</h1>
-          <p className="mt-3 text-lead text-muted-foreground italic">
-            {sheet.hook}
-          </p>
-          <p className="mt-4 max-w-2xl">{sheet.summary}</p>
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             <CopyButton
               label="Copy prompt"
               copiedLabel="Prompt copied"
@@ -132,7 +138,6 @@ function SheetArticle({ slug }: { slug: string }) {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-full"
               nativeButton={false}
               render={
                 <a href={sheetMarkdownPath(sheet)} type="text/markdown" />
@@ -143,14 +148,14 @@ function SheetArticle({ slug }: { slug: string }) {
           </div>
         </header>
 
-        <section id="visual" aria-label="Interactive visual" className="mb-12">
+        <section id="visual" aria-label="Interactive visual" className="mb-10">
           <VisualShell slug={sheet.slug} title={sheet.title} />
           <p className="mt-3 text-sm text-muted-foreground">
             <Rich text={sheet.visual} />
           </p>
         </section>
 
-        <div className="prose-sheet space-y-12">
+        <div className="prose-sheet space-y-10">
           <section aria-labelledby="what">
             <h2 id="what">What it is</h2>
             {sheet.what.map((p, i) => (
@@ -175,10 +180,10 @@ function SheetArticle({ slug }: { slug: string }) {
           {sheet.formulas?.length ? (
             <section aria-labelledby="formulas">
               <h2 id="formulas">Key formulas</h2>
-              <dl className="grid gap-3">
+              <dl className="grid gap-2.5">
                 {sheet.formulas.map((f) => (
-                  <div key={f.label} className="rounded-lg border bg-card p-4">
-                    <dt className="eyebrow mb-2">{f.label}</dt>
+                  <Card key={f.label} size="sm" className="card-lift px-4">
+                    <dt className="eyebrow">{f.label}</dt>
                     <dd>
                       {f.math.html ? (
                         <div
@@ -194,7 +199,7 @@ function SheetArticle({ slug }: { slug: string }) {
                         </p>
                       )}
                     </dd>
-                  </div>
+                  </Card>
                 ))}
               </dl>
             </section>
@@ -260,22 +265,27 @@ function SheetArticle({ slug }: { slug: string }) {
           {related.length > 0 && (
             <section aria-labelledby="related">
               <h2 id="related">Related</h2>
-              <ul className="grid !list-none gap-2 !pl-0 sm:grid-cols-2">
+              <ul className="grid !list-none gap-2.5 !pl-0 sm:grid-cols-2">
                 {related.map((r) => (
                   <li key={r.slug} className="!m-0">
-                    <Link
-                      to={sheetPath(r)}
-                      style={catStyle(r.category)}
-                      className="block rounded-lg border border-white/[0.08] bg-card p-3 transition-colors hover:border-white/[0.16] hover:bg-surface-2"
+                    <Card
+                      size="sm"
+                      className="card-lift relative h-full has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-foreground"
                     >
-                      <span className="flex items-center gap-2 font-medium">
-                        <span className="cat-dot" aria-hidden />
-                        {r.title}
-                      </span>
-                      <span className="block text-sm text-muted-foreground">
-                        {r.hook}
-                      </span>
-                    </Link>
+                      <CardHeader>
+                        <CardTitle className="font-sans font-medium">
+                          <Link
+                            to={sheetPath(r)}
+                            className="after:absolute after:inset-0 focus-visible:outline-none"
+                          >
+                            {r.title}
+                          </Link>
+                        </CardTitle>
+                        <CardDescription className="line-clamp-2 first-letter:uppercase">
+                          {r.hook}
+                        </CardDescription>
+                      </CardHeader>
+                    </Card>
                   </li>
                 ))}
               </ul>
@@ -305,34 +315,45 @@ function SheetArticle({ slug }: { slug: string }) {
 
         <nav
           aria-label="More in this subcategory"
-          className="mt-16 grid gap-3 border-t pt-6 sm:grid-cols-2"
+          className="mt-14 grid gap-2.5 sm:grid-cols-2"
         >
           {prev && (
-            <Link
-              to={sheetPath(prev)}
-              className="group flex items-center gap-3 rounded-lg border p-4 hover:border-foreground/30"
-            >
-              <ArrowLeft className="size-4 text-muted-foreground" aria-hidden />
-              <span>
-                <span className="eyebrow block">Previous</span>
-                {prev.title}
-              </span>
-            </Link>
+            <Card size="sm" className="card-lift relative">
+              <CardContent className="flex items-center gap-3">
+                <ArrowLeft
+                  className="size-4 shrink-0 text-muted-foreground"
+                  aria-hidden
+                />
+                <span className="min-w-0">
+                  <span className="eyebrow block">Previous</span>
+                  <Link
+                    to={sheetPath(prev)}
+                    className="font-medium after:absolute after:inset-0"
+                  >
+                    {prev.title}
+                  </Link>
+                </span>
+              </CardContent>
+            </Card>
           )}
           {next && (
-            <Link
-              to={sheetPath(next)}
-              className="group flex items-center justify-end gap-3 rounded-lg border p-4 text-right hover:border-foreground/30 sm:col-start-2"
-            >
-              <span>
-                <span className="eyebrow block">Next</span>
-                {next.title}
-              </span>
-              <ArrowRight
-                className="size-4 text-muted-foreground"
-                aria-hidden
-              />
-            </Link>
+            <Card size="sm" className="card-lift relative sm:col-start-2">
+              <CardContent className="flex items-center justify-end gap-3 text-right">
+                <span className="min-w-0">
+                  <span className="eyebrow block">Next</span>
+                  <Link
+                    to={sheetPath(next)}
+                    className="font-medium after:absolute after:inset-0"
+                  >
+                    {next.title}
+                  </Link>
+                </span>
+                <ArrowRight
+                  className="size-4 shrink-0 text-muted-foreground"
+                  aria-hidden
+                />
+              </CardContent>
+            </Card>
           )}
         </nav>
         <p className="mt-6 text-xs text-muted-foreground">

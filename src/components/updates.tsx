@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react"
 import { Mail, X } from "lucide-react"
 
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 
 const UpdatesDialog = lazy(() => import("@/components/updates-dialog"))
@@ -14,7 +15,7 @@ export function GetUpdatesButton({ className = "" }: { className?: string }) {
       <Button
         size="lg"
         aria-haspopup="dialog"
-        className={`h-11 rounded-full px-5 ${className}`}
+        className={`h-11 px-5 ${className}`}
         onClick={() => {
           setLoaded(true)
           setOpen(true)
@@ -52,20 +53,18 @@ export function UpdatesNotice() {
   }, [])
   if (!notice) return null
   return (
-    <div
-      role="status"
-      className="fixed inset-x-4 top-4 z-50 mx-auto flex max-w-xl items-center gap-3 rounded-xl border border-white/15 bg-popover p-4 text-sm shadow-2xl"
-    >
-      <Mail className="size-4 shrink-0 text-text-3" aria-hidden />
-      <p className="flex-1">{notice}</p>
+    <Alert className="fixed inset-x-4 top-4 z-50 mx-auto max-w-xl pr-12 shadow-2xl">
+      <Mail aria-hidden />
+      <AlertDescription className="text-foreground">{notice}</AlertDescription>
       <Button
         variant="ghost"
         size="icon-sm"
         aria-label="Dismiss"
+        className="absolute top-2 right-2"
         onClick={() => setNotice(undefined)}
       >
         <X aria-hidden />
       </Button>
-    </div>
+    </Alert>
   )
 }

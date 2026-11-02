@@ -31,7 +31,7 @@ const sheet: Sheet = {
     },
     {
       label: "Decay constant inside the barrier",
-      math: tex`\kappa = \frac{\sqrt{2m(\textcolor{#a1a1aa}{V} - \textcolor{#f5d547}{E})}}{\hbar}`,
+      math: tex`\kappa = \frac{\sqrt{2m(\textcolor{#a3a3a3}{V} - \textcolor{#fdc700}{E})}}{\hbar}`,
     },
     {
       label: "Exact transmission, E < V",
