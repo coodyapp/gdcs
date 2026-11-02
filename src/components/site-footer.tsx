@@ -28,14 +28,14 @@ export function SiteFooter() {
   return (
     <>
       <FooterAscii className="mt-8 md:mt-10" />
-      <footer className="relative isolate">
+      <footer className="relative isolate border-t">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           <FooterFibers />
-          {/* Keeps the links readable; the top edge melts into the page. */}
+          {/* Keeps the links readable. */}
           <div className="absolute inset-0 bg-background/65" />
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
         </div>
-        <div className="container grid gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="container grid gap-12 pt-12 pb-10 md:pt-16 md:pb-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <section aria-labelledby="updates-title" className="max-w-md">
             <Link
               to="/"
@@ -109,7 +109,7 @@ export function SiteFooter() {
             </Column>
           </div>
         </div>
-        <div className="container flex flex-col items-center gap-3 py-8 pb-20 text-center lg:pb-8">
+        <div className="container flex flex-col items-center gap-3 pb-20 text-center lg:pb-10">
           <p
             className="text-xs text-muted-foreground tabular-nums"
             suppressHydrationWarning

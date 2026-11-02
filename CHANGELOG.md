@@ -8,6 +8,18 @@ All notable changes to GDCS. The format follows [Keep a Changelog](https://keepa
 
 The version shows in the site footer (from `package.json`). Releases are tagged `vX.Y.Z`.
 
+## [1.3.1] - 2026-11-02
+
+### Changed
+
+- Clear filters moved into the filter bar.
+- Privacy contact is now hi@coody.app.
+- Footer keeps only its top line, with "Powered by" inside the footer.
+
+### Fixed
+
+- Filter bar separator is centred next to the level filters.
+
 ## [1.3.0] - 2026-11-02
 
 ### Changed

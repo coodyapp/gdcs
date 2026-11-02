@@ -61,12 +61,8 @@ export function PrivacyPage() {
         <h2 id="p-contact">Contact</h2>
         <p>
           Questions:{" "}
-          <a
-            href="https://x.com/augustobr1to"
-            className="link-quiet"
-            rel="noopener"
-          >
-            @augustobr1to on X
+          <a href="mailto:hi@coody.app" className="link-quiet">
+            hi@coody.app
           </a>
           .
         </p>

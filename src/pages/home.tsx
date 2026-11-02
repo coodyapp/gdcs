@@ -35,7 +35,8 @@ const LEVELS: Level[] = ["core", "common", "advanced"]
 const PRESSED =
   "aria-pressed:bg-foreground aria-pressed:text-background data-[pressed]:bg-foreground data-[pressed]:text-background"
 /** Quiet segment inside the filter bar. */
-const SEGMENT = "h-10 shrink-0 rounded-lg border-0 px-3.5 text-sm font-normal"
+const SEGMENT =
+  "h-10 shrink-0 rounded-lg border-0 px-2.5 text-sm font-normal sm:px-3.5"
 
 /** Home shows a taste of each category: fundamentals first, the rest one click away. */
 const PREVIEW = 3
@@ -150,49 +151,56 @@ export function HomePage() {
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
-        <Separator
-          orientation="vertical"
-          className="mx-1 ml-auto hidden h-6 self-center lg:block"
-        />
-        <ToggleGroup
-          aria-label="Filter by level"
-          spacing={1}
-          className="no-scrollbar w-full flex-nowrap overflow-x-auto lg:w-auto lg:shrink-0"
-          value={[filters.level]}
-          onValueChange={(next) =>
-            setFilters({
-              ...filters,
-              level: (next[0] as Level | "all") ?? "all",
-            })
-          }
-        >
-          {(["all", ...LEVELS] as const).map((l) => (
-            <ToggleGroupItem key={l} value={l} className={cn(SEGMENT, PRESSED)}>
-              {l === "all" ? "All levels" : l[0].toUpperCase() + l.slice(1)}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+        <div className="flex w-full min-w-0 items-center gap-2 lg:ml-auto lg:w-auto lg:shrink-0">
+          <Separator
+            orientation="vertical"
+            className="hidden lg:block data-vertical:h-6 data-vertical:self-center"
+          />
+          <ToggleGroup
+            aria-label="Filter by level"
+            spacing={1}
+            className="no-scrollbar min-w-0 flex-nowrap overflow-x-auto lg:shrink-0"
+            value={[filters.level]}
+            onValueChange={(next) =>
+              setFilters({
+                ...filters,
+                level: (next[0] as Level | "all") ?? "all",
+              })
+            }
+          >
+            {(["all", ...LEVELS] as const).map((l) => (
+              <ToggleGroupItem
+                key={l}
+                value={l}
+                className={cn(SEGMENT, PRESSED)}
+              >
+                {l === "all" ? "All levels" : l[0].toUpperCase() + l.slice(1)}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          {active && (
+            <Button
+              variant="ghost"
+              className="ml-auto h-10 shrink-0 px-2 font-normal text-muted-foreground sm:px-3 lg:ml-0"
+              aria-label="Clear filters"
+              onClick={() => setFilters(EMPTY)}
+            >
+              <X aria-hidden />
+              <span className="hidden sm:inline">Clear</span>
+            </Button>
+          )}
+        </div>
       </section>
 
       {active ? (
         <section aria-labelledby="results-title" className="space-y-5">
-          <div className="flex items-center justify-between gap-4">
-            <h2
-              id="results-title"
-              className="font-heading text-title"
-              aria-live="polite"
-            >
-              {results.length} sheet{results.length === 1 ? "" : "s"}
-            </h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground"
-              onClick={() => setFilters(EMPTY)}
-            >
-              <X aria-hidden /> Clear filters
-            </Button>
-          </div>
+          <h2
+            id="results-title"
+            className="font-heading text-title"
+            aria-live="polite"
+          >
+            {results.length} sheet{results.length === 1 ? "" : "s"}
+          </h2>
           {results.length ? (
             <SheetGrid list={results} showCategory />
           ) : (

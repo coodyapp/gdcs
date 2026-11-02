@@ -120,7 +120,7 @@ export function FooterAscii({ className }: { className?: string }) {
       ref={ref}
       aria-hidden
       className={cn(
-        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%,#000_70%,transparent)] md:h-56",
+        "pointer-events-none h-40 w-full overflow-hidden opacity-30 [mask-image:linear-gradient(to_bottom,transparent,#000_60%)] md:h-56",
         className
       )}
     >
