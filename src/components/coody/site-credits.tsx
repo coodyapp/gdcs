@@ -11,6 +11,8 @@ export interface SiteCreditsProps {
   quote?: string
   /** Who said it. */
   quoteAuthor?: string
+  /** Line under the quote. Pass "" to hide it. */
+  tagline?: string
   /** Id of the element that Back to top moves focus to. Default "main". */
   topTarget?: string
   className?: string
@@ -24,7 +26,7 @@ function scrollToTop(event: MouseEvent, target: string) {
 }
 
 /**
- * Coody site credits: where it was built, a quote, the year and Back to top.
+ * Coody site credits: a quote, the year and Back to top.
  * Portable: React + one CSS file, no Tailwind. Inherits colour and font size.
  */
 export function SiteCredits({
@@ -32,28 +34,18 @@ export function SiteCredits({
   ownerHref = "https://coody.app",
   quote = "If I have seen further, it is by standing on the shoulders of giants",
   quoteAuthor = "Newton",
+  tagline = "Built on the shoulders of those who came before us.",
   topTarget = "main",
   className,
 }: SiteCreditsProps) {
   return (
     <div className={className ? `coody-credits ${className}` : "coody-credits"}>
-      <p className="coody-credits__built">
-        Built in
-        <svg
-          className="coody-credits__flag"
-          viewBox="0 0 20 14"
-          role="img"
-          aria-label="Brazil"
-        >
-          <rect width="20" height="14" rx="2" fill="#009c3b" />
-          <path d="M10 1.8 18 7l-8 5.2L2 7z" fill="#ffdf00" />
-          <circle cx="10" cy="7" r="3" fill="#002776" />
-        </svg>
-      </p>
       {quote && (
-        <p className="coody-credits__quote">
-          “{quote}”{quoteAuthor && `, ${quoteAuthor}`}.
-        </p>
+        <figure className="coody-credits__quote">
+          <blockquote>“{quote}.”</blockquote>
+          {quoteAuthor && <figcaption>— {quoteAuthor}</figcaption>}
+          {tagline && <p className="coody-credits__tagline">{tagline}</p>}
+        </figure>
       )}
       <p suppressHydrationWarning>
         © {new Date().getFullYear()}{" "}

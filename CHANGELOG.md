@@ -10,6 +10,12 @@ The version shows in the site footer (from `package.json`). Releases are tagged 
 
 ## [Unreleased]
 
+## [1.13.1] - 2026-11-09
+
+### Changed
+
+- The footer shows the Newton quote as a block quote with its author on its own line and the tagline "Built on the shoulders of those who came before us." The "Built in" line with the Brazilian flag is gone.
+
 ## [1.13.0] - 2026-11-02
 
 ### Added

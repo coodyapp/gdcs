@@ -4,16 +4,24 @@ import { describe, expect, it } from "vite-plus/test"
 import { SiteCredits } from "./site-credits"
 
 describe("SiteCredits", () => {
-  it("shows the built-in line, quote, year and owner, then Back to top", () => {
+  it("shows the quote, tagline, year and owner, then Back to top", () => {
     const html = renderToStaticMarkup(<SiteCredits />)
-    expect(html).toContain('aria-label="Brazil"')
-    expect(html).toContain("standing on the shoulders of giants”, Newton.")
+    expect(html).not.toContain("Brazil")
+    expect(html).toContain("standing on the shoulders of giants.”</blockquote>")
+    expect(html).toContain("<figcaption>— Newton</figcaption>")
+    expect(html).toContain(
+      "Built on the shoulders of those who came before us."
+    )
     expect(html).toContain(String(new Date().getFullYear()))
     expect(html).toContain('href="https://coody.app"')
     expect(html).toContain('href="#main"')
-    const order = ["Built in", "Newton", "coody.app", "Back to top"].map((t) =>
-      html.indexOf(t)
-    )
+    const order = [
+      "giants",
+      "Newton",
+      "came before us",
+      "coody.app",
+      "Back to top",
+    ].map((t) => html.indexOf(t))
     expect(order).toEqual([...order].sort((a, b) => a - b))
   })
 
